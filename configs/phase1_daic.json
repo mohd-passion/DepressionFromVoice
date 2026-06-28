@@ -1,0 +1,10 @@
+{
+  "dataset_root": "Data",
+  "output_dir": "outputs/phase1_daic",
+  "phq8_depression_threshold": 10,
+  "window_sec": 10.0,
+  "overlap": 0.5,
+  "transcript_speaker": "Participant",
+  "source_time_mode": "participant_speech_concatenated",
+  "baseline_note": "First WavLM baseline aggregates window embeddings into one participant-level mean embedding before logistic regression. Window-level classifier with mean probability aggregation is a later secondary comparison."
+}

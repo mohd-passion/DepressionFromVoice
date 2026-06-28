@@ -1,0 +1,78 @@
+# Restricted datasets
+Data/
+data/
+datasets/
+Android-Corpus/
+Papers/
+
+# Local dependency/vendor caches
+.phase1_deps/
+
+# Raw audio and archives
+*.wav
+*.mp3
+*.flac
+*.mp4
+*.zip
+*.7z
+*.rar
+
+# Generated embeddings and arrays
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+
+# Fitted models
+*.joblib
+*.pkl
+*.pickle
+*.onnx
+
+# Participant/model prediction tables
+*predictions*.csv
+
+# Large generated outputs
+outputs/**
+!outputs/experiment_registry/
+!outputs/experiment_registry/**
+
+# Compact archived run records
+!records/
+!records/runs/
+!records/runs/**
+
+# Local environment
+.env
+.env.*
+.venv/
+venv/
+env/
+credentials/
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+~$*

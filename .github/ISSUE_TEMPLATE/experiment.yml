@@ -1,0 +1,97 @@
+name: Experiment
+description: Plan a controlled research experiment.
+title: "[Experiment]: "
+labels: ["experiment"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Experiment title
+      description: Short descriptive title.
+    validations:
+      required: true
+  - type: textarea
+    id: research_question
+    attributes:
+      label: Research question
+      description: What is being tested?
+    validations:
+      required: true
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: Hypothesis
+      description: Expected outcome before running the experiment.
+    validations:
+      required: true
+  - type: input
+    id: parent_phase
+    attributes:
+      label: Parent phase
+      placeholder: Phase 2C
+    validations:
+      required: true
+  - type: textarea
+    id: datasets
+    attributes:
+      label: Datasets
+      description: Datasets, splits, and labels to be used.
+    validations:
+      required: true
+  - type: textarea
+    id: frozen_inputs
+    attributes:
+      label: Frozen inputs
+      description: Frozen features, embeddings, models, thresholds, or protocols.
+  - type: textarea
+    id: allowed_changes
+    attributes:
+      label: Allowed changes
+      description: What may change during this experiment?
+    validations:
+      required: true
+  - type: textarea
+    id: prohibited_changes
+    attributes:
+      label: Prohibited changes
+      description: What must not be changed?
+    validations:
+      required: true
+  - type: textarea
+    id: evaluation_protocol
+    attributes:
+      label: Evaluation protocol
+      description: Splits, model selection, threshold rules, and external validation status.
+    validations:
+      required: true
+  - type: input
+    id: primary_metric
+    attributes:
+      label: Primary metric
+      placeholder: ROC-AUC
+    validations:
+      required: true
+  - type: textarea
+    id: stop_condition
+    attributes:
+      label: Stop condition
+      description: Exact condition after which work stops.
+    validations:
+      required: true
+  - type: textarea
+    id: expected_outputs
+    attributes:
+      label: Expected outputs
+      description: Reports, registry entries, compact records.
+  - type: textarea
+    id: test_set_usage
+    attributes:
+      label: Test-set usage
+      description: Whether and when test labels/results will be viewed.
+    validations:
+      required: true
+  - type: input
+    id: registry_id
+    attributes:
+      label: Experiment-registry ID
+      placeholder: phase2c_android_threshold_adaptation

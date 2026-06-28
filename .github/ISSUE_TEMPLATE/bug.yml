@@ -1,0 +1,43 @@
+name: Bug or Reproducibility Risk
+description: Report data mapping bugs, fold errors, leakage risks, reproducibility failures, or path portability problems.
+title: "[Bug]: "
+labels: ["bug", "reproducibility"]
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - data mapping bug
+        - fold error
+        - leakage risk
+        - reproducibility failure
+        - path portability problem
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened, and why is it risky?
+    validations:
+      required: true
+  - type: textarea
+    id: affected_files
+    attributes:
+      label: Affected files or runs
+      description: Project-relative paths only.
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected behavior
+  - type: textarea
+    id: leakage_impact
+    attributes:
+      label: Leakage or reproducibility impact
+      description: Note whether train/dev/test boundaries or external validation could be affected.
+  - type: textarea
+    id: proposed_fix
+    attributes:
+      label: Proposed fix

@@ -1,0 +1,93 @@
+name: Validate repository
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run lightweight tests
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m unittest discover -s tests
+
+      - name: Validate experiment registry
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python outputs/experiment_registry/update_registry.py --validate
+
+      - name: Reject forbidden committed file types
+        run: |
+          python - <<'PY'
+          import subprocess
+          import sys
+          forbidden = {'.wav', '.mp3', '.flac', '.mp4', '.zip', '.7z', '.rar', '.npy', '.npz', '.pt', '.pth', '.ckpt', '.joblib', '.pkl', '.pickle', '.onnx'}
+          files = subprocess.check_output(['git', 'ls-files'], text=True).splitlines()
+          bad = [p for p in files if any(p.lower().endswith(ext) for ext in forbidden)]
+          bad += [p for p in files if 'predictions' in p.lower() and p.lower().endswith('.csv')]
+          if bad:
+              print('Forbidden files are tracked:')
+              print('\n'.join(bad))
+              sys.exit(1)
+          PY
+
+      - name: Reject files larger than 100 MB
+        run: |
+          python - <<'PY'
+          import os
+          import subprocess
+          import sys
+          files = subprocess.check_output(['git', 'ls-files'], text=True).splitlines()
+          bad = [(p, os.path.getsize(p)) for p in files if os.path.exists(p) and os.path.getsize(p) > 100 * 1024 * 1024]
+          if bad:
+              for path, size in bad:
+                  print(f'{path}\t{size}')
+              sys.exit(1)
+          PY
+
+      - name: Reject absolute Windows paths in tracked source and configuration
+        run: |
+          python - <<'PY'
+          import re
+          import subprocess
+          import sys
+          prefixes = ('src/', 'configs/', 'scripts/', 'tests/', '.github/')
+          suffixes = ('.py', '.json', '.yml', '.yaml', '.md', '.txt')
+          pattern = re.compile(r'[A-Za-z]:\\')
+          files = subprocess.check_output(['git', 'ls-files'], text=True).splitlines()
+          bad = []
+          for path in files:
+              if not path.startswith(prefixes) or not path.endswith(suffixes):
+                  continue
+              with open(path, 'r', encoding='utf-8', errors='ignore') as handle:
+                  if pattern.search(handle.read()):
+                      bad.append(path)
+          if bad:
+              print('Absolute Windows paths found:')
+              print('\n'.join(bad))
+              sys.exit(1)
+          PY
+
+      - name: Verify superseded Phase 2A is not authoritative
+        run: |
+          python - <<'PY'
+          import json
+          import sys
+          registry = json.load(open('outputs/experiment_registry/experiment_registry.json', encoding='utf-8'))
+          superseded = 'outputs/phase2_android/phase2a_preparation_runs/20260622_154008'
+          authoritative = {exp['run_directory'].replace('\\\\', '/') for exp in registry['experiments']}
+          if superseded in authoritative:
+              print('Superseded Phase 2A run is authoritative.')
+              sys.exit(1)
+          PY

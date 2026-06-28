@@ -1,0 +1,202 @@
+{
+  "created_at": "2026-06-22T06:16:47.144729+00:00",
+  "status": "completed_first_phase1_metadata_and_wavlm_logistic_regression_baselines_only",
+  "participant_counts": {
+    "train": 106,
+    "dev": 34,
+    "test": 47
+  },
+  "metadata_sanity_baseline": {
+    "features": [
+      "participant_speech_duration_sec",
+      "num_windows",
+      "gender"
+    ],
+    "train_only_duration_num_windows_pearson_correlation": 0.9999799878624164,
+    "selected_C": 1.0,
+    "selected_threshold": 0.609298970673674,
+    "train_cv_selected_C": {
+      "model_name": "metadata_logistic_regression",
+      "C": 1.0,
+      "mean_roc_auc": 0.5510416666666667,
+      "roc_auc_std": 0.14639140902848663,
+      "mean_balanced_accuracy_at_0_5": 0.590125,
+      "balanced_accuracy_std_at_0_5": 0.1154022328519783,
+      "mean_macro_f1_at_0_5": 0.5631865244720333,
+      "macro_f1_std_at_0_5": 0.10634334002951733,
+      "n_splits": 5,
+      "n_repeats": 10,
+      "random_state": 42
+    },
+    "dev_metrics_at_0_5": {
+      "roc_auc": 0.5731225296442688,
+      "pr_auc": 0.39996880349836084,
+      "balanced_accuracy": 0.5118577075098814,
+      "macro_f1": 0.48894783377541995,
+      "positive_precision": 0.3333333333333333,
+      "positive_recall_sensitivity": 0.5454545454545454,
+      "specificity": 0.4782608695652174,
+      "tn": 11,
+      "fp": 12,
+      "fn": 5,
+      "tp": 6,
+      "threshold": 0.5
+    },
+    "dev_metrics_at_selected_threshold": {
+      "roc_auc": 0.5731225296442688,
+      "pr_auc": 0.39996880349836084,
+      "balanced_accuracy": 0.5948616600790514,
+      "macro_f1": 0.59828141783029,
+      "positive_precision": 0.5,
+      "positive_recall_sensitivity": 0.36363636363636365,
+      "specificity": 0.8260869565217391,
+      "tn": 19,
+      "fp": 4,
+      "fn": 7,
+      "tp": 4,
+      "threshold": 0.609298970673674
+    },
+    "test_metrics_at_0_5": {
+      "roc_auc": 0.44372294372294374,
+      "pr_auc": 0.3374198308813152,
+      "balanced_accuracy": 0.49242424242424243,
+      "macro_f1": 0.4699248120300752,
+      "positive_precision": 0.2916666666666667,
+      "positive_recall_sensitivity": 0.5,
+      "specificity": 0.48484848484848486,
+      "tn": 16,
+      "fp": 17,
+      "fn": 7,
+      "tp": 7,
+      "threshold": 0.5
+    },
+    "test_metrics_at_selected_threshold": {
+      "roc_auc": 0.44372294372294374,
+      "pr_auc": 0.3374198308813152,
+      "balanced_accuracy": 0.4502164502164502,
+      "macro_f1": 0.44047619047619047,
+      "positive_precision": 0.2,
+      "positive_recall_sensitivity": 0.14285714285714285,
+      "specificity": 0.7575757575757576,
+      "tn": 25,
+      "fp": 8,
+      "fn": 12,
+      "tp": 2,
+      "threshold": 0.609298970673674
+    }
+  },
+  "wavlm_participant_baseline": {
+    "features": "participant mean embedding, 768 dimensions",
+    "selected_C": 100.0,
+    "selected_threshold": 0.8408696949481964,
+    "train_cv_selected_C": {
+      "model_name": "wavlm_participant_logistic_regression",
+      "C": 100.0,
+      "mean_roc_auc": 0.5115069444444444,
+      "roc_auc_std": 0.1401629413410899,
+      "mean_balanced_accuracy_at_0_5": 0.493125,
+      "balanced_accuracy_std_at_0_5": 0.11940626408517174,
+      "mean_macro_f1_at_0_5": 0.48479934844424855,
+      "macro_f1_std_at_0_5": 0.11400042980208178,
+      "n_splits": 5,
+      "n_repeats": 10,
+      "random_state": 42
+    },
+    "dev_metrics_at_0_5": {
+      "roc_auc": 0.5691699604743083,
+      "pr_auc": 0.457309786506034,
+      "balanced_accuracy": 0.575098814229249,
+      "macro_f1": 0.5729468599033817,
+      "positive_precision": 0.4166666666666667,
+      "positive_recall_sensitivity": 0.45454545454545453,
+      "specificity": 0.6956521739130435,
+      "tn": 16,
+      "fp": 7,
+      "fn": 6,
+      "tp": 5,
+      "threshold": 0.5
+    },
+    "dev_metrics_at_selected_threshold": {
+      "roc_auc": 0.5691699604743083,
+      "pr_auc": 0.457309786506034,
+      "balanced_accuracy": 0.6403162055335968,
+      "macro_f1": 0.6458333333333333,
+      "positive_precision": 0.5555555555555556,
+      "positive_recall_sensitivity": 0.45454545454545453,
+      "specificity": 0.8260869565217391,
+      "tn": 19,
+      "fp": 4,
+      "fn": 6,
+      "tp": 5,
+      "threshold": 0.8408696949481964
+    },
+    "test_metrics_at_0_5": {
+      "roc_auc": 0.5194805194805194,
+      "pr_auc": 0.33208527873640087,
+      "balanced_accuracy": 0.5681818181818181,
+      "macro_f1": 0.5563835072031793,
+      "positive_precision": 0.3684210526315789,
+      "positive_recall_sensitivity": 0.5,
+      "specificity": 0.6363636363636364,
+      "tn": 21,
+      "fp": 12,
+      "fn": 7,
+      "tp": 7,
+      "threshold": 0.5
+    },
+    "test_metrics_at_selected_threshold": {
+      "roc_auc": 0.5194805194805194,
+      "pr_auc": 0.33208527873640087,
+      "balanced_accuracy": 0.5476190476190476,
+      "macro_f1": 0.5427547363031233,
+      "positive_precision": 0.35294117647058826,
+      "positive_recall_sensitivity": 0.42857142857142855,
+      "specificity": 0.6666666666666666,
+      "tn": 22,
+      "fp": 11,
+      "fn": 8,
+      "tp": 6,
+      "threshold": 0.8408696949481964
+    }
+  },
+  "dummy_baseline": {
+    "strategy": "majority_class_most_frequent_fit_on_train_only",
+    "train_cv": {
+      "mean_roc_auc": 0.5,
+      "roc_auc_std": 0.0,
+      "mean_balanced_accuracy_at_0_5": 0.5,
+      "mean_macro_f1_at_0_5": 0.4175438596491229
+    },
+    "dev_metrics_at_0_5": {
+      "roc_auc": 0.5,
+      "pr_auc": 0.3235294117647059,
+      "balanced_accuracy": 0.5,
+      "macro_f1": 0.40350877192982454,
+      "positive_precision": 0.0,
+      "positive_recall_sensitivity": 0.0,
+      "specificity": 1.0,
+      "tn": 23,
+      "fp": 0,
+      "fn": 11,
+      "tp": 0,
+      "threshold": 0.5
+    },
+    "test_metrics_at_0_5": {
+      "roc_auc": 0.5,
+      "pr_auc": 0.2978723404255319,
+      "balanced_accuracy": 0.5,
+      "macro_f1": 0.4125,
+      "positive_precision": 0.0,
+      "positive_recall_sensitivity": 0.0,
+      "specificity": 1.0,
+      "tn": 33,
+      "fp": 0,
+      "fn": 14,
+      "tp": 0,
+      "threshold": 0.5
+    }
+  },
+  "test_label_provenance_status": "local_labeled_test",
+  "test_metrics_provisional": true,
+  "no_additional_model_families_trained": true
+}

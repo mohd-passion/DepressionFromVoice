@@ -1,0 +1,59 @@
+{
+  "execution_timestamp": "2026-06-22T07:37:00.134830+00:00",
+  "machine_name": "DellWork3660",
+  "git_commit": "",
+  "python_version": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+  "numpy_version": "2.5.0",
+  "pandas_version": "3.0.1",
+  "scikit_learn_version": "1.9.0",
+  "torch_version": "2.11.0+cu128",
+  "transformers_version": "5.12.1",
+  "torchaudio_version": "2.11.0+cu128",
+  "config_path": "configs\\phase1_daic.json",
+  "input_manifest_paths": {
+    "participant_manifest_clean": "outputs\\phase1_daic\\daic_phase1_participant_manifest_clean.csv",
+    "window_manifest_clean": "outputs\\phase1_daic\\daic_phase1_window_manifest_clean.csv",
+    "participant_window_mapping": "outputs\\phase1_daic\\participant_window_mapping.csv",
+    "final_layer_embedding_manifest_gpu": "outputs\\phase1_daic\\wavlm_embedding_manifest_gpu.csv",
+    "final_layer_extraction_metadata_gpu": "outputs\\phase1_daic\\wavlm_extraction_metadata_gpu.json"
+  },
+  "input_hashes": {
+    "participant_manifest_clean_sha256": "70ce140476317020ca1e2911de9c0aa1c0dd286231fec08fedff91973e656563",
+    "window_manifest_clean_sha256": "e33edcafe8516a83c329ce0d1b1328debbbf0e938c23a59538c17ad039e2c141",
+    "participant_window_mapping_sha256": "1e015c7579c57810f96fe6482252573c88a9b04c03b0a967fc236e59d34b833b",
+    "final_layer_embedding_manifest_gpu_sha256": "17fdf5bbb15c87278469a4ea43d09b280d714e1d84834ba335ab4b2fc34c1a51",
+    "final_layer_extraction_metadata_gpu_sha256": "46e87341e76aa57632083b58da6a76a1f4016749ff1e28f02126bb48a0204f4e"
+  },
+  "model_name": "microsoft/wavlm-base-plus",
+  "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+  "batch_size": 2,
+  "random_seed": 42,
+  "outer_nested_cv": {
+    "splitter": "RepeatedStratifiedKFold",
+    "n_splits": 5,
+    "n_repeats": 5,
+    "random_state": 42
+  },
+  "inner_c_selection": {
+    "splitter": "StratifiedKFold",
+    "n_splits": 5,
+    "shuffle": true,
+    "seed": "RANDOM_SEED * 1000 + outer_fold_index",
+    "metric": "ROC-AUC"
+  },
+  "C_grid": [
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0
+  ],
+  "selected_layer": "layer_09",
+  "selected_C": 0.001,
+  "selected_dev_threshold": 0.5558401346206665,
+  "test_evaluation_performed": false,
+  "model_selection_dataframe_assertion": "official_split == test absent before labels were loaded",
+  "input_validation_status": "passed"
+}

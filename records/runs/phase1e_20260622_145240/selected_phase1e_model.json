@@ -1,0 +1,44 @@
+{
+  "created_at": "2026-06-22T09:24:31.969569+00:00",
+  "selected_model": "timing_only",
+  "nominal_best_model": "timing_only",
+  "selection_criteria": [
+    "highest mean outer ROC-AUC",
+    "lowest ROC-AUC standard deviation",
+    "highest mean outer PR-AUC",
+    "simpler method if effectively tied",
+    "fusion must improve over the better individual model by at least 0.01 unless it materially lowers variability"
+  ],
+  "complexity_order": {
+    "timing_only": 1,
+    "wavlm_only": 2,
+    "weighted_late_fusion": 3,
+    "logistic_stacking": 4
+  },
+  "better_individual_model": "timing_only",
+  "best_fusion_improvement_over_better_individual": -0.005944444444444419,
+  "fusion_std_reduction_vs_better_individual": 0.0,
+  "fusion_practical_improvement_rule_applied": false,
+  "timing_matches_wavlm_within_0_01": false,
+  "timing_confounding_warning": "",
+  "selected_model_summary": {
+    "model_name": "timing_only",
+    "complexity_order": 1,
+    "representation_dimension": 28,
+    "mean_outer_roc_auc": 0.6103333333333333,
+    "std_outer_roc_auc": 0.11208467918784429,
+    "median_outer_roc_auc": 0.6145833333333333,
+    "min_outer_roc_auc": 0.37777777777777777,
+    "max_outer_roc_auc": 0.8666666666666667,
+    "mean_outer_pr_auc": 0.46050751636277953,
+    "mean_outer_balanced_accuracy_at_0_5": 0.5909166666666666,
+    "mean_outer_macro_f1_at_0_5": 0.5754678310389231,
+    "selected_timing_C_frequency": "{\"0.01\": 2, \"1.0\": 1, \"10.0\": 6, \"100.0\": 16}",
+    "selected_wavlm_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+    "selected_weight_frequency": "",
+    "selected_stacker_transform_frequency": "",
+    "selected_stacker_C_frequency": "",
+    "n_outer_evaluations": 25
+  },
+  "test_data_used_for_selection": false
+}

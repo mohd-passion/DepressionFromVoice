@@ -1,0 +1,41 @@
+{
+  "created_at": "2026-06-22T06:16:33.581709+00:00",
+  "label_source_file": "full_test_split.csv",
+  "absolute_source_path_redacted_for_github": "<project_root>\\Data\\full_test_split.csv",
+  "project_relative_source_path": "Data\\full_test_split.csv",
+  "source_sha256": "500cb1632408ca8a4990a26b4998fafd1a991dbd4f56d12b7eb6090e00bc6e5a",
+  "avec_named_test_split_path": "Data\\test_split_Depression_AVEC2017.csv",
+  "avec_named_test_split_sha256": "a2003110d30250e49cc71eb2c11175a3fb04313c23bff385711fe2c673fc3557",
+  "participant_ids": {
+    "redacted_for_github": true,
+    "count": 47
+  },
+  "num_participants": 47,
+  "class_counts": {
+    "non_depressed": 33,
+    "depressed": 14
+  },
+  "official_provenance_established": false,
+  "test_evaluation_label": "local_labeled_test",
+  "test_metrics_provisional": true,
+  "source_classification": "locally_available_full_test_label_file",
+  "provenance_notes": [
+    "Data/test_split_Depression_AVEC2017.csv contains Participant_ID and Gender only.",
+    "The PHQ8_Binary and PHQ8_Score fields for the 47 test participants are present in Data/full_test_split.csv.",
+    "No accompanying official release documentation was found in this workspace establishing full_test_split.csv as an official AVEC test-label release artifact.",
+    "Per protocol, test metrics are labeled local_labeled_test and provisional."
+  ],
+  "previous_test_label_use_audit": {
+    "manifest_label_population": true,
+    "manifest_label_population_note": "src/phase1/prepare_daic_phase1.py uses full_test_split.csv to populate test labels in Phase 1 manifests.",
+    "audio_window_preprocessing_decisions": false,
+    "feature_selection": false,
+    "aggregation_decisions": false,
+    "model_selection": false,
+    "hyperparameter_selection": false,
+    "threshold_tuning": false,
+    "model_revision": false,
+    "exclusion_decisions": false,
+    "exclusion_note": "Clean-manifest exclusions were participant 409 (train label inconsistency) and 422 (dev missing local files), not test participants."
+  }
+}

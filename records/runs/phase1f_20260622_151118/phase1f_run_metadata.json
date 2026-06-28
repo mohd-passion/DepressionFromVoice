@@ -1,0 +1,33 @@
+{
+  "execution_timestamp": "2026-06-22T09:43:33.343960+00:00",
+  "machine_name": "DellWork3660",
+  "python_version": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+  "numpy_version": "2.5.0",
+  "pandas_version": "3.0.1",
+  "scikit_learn_version": "1.9.0",
+  "phase1_status": "completed_baseline_ready_for_external_validation",
+  "evaluation_status": "provisional_local_labeled_test",
+  "test_evaluation_performed": true,
+  "test_probabilities_generated": true,
+  "model_selection_performed": false,
+  "hyperparameter_tuning_performed": false,
+  "threshold_tuning_performed": false,
+  "post_test_model_modification": false,
+  "bootstrap_replicates": 5000,
+  "random_seed": 42,
+  "input_hashes": {
+    "wavlm_pipeline_sha256": "f17118552a03e08ec4a3cdb5ddae89292628e5d866803e5b56132334a2b29f30",
+    "timing_pipeline_sha256": "6485f1a33221031165840cef82ec513082340cf3550e02819ac4acf212839e19",
+    "participant_embedding_manifest_sha256": "3083af270fffb0b27ce0d0c0739c137ea26a5088662ed56363c1322345040c17",
+    "timing_feature_table_sha256": "619bf4a8e4dc4750c047b77c58d14ed9331c55fd1bfa12dd39459dc0f1c3f931",
+    "test_label_source_sha256": "500cb1632408ca8a4990a26b4998fafd1a991dbd4f56d12b7eb6090e00bc6e5a",
+    "test_named_split_sha256": "a2003110d30250e49cc71eb2c11175a3fb04313c23bff385711fe2c673fc3557",
+    "phase1c_evaluation_report_sha256": "4413c357ee06bf02bb87870f165ec90df5ee10dcb7f0e7674010ad75dd970c62",
+    "phase1e_evaluation_report_sha256": "f23113b7d96ff6e91bbe69671b3c138ea6b964b88a6f147b81b665121d0dcdf4",
+    "git_commit": ""
+  },
+  "warnings": [
+    "Git commit unavailable because git executable was not available or repository metadata could not be read.",
+    "scikit-learn emitted a feature-name warning for the frozen WavLM scaler because the original Phase 1C pipeline was fitted without feature names; Phase 1F used the same numeric 768-dimensional feature order and did not refit or modify the model."
+  ]
+}

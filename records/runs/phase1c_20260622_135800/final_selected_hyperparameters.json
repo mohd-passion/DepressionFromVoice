@@ -1,0 +1,11 @@
+{
+  "aggregation_method": "mean",
+  "selected_C": 0.001,
+  "selected_pca_config": "",
+  "selection_rule": [
+    "highest mean ROC-AUC",
+    "lowest ROC-AUC std",
+    "fewer PCA components",
+    "lower C"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "execution_timestamp": "2026-06-22T08:52:14.398049+00:00",
+  "machine_name": "DellWork3660",
+  "git_commit": "",
+  "warnings": [
+    "Git commit unavailable because git executable was not available or repository metadata could not be read."
+  ],
+  "python_version": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+  "numpy_version": "2.5.0",
+  "pandas_version": "3.0.1",
+  "scikit_learn_version": "1.9.0",
+  "source_phase1c_run": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800",
+  "input_paths": {
+    "participant_manifest_clean": "outputs\\phase1_daic\\daic_phase1_participant_manifest_clean.csv",
+    "phase1c_aggregation_manifest": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\aggregation_manifest.csv",
+    "phase1c_nested_cv_summary": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\aggregation_nested_cv_summary.csv"
+  },
+  "input_hashes": {
+    "participant_manifest_clean_sha256": "70ce140476317020ca1e2911de9c0aa1c0dd286231fec08fedff91973e656563",
+    "phase1c_aggregation_manifest_sha256": "3083af270fffb0b27ce0d0c0739c137ea26a5088662ed56363c1322345040c17",
+    "phase1c_nested_cv_summary_sha256": "79837955368cde382354da12c0172eee1df65f842de458b650969bb9f3c5f280"
+  },
+  "timing_feature_names": [
+    "interview_duration_sec",
+    "participant_speech_duration_sec",
+    "participant_speech_ratio",
+    "participant_turn_count",
+    "participant_turns_per_minute",
+    "turn_duration_mean",
+    "turn_duration_median",
+    "turn_duration_std",
+    "turn_duration_iqr",
+    "turn_duration_p10",
+    "turn_duration_p90",
+    "turn_duration_min",
+    "turn_duration_max",
+    "response_latency_count",
+    "response_latency_mean",
+    "response_latency_median",
+    "response_latency_std",
+    "response_latency_iqr",
+    "response_latency_p10",
+    "response_latency_p90",
+    "response_latency_max",
+    "participant_gap_count",
+    "participant_gap_mean",
+    "participant_gap_median",
+    "participant_gap_std",
+    "participant_gap_iqr",
+    "participant_gap_p90",
+    "participant_gap_max"
+  ],
+  "model_grid": [
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0
+  ],
+  "outer_nested_cv": {
+    "splitter": "RepeatedStratifiedKFold",
+    "n_splits": 5,
+    "n_repeats": 5,
+    "random_state": 42
+  },
+  "inner_cv": {
+    "splitter": "StratifiedKFold",
+    "n_splits": 5,
+    "shuffle": true,
+    "seed": "RANDOM_SEED * 1000 + outer_fold_index",
+    "metric": "ROC-AUC"
+  },
+  "selected_model": "timing_only",
+  "selected_C": 100.0,
+  "selected_dev_threshold": 0.2927441537622762,
+  "test_evaluation_performed": false,
+  "test_labels_loaded_for_modeling": false
+}

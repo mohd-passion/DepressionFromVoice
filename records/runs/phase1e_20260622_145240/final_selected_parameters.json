@@ -1,0 +1,7 @@
+{
+  "selected_model": "timing_only",
+  "timing_selected_C": 100.0,
+  "timing_model_path": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240\\models\\timing_base_pipeline.joblib",
+  "selected_C": 100.0,
+  "selected_cv_mean_roc_auc": 0.6185555555555555
+}

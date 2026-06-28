@@ -1,0 +1,15 @@
+{
+  "threshold_selection_rule": {
+    "primary": "maximum dev macro F1",
+    "tie_break_1": "highest dev balanced accuracy",
+    "tie_break_2": "threshold closest to 0.5",
+    "tie_break_3": "lower threshold",
+    "candidate_thresholds": "0.5, unique dev predicted probabilities, and midpoints between consecutive sorted unique probabilities"
+  },
+  "metadata_logistic_regression": {
+    "selected_threshold": 0.609298970673674
+  },
+  "wavlm_participant_logistic_regression": {
+    "selected_threshold": 0.8408696949481964
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "pipeline_path": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\models\\selected_aggregation_pipeline.joblib",
+  "pipeline_class": "Pipeline",
+  "steps": [
+    "scaler",
+    "classifier"
+  ],
+  "scaler_fitted": true,
+  "classifier_fitted": true,
+  "input_dimension": 768,
+  "classifier_C": 0.001,
+  "classifier_class_weight": "balanced",
+  "classifier_max_iter": 10000,
+  "android_refit_performed": false
+}

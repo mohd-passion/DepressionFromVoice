@@ -1,0 +1,51 @@
+{
+  "created_at": "2026-06-22T08:29:58.719903+00:00",
+  "selected_method": "mean",
+  "nominal_best_method": "mean",
+  "selection_criteria": [
+    "highest mean outer ROC-AUC",
+    "lowest ROC-AUC standard deviation",
+    "highest mean PR-AUC",
+    "simpler representation if effectively tied",
+    "If the best method improves mean ROC-AUC over mean aggregation by less than 0.01, select mean unless the more complex method also reduces ROC-AUC std by at least 0.01."
+  ],
+  "improvement_over_mean_roc_auc": 0.0,
+  "std_reduction_vs_mean": 0.0,
+  "practical_negligibility_rule_applied": false,
+  "selected_method_summary": {
+    "aggregation_method": "mean",
+    "complexity_order": 1,
+    "representation_dimension": 768,
+    "pca_used": false,
+    "mean_outer_roc_auc": 0.5956111111111111,
+    "std_outer_roc_auc": 0.1498767137382844,
+    "median_outer_roc_auc": 0.6222222222222222,
+    "min_outer_roc_auc": 0.15555555555555553,
+    "max_outer_roc_auc": 0.9111111111111112,
+    "mean_outer_pr_auc": 0.48025181829980584,
+    "mean_outer_balanced_accuracy_at_0_5": 0.5789166666666666,
+    "mean_outer_macro_f1_at_0_5": 0.5524592859234143,
+    "selected_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+    "selected_PCA_frequency": "",
+    "n_outer_evaluations": 25
+  },
+  "mean_method_summary": {
+    "aggregation_method": "mean",
+    "complexity_order": 1,
+    "representation_dimension": 768,
+    "pca_used": false,
+    "mean_outer_roc_auc": 0.5956111111111111,
+    "std_outer_roc_auc": 0.1498767137382844,
+    "median_outer_roc_auc": 0.6222222222222222,
+    "min_outer_roc_auc": 0.15555555555555553,
+    "max_outer_roc_auc": 0.9111111111111112,
+    "mean_outer_pr_auc": 0.48025181829980584,
+    "mean_outer_balanced_accuracy_at_0_5": 0.5789166666666666,
+    "mean_outer_macro_f1_at_0_5": 0.5524592859234143,
+    "selected_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+    "selected_PCA_frequency": "",
+    "n_outer_evaluations": 25
+  },
+  "selected_pipeline_structure": "StandardScaler + LogisticRegression",
+  "test_data_used_for_selection": false
+}

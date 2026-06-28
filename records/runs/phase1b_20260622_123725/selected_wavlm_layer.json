@@ -1,0 +1,20 @@
+{
+  "selected_layer": "layer_09",
+  "selected_layer_index": 9,
+  "selection_criterion": [
+    "highest mean outer ROC-AUC",
+    "lowest outer ROC-AUC standard deviation",
+    "highest mean outer PR-AUC",
+    "lower numerical layer index if exact tie remains"
+  ],
+  "mean_outer_roc_auc": 0.5956111111111111,
+  "std_outer_roc_auc": 0.1498767137382844,
+  "mean_outer_pr_auc": 0.48025181829980584,
+  "layer12_mean_outer_roc_auc": 0.4987777777777778,
+  "layer12_std_outer_roc_auc": 0.13535964326449504,
+  "difference_vs_layer12_mean_outer_roc_auc": 0.09683333333333327,
+  "n_outer_evaluations": 25,
+  "dev_data_used_for_layer_selection": false,
+  "test_data_used_for_layer_selection": false,
+  "interpretation_note": "A small numerical difference in nested-CV ROC-AUC is not by itself evidence of meaningful superiority."
+}

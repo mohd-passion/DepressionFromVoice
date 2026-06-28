@@ -1,0 +1,520 @@
+{
+  "created_at": "2026-06-22T09:43:33.342969+00:00",
+  "phase1_status": "completed_baseline_ready_for_external_validation",
+  "quality_control_status": "passed",
+  "evaluation_status": "provisional_local_labeled_test",
+  "test_provenance": {
+    "provenance_report_path": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625\\test_label_provenance_report.json",
+    "provenance": {
+      "created_at": "2026-06-22T06:16:33.581709+00:00",
+      "label_source_file": "full_test_split.csv",
+      "absolute_source_path_redacted_for_github": "<project_root>\\Data\\full_test_split.csv",
+      "project_relative_source_path": "Data\\full_test_split.csv",
+      "source_sha256": "500cb1632408ca8a4990a26b4998fafd1a991dbd4f56d12b7eb6090e00bc6e5a",
+      "avec_named_test_split_path": "Data\\test_split_Depression_AVEC2017.csv",
+      "avec_named_test_split_sha256": "a2003110d30250e49cc71eb2c11175a3fb04313c23bff385711fe2c673fc3557",
+      "participant_ids": {
+        "redacted_for_github": true,
+        "count": 47
+      },
+      "num_participants": 47,
+      "class_counts": {
+        "non_depressed": 33,
+        "depressed": 14
+      },
+      "official_provenance_established": false,
+      "test_evaluation_label": "local_labeled_test",
+      "test_metrics_provisional": true,
+      "source_classification": "locally_available_full_test_label_file",
+      "provenance_notes": [
+        "Data/test_split_Depression_AVEC2017.csv contains Participant_ID and Gender only.",
+        "The PHQ8_Binary and PHQ8_Score fields for the 47 test participants are present in Data/full_test_split.csv.",
+        "No accompanying official release documentation was found in this workspace establishing full_test_split.csv as an official AVEC test-label release artifact.",
+        "Per protocol, test metrics are labeled local_labeled_test and provisional."
+      ],
+      "previous_test_label_use_audit": {
+        "manifest_label_population": true,
+        "manifest_label_population_note": "src/phase1/prepare_daic_phase1.py uses full_test_split.csv to populate test labels in Phase 1 manifests.",
+        "audio_window_preprocessing_decisions": false,
+        "feature_selection": false,
+        "aggregation_decisions": false,
+        "model_selection": false,
+        "hyperparameter_selection": false,
+        "threshold_tuning": false,
+        "model_revision": false,
+        "exclusion_decisions": false,
+        "exclusion_note": "Clean-manifest exclusions were participant 409 (train label inconsistency) and 422 (dev missing local files), not test participants."
+      }
+    },
+    "test_label_source": "Data/full_test_split.csv",
+    "named_avec_test_split": "Data/test_split_Depression_AVEC2017.csv",
+    "named_avec_test_split_contains_phq_labels": false,
+    "evaluation_status": "provisional_local_labeled_test",
+    "test_counts": {
+      "participants": 47,
+      "non_depressed": 33,
+      "depressed": 14
+    },
+    "local_test_set_used_for_phase1b_to_phase1e_selection": false,
+    "earlier_phase1a_final_layer_baseline_test_result_previously_inspected": true,
+    "untouched_research_test_set": false,
+    "provisional_external_replication_required": true
+  },
+  "frozen_candidates": {
+    "candidate_A_wavlm_free_speech": {
+      "model": "microsoft/wavlm-base-plus",
+      "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+      "layer": "layer_09",
+      "aggregation": "mean",
+      "classifier": "StandardScaler + LogisticRegression(C=0.001, class_weight=balanced)",
+      "frozen_dev_threshold": 0.5558401346206665,
+      "provisional_local_test_metrics": {
+        "model_name": "candidate_A_wavlm_free_speech",
+        "threshold_type": "frozen_dev_threshold",
+        "threshold": 0.5558401346206665,
+        "evaluation_status": "provisional_local_labeled_test",
+        "roc_auc": 0.5064935064935066,
+        "pr_auc": 0.34991939780853554,
+        "balanced_accuracy": 0.5876623376623377,
+        "macro_f1": 0.591304347826087,
+        "positive_precision": 0.45454545454545453,
+        "positive_recall_sensitivity": 0.35714285714285715,
+        "specificity": 0.8181818181818182,
+        "negative_predictive_value": 0.75,
+        "tn": 27,
+        "fp": 6,
+        "fn": 9,
+        "tp": 5
+      }
+    },
+    "candidate_B_timing_guided_interview": {
+      "features": "Phase 1D validated 28 speech-timing features",
+      "classifier": "SimpleImputer + StandardScaler + LogisticRegression(C=100.0, class_weight=balanced)",
+      "frozen_dev_threshold": 0.2927276896337141,
+      "provisional_local_test_metrics": {
+        "model_name": "candidate_B_timing_guided_interview",
+        "threshold_type": "frozen_dev_threshold",
+        "threshold": 0.2927276896337141,
+        "evaluation_status": "provisional_local_labeled_test",
+        "roc_auc": 0.6774891774891775,
+        "pr_auc": 0.45452103771069285,
+        "balanced_accuracy": 0.645021645021645,
+        "macro_f1": 0.6024436090225564,
+        "positive_precision": 0.4166666666666667,
+        "positive_recall_sensitivity": 0.7142857142857143,
+        "specificity": 0.5757575757575758,
+        "negative_predictive_value": 0.8260869565217391,
+        "tn": 19,
+        "fp": 14,
+        "fn": 4,
+        "tp": 10
+      }
+    }
+  },
+  "bootstrap_intervals": [
+    {
+      "model_name": "candidate_A_wavlm_free_speech",
+      "metric": "roc_auc",
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "point_estimate": 0.5064935064935066,
+      "percentile_2_5": 0.3181818181818181,
+      "percentile_50": 0.5064935064935064,
+      "percentile_97_5": 0.6991341991341993,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "model_name": "candidate_A_wavlm_free_speech",
+      "metric": "pr_auc",
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "point_estimate": 0.34991939780853554,
+      "percentile_2_5": 0.2560009930513888,
+      "percentile_50": 0.3753580673309684,
+      "percentile_97_5": 0.5877512215215591,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "model_name": "candidate_A_wavlm_free_speech",
+      "metric": "balanced_accuracy",
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "point_estimate": 0.5876623376623377,
+      "percentile_2_5": 0.4502164502164502,
+      "percentile_50": 0.5876623376623377,
+      "percentile_97_5": 0.7305194805194806,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "model_name": "candidate_A_wavlm_free_speech",
+      "metric": "macro_f1",
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "point_estimate": 0.591304347826087,
+      "percentile_2_5": 0.44047619047619047,
+      "percentile_50": 0.5908858166922683,
+      "percentile_97_5": 0.7409675443968157,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "model_name": "candidate_A_wavlm_free_speech",
+      "metric": "sensitivity",
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "point_estimate": 0.35714285714285715,
+      "percentile_2_5": 0.14285714285714285,
+      "percentile_50": 0.35714285714285715,
+      "percentile_97_5": 0.6428571428571429,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "model_name": "candidate_A_wavlm_free_speech",
+      "metric": "specificity",
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "point_estimate": 0.8181818181818182,
+      "percentile_2_5": 0.6666666666666666,
+      "percentile_50": 0.8181818181818182,
+      "percentile_97_5": 0.9393939393939394,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "model_name": "candidate_B_timing_guided_interview",
+      "metric": "roc_auc",
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "point_estimate": 0.6774891774891775,
+      "percentile_2_5": 0.5064935064935066,
+      "percentile_50": 0.6796536796536796,
+      "percentile_97_5": 0.8354978354978355,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "model_name": "candidate_B_timing_guided_interview",
+      "metric": "pr_auc",
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "point_estimate": 0.45452103771069285,
+      "percentile_2_5": 0.3338610599780088,
+      "percentile_50": 0.48354182136014434,
+      "percentile_97_5": 0.7030973574174273,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "model_name": "candidate_B_timing_guided_interview",
+      "metric": "balanced_accuracy",
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "point_estimate": 0.645021645021645,
+      "percentile_2_5": 0.5021645021645021,
+      "percentile_50": 0.645021645021645,
+      "percentile_97_5": 0.7824675324675325,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "model_name": "candidate_B_timing_guided_interview",
+      "metric": "macro_f1",
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "point_estimate": 0.6024436090225564,
+      "percentile_2_5": 0.4699248120300752,
+      "percentile_50": 0.6024436090225564,
+      "percentile_97_5": 0.7349624060150376,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "model_name": "candidate_B_timing_guided_interview",
+      "metric": "sensitivity",
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "point_estimate": 0.7142857142857143,
+      "percentile_2_5": 0.5,
+      "percentile_50": 0.7142857142857143,
+      "percentile_97_5": 0.9285714285714286,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "model_name": "candidate_B_timing_guided_interview",
+      "metric": "specificity",
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "point_estimate": 0.5757575757575758,
+      "percentile_2_5": 0.42424242424242425,
+      "percentile_50": 0.5757575757575758,
+      "percentile_97_5": 0.7575757575757576,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    }
+  ],
+  "paired_model_comparison": {
+    "roc_auc_difference_wavlm_minus_timing": -0.17099567099567092,
+    "pr_auc_difference_wavlm_minus_timing": -0.10460163990215732,
+    "balanced_accuracy_difference_wavlm_minus_timing": -0.05735930735930739,
+    "macro_f1_difference_wavlm_minus_timing": -0.011139261196469463,
+    "probability_pearson_correlation": -0.20384263978940295,
+    "probability_spearman_correlation": -0.12395929694727106,
+    "both_correct_count": 17,
+    "both_incorrect_count": 3,
+    "wavlm_only_correct_count": 15,
+    "timing_only_correct_count": 12,
+    "both_correct_participant_ids": {
+      "redacted_for_github": true,
+      "count": 1
+    },
+    "both_incorrect_participant_ids": {
+      "redacted_for_github": true,
+      "count": 1
+    },
+    "wavlm_only_correct_participant_ids": {
+      "redacted_for_github": true,
+      "count": 1
+    },
+    "timing_only_correct_participant_ids": {
+      "redacted_for_github": true,
+      "count": 1
+    },
+    "comparison_status": "descriptive_only_no_model_selection_or_modification",
+    "paired_bootstrap": {
+      "failed_replicates": 0
+    }
+  },
+  "subgroup_audit": [
+    {
+      "model_name": "candidate_A_wavlm_free_speech",
+      "subgroup": "gender",
+      "subgroup_value": "0",
+      "participant_count": 24,
+      "non_depressed_count": 17,
+      "depressed_count": 7,
+      "threshold": 0.5558401346206665,
+      "exploratory": true,
+      "sensitivity": 0.7142857142857143,
+      "specificity": 0.6470588235294118,
+      "balanced_accuracy": 0.680672268907563,
+      "macro_f1": 0.6444444444444444,
+      "metric_status": "reported"
+    },
+    {
+      "model_name": "candidate_A_wavlm_free_speech",
+      "subgroup": "gender",
+      "subgroup_value": "1",
+      "participant_count": 23,
+      "non_depressed_count": 16,
+      "depressed_count": 7,
+      "threshold": 0.5558401346206665,
+      "exploratory": true,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "balanced_accuracy": 0.5,
+      "macro_f1": 0.41025641025641024,
+      "metric_status": "reported"
+    },
+    {
+      "model_name": "candidate_B_timing_guided_interview",
+      "subgroup": "gender",
+      "subgroup_value": "0",
+      "participant_count": 24,
+      "non_depressed_count": 17,
+      "depressed_count": 7,
+      "threshold": 0.2927276896337141,
+      "exploratory": true,
+      "sensitivity": 0.8571428571428571,
+      "specificity": 0.7058823529411765,
+      "balanced_accuracy": 0.7815126050420168,
+      "macro_f1": 0.7333333333333334,
+      "metric_status": "reported"
+    },
+    {
+      "model_name": "candidate_B_timing_guided_interview",
+      "subgroup": "gender",
+      "subgroup_value": "1",
+      "participant_count": 23,
+      "non_depressed_count": 16,
+      "depressed_count": 7,
+      "threshold": 0.2927276896337141,
+      "exploratory": true,
+      "sensitivity": 0.5714285714285714,
+      "specificity": 0.4375,
+      "balanced_accuracy": 0.5044642857142857,
+      "macro_f1": 0.46923076923076923,
+      "metric_status": "reported"
+    }
+  ],
+  "consolidated_comparison": [
+    {
+      "model_or_stage": "metadata baseline",
+      "status": "not_final_candidate",
+      "evaluation_protocol_note": "Phase 1A repeated train CV plus dev/test from earlier baseline",
+      "train_nested_or_cv_roc_auc": 0.5510416666666667,
+      "train_roc_auc_std": 0.1463914090284866,
+      "dev_roc_auc": 0.5731225296442688,
+      "dev_pr_auc": 0.3999688034983608,
+      "provisional_local_test_roc_auc": 0.4437229437229437,
+      "provisional_local_test_pr_auc": 0.3374198308813152,
+      "provisional_local_test_balanced_accuracy_frozen_threshold": 0.4502164502164502,
+      "provisional_local_test_macro_f1_frozen_threshold": 0.4404761904761904,
+      "notes": "Earlier local test result was inspected before later phases."
+    },
+    {
+      "model_or_stage": "final-layer WavLM baseline",
+      "status": "not_final_candidate",
+      "evaluation_protocol_note": "Phase 1A final-layer baseline protocol",
+      "train_nested_or_cv_roc_auc": 0.5115069444444444,
+      "train_roc_auc_std": 0.1401629413410899,
+      "dev_roc_auc": 0.5691699604743083,
+      "dev_pr_auc": 0.457309786506034,
+      "provisional_local_test_roc_auc": 0.5194805194805194,
+      "provisional_local_test_pr_auc": 0.3320852787364008,
+      "provisional_local_test_balanced_accuracy_frozen_threshold": 0.5476190476190476,
+      "provisional_local_test_macro_f1_frozen_threshold": 0.5427547363031233,
+      "notes": "Earlier local test result was inspected before later phases."
+    },
+    {
+      "model_or_stage": "selected layer-9 WavLM baseline",
+      "status": "final_frozen_candidate_A",
+      "evaluation_protocol_note": "Phase 1C train nested CV/dev; Phase 1F provisional local test",
+      "train_nested_or_cv_roc_auc": 0.5956111111111111,
+      "train_roc_auc_std": 0.1498767137382844,
+      "dev_roc_auc": 0.6442687747035574,
+      "dev_pr_auc": 0.4534719143007912,
+      "provisional_local_test_roc_auc": 0.5064935064935066,
+      "provisional_local_test_pr_auc": 0.34991939780853554,
+      "provisional_local_test_balanced_accuracy_frozen_threshold": 0.5876623376623377,
+      "provisional_local_test_macro_f1_frozen_threshold": 0.591304347826087,
+      "notes": "Free-speech-compatible research candidate."
+    },
+    {
+      "model_or_stage": "median aggregation",
+      "status": "not_advanced",
+      "evaluation_protocol_note": "Phase 1C train nested CV only",
+      "train_nested_or_cv_roc_auc": 0.5905277777777778,
+      "train_roc_auc_std": 0.1525904002449485,
+      "dev_roc_auc": "",
+      "dev_pr_auc": "",
+      "provisional_local_test_roc_auc": "",
+      "provisional_local_test_pr_auc": "",
+      "provisional_local_test_balanced_accuracy_frozen_threshold": "",
+      "provisional_local_test_macro_f1_frozen_threshold": "",
+      "notes": "Not evaluated on dev/test as selected candidate."
+    },
+    {
+      "model_or_stage": "mean-plus-standard-deviation aggregation",
+      "status": "not_advanced",
+      "evaluation_protocol_note": "Phase 1C train nested CV only",
+      "train_nested_or_cv_roc_auc": 0.5683333333333332,
+      "train_roc_auc_std": 0.1336874637464671,
+      "dev_roc_auc": "",
+      "dev_pr_auc": "",
+      "provisional_local_test_roc_auc": "",
+      "provisional_local_test_pr_auc": "",
+      "provisional_local_test_balanced_accuracy_frozen_threshold": "",
+      "provisional_local_test_macro_f1_frozen_threshold": "",
+      "notes": "Not evaluated on dev/test as selected candidate."
+    },
+    {
+      "model_or_stage": "timing-only",
+      "status": "final_frozen_candidate_B",
+      "evaluation_protocol_note": "Phase 1D/1E train nested CV/dev; Phase 1F provisional local test",
+      "train_nested_or_cv_roc_auc": 0.6125555555555555,
+      "train_roc_auc_std": 0.1158692856542435,
+      "dev_roc_auc": 0.624505928853755,
+      "dev_pr_auc": 0.4292783742166003,
+      "provisional_local_test_roc_auc": 0.6774891774891775,
+      "provisional_local_test_pr_auc": 0.45452103771069285,
+      "provisional_local_test_balanced_accuracy_frozen_threshold": 0.645021645021645,
+      "provisional_local_test_macro_f1_frozen_threshold": 0.6024436090225564,
+      "notes": "Guided-interview-dependent research candidate."
+    },
+    {
+      "model_or_stage": "early feature fusion",
+      "status": "not_advanced",
+      "evaluation_protocol_note": "Phase 1D train nested CV only",
+      "train_nested_or_cv_roc_auc": 0.5746944444444444,
+      "train_roc_auc_std": 0.1298001312559971,
+      "dev_roc_auc": "",
+      "dev_pr_auc": "",
+      "provisional_local_test_roc_auc": "",
+      "provisional_local_test_pr_auc": "",
+      "provisional_local_test_balanced_accuracy_frozen_threshold": "",
+      "provisional_local_test_macro_f1_frozen_threshold": "",
+      "notes": "Underperformed; not repeated in Phase 1E."
+    },
+    {
+      "model_or_stage": "weighted late fusion",
+      "status": "not_advanced",
+      "evaluation_protocol_note": "Phase 1E train nested CV only",
+      "train_nested_or_cv_roc_auc": 0.6043888888888889,
+      "train_roc_auc_std": 0.1425270333898576,
+      "dev_roc_auc": "",
+      "dev_pr_auc": "",
+      "provisional_local_test_roc_auc": "",
+      "provisional_local_test_pr_auc": "",
+      "provisional_local_test_balanced_accuracy_frozen_threshold": "",
+      "provisional_local_test_macro_f1_frozen_threshold": "",
+      "notes": "No post-test fusion performed."
+    },
+    {
+      "model_or_stage": "logistic stacking",
+      "status": "not_advanced",
+      "evaluation_protocol_note": "Phase 1E train nested CV only",
+      "train_nested_or_cv_roc_auc": 0.5413055555555555,
+      "train_roc_auc_std": 0.1584786272929002,
+      "dev_roc_auc": "",
+      "dev_pr_auc": "",
+      "provisional_local_test_roc_auc": "",
+      "provisional_local_test_pr_auc": "",
+      "provisional_local_test_balanced_accuracy_frozen_threshold": "",
+      "provisional_local_test_macro_f1_frozen_threshold": "",
+      "notes": "No post-test fusion performed."
+    },
+    {
+      "model_or_stage": "final frozen Candidate A",
+      "status": "final_frozen_candidate_A",
+      "evaluation_protocol_note": "Same as selected layer-9 WavLM baseline; Phase 1F final provisional local test",
+      "train_nested_or_cv_roc_auc": 0.5956111111111111,
+      "train_roc_auc_std": 0.1498767137382844,
+      "dev_roc_auc": 0.6442687747035574,
+      "dev_pr_auc": 0.4534719143007912,
+      "provisional_local_test_roc_auc": 0.5064935064935066,
+      "provisional_local_test_pr_auc": 0.34991939780853554,
+      "provisional_local_test_balanced_accuracy_frozen_threshold": 0.5876623376623377,
+      "provisional_local_test_macro_f1_frozen_threshold": 0.591304347826087,
+      "notes": "Not deployment-ready; external validation required."
+    },
+    {
+      "model_or_stage": "final frozen Candidate B",
+      "status": "final_frozen_candidate_B",
+      "evaluation_protocol_note": "Same as timing-only candidate; Phase 1F final provisional local test",
+      "train_nested_or_cv_roc_auc": 0.6125555555555555,
+      "train_roc_auc_std": 0.1158692856542435,
+      "dev_roc_auc": 0.624505928853755,
+      "dev_pr_auc": 0.4292783742166003,
+      "provisional_local_test_roc_auc": 0.6774891774891775,
+      "provisional_local_test_pr_auc": 0.45452103771069285,
+      "provisional_local_test_balanced_accuracy_frozen_threshold": 0.645021645021645,
+      "provisional_local_test_macro_f1_frozen_threshold": 0.6024436090225564,
+      "notes": "Not deployment-ready; external validation required."
+    }
+  ],
+  "deployment_interpretation": {
+    "free_speech_candidate": "Candidate A accepts participant speech without interviewer timing but remains a research screening model, not clinically validated and not diagnostic.",
+    "guided_interview_candidate": "Candidate B requires standardized prompts/interviewer interaction and cannot be applied to arbitrary isolated voice recordings."
+  },
+  "no_post_test_model_modification": true,
+  "external_validation_required": true,
+  "warnings": [
+    "Git commit unavailable because git executable was not available or repository metadata could not be read.",
+    "scikit-learn emitted a feature-name warning for the frozen WavLM scaler because the original Phase 1C pipeline was fitted without feature names; Phase 1F used the same numeric 768-dimensional feature order and did not refit or modify the model."
+  ]
+}

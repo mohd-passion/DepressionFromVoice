@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-06-22T08:52:10.310925+00:00",
+  "basis": "train participant-level averaged out-of-fold probabilities only",
+  "timing_wavlm_probability_pearson": 0.06381938334103196,
+  "timing_wavlm_probability_spearman": 0.07959795450537822,
+  "wavlm_fusion_probability_pearson": 0.926455764391769,
+  "wavlm_fusion_probability_spearman": 0.9326195934201577,
+  "participants_corrected_by_fusion_relative_to_wavlm_at_0_5": [
+    "376",
+    "383",
+    "475"
+  ],
+  "participants_made_incorrect_by_fusion_relative_to_wavlm_at_0_5": [
+    "303",
+    "338",
+    "355",
+    "370",
+    "386",
+    "423"
+  ],
+  "descriptive_only": true
+}

@@ -1,0 +1,4 @@
+metric_group,threshold_type,threshold,roc_auc,pr_auc,average_predicted_probability_HC,average_predicted_probability_PT,median_predicted_probability_HC,median_predicted_probability_PT,participant_count,HC_count,PT_count,balanced_accuracy,macro_f1,positive_class_precision,sensitivity,specificity,negative_predictive_value,tn,fp,fn,tp,predicted_positive_count,predicted_positive_proportion
+threshold_independent,none,,0.6412259615384616,0.6808532952868427,0.12943314144817683,0.15339696290902793,0.12716900557279587,0.14732106775045395,116,52,64,,,,,,,,,,,,
+threshold_dependent,default_0_5,0.5,,,,,,,,,,0.5,0.30952380952380953,0.0,0.0,1.0,0.4482758620689655,52,0,64,0,0,0.0
+threshold_dependent,frozen_daic_dev_threshold,0.555840134621,,,,,,,,,,0.5,0.30952380952380953,0.0,0.0,1.0,0.4482758620689655,52,0,64,0,0,0.0

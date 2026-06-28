@@ -1,0 +1,46 @@
+{
+  "created_at": "2026-06-22T10:12:28.856182+00:00",
+  "candidate_A": "Frozen DAIC WavLM layer_09 participant mean model can be prepared for zero-shot evaluation later, but Phase 2A does not extract embeddings or apply the model.",
+  "language_difference": "DAIC-WOZ is English; Androids Corpus recordings are Italian.",
+  "task_difference": "DAIC uses spontaneous clinical interview speech; Android includes separate interview and read-speech tasks.",
+  "participant_turn_concatenation": "Android interview participant speech can likely be reconstructed from interview_timedata.csv and/or audio_clip files, but this must remain separate from reading speech.",
+  "read_speech_task": "Reading recordings are participant speech but are task-shifted and should be evaluated separately.",
+  "sample_rate_distribution": {
+    "44100": 228
+  },
+  "channel_format_distribution": {
+    "1": 227,
+    "2": 1
+  },
+  "recording_conditions": "Different corpus, language, elicitation protocol, and likely recording setup from DAIC-WOZ.",
+  "reading_duration_sec": {
+    "count": 112,
+    "min": 32.829954648526076,
+    "max": 84.15625850340136,
+    "mean": 50.26289358600583,
+    "median": 48.3675283446712
+  },
+  "full_interview_duration_sec": {
+    "count": 116,
+    "min": 70.6492970521542,
+    "max": 579.3726984126985,
+    "mean": 229.84312397372742,
+    "median": 240.7792970521542
+  },
+  "participant_speech_duration_from_timing_sec": {
+    "count": 116,
+    "min": 34.97200000000001,
+    "max": 572.021,
+    "mean": 190.53283620689655,
+    "median": 189.53850000000003
+  },
+  "ten_second_windows_50_overlap_feasible_reading": true,
+  "ten_second_windows_50_overlap_feasible_interview_participant_speech": true,
+  "participants_with_less_than_10_sec_reading": [],
+  "participants_with_less_than_10_sec_interview_participant_speech": [],
+  "participant_only_interview_speech_reconstruction_feasible": true,
+  "participant_only_interview_speech_reconstruction_basis": "interview_timedata.csv start/end pairs and audio_clip turn files",
+  "combine_reading_and_interview": false,
+  "candidate_A_preprocessing_can_be_reproduced": true,
+  "phase2a_predictions_or_embeddings_created": false
+}

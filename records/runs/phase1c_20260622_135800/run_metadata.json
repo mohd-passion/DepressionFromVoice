@@ -1,0 +1,63 @@
+{
+  "execution_timestamp": "2026-06-22T08:30:04.385847+00:00",
+  "machine_name": "DellWork3660",
+  "git_commit": "",
+  "warnings": [
+    "Git commit unavailable because git executable was not available in this shell."
+  ],
+  "python_version": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+  "numpy_version": "2.5.0",
+  "pandas_version": "3.0.1",
+  "scikit_learn_version": "1.9.0",
+  "source_phase1b_run": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+  "input_paths": {
+    "phase1b_layerwise_window_manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\layerwise_window_embedding_manifest.csv",
+    "phase1b_outer_fold_results": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\layerwise_outer_fold_results.csv",
+    "phase1b_outer_predictions": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\layerwise_outer_predictions.csv",
+    "participant_manifest_clean": "outputs\\phase1_daic\\daic_phase1_participant_manifest_clean.csv"
+  },
+  "input_hashes": {
+    "phase1b_layerwise_window_manifest_sha256": "68b72dbefc5c2f0ddc1f9b615c5057966245154532115a933552e3bd4a730f3a",
+    "phase1b_outer_fold_results_sha256": "7c4a3f22130aa96a4d8ec63554e48259afb2a41a8d956eb88329b0befd35f743",
+    "phase1b_outer_predictions_sha256": "f2423c4961f28666cd61963fc52c95c0268f2b2acfabbb8736e79dbd528ac181",
+    "participant_manifest_clean_sha256": "70ce140476317020ca1e2911de9c0aa1c0dd286231fec08fedff91973e656563"
+  },
+  "model_name": "microsoft/wavlm-base-plus",
+  "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+  "locked_layer": "layer_09",
+  "random_seed": 42,
+  "outer_nested_cv": {
+    "splitter": "RepeatedStratifiedKFold",
+    "n_splits": 5,
+    "n_repeats": 5,
+    "random_state": 42
+  },
+  "inner_cv": {
+    "splitter": "StratifiedKFold",
+    "n_splits": 5,
+    "shuffle": true,
+    "seed": "RANDOM_SEED * 1000 + outer_fold_index",
+    "metric": "ROC-AUC"
+  },
+  "C_grid": [
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0
+  ],
+  "PCA_grid": [
+    "16",
+    "32",
+    "64",
+    "0.95"
+  ],
+  "selected_aggregation_method": "mean",
+  "selected_C": 0.001,
+  "selected_pca_config": "",
+  "selected_dev_threshold": 0.5558401346206665,
+  "test_evaluation_performed": false,
+  "test_labels_loaded_for_modeling": false
+}

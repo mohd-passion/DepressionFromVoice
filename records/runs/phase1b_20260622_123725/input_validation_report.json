@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-06-22T07:08:29.264944+00:00",
+  "status": "passed",
+  "clean_windows": 17058,
+  "split_counts": {
+    "train": 9001,
+    "dev": 3314,
+    "test": 4743
+  },
+  "participants_409_422_present": [],
+  "reconstructed_windows_checked": 17058,
+  "target_sample_rate": 16000,
+  "target_samples": 160000,
+  "all_reconstructed_windows_have_160000_samples": true,
+  "mapping_source": "participant_window_mapping.csv",
+  "all_source_intervals_participant_only_basis": "participant_window_mapping.csv was produced from Participant speaker intervals; Phase 1B reads only this mapping and audio, not transcript text.",
+  "transcript_text_used": false,
+  "max_source_intervals_per_window": 15,
+  "duration_adjustment_warning_windows": 0,
+  "issues": []
+}

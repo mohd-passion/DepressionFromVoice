@@ -1,0 +1,261 @@
+{
+  "created_at": "2026-06-22T09:24:36.055442+00:00",
+  "status": "completed_phase1e_late_fusion_train_only_selection_and_single_dev_evaluation",
+  "locked_inputs": {
+    "timing_features": "Phase 1D validated 28-feature participant timing table",
+    "wavlm_model": "microsoft/wavlm-base-plus",
+    "wavlm_model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+    "wavlm_layer": "layer_09",
+    "wavlm_aggregation": "mean"
+  },
+  "test_evaluation_performed": false,
+  "test_probabilities_generated": false,
+  "strict_scope_confirmation": {
+    "test_evaluation": false,
+    "early_feature_concatenation": false,
+    "additional_timing_feature_engineering": false,
+    "manual_feature_removal": false,
+    "wavlm_layer_reselection": false,
+    "alternate_participant_aggregation": false,
+    "mlp": false,
+    "svm": false,
+    "lightgbm": false,
+    "attention_pooling": false,
+    "window_level_classification": false,
+    "wavlm_fine_tuning": false,
+    "android_corpus": false,
+    "app_code": false
+  },
+  "input_validation": {
+    "status": "passed",
+    "created_at": "2026-06-22T09:22:41.503416+00:00",
+    "participant_counts_by_split": {
+      "train": 106,
+      "test": 47,
+      "dev": 34
+    },
+    "timing_source_path": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132\\speech_timing_features.csv",
+    "wavlm_source_manifest": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\aggregation_manifest.csv",
+    "timing_feature_count": 28,
+    "wavlm_dimension": 768,
+    "test_evaluation_performed": false,
+    "test_labels_loaded_for_modeling": false
+  },
+  "base_model_reproduction": {
+    "timing_phase1d_vs_phase1e_mean_auc_abs_diff": 0.0022222222222222365,
+    "wavlm_phase1c_vs_phase1e_mean_auc_abs_diff": 0.0,
+    "status": "warning"
+  },
+  "nested_cv_summary": [
+    {
+      "model_name": "timing_only",
+      "complexity_order": 1,
+      "representation_dimension": 28,
+      "mean_outer_roc_auc": 0.6103333333333333,
+      "std_outer_roc_auc": 0.11208467918784429,
+      "median_outer_roc_auc": 0.6145833333333333,
+      "min_outer_roc_auc": 0.37777777777777777,
+      "max_outer_roc_auc": 0.8666666666666667,
+      "mean_outer_pr_auc": 0.46050751636277953,
+      "mean_outer_balanced_accuracy_at_0_5": 0.5909166666666666,
+      "mean_outer_macro_f1_at_0_5": 0.5754678310389231,
+      "selected_timing_C_frequency": "{\"0.01\": 2, \"1.0\": 1, \"10.0\": 6, \"100.0\": 16}",
+      "selected_wavlm_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+      "selected_weight_frequency": "",
+      "selected_stacker_transform_frequency": "",
+      "selected_stacker_C_frequency": "",
+      "n_outer_evaluations": 25
+    },
+    {
+      "model_name": "wavlm_only",
+      "complexity_order": 2,
+      "representation_dimension": 768,
+      "mean_outer_roc_auc": 0.5956111111111111,
+      "std_outer_roc_auc": 0.1498767137382844,
+      "median_outer_roc_auc": 0.6222222222222222,
+      "min_outer_roc_auc": 0.15555555555555553,
+      "max_outer_roc_auc": 0.9111111111111112,
+      "mean_outer_pr_auc": 0.48025181829980584,
+      "mean_outer_balanced_accuracy_at_0_5": 0.5789166666666666,
+      "mean_outer_macro_f1_at_0_5": 0.5524592859234143,
+      "selected_timing_C_frequency": "{\"0.01\": 2, \"1.0\": 1, \"10.0\": 6, \"100.0\": 16}",
+      "selected_wavlm_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+      "selected_weight_frequency": "",
+      "selected_stacker_transform_frequency": "",
+      "selected_stacker_C_frequency": "",
+      "n_outer_evaluations": 25
+    },
+    {
+      "model_name": "weighted_late_fusion",
+      "complexity_order": 3,
+      "representation_dimension": 2,
+      "mean_outer_roc_auc": 0.6043888888888889,
+      "std_outer_roc_auc": 0.1425270333898576,
+      "median_outer_roc_auc": 0.6145833333333333,
+      "min_outer_roc_auc": 0.15555555555555553,
+      "max_outer_roc_auc": 0.8666666666666667,
+      "mean_outer_pr_auc": 0.44060818054780904,
+      "mean_outer_balanced_accuracy_at_0_5": 0.5921666666666667,
+      "mean_outer_macro_f1_at_0_5": 0.5759239014501266,
+      "selected_timing_C_frequency": "{\"0.01\": 2, \"1.0\": 1, \"10.0\": 6, \"100.0\": 16}",
+      "selected_wavlm_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+      "selected_weight_frequency": "{\"0.0\": 3, \"0.1\": 2, \"0.4\": 1, \"0.5\": 2, \"0.6\": 3, \"0.8\": 1, \"0.9\": 7, \"1.0\": 6}",
+      "selected_stacker_transform_frequency": "",
+      "selected_stacker_C_frequency": "",
+      "n_outer_evaluations": 25
+    },
+    {
+      "model_name": "logistic_stacking",
+      "complexity_order": 4,
+      "representation_dimension": 2,
+      "mean_outer_roc_auc": 0.5413055555555555,
+      "std_outer_roc_auc": 0.15847862729290024,
+      "median_outer_roc_auc": 0.5555555555555556,
+      "min_outer_roc_auc": 0.09999999999999999,
+      "max_outer_roc_auc": 0.8555555555555556,
+      "mean_outer_pr_auc": 0.4141480976597075,
+      "mean_outer_balanced_accuracy_at_0_5": 0.5404166666666667,
+      "mean_outer_macro_f1_at_0_5": 0.5051126512298626,
+      "selected_timing_C_frequency": "{\"0.01\": 2, \"1.0\": 1, \"10.0\": 6, \"100.0\": 16}",
+      "selected_wavlm_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+      "selected_weight_frequency": "",
+      "selected_stacker_transform_frequency": "{\"log_odds\": 12, \"raw\": 13}",
+      "selected_stacker_C_frequency": "{\"0.001\": 10, \"0.01\": 2, \"0.1\": 6, \"1.0\": 5, \"10.0\": 2}",
+      "n_outer_evaluations": 25
+    }
+  ],
+  "fusion_stability": {
+    "created_at": "2026-06-22T09:24:31.966550+00:00",
+    "weighted_fusion": {
+      "selected_weight_frequency": {
+        "0.0": 3,
+        "0.1": 2,
+        "0.4": 1,
+        "0.5": 2,
+        "0.6": 3,
+        "0.8": 1,
+        "0.9": 7,
+        "1.0": 6
+      },
+      "mean_selected_timing_weight": 0.66,
+      "std_selected_timing_weight": 0.35665109000254014,
+      "percent_weight_0_wavlm_only": 12.0,
+      "percent_weight_1_timing_only": 24.0,
+      "percent_true_mixed_weight": 64.0,
+      "interpretation_rule": "If fusion frequently chooses weight 0 or 1, evidence for complementarity is weak."
+    },
+    "logistic_stacking": {
+      "timing_coefficient_mean": 0.14904038958339325,
+      "timing_coefficient_std": 0.19754043014562184,
+      "timing_coefficient_min": -0.05131887798093046,
+      "timing_coefficient_max": 0.6193198876111331,
+      "wavlm_coefficient_mean": 0.015696342753717892,
+      "wavlm_coefficient_std": 0.21382165559010796,
+      "wavlm_coefficient_min": -0.4785140541444936,
+      "wavlm_coefficient_max": 0.6605435686367874,
+      "percent_timing_coefficient_positive": 84.0,
+      "percent_wavlm_coefficient_positive": 56.00000000000001,
+      "timing_sign_consistent": false,
+      "wavlm_sign_consistent": false,
+      "interpretation_rule": "If stacker coefficient signs are unstable, do not claim a reliable fusion effect."
+    }
+  },
+  "selected_model_report": {
+    "created_at": "2026-06-22T09:24:31.969569+00:00",
+    "selected_model": "timing_only",
+    "nominal_best_model": "timing_only",
+    "selection_criteria": [
+      "highest mean outer ROC-AUC",
+      "lowest ROC-AUC standard deviation",
+      "highest mean outer PR-AUC",
+      "simpler method if effectively tied",
+      "fusion must improve over the better individual model by at least 0.01 unless it materially lowers variability"
+    ],
+    "complexity_order": {
+      "timing_only": 1,
+      "wavlm_only": 2,
+      "weighted_late_fusion": 3,
+      "logistic_stacking": 4
+    },
+    "better_individual_model": "timing_only",
+    "best_fusion_improvement_over_better_individual": -0.005944444444444419,
+    "fusion_std_reduction_vs_better_individual": 0.0,
+    "fusion_practical_improvement_rule_applied": false,
+    "timing_matches_wavlm_within_0_01": false,
+    "timing_confounding_warning": "",
+    "selected_model_summary": {
+      "model_name": "timing_only",
+      "complexity_order": 1,
+      "representation_dimension": 28,
+      "mean_outer_roc_auc": 0.6103333333333333,
+      "std_outer_roc_auc": 0.11208467918784429,
+      "median_outer_roc_auc": 0.6145833333333333,
+      "min_outer_roc_auc": 0.37777777777777777,
+      "max_outer_roc_auc": 0.8666666666666667,
+      "mean_outer_pr_auc": 0.46050751636277953,
+      "mean_outer_balanced_accuracy_at_0_5": 0.5909166666666666,
+      "mean_outer_macro_f1_at_0_5": 0.5754678310389231,
+      "selected_timing_C_frequency": "{\"0.01\": 2, \"1.0\": 1, \"10.0\": 6, \"100.0\": 16}",
+      "selected_wavlm_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+      "selected_weight_frequency": "",
+      "selected_stacker_transform_frequency": "",
+      "selected_stacker_C_frequency": "",
+      "n_outer_evaluations": 25
+    },
+    "test_data_used_for_selection": false
+  },
+  "final_selected_parameters": {
+    "selected_model": "timing_only",
+    "timing_selected_C": 100.0,
+    "timing_model_path": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240\\models\\timing_base_pipeline.joblib",
+    "selected_C": 100.0,
+    "selected_cv_mean_roc_auc": 0.6185555555555555
+  },
+  "selected_dev_evaluation": {
+    "selected_model": "timing_only",
+    "selected_hyperparameters": {
+      "timing_C": 100.0
+    },
+    "selected_dev_threshold": 0.2927276896337141,
+    "dev_metrics_at_0_5": {
+      "roc_auc": 0.624505928853755,
+      "pr_auc": 0.4292783742166003,
+      "balanced_accuracy": 0.642292490118577,
+      "macro_f1": 0.6386473429951691,
+      "positive_precision": 0.5,
+      "positive_recall_sensitivity": 0.5454545454545454,
+      "specificity": 0.7391304347826086,
+      "tn": 17,
+      "fp": 6,
+      "fn": 5,
+      "tp": 6,
+      "threshold": 0.5
+    },
+    "dev_metrics_at_selected_threshold": {
+      "roc_auc": 0.624505928853755,
+      "pr_auc": 0.4292783742166003,
+      "balanced_accuracy": 0.7134387351778657,
+      "macro_f1": 0.6693191865605659,
+      "positive_precision": 0.5,
+      "positive_recall_sensitivity": 0.8181818181818182,
+      "specificity": 0.6086956521739131,
+      "tn": 14,
+      "fp": 9,
+      "fn": 2,
+      "tp": 9,
+      "threshold": 0.2927276896337141
+    },
+    "test_evaluation_performed": false
+  },
+  "deployment_interpretation": {
+    "free_speech_compatible": [
+      "wavlm_only"
+    ],
+    "guided_interview_dependent": [
+      "timing_only",
+      "weighted_late_fusion",
+      "logistic_stacking"
+    ],
+    "note": "Timing-only and timing/WavLM fusion models require response-latency or interaction-timing features from prompts/interviewer turns; an app using timing features would need standardized voice prompts or a short guided interview and should not be described as operating from an arbitrary voice clip."
+  }
+}

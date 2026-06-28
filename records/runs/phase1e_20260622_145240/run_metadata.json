@@ -1,0 +1,74 @@
+{
+  "execution_timestamp": "2026-06-22T09:24:36.057570+00:00",
+  "machine_name": "DellWork3660",
+  "git_commit": "",
+  "warnings": [
+    "Git commit unavailable because git executable was not available or repository metadata could not be read.",
+    "Base-model reproduction check did not exactly match prior train nested-CV results."
+  ],
+  "python_version": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+  "numpy_version": "2.5.0",
+  "pandas_version": "3.0.1",
+  "scikit_learn_version": "1.9.0",
+  "source_phase1c_run": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800",
+  "source_phase1d_run": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132",
+  "input_paths": {
+    "participant_manifest_clean": "outputs\\phase1_daic\\daic_phase1_participant_manifest_clean.csv",
+    "phase1c_aggregation_manifest": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\aggregation_manifest.csv",
+    "phase1d_timing_features": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132\\speech_timing_features.csv"
+  },
+  "input_hashes": {
+    "participant_manifest_clean_sha256": "70ce140476317020ca1e2911de9c0aa1c0dd286231fec08fedff91973e656563",
+    "phase1c_aggregation_manifest_sha256": "3083af270fffb0b27ce0d0c0739c137ea26a5088662ed56363c1322345040c17",
+    "phase1d_timing_features_sha256": "619bf4a8e4dc4750c047b77c58d14ed9331c55fd1bfa12dd39459dc0f1c3f931"
+  },
+  "base_C_grid": [
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0
+  ],
+  "weight_grid": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "stacker_C_grid": [
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0
+  ],
+  "outer_nested_cv": {
+    "splitter": "RepeatedStratifiedKFold",
+    "n_splits": 5,
+    "n_repeats": 5,
+    "random_state": 42
+  },
+  "final_train_selection_cv": {
+    "splitter": "RepeatedStratifiedKFold",
+    "n_splits": 5,
+    "n_repeats": 10,
+    "random_state": 42
+  },
+  "selected_model": "timing_only",
+  "selected_hyperparameters": {
+    "timing_C": 100.0
+  },
+  "selected_dev_threshold": 0.2927276896337141,
+  "test_evaluation_performed": false,
+  "test_labels_loaded_for_modeling": false
+}

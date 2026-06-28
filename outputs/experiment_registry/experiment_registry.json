@@ -1,0 +1,3525 @@
+{
+  "registry_version": "1.0",
+  "project": "DepressionFromVoice",
+  "last_updated": "2026-06-28T03:37:06.596038+00:00",
+  "project_status": {
+    "phase1_status": "completed_baseline_ready_for_external_validation",
+    "phase2_status": "phase2b_zero_shot_external_validation_completed",
+    "current_scope": "research experiment tracking only",
+    "accuracy_hunting_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+  },
+  "datasets": {
+    "daic_woz_phase1_clean": {
+      "name": "DAIC-WOZ clean Phase 1 dataset",
+      "usable_participants": 187,
+      "splits": {
+        "train": 106,
+        "dev": 34,
+        "local_labeled_test": 47
+      },
+      "excluded_participants": [
+        409,
+        422
+      ],
+      "labels": "PHQ8_Binary",
+      "label_provenance": "provisional local labeled test for test split",
+      "speech_scope": "participant-only speech",
+      "windowing": {
+        "window_sec": 10,
+        "overlap": 0.5,
+        "total_windows": 17058
+      },
+      "language": "English"
+    },
+    "androids_corpus": {
+      "name": "Androids Corpus",
+      "participants": 118,
+      "class_counts": {
+        "HC": 54,
+        "PT": 64
+      },
+      "recordings": {
+        "reading": 112,
+        "interview": 116,
+        "interview_clips": 874
+      },
+      "audio_quality": "all 1102 audio files readable",
+      "sample_rate_hz": 44100,
+      "labels": "clinical patient/control grouping",
+      "language": "Italian",
+      "fold_warning": "cross-task fold inconsistency affecting 85 participants"
+    }
+  },
+  "current_candidates": {
+    "daic_free_speech_candidate": {
+      "description": "Free-speech-compatible DAIC candidate",
+      "wavlm_model": "microsoft/wavlm-base-plus",
+      "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+      "layer": "layer_09",
+      "participant_aggregation": "mean",
+      "classifier": "StandardScaler + LogisticRegression",
+      "C": 0.001,
+      "threshold": 0.555840134621,
+      "status": "frozen_research_candidate"
+    },
+    "daic_guided_interview_candidate": {
+      "description": "Guided-interview timing candidate",
+      "features": "28 validated timing features",
+      "classifier": "SimpleImputer + StandardScaler + LogisticRegression",
+      "C": 100.0,
+      "threshold": 0.2927276896337141,
+      "status": "frozen_research_candidate"
+    },
+    "external_validation_result": {
+      "description": "Frozen DAIC WavLM on Android interview speech",
+      "roc_auc": 0.6412259615384616,
+      "pr_auc": 0.6808532952868427,
+      "threshold_transfer": "failed; all participants predicted negative",
+      "status": "weak_transfer_with_ranking_signal",
+      "not_universal_best_model": true
+    }
+  },
+  "research_decisions": [
+    {
+      "phase": "Phase 1B",
+      "decision": "Selected WavLM layer_09 using train-only nested CV.",
+      "test_used": false
+    },
+    {
+      "phase": "Phase 1C",
+      "decision": "Kept participant mean aggregation; alternate aggregation did not improve enough.",
+      "test_used": false
+    },
+    {
+      "phase": "Phase 1D",
+      "decision": "Timing-only outperformed WavLM and early fusion on train/dev.",
+      "test_used": false
+    },
+    {
+      "phase": "Phase 1E",
+      "decision": "Late fusion did not improve reliability; timing-only retained.",
+      "test_used": false
+    },
+    {
+      "phase": "Phase 1F",
+      "decision": "Closed Phase 1 as frozen research candidates for external validation.",
+      "test_used": true
+    },
+    {
+      "phase": "Phase 2A",
+      "decision": "Timing model direct transfer to Android invalid; WavLM interview preprocessing feasible.",
+      "test_used": false
+    },
+    {
+      "phase": "Phase 2B",
+      "decision": "Zero-shot WavLM ranking signal observed, but frozen threshold failed on Android.",
+      "test_used": true
+    }
+  ],
+  "planned_experiments": [
+    {
+      "id": "phase2c_android_adaptation_analysis",
+      "phase": "Phase 2C",
+      "status": "planned",
+      "protocols": [
+        "frozen DAIC zero-shot reference",
+        "threshold-only adaptation",
+        "probability calibration",
+        "Android-trained logistic regression using fixed layer-9 embeddings"
+      ],
+      "purpose": [
+        "distinguish calibration shift",
+        "distinguish classifier-boundary shift",
+        "distinguish representation limitation"
+      ],
+      "metrics": null,
+      "run_directory": null
+    }
+  ],
+  "superseded_runs": [
+    {
+      "run_directory": "outputs/phase2_android/phase2a_preparation_runs/20260622_154008",
+      "phase": "Phase 2A",
+      "status": "superseded",
+      "authoritative": false,
+      "reason": "Fold parsing was corrected to preserve (task, recording_id) identity.",
+      "replacement_run_directory": "outputs/phase2_android/phase2a_preparation_runs/20260622_154228"
+    }
+  ],
+  "accuracy_hunting_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation.",
+  "experiments": [
+    {
+      "id": "phase1a_metadata_baseline",
+      "revision": 1,
+      "phase": "Phase 1A",
+      "name": "Metadata-only sanity baseline",
+      "status": "completed_first_phase1_metadata_and_wavlm_logistic_regression_baselines_only",
+      "run_directory": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": 47,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "metadata",
+        "model": "",
+        "model_commit": "",
+        "layer": null,
+        "window_sec": null,
+        "overlap": null,
+        "window_pooling": "",
+        "participant_aggregation": "",
+        "dimension": 3,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "ColumnTransformer + LogisticRegression",
+        "class_weight": "balanced",
+        "C": 1.0,
+        "other_parameters": {},
+        "selection_protocol": "train-only repeated stratified CV"
+      },
+      "threshold": {
+        "source": "dev macro-F1 search",
+        "value": 0.609298970673674,
+        "tuned_on": "dev"
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5510416666666667,
+          "roc_auc_std": 0.14639140902848663,
+          "pr_auc": null,
+          "balanced_accuracy": 0.590125,
+          "macro_f1": 0.5631865244720333,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {
+          "roc_auc": 0.5731225296442688,
+          "roc_auc_std": null,
+          "pr_auc": 0.39996880349836084,
+          "balanced_accuracy": 0.5948616600790514,
+          "macro_f1": 0.59828141783029,
+          "sensitivity": 0.36363636363636365,
+          "specificity": 0.8260869565217391,
+          "threshold": 0.609298970673674
+        },
+        "test": {
+          "roc_auc": 0.44372294372294374,
+          "roc_auc_std": null,
+          "pr_auc": 0.3374198308813152,
+          "balanced_accuracy": 0.4502164502164502,
+          "macro_f1": 0.44047619047619047,
+          "sensitivity": 0.14285714285714285,
+          "specificity": 0.7575757575757576,
+          "threshold": 0.609298970673674
+        },
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "provisional local labeled test when test metrics are present",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Metadata sanity baseline underperformed and duration was nearly identical to window count.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Weak provisional test ROC-AUC and metadata-only sanity role.",
+        "limitations": [
+          "participant_speech_duration and num_windows were almost perfectly correlated"
+        ],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625\\metadata_participant_predictions.csv",
+        "model": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625\\models\\metadata_logistic_regression_pipeline.joblib",
+        "manifest": ""
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1a_wavlm_final_layer",
+      "revision": 1,
+      "phase": "Phase 1A",
+      "name": "Final-layer WavLM participant baseline",
+      "status": "completed_first_phase1_metadata_and_wavlm_logistic_regression_baselines_only",
+      "run_directory": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": 47,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_12",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": 100.0,
+        "other_parameters": {},
+        "selection_protocol": "train-only repeated stratified CV"
+      },
+      "threshold": {
+        "source": "dev macro-F1 search",
+        "value": 0.8408696949481964,
+        "tuned_on": "dev"
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5115069444444444,
+          "roc_auc_std": 0.1401629413410899,
+          "pr_auc": null,
+          "balanced_accuracy": 0.493125,
+          "macro_f1": 0.48479934844424855,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {
+          "roc_auc": 0.5691699604743083,
+          "roc_auc_std": null,
+          "pr_auc": 0.457309786506034,
+          "balanced_accuracy": 0.6403162055335968,
+          "macro_f1": 0.6458333333333333,
+          "sensitivity": 0.45454545454545453,
+          "specificity": 0.8260869565217391,
+          "threshold": 0.8408696949481964
+        },
+        "test": {
+          "roc_auc": 0.5194805194805194,
+          "roc_auc_std": null,
+          "pr_auc": 0.33208527873640087,
+          "balanced_accuracy": 0.5476190476190476,
+          "macro_f1": 0.5427547363031233,
+          "sensitivity": 0.42857142857142855,
+          "specificity": 0.6666666666666666,
+          "threshold": 0.8408696949481964
+        },
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "provisional local labeled test when test metrics are present",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Final WavLM layer was weak on dev and provisional local test.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Layer-wise Phase 1B found layer_09 more promising.",
+        "limitations": [
+          "provisional local test provenance"
+        ],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625\\wavlm_participant_predictions.csv",
+        "model": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625\\models\\wavlm_logistic_regression_pipeline.joblib",
+        "manifest": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625\\participant_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1b_wavlm_layer_01",
+      "revision": 1,
+      "phase": "Phase 1B",
+      "name": "WavLM layer_01 layer-wise analysis",
+      "status": "completed_phase1b_layerwise_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_01",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 13, \"0.001\": 6, \"0.01\": 1, \"1.0\": 1, \"100.0\": 4}"
+        },
+        "selection_protocol": "train-only nested repeated stratified CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5931666666666667,
+          "roc_auc_std": 0.1359254232254303,
+          "pr_auc": 0.47541341822378974,
+          "balanced_accuracy": 0.5736666666666667,
+          "macro_f1": 0.5512146845322841,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "layer_01 was evaluated in train-only nested CV.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Not selected by train-only layer-selection criterion.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\participant_layer_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1b_wavlm_layer_02",
+      "revision": 1,
+      "phase": "Phase 1B",
+      "name": "WavLM layer_02 layer-wise analysis",
+      "status": "completed_phase1b_layerwise_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_02",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 13, \"0.01\": 2, \"1.0\": 1, \"10.0\": 3, \"100.0\": 6}"
+        },
+        "selection_protocol": "train-only nested repeated stratified CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5721111111111111,
+          "roc_auc_std": 0.14976636640505386,
+          "pr_auc": 0.47608988319901635,
+          "balanced_accuracy": 0.574,
+          "macro_f1": 0.5599023173575935,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "layer_02 was evaluated in train-only nested CV.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Not selected by train-only layer-selection criterion.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\participant_layer_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1b_wavlm_layer_03",
+      "revision": 1,
+      "phase": "Phase 1B",
+      "name": "WavLM layer_03 layer-wise analysis",
+      "status": "completed_phase1b_layerwise_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_03",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 7, \"0.001\": 4, \"0.1\": 2, \"1.0\": 1, \"10.0\": 2, \"100.0\": 9}"
+        },
+        "selection_protocol": "train-only nested repeated stratified CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.49200000000000005,
+          "roc_auc_std": 0.13278694761455334,
+          "pr_auc": 0.38942148769702956,
+          "balanced_accuracy": 0.509,
+          "macro_f1": 0.49781949089277316,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "layer_03 was evaluated in train-only nested CV.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Not selected by train-only layer-selection criterion.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\participant_layer_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1b_wavlm_layer_04",
+      "revision": 1,
+      "phase": "Phase 1B",
+      "name": "WavLM layer_04 layer-wise analysis",
+      "status": "completed_phase1b_layerwise_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_04",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 7, \"0.001\": 2, \"0.01\": 2, \"0.1\": 1, \"1.0\": 2, \"10.0\": 3, \"100.0\": 8}"
+        },
+        "selection_protocol": "train-only nested repeated stratified CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.46830555555555564,
+          "roc_auc_std": 0.15358597845434258,
+          "pr_auc": 0.3692030839530839,
+          "balanced_accuracy": 0.5006666666666667,
+          "macro_f1": 0.49217393247406327,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "layer_04 was evaluated in train-only nested CV.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Not selected by train-only layer-selection criterion.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\participant_layer_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1b_wavlm_layer_05",
+      "revision": 1,
+      "phase": "Phase 1B",
+      "name": "WavLM layer_05 layer-wise analysis",
+      "status": "completed_phase1b_layerwise_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_05",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 3, \"0.001\": 4, \"0.1\": 3, \"1.0\": 3, \"10.0\": 8, \"100.0\": 4}"
+        },
+        "selection_protocol": "train-only nested repeated stratified CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5203888888888889,
+          "roc_auc_std": 0.16331678393104687,
+          "pr_auc": 0.38081208394288885,
+          "balanced_accuracy": 0.5084166666666667,
+          "macro_f1": 0.4990734184308618,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "layer_05 was evaluated in train-only nested CV.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Not selected by train-only layer-selection criterion.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\participant_layer_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1b_wavlm_layer_06",
+      "revision": 1,
+      "phase": "Phase 1B",
+      "name": "WavLM layer_06 layer-wise analysis",
+      "status": "completed_phase1b_layerwise_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_06",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 4, \"0.001\": 5, \"0.01\": 3, \"0.1\": 1, \"1.0\": 2, \"10.0\": 6, \"100.0\": 4}"
+        },
+        "selection_protocol": "train-only nested repeated stratified CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5126944444444445,
+          "roc_auc_std": 0.15338773692673796,
+          "pr_auc": 0.3795299533914085,
+          "balanced_accuracy": 0.5205833333333334,
+          "macro_f1": 0.5134087166196896,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "layer_06 was evaluated in train-only nested CV.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Not selected by train-only layer-selection criterion.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\participant_layer_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1b_wavlm_layer_07",
+      "revision": 1,
+      "phase": "Phase 1B",
+      "name": "WavLM layer_07 layer-wise analysis",
+      "status": "completed_phase1b_layerwise_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_07",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 7, \"0.001\": 2, \"0.01\": 3, \"0.1\": 2, \"1.0\": 4, \"10.0\": 1, \"100.0\": 6}"
+        },
+        "selection_protocol": "train-only nested repeated stratified CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5582499999999999,
+          "roc_auc_std": 0.15290074849028334,
+          "pr_auc": 0.4231719627981238,
+          "balanced_accuracy": 0.5514166666666667,
+          "macro_f1": 0.5391104327992111,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "layer_07 was evaluated in train-only nested CV.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Not selected by train-only layer-selection criterion.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\participant_layer_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1b_wavlm_layer_08",
+      "revision": 1,
+      "phase": "Phase 1B",
+      "name": "WavLM layer_08 layer-wise analysis",
+      "status": "completed_phase1b_layerwise_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_08",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 6, \"0.001\": 3, \"0.01\": 2, \"0.1\": 1, \"1.0\": 2, \"10.0\": 3, \"100.0\": 8}"
+        },
+        "selection_protocol": "train-only nested repeated stratified CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5729722222222222,
+          "roc_auc_std": 0.14544961687602592,
+          "pr_auc": 0.4402008655545807,
+          "balanced_accuracy": 0.5678333333333333,
+          "macro_f1": 0.5498618683979837,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "layer_08 was evaluated in train-only nested CV.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Not selected by train-only layer-selection criterion.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\participant_layer_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1b_wavlm_layer_09",
+      "revision": 1,
+      "phase": "Phase 1B",
+      "name": "WavLM layer_09 layer-wise analysis",
+      "status": "completed_phase1b_layerwise_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": 0.001,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}"
+        },
+        "selection_protocol": "train-only nested repeated stratified CV"
+      },
+      "threshold": {
+        "source": "dev macro-F1 search after train-only layer selection",
+        "value": 0.5558401346206665,
+        "tuned_on": "dev"
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5956111111111111,
+          "roc_auc_std": 0.1498767137382844,
+          "pr_auc": 0.48025181829980584,
+          "balanced_accuracy": 0.5789166666666666,
+          "macro_f1": 0.5524592859234143,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {
+          "roc_auc": 0.6442687747035574,
+          "roc_auc_std": null,
+          "pr_auc": 0.45347191430079126,
+          "balanced_accuracy": 0.6857707509881423,
+          "macro_f1": 0.6899696048632218,
+          "sensitivity": 0.5454545454545454,
+          "specificity": 0.8260869565217391,
+          "threshold": 0.5558401346206665
+        },
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Intermediate WavLM layer_09 outperformed layer_12 in train-only nested CV and improved dev ROC-AUC.",
+        "selected": true,
+        "selection_reason": "Highest mean outer ROC-AUC under train-only nested CV.",
+        "rejection_reason": "",
+        "limitations": [],
+        "warnings": [
+          "Layer-selection uncertainty remains; Phase 1B did not use test data."
+        ],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\selected_layer_dev_predictions.csv",
+        "model": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\models\\selected_layer_logistic_regression_pipeline.joblib",
+        "manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\participant_layer_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1b_wavlm_layer_10",
+      "revision": 1,
+      "phase": "Phase 1B",
+      "name": "WavLM layer_10 layer-wise analysis",
+      "status": "completed_phase1b_layerwise_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_10",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 9, \"0.001\": 7, \"0.01\": 2, \"0.1\": 1, \"1.0\": 3, \"10.0\": 2, \"100.0\": 1}"
+        },
+        "selection_protocol": "train-only nested repeated stratified CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5513333333333333,
+          "roc_auc_std": 0.15051030992945874,
+          "pr_auc": 0.4415628508345226,
+          "balanced_accuracy": 0.5361666666666667,
+          "macro_f1": 0.5134700680013324,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "layer_10 was evaluated in train-only nested CV.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Not selected by train-only layer-selection criterion.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\participant_layer_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1b_wavlm_layer_11",
+      "revision": 1,
+      "phase": "Phase 1B",
+      "name": "WavLM layer_11 layer-wise analysis",
+      "status": "completed_phase1b_layerwise_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_11",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 8, \"0.001\": 4, \"0.01\": 3, \"0.1\": 2, \"1.0\": 2, \"10.0\": 5, \"100.0\": 1}"
+        },
+        "selection_protocol": "train-only nested repeated stratified CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5418888888888889,
+          "roc_auc_std": 0.14132403009213076,
+          "pr_auc": 0.41143699449272203,
+          "balanced_accuracy": 0.55225,
+          "macro_f1": 0.5350041463152483,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "layer_11 was evaluated in train-only nested CV.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Not selected by train-only layer-selection criterion.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\participant_layer_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1b_wavlm_layer_12",
+      "revision": 1,
+      "phase": "Phase 1B",
+      "name": "WavLM layer_12 layer-wise analysis",
+      "status": "completed_phase1b_layerwise_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_12",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 10, \"0.001\": 1, \"0.01\": 2, \"0.1\": 2, \"1.0\": 2, \"10.0\": 5, \"100.0\": 3}"
+        },
+        "selection_protocol": "train-only nested repeated stratified CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.4987777777777778,
+          "roc_auc_std": 0.13535964326449504,
+          "pr_auc": 0.3885255077739598,
+          "balanced_accuracy": 0.5055833333333333,
+          "macro_f1": 0.4928107378320907,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "layer_12 was evaluated in train-only nested CV.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Not selected by train-only layer-selection criterion.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1b_layerwise_runs\\20260622_123725\\participant_layer_embedding_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1c_aggregation_mean",
+      "revision": 1,
+      "phase": "Phase 1C",
+      "name": "Layer-9 mean aggregation",
+      "status": "completed_phase1c_aggregation_analysis",
+      "run_directory": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": 0.001,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+          "selected_PCA_frequency": ""
+        },
+        "selection_protocol": "train-only nested CV"
+      },
+      "threshold": {
+        "source": "dev macro-F1 search",
+        "value": 0.5558401346206665,
+        "tuned_on": "dev"
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5956111111111111,
+          "roc_auc_std": 0.1498767137382844,
+          "pr_auc": 0.48025181829980584,
+          "balanced_accuracy": 0.5789166666666666,
+          "macro_f1": 0.5524592859234143,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {
+          "roc_auc": 0.6442687747035574,
+          "roc_auc_std": null,
+          "pr_auc": 0.45347191430079126,
+          "balanced_accuracy": 0.6857707509881423,
+          "macro_f1": 0.6899696048632218,
+          "sensitivity": 0.5454545454545454,
+          "specificity": 0.8260869565217391,
+          "threshold": 0.5558401346206665
+        },
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Aggregation was not the main bottleneck; mean remained selected.",
+        "selected": true,
+        "selection_reason": "Mean aggregation had the highest train nested-CV ROC-AUC and remained simplest.",
+        "rejection_reason": "",
+        "limitations": [],
+        "warnings": [],
+        "next_step": "Assess timing features."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\selected_aggregation_dev_predictions.csv",
+        "model": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\models\\selected_aggregation_pipeline.joblib",
+        "manifest": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\aggregation_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1c_aggregation_mean_std_pca",
+      "revision": 1,
+      "phase": "Phase 1C",
+      "name": "Layer-9 mean_std_pca aggregation",
+      "status": "completed_phase1c_aggregation_analysis",
+      "run_directory": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean_std_pca",
+        "dimension": 1536,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression + PCA",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.001\": 7, \"0.01\": 4, \"0.1\": 8, \"1.0\": 1, \"100.0\": 5}",
+          "selected_PCA_frequency": "{\"16\": 12, \"32\": 5, \"64\": 2, \"variance_0.95\": 6}"
+        },
+        "selection_protocol": "train-only nested CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5683333333333332,
+          "roc_auc_std": 0.13368746374646712,
+          "pr_auc": 0.4459503511910633,
+          "balanced_accuracy": 0.5666666666666667,
+          "macro_f1": 0.5459887838326791,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "mean_std_pca aggregation did not improve over mean.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Lower or practically negligible train nested-CV performance versus mean.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\aggregation_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1c_aggregation_median",
+      "revision": 1,
+      "phase": "Phase 1C",
+      "name": "Layer-9 median aggregation",
+      "status": "completed_phase1c_aggregation_analysis",
+      "run_directory": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "median",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 14, \"0.001\": 5, \"0.01\": 1, \"0.1\": 3, \"10.0\": 1, \"100.0\": 1}",
+          "selected_PCA_frequency": ""
+        },
+        "selection_protocol": "train-only nested CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5905277777777778,
+          "roc_auc_std": 0.15259040024494852,
+          "pr_auc": 0.4828195913420371,
+          "balanced_accuracy": 0.5568333333333333,
+          "macro_f1": 0.5363476269055574,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "median aggregation did not improve over mean.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Lower or practically negligible train nested-CV performance versus mean.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\aggregation_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1d_early_fusion",
+      "revision": 1,
+      "phase": "Phase 1D",
+      "name": "Timing fusion model: early_fusion",
+      "status": "completed_phase1d_timing_fusion_analysis",
+      "run_directory": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_plus_timing",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": null,
+        "overlap": null,
+        "window_pooling": "",
+        "participant_aggregation": "mean",
+        "dimension": 796,
+        "timing_feature_count": 28,
+        "fusion": "early feature concatenation"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "leakage-safe preprocessing + LogisticRegression",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 9, \"0.001\": 8, \"0.01\": 2, \"0.1\": 2, \"1.0\": 1, \"10.0\": 1, \"100.0\": 2}"
+        },
+        "selection_protocol": "train-only nested CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5746944444444444,
+          "roc_auc_std": 0.1298001312559971,
+          "pr_auc": 0.4781703844258024,
+          "balanced_accuracy": 0.56225,
+          "macro_f1": 0.5461117914000577,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Early feature fusion underperformed.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Train ROC-AUC below timing-only and WavLM-only.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132\\speech_timing_features.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1d_timing_only",
+      "revision": 1,
+      "phase": "Phase 1D",
+      "name": "Timing fusion model: timing_only",
+      "status": "completed_phase1d_timing_fusion_analysis",
+      "run_directory": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "timing",
+        "model": "",
+        "model_commit": "",
+        "layer": null,
+        "window_sec": null,
+        "overlap": null,
+        "window_pooling": "",
+        "participant_aggregation": "",
+        "dimension": 28,
+        "timing_feature_count": 28,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "leakage-safe preprocessing + LogisticRegression",
+        "class_weight": "balanced",
+        "C": 100.0,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.01\": 2, \"1.0\": 1, \"10.0\": 5, \"100.0\": 17}"
+        },
+        "selection_protocol": "train-only nested CV"
+      },
+      "threshold": {
+        "source": "dev macro-F1 search",
+        "value": 0.2927441537622762,
+        "tuned_on": "dev"
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.6125555555555555,
+          "roc_auc_std": 0.11586928565424356,
+          "pr_auc": 0.46167562603088913,
+          "balanced_accuracy": 0.5902499999999999,
+          "macro_f1": 0.5767641273352193,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {
+          "roc_auc": 0.624505928853755,
+          "roc_auc_std": null,
+          "pr_auc": 0.4292783742166003,
+          "balanced_accuracy": 0.7134387351778657,
+          "macro_f1": 0.6693191865605659,
+          "sensitivity": 0.8181818181818182,
+          "specificity": 0.6086956521739131,
+          "threshold": 0.2927441537622762
+        },
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Compact speech-timing features added useful signal on DAIC guided interview.",
+        "selected": true,
+        "selection_reason": "Highest train nested-CV ROC-AUC among timing/WavLM/fusion.",
+        "rejection_reason": "",
+        "limitations": [
+          "Requires guided-interview timing structure."
+        ],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132\\selected_phase1d_dev_predictions.csv",
+        "model": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132\\models\\selected_phase1d_pipeline.joblib",
+        "manifest": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132\\speech_timing_features.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1d_wavlm_only",
+      "revision": 1,
+      "phase": "Phase 1D",
+      "name": "Timing fusion model: wavlm_only",
+      "status": "completed_phase1d_timing_fusion_analysis",
+      "run_directory": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": null,
+        "overlap": null,
+        "window_pooling": "",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "leakage-safe preprocessing + LogisticRegression",
+        "class_weight": "balanced",
+        "C": 0.001,
+        "other_parameters": {
+          "selected_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}"
+        },
+        "selection_protocol": "train-only nested CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5956111111111111,
+          "roc_auc_std": 0.1498767137382844,
+          "pr_auc": 0.48025181829980584,
+          "balanced_accuracy": 0.5789166666666666,
+          "macro_f1": 0.5524592859234143,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "WavLM-only reproduced Phase 1C result within tolerance.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Timing-only was stronger under Phase 1D selection.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1d_timing_fusion_runs\\20260622_142132\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\aggregation_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1e_logistic_stacking",
+      "revision": 1,
+      "phase": "Phase 1E",
+      "name": "Late-fusion protocol: logistic_stacking",
+      "status": "completed_phase1e_late_fusion_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "probability_late_fusion",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": null,
+        "overlap": null,
+        "window_pooling": "",
+        "participant_aggregation": "mean",
+        "dimension": 2,
+        "timing_feature_count": 28,
+        "fusion": "logistic_stacking"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "leakage-safe probability-level protocol",
+        "class_weight": "balanced",
+        "C": null,
+        "other_parameters": {
+          "selected_timing_C_frequency": "{\"0.01\": 2, \"1.0\": 1, \"10.0\": 6, \"100.0\": 16}",
+          "selected_wavlm_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+          "selected_weight_frequency": "",
+          "selected_stacker_C_frequency": "{\"0.001\": 10, \"0.01\": 2, \"0.1\": 6, \"1.0\": 5, \"10.0\": 2}"
+        },
+        "selection_protocol": "train-only nested CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5413055555555555,
+          "roc_auc_std": 0.15847862729290024,
+          "pr_auc": 0.4141480976597075,
+          "balanced_accuracy": 0.5404166666666667,
+          "macro_f1": 0.5051126512298626,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "logistic_stacking evaluated under leakage-safe Phase 1E protocol.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Fusion did not improve over timing-only.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1e_timing_only",
+      "revision": 1,
+      "phase": "Phase 1E",
+      "name": "Late-fusion protocol: timing_only",
+      "status": "completed_phase1e_late_fusion_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "timing",
+        "model": "",
+        "model_commit": "",
+        "layer": null,
+        "window_sec": null,
+        "overlap": null,
+        "window_pooling": "",
+        "participant_aggregation": "",
+        "dimension": 28,
+        "timing_feature_count": 28,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "leakage-safe probability-level protocol",
+        "class_weight": "balanced",
+        "C": 100.0,
+        "other_parameters": {
+          "selected_timing_C_frequency": "{\"0.01\": 2, \"1.0\": 1, \"10.0\": 6, \"100.0\": 16}",
+          "selected_wavlm_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+          "selected_weight_frequency": "",
+          "selected_stacker_C_frequency": ""
+        },
+        "selection_protocol": "train-only nested CV"
+      },
+      "threshold": {
+        "source": "dev macro-F1 search",
+        "value": 0.2927276896337141,
+        "tuned_on": "dev"
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.6103333333333333,
+          "roc_auc_std": 0.11208467918784429,
+          "pr_auc": 0.46050751636277953,
+          "balanced_accuracy": 0.5909166666666666,
+          "macro_f1": 0.5754678310389231,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {
+          "roc_auc": 0.624505928853755,
+          "roc_auc_std": null,
+          "pr_auc": 0.4292783742166003,
+          "balanced_accuracy": 0.7134387351778657,
+          "macro_f1": 0.6693191865605659,
+          "sensitivity": 0.8181818181818182,
+          "specificity": 0.6086956521739131,
+          "threshold": 0.2927276896337141
+        },
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Fusion did not improve reliability; timing-only retained.",
+        "selected": true,
+        "selection_reason": "Best train nested-CV ROC-AUC; fusion failed practical improvement rule.",
+        "rejection_reason": "",
+        "limitations": [
+          "Guided-interview-dependent."
+        ],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240\\selected_phase1e_dev_predictions.csv",
+        "model": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240\\models\\timing_base_pipeline.joblib",
+        "manifest": ""
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1e_wavlm_only",
+      "revision": 1,
+      "phase": "Phase 1E",
+      "name": "Late-fusion protocol: wavlm_only",
+      "status": "completed_phase1e_late_fusion_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": null,
+        "overlap": null,
+        "window_pooling": "",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "leakage-safe probability-level protocol",
+        "class_weight": "balanced",
+        "C": 0.001,
+        "other_parameters": {
+          "selected_timing_C_frequency": "{\"0.01\": 2, \"1.0\": 1, \"10.0\": 6, \"100.0\": 16}",
+          "selected_wavlm_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+          "selected_weight_frequency": "",
+          "selected_stacker_C_frequency": ""
+        },
+        "selection_protocol": "train-only nested CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.5956111111111111,
+          "roc_auc_std": 0.1498767137382844,
+          "pr_auc": 0.48025181829980584,
+          "balanced_accuracy": 0.5789166666666666,
+          "macro_f1": 0.5524592859234143,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "wavlm_only evaluated under leakage-safe Phase 1E protocol.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Timing-only was selected.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1e_weighted_late_fusion",
+      "revision": 1,
+      "phase": "Phase 1E",
+      "name": "Late-fusion protocol: weighted_late_fusion",
+      "status": "completed_phase1e_late_fusion_train_only_selection_and_single_dev_evaluation",
+      "run_directory": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": null,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "probability_late_fusion",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": null,
+        "overlap": null,
+        "window_pooling": "",
+        "participant_aggregation": "mean",
+        "dimension": 2,
+        "timing_feature_count": 28,
+        "fusion": "weighted_late_fusion"
+      },
+      "classifier": {
+        "name": "Weighted probability fusion",
+        "pipeline": "leakage-safe probability-level protocol",
+        "class_weight": "",
+        "C": null,
+        "other_parameters": {
+          "selected_timing_C_frequency": "{\"0.01\": 2, \"1.0\": 1, \"10.0\": 6, \"100.0\": 16}",
+          "selected_wavlm_C_frequency": "{\"0.0001\": 9, \"0.001\": 10, \"0.01\": 3, \"0.1\": 2, \"10.0\": 1}",
+          "selected_weight_frequency": "{\"0.0\": 3, \"0.1\": 2, \"0.4\": 1, \"0.5\": 2, \"0.6\": 3, \"0.8\": 1, \"0.9\": 7, \"1.0\": 6}",
+          "selected_stacker_C_frequency": ""
+        },
+        "selection_protocol": "train-only nested CV"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {
+          "roc_auc": 0.6043888888888889,
+          "roc_auc_std": 0.1425270333898576,
+          "pr_auc": 0.44060818054780904,
+          "balanced_accuracy": 0.5921666666666667,
+          "macro_f1": 0.5759239014501266,
+          "sensitivity": null,
+          "specificity": null,
+          "threshold": null
+        },
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "train/dev model selection separated from test where applicable",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "weighted_late_fusion evaluated under leakage-safe Phase 1E protocol.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "Fusion did not improve over timing-only.",
+        "limitations": [],
+        "warnings": [],
+        "next_step": ""
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240\\evaluation_report.json",
+        "report_markdown": "",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1f_frozen_timing",
+      "revision": 1,
+      "phase": "Phase 1F",
+      "name": "Frozen DAIC guided-interview timing candidate",
+      "status": "completed_baseline_ready_for_external_validation",
+      "run_directory": "outputs\\phase1_daic\\phase1f_final_evaluation_runs\\20260622_151118",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": 47,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "timing",
+        "model": "",
+        "model_commit": "",
+        "layer": null,
+        "window_sec": null,
+        "overlap": null,
+        "window_pooling": "",
+        "participant_aggregation": "",
+        "dimension": 28,
+        "timing_feature_count": 28,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "SimpleImputer + StandardScaler + LogisticRegression(C=100.0, class_weight=balanced)",
+        "class_weight": "balanced",
+        "C": 100.0,
+        "other_parameters": {},
+        "selection_protocol": "frozen after Phase 1E"
+      },
+      "threshold": {
+        "source": "frozen DAIC dev threshold",
+        "value": 0.2927276896337141,
+        "tuned_on": "dev before final test"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.6774891774891775,
+          "roc_auc_std": null,
+          "pr_auc": 0.45452103771069285,
+          "balanced_accuracy": 0.645021645021645,
+          "macro_f1": 0.6024436090225564,
+          "sensitivity": 0.7142857142857143,
+          "specificity": 0.5757575757575758,
+          "threshold": 0.2927276896337141
+        },
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "provisional_local_labeled_test",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "test viewed once for Phase 1 closure; no post-test tuning recorded",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 1 closed; no post-test model modification."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Guided-interview timing candidate performed better on provisional local test, but depends on standardized interaction timing.",
+        "selected": true,
+        "selection_reason": "Frozen Phase 1 candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "test provenance is provisional local labeled test"
+        ],
+        "warnings": [
+          "Not free-speech-compatible.",
+          "Not deployment-ready; external validation required."
+        ],
+        "next_step": "External validation"
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1f_final_evaluation_runs\\20260622_151118\\PHASE1_FINAL_REPORT.json",
+        "report_markdown": "outputs\\phase1_daic\\phase1f_final_evaluation_runs\\20260622_151118\\PHASE1_FINAL_REPORT.md",
+        "predictions": "outputs\\phase1_daic\\phase1f_final_evaluation_runs\\20260622_151118\\timing_final_test_predictions.csv",
+        "model": "outputs\\phase1_daic\\phase1e_late_fusion_runs\\20260622_145240\\models\\timing_base_pipeline.joblib",
+        "manifest": ""
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase1f_frozen_wavlm",
+      "revision": 1,
+      "phase": "Phase 1F",
+      "name": "Frozen DAIC WavLM free-speech candidate",
+      "status": "completed_baseline_ready_for_external_validation",
+      "run_directory": "outputs\\phase1_daic\\phase1f_final_evaluation_runs\\20260622_151118",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "daic_woz_phase1_clean",
+        "task": "DAIC-WOZ participant speech",
+        "language": "English",
+        "train_n": 106,
+        "dev_n": 34,
+        "test_n": 47,
+        "class_counts": {
+          "train": {
+            "non_depressed": 76,
+            "depressed": 30
+          },
+          "dev": {
+            "non_depressed": 23,
+            "depressed": 11
+          },
+          "local_labeled_test": {
+            "non_depressed": 33,
+            "depressed": 14
+          }
+        },
+        "split_protocol": "official train/dev plus provisional local labeled test",
+        "excluded": [
+          409,
+          422
+        ]
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + LogisticRegression(C=0.001, class_weight=balanced)",
+        "class_weight": "balanced",
+        "C": 0.001,
+        "other_parameters": {},
+        "selection_protocol": "frozen after Phase 1C"
+      },
+      "threshold": {
+        "source": "frozen DAIC dev threshold",
+        "value": 0.5558401346206665,
+        "tuned_on": "dev before final test"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.5064935064935066,
+          "roc_auc_std": null,
+          "pr_auc": 0.34991939780853554,
+          "balanced_accuracy": 0.5876623376623377,
+          "macro_f1": 0.591304347826087,
+          "sensitivity": 0.35714285714285715,
+          "specificity": 0.8181818181818182,
+          "threshold": 0.5558401346206665
+        },
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "provisional_local_labeled_test",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "test viewed once for Phase 1 closure; no post-test tuning recorded",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 1 closed; no post-test model modification."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Free-speech-compatible candidate closed for external validation, but provisional local-test AUC was near chance.",
+        "selected": true,
+        "selection_reason": "Frozen Phase 1 candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "test provenance is provisional local labeled test"
+        ],
+        "warnings": [
+          "Not deployment-ready; external validation required."
+        ],
+        "next_step": "External validation"
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase1_daic\\phase1f_final_evaluation_runs\\20260622_151118\\PHASE1_FINAL_REPORT.json",
+        "report_markdown": "outputs\\phase1_daic\\phase1f_final_evaluation_runs\\20260622_151118\\PHASE1_FINAL_REPORT.md",
+        "predictions": "outputs\\phase1_daic\\phase1f_final_evaluation_runs\\20260622_151118\\wavlm_final_test_predictions.csv",
+        "model": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\models\\selected_aggregation_pipeline.joblib",
+        "manifest": ""
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase2a_android_audit",
+      "revision": 1,
+      "phase": "Phase 2A",
+      "name": "Androids Corpus preparation and compatibility audit",
+      "status": "completed_phase2a_preparation_and_compatibility_audit",
+      "run_directory": "outputs\\phase2_android\\phase2a_preparation_runs\\20260622_154228",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "inventory and compatibility audit",
+        "language": "Italian",
+        "train_n": null,
+        "dev_n": null,
+        "test_n": null,
+        "class_counts": {
+          "HC": 54,
+          "PT": 64
+        },
+        "split_protocol": "audit only; no modeling",
+        "excluded": []
+      },
+      "representation": {
+        "feature_family": "audit",
+        "model": "",
+        "model_commit": "",
+        "layer": null,
+        "window_sec": null,
+        "overlap": null,
+        "window_pooling": "",
+        "participant_aggregation": "",
+        "dimension": null,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "none",
+        "pipeline": "none",
+        "class_weight": "",
+        "C": null,
+        "other_parameters": {},
+        "selection_protocol": "not applicable"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {},
+        "confidence_intervals": {}
+      },
+      "integrity": {
+        "test_provenance": "not a model evaluation",
+        "test_used_for_selection": false,
+        "external_validation": false,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "no modeling or prediction performed",
+        "test_result_viewed": false,
+        "decisions_made_after_test_view": [],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Android interview WavLM preprocessing is reproducible; timing model direct transfer is invalid because response-latency features are unavailable.",
+        "selected": false,
+        "selection_reason": "",
+        "rejection_reason": "",
+        "limitations": [
+          "85 participants have cross-task fold inconsistency",
+          "DAIC PHQ8_Binary and Android clinical-group labels are related but not identical"
+        ],
+        "warnings": [
+          "Timing compatibility: 17 exact, 3 approximate, 8 unavailable"
+        ],
+        "next_step": "Phase 2B zero-shot WavLM interview evaluation"
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2a_preparation_runs\\20260622_154228\\PHASE2A_AUDIT_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2a_preparation_runs\\20260622_154228\\PHASE2A_AUDIT_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase2_android\\phase2a_preparation_runs\\20260622_154228\\android_participant_manifest.csv"
+      },
+      "environment": {
+        "python": null,
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": null,
+        "cuda": null,
+        "gpu": null,
+        "git_commit": null
+      },
+      "history": []
+    },
+    {
+      "id": "phase2b_daic_to_android_zero_shot_wavlm",
+      "revision": 1,
+      "phase": "Phase 2B",
+      "name": "Frozen DAIC-to-Android zero-shot WavLM interview",
+      "status": "completed_phase2b_zero_shot_android_interview",
+      "run_directory": "outputs\\phase2_android\\phase2b_zero_shot_interview_runs\\20260622_162548",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "interview participant speech",
+        "language": "Italian",
+        "train_n": 0,
+        "dev_n": 0,
+        "test_n": 116,
+        "class_counts": {
+          "HC": 52,
+          "PT": 64
+        },
+        "split_protocol": "external zero-shot; every eligible Android interview participant evaluated once",
+        "excluded": []
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": ""
+      },
+      "classifier": {
+        "name": "Frozen DAIC LogisticRegression",
+        "pipeline": "Frozen Phase 1C StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": 0.001,
+        "other_parameters": {},
+        "selection_protocol": "selected on DAIC train/dev only; no Android fitting"
+      },
+      "threshold": {
+        "source": "frozen DAIC dev threshold",
+        "value": 0.555840134621,
+        "tuned_on": "DAIC dev only"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.6412259615384616,
+          "roc_auc_std": null,
+          "pr_auc": 0.6808532952868427,
+          "balanced_accuracy": 0.5,
+          "macro_f1": 0.30952380952380953,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "threshold": 0.555840134621,
+          "tn": 52,
+          "fp": 0,
+          "fn": 64,
+          "tp": 0
+        },
+        "confidence_intervals": {
+          "roc_auc": {
+            "p2_5": 0.5354567307692307,
+            "median": 0.6424278846153846,
+            "p97_5": 0.7427884615384616
+          },
+          "pr_auc": {
+            "p2_5": 0.5958393508556865,
+            "median": 0.6883991189890086,
+            "p97_5": 0.7811545401800155
+          }
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels; external cross-corpus evaluation target differs from DAIC PHQ8_Binary",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": true,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "no Android training, scaler fitting, threshold tuning, or recalibration",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "No Android adaptation performed; Phase 2C planned to separate calibration and boundary shift."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Ranking transferred modestly, but probability scale and frozen threshold did not: all Android participants were predicted negative.",
+        "selected": false,
+        "selection_reason": "External validation result, not model selection.",
+        "rejection_reason": "",
+        "limitations": [
+          "DAIC English PHQ8_Binary and Android Italian clinical-group labels are not equivalent",
+          "threshold transfer failed",
+          "probabilities are shifted low"
+        ],
+        "warnings": [
+          "Do not claim clinical validation."
+        ],
+        "next_step": "Phase 2C Android adaptation analysis"
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2b_zero_shot_interview_runs\\20260622_162548\\PHASE2B_ZERO_SHOT_INTERVIEW_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2b_zero_shot_interview_runs\\20260622_162548\\PHASE2B_ZERO_SHOT_INTERVIEW_REPORT.md",
+        "predictions": "outputs\\phase2_android\\phase2b_zero_shot_interview_runs\\20260622_162548\\android_interview_zero_shot_predictions.csv",
+        "model": "",
+        "manifest": "outputs\\phase2_android\\phase2b_zero_shot_interview_runs\\20260622_162548\\android_interview_window_manifest.csv"
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": "2.11.0+cu128",
+        "transformers": "5.12.1",
+        "scikit_learn": "1.9.0",
+        "cuda": "12.8",
+        "gpu": "NVIDIA GeForce RTX 3050",
+        "git_commit": null
+      },
+      "history": []
+    }
+  ],
+  "validation": {
+    "status": "passed",
+    "checked_at": "2026-06-28T03:37:06.597092+00:00",
+    "errors": [],
+    "warnings": []
+  }
+}

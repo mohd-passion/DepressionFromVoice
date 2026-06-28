@@ -1,0 +1,369 @@
+{
+  "created_at": "2026-06-22T11:03:44.608428+00:00",
+  "status": "completed_phase2b_zero_shot_android_interview",
+  "phase2a_run_used": "outputs\\phase2_android\\phase2a_preparation_runs\\20260622_154228",
+  "superseded_phase2a_run_used": false,
+  "objective": "Frozen zero-shot external validation of DAIC-WOZ Candidate A on Androids Corpus interview speech.",
+  "target_definition_warning": {
+    "DAIC_training_target": "PHQ8_Binary questionnaire-threshold label",
+    "Android_evaluation_target": "clinical patient/control grouping",
+    "related_but_not_equivalent": true,
+    "not_clinical_validation": true
+  },
+  "eligible_interview_participants": 116,
+  "class_counts": {
+    "HC": 52,
+    "PT": 64
+  },
+  "excluded_participants": [],
+  "total_windows": 4249,
+  "embedding_quality_status": "passed",
+  "zero_shot_metrics": {
+    "primary": {
+      "roc_auc": 0.6412259615384616,
+      "pr_auc": 0.6808532952868427,
+      "average_predicted_probability_HC": 0.12943314144817683,
+      "average_predicted_probability_PT": 0.15339696290902793,
+      "median_predicted_probability_HC": 0.12716900557279587,
+      "median_predicted_probability_PT": 0.14732106775045395,
+      "participant_count": 116,
+      "HC_count": 52,
+      "PT_count": 64
+    },
+    "at_0_5": {
+      "threshold": 0.5,
+      "balanced_accuracy": 0.5,
+      "macro_f1": 0.30952380952380953,
+      "positive_class_precision": 0.0,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "negative_predictive_value": 0.4482758620689655,
+      "tn": 52,
+      "fp": 0,
+      "fn": 64,
+      "tp": 0,
+      "predicted_positive_count": 0,
+      "predicted_positive_proportion": 0.0
+    },
+    "at_frozen_daic_threshold": {
+      "threshold": 0.555840134621,
+      "balanced_accuracy": 0.5,
+      "macro_f1": 0.30952380952380953,
+      "positive_class_precision": 0.0,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "negative_predictive_value": 0.4482758620689655,
+      "tn": 52,
+      "fp": 0,
+      "fn": 64,
+      "tp": 0,
+      "predicted_positive_count": 0,
+      "predicted_positive_proportion": 0.0
+    }
+  },
+  "bootstrap_intervals": [
+    {
+      "metric": "roc_auc",
+      "point_estimate": 0.6412259615384616,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "percentile_2_5": 0.5354567307692307,
+      "percentile_50": 0.6424278846153846,
+      "percentile_97_5": 0.7427884615384616,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "metric": "pr_auc",
+      "point_estimate": 0.6808532952868427,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "percentile_2_5": 0.5958393508556865,
+      "percentile_50": 0.6883991189890086,
+      "percentile_97_5": 0.7811545401800155,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "metric": "balanced_accuracy_at_0_5",
+      "point_estimate": 0.5,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "percentile_2_5": 0.5,
+      "percentile_50": 0.5,
+      "percentile_97_5": 0.5,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "metric": "balanced_accuracy_at_frozen_daic_threshold",
+      "point_estimate": 0.5,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "percentile_2_5": 0.5,
+      "percentile_50": 0.5,
+      "percentile_97_5": 0.5,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "metric": "macro_f1_at_0_5",
+      "point_estimate": 0.30952380952380953,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "percentile_2_5": 0.30952380952380953,
+      "percentile_50": 0.30952380952380953,
+      "percentile_97_5": 0.30952380952380953,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "metric": "macro_f1_at_frozen_daic_threshold",
+      "point_estimate": 0.30952380952380953,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "percentile_2_5": 0.30952380952380953,
+      "percentile_50": 0.30952380952380953,
+      "percentile_97_5": 0.30952380952380953,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "metric": "sensitivity_at_0_5",
+      "point_estimate": 0.0,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "percentile_2_5": 0.0,
+      "percentile_50": 0.0,
+      "percentile_97_5": 0.0,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "metric": "sensitivity_at_frozen_daic_threshold",
+      "point_estimate": 0.0,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "percentile_2_5": 0.0,
+      "percentile_50": 0.0,
+      "percentile_97_5": 0.0,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "metric": "specificity_at_0_5",
+      "point_estimate": 1.0,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "percentile_2_5": 1.0,
+      "percentile_50": 1.0,
+      "percentile_97_5": 1.0,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    },
+    {
+      "metric": "specificity_at_frozen_daic_threshold",
+      "point_estimate": 1.0,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "n_failed_or_undefined_replicates": 0,
+      "percentile_2_5": 1.0,
+      "percentile_50": 1.0,
+      "percentile_97_5": 1.0,
+      "bootstrap_type": "stratified_participant_resampling_fixed_predictions_no_refit"
+    }
+  ],
+  "probability_shift": {
+    "created_at": "2026-06-22T11:03:44.595485+00:00",
+    "probability_min": 0.06683400273323059,
+    "probability_max": 0.39378488063812256,
+    "probability_mean": 0.14265456018519812,
+    "probability_std": 0.05256533500236482,
+    "histogram_bins": [
+      0.0,
+      0.1,
+      0.2,
+      0.30000000000000004,
+      0.4,
+      0.5,
+      0.6000000000000001,
+      0.7000000000000001,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "histogram_counts": [
+      26,
+      79,
+      8,
+      3,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "proportion_predicted_positive_at_0_5": 0.0,
+    "proportion_predicted_positive_at_frozen_daic_threshold": 0.0,
+    "android_class_prevalence": 0.5517241379310345,
+    "brier_score": 0.40557196167213305,
+    "calibration_intercept": 2.6932203083833612,
+    "calibration_slope": 1.3353247182276564,
+    "calibration_status": "reported_descriptive_only_not_used_for_recalibration",
+    "reliability_table_path": "android_interview_reliability_table.csv",
+    "recalibration_performed": false,
+    "android_threshold_derived": false
+  },
+  "duration_correlations": [
+    {
+      "group": "all",
+      "variable": "participant_speech_duration_sec",
+      "n": 116,
+      "pearson_correlation": -0.22929823901143806,
+      "spearman_correlation": -0.2463229923499789,
+      "status": "reported"
+    },
+    {
+      "group": "all",
+      "variable": "num_windows",
+      "n": 116,
+      "pearson_correlation": -0.23279669928003302,
+      "spearman_correlation": -0.24462885110347452,
+      "status": "reported"
+    },
+    {
+      "group": "HC",
+      "variable": "participant_speech_duration_sec",
+      "n": 52,
+      "pearson_correlation": 0.06079540981887794,
+      "spearman_correlation": 0.06548279689234184,
+      "status": "reported"
+    },
+    {
+      "group": "HC",
+      "variable": "num_windows",
+      "n": 52,
+      "pearson_correlation": 0.0632556774222687,
+      "spearman_correlation": 0.08413862039290698,
+      "status": "reported"
+    },
+    {
+      "group": "PT",
+      "variable": "participant_speech_duration_sec",
+      "n": 64,
+      "pearson_correlation": -0.2601854109492088,
+      "spearman_correlation": -0.2876831501831501,
+      "status": "reported"
+    },
+    {
+      "group": "PT",
+      "variable": "num_windows",
+      "n": 64,
+      "pearson_correlation": -0.2647273918721978,
+      "spearman_correlation": -0.29908603068176587,
+      "status": "reported"
+    }
+  ],
+  "subgroup_audit": [
+    {
+      "subgroup": "gender",
+      "subgroup_value": "F",
+      "participant_count": 84,
+      "HC_count": 41,
+      "PT_count": 43,
+      "threshold": 0.555840134621,
+      "exploratory_only": true,
+      "roc_auc": 0.6420873511060692,
+      "balanced_accuracy": 0.5,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "metric_status": "reported"
+    },
+    {
+      "subgroup": "gender",
+      "subgroup_value": "M",
+      "participant_count": 32,
+      "HC_count": 11,
+      "PT_count": 21,
+      "threshold": 0.555840134621,
+      "exploratory_only": true,
+      "roc_auc": 0.7186147186147186,
+      "balanced_accuracy": 0.5,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "metric_status": "reported"
+    }
+  ],
+  "transfer_interpretation": "weak_or_failed_transfer",
+  "frozen_daic_pipeline": {
+    "pipeline_path": "outputs\\phase1_daic\\phase1c_aggregation_runs\\20260622_135800\\models\\selected_aggregation_pipeline.joblib",
+    "pipeline_class": "Pipeline",
+    "steps": [
+      "scaler",
+      "classifier"
+    ],
+    "scaler_fitted": true,
+    "classifier_fitted": true,
+    "input_dimension": 768,
+    "classifier_C": 0.001,
+    "classifier_class_weight": "balanced",
+    "classifier_max_iter": 10000,
+    "android_refit_performed": false
+  },
+  "comparison": [
+    {
+      "dataset": "DAIC-WOZ dev",
+      "language": "English",
+      "label_definition": "PHQ8_Binary questionnaire threshold",
+      "task": "clinical interview participant speech",
+      "participant_count": 34,
+      "class_counts": "non_depressed=23;depressed=11",
+      "roc_auc": 0.6442687747035574,
+      "pr_auc": 0.45347191430079126,
+      "balanced_accuracy_at_applicable_frozen_threshold": 0.6857707509881423,
+      "sensitivity": 0.5454545454545454,
+      "specificity": 0.8260869565217391,
+      "comparison_note": "Phase 1 dev; threshold selected on DAIC dev during frozen-candidate creation."
+    },
+    {
+      "dataset": "DAIC-WOZ provisional local test",
+      "language": "English",
+      "label_definition": "PHQ8_Binary from local labeled test file; official provenance not established",
+      "task": "clinical interview participant speech",
+      "participant_count": 47,
+      "class_counts": "non_depressed=33;depressed=14",
+      "roc_auc": 0.5064935064935066,
+      "pr_auc": 0.34991939780853554,
+      "balanced_accuracy_at_applicable_frozen_threshold": 0.5876623376623377,
+      "sensitivity": 0.35714285714285715,
+      "specificity": 0.8181818181818182,
+      "comparison_note": "Provisional local-labeled test; not directly equivalent to Android."
+    },
+    {
+      "dataset": "Androids Corpus interview zero-shot",
+      "language": "Italian",
+      "label_definition": "clinical patient/control grouping; HC=0, PT=1",
+      "task": "interview participant speech clips concatenated",
+      "participant_count": 116,
+      "class_counts": "HC=52;PT=64",
+      "roc_auc": 0.6412259615384616,
+      "pr_auc": 0.6808532952868427,
+      "balanced_accuracy_at_applicable_frozen_threshold": 0.5,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "comparison_note": "External cross-corpus zero-shot; labels, language, and task are not directly equivalent."
+    }
+  ],
+  "strict_scope_confirmation": {
+    "android_reading_speech_processed": false,
+    "android_training_performed": false,
+    "android_scaler_or_classifier_refit": false,
+    "android_threshold_tuned": false,
+    "probability_recalibration_performed": false,
+    "wavlm_layer_changed": false,
+    "participant_aggregation_changed": false,
+    "phase1_model_modified": false,
+    "timing_model_run": false
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "created_at": "2026-06-22T08:52:10.344126+00:00",
+  "selected_model": "timing_only",
+  "nominal_best_model": "timing_only",
+  "selection_criteria": [
+    "highest mean outer ROC-AUC",
+    "lowest ROC-AUC standard deviation",
+    "highest mean outer PR-AUC",
+    "simpler model if effectively tied",
+    "if fusion improves over WavLM-only by less than 0.01, retain WavLM-only unless fusion materially reduces variability"
+  ],
+  "complexity_order": {
+    "timing_only": 1,
+    "wavlm_only": 2,
+    "early_fusion": 3
+  },
+  "fusion_improvement_over_wavlm_mean_roc_auc": -0.020916666666666694,
+  "fusion_std_reduction_vs_wavlm": 0.020076582482287303,
+  "fusion_practical_improvement_rule_applied": false,
+  "timing_matches_wavlm_within_0_01": false,
+  "timing_confounding_warning": "",
+  "selected_model_summary": {
+    "model_name": "timing_only",
+    "complexity_order": 1,
+    "representation_dimension": 28,
+    "mean_outer_roc_auc": 0.6125555555555555,
+    "std_outer_roc_auc": 0.11586928565424356,
+    "median_outer_roc_auc": 0.6145833333333333,
+    "min_outer_roc_auc": 0.37777777777777777,
+    "max_outer_roc_auc": 0.8666666666666667,
+    "mean_outer_pr_auc": 0.46167562603088913,
+    "mean_outer_balanced_accuracy_at_0_5": 0.5902499999999999,
+    "mean_outer_macro_f1_at_0_5": 0.5767641273352193,
+    "selected_C_frequency": "{\"0.01\": 2, \"1.0\": 1, \"10.0\": 5, \"100.0\": 17}",
+    "n_outer_evaluations": 25
+  },
+  "test_data_used_for_selection": false
+}

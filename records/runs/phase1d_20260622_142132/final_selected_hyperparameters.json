@@ -1,0 +1,9 @@
+{
+  "model_name": "timing_only",
+  "selected_C": 100.0,
+  "selection_rule": [
+    "highest mean ROC-AUC",
+    "lowest ROC-AUC std",
+    "lower C"
+  ]
+}

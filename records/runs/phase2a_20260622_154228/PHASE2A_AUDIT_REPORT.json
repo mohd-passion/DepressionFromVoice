@@ -1,0 +1,74 @@
+{
+  "created_at": "2026-06-22T10:12:28.880200+00:00",
+  "status": "completed_phase2a_preparation_and_compatibility_audit",
+  "summary": {
+    "created_at": "2026-06-22T10:12:28.876983+00:00",
+    "num_full_interview_recordings": 116,
+    "num_read_speech_recordings": 112,
+    "num_interview_clips": 874,
+    "num_unique_participants": 118,
+    "num_healthy_controls": 54,
+    "num_depression_patients": 64,
+    "number_by_task_and_condition": {
+      "reading": {
+        "HC": 54,
+        "PT": 58
+      },
+      "interview": {
+        "HC": 52,
+        "PT": 64
+      },
+      "interview_clip": {
+        "HC": 569,
+        "PT": 305
+      }
+    },
+    "participants_with_both_tasks": 110,
+    "participants_with_only_one_task": 8,
+    "sample_rate_distribution": {
+      "44100": 1102
+    },
+    "channel_count_distribution": {
+      "1": 1101,
+      "2": 1
+    },
+    "duration_distribution_all_audio": {
+      "count": 1102,
+      "min": 0.18,
+      "max": 579.3726984126985,
+      "mean": 49.35848945022656,
+      "median": 18.780997732426304
+    },
+    "duration_distribution_reading": {
+      "count": 112,
+      "min": 32.829954648526076,
+      "max": 84.15625850340136,
+      "mean": 50.26289358600583,
+      "median": 48.3675283446712
+    },
+    "duration_distribution_full_interview": {
+      "count": 116,
+      "min": 70.6492970521542,
+      "max": 579.3726984126985,
+      "mean": 229.84312397372742,
+      "median": 240.7792970521542
+    },
+    "duration_distribution_interview_clips": {
+      "count": 874,
+      "min": 0.18,
+      "max": 530.4390022675736,
+      "mean": 25.288110882797053,
+      "median": 12.690997732426304
+    },
+    "corrupted_or_unreadable_audio_files": 0,
+    "data_quality_issue_count": 11
+  },
+  "fold_quality_issue_count": 85,
+  "timing_quality_issue_count": 0,
+  "timing_exactly_compatible_feature_count": 17,
+  "timing_feature_total": 28,
+  "frozen_candidate_B_direct_transfer_valid": false,
+  "candidate_A_preprocessing_can_be_reproduced": true,
+  "recommended_next_protocol": "Protocol A zero-shot DAIC WavLM to Android interview, after explicit participant-speech reconstruction validation; Protocol B reading as separate task-shift experiment.",
+  "stop_condition_confirmation": "No modeling or prediction was performed in Phase 2A."
+}

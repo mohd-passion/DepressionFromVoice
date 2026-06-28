@@ -1,0 +1,28 @@
+{
+  "selection_rule": {
+    "primary": "highest mean train-CV ROC-AUC",
+    "tie_break_1": "lowest ROC-AUC standard deviation",
+    "tie_break_2": "stronger regularization, lower C"
+  },
+  "cv_configuration": {
+    "splitter": "RepeatedStratifiedKFold",
+    "n_splits": 5,
+    "n_repeats": 10,
+    "random_state": 42
+  },
+  "C_grid": [
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0
+  ],
+  "metadata_logistic_regression": {
+    "selected_C": 1.0
+  },
+  "wavlm_participant_logistic_regression": {
+    "selected_C": 100.0
+  }
+}

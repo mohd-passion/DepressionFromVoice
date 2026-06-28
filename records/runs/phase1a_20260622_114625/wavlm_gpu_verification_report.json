@@ -1,0 +1,68 @@
+{
+  "created_at": "2026-06-22T06:16:33.565120+00:00",
+  "status": "passed",
+  "input_paths": {
+    "participant_manifest_clean": "outputs\\phase1_daic\\daic_phase1_participant_manifest_clean.csv",
+    "window_manifest_clean": "outputs\\phase1_daic\\daic_phase1_window_manifest_clean.csv",
+    "embedding_manifest_gpu": "outputs\\phase1_daic\\wavlm_embedding_manifest_gpu.csv",
+    "embedding_quality_report_gpu": "outputs\\phase1_daic\\wavlm_embedding_quality_report_gpu.csv",
+    "embedding_metadata_gpu": "outputs\\phase1_daic\\wavlm_extraction_metadata_gpu.json",
+    "embedding_dir_gpu": "outputs\\phase1_daic\\wavlm_embeddings_gpu\\final_layer_mean"
+  },
+  "input_hashes": {
+    "participant_manifest_clean_sha256": "70ce140476317020ca1e2911de9c0aa1c0dd286231fec08fedff91973e656563",
+    "window_manifest_clean_sha256": "e33edcafe8516a83c329ce0d1b1328debbbf0e938c23a59538c17ad039e2c141",
+    "embedding_manifest_gpu_sha256": "17fdf5bbb15c87278469a4ea43d09b280d714e1d84834ba335ab4b2fc34c1a51",
+    "embedding_quality_report_gpu_sha256": "6efaf078c19d431716eae9229fbc5557ea73c49edf27b8abfc64a11615fa5076",
+    "embedding_metadata_gpu_sha256": "46e87341e76aa57632083b58da6a76a1f4016749ff1e28f02126bb48a0204f4e"
+  },
+  "expected": {
+    "total_embeddings": 17058,
+    "split_counts": {
+      "train": 9001,
+      "dev": 3314,
+      "test": 4743
+    },
+    "embedding_dimension": 768,
+    "embedding_dtype": "float32"
+  },
+  "observed": {
+    "total_manifest_rows": 17058,
+    "loaded_embedding_files": 17058,
+    "status_counts": {
+      "success": 17058
+    },
+    "split_counts": {
+      "train": 9001,
+      "dev": 3314,
+      "test": 4743
+    },
+    "duplicate_window_ids": 0,
+    "missing_clean_windows": 0,
+    "unexpected_windows": 0,
+    "participants_409_422_present": [],
+    "shape_counts": {
+      "(768,)": 17058
+    },
+    "dtype_counts": {
+      "float32": 17058
+    },
+    "nonfinite_embeddings": 0,
+    "all_zero_embeddings": 0,
+    "manifest_paths_unresolved": 0,
+    "embedding_norm_min": 1.5984596014022827,
+    "embedding_norm_max": 4.874355792999268,
+    "embedding_norm_mean": 2.1093193567753787
+  },
+  "wavlm_extraction_metadata_summary": {
+    "device": "cuda",
+    "gpu_model": "NVIDIA GeForce RTX 3050",
+    "cuda_version": "12.8",
+    "pytorch_version": "2.11.0+cu128",
+    "transformers_version": "5.12.1",
+    "model_config_commit_hash": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+    "batch_size": 2,
+    "output_directory": "outputs\\phase1_daic\\wavlm_embeddings_gpu\\final_layer_mean"
+  },
+  "issues": []
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "path": "baseline_comparison.csv",
+    "sha256": "e3ae5bb1591df8c887ddca543b190fd309931bb19bf86c280a17c8a72db9ee47",
+    "size_bytes": 2964
+  },
+  {
+    "path": "evaluation_report.json",
+    "sha256": "6aaea885f9f13801847f34029ad9aa49c86a4a31721559b7ef138becf3c0b77e",
+    "size_bytes": 6377
+  },
+  {
+    "path": "metadata_cv_results.csv",
+    "sha256": "6fbacecdefd6847c74d01ee8fa40e784fdd170b1bd41d718098c13daed2e51e1",
+    "size_bytes": 1233
+  },
+  {
+    "path": "model_run_metadata.json",
+    "sha256": "77a3ab7f88dedb55ff2618638095fbfe3e712d6c56213d5b7518ce40d57d3b9b",
+    "size_bytes": 3682
+  },
+  {
+    "path": "selected_hyperparameters.json",
+    "sha256": "ff29d0428596b04cea65af9c31a2ab12fac6d3490def7b4ed338950ac84b41b0",
+    "size_bytes": 578
+  },
+  {
+    "path": "selected_threshold.json",
+    "sha256": "74be4d44a818a3957bdaa5d9e50b082e6ca0143769f52ea499e966699ee26189",
+    "size_bytes": 544
+  },
+  {
+    "path": "test_label_provenance_report.json",
+    "sha256": "320b7b2a8f8b96fd2da6e6c3d83d7176c8e24cd97ccee81feabdaf9f972dc12c",
+    "size_bytes": 2075
+  },
+  {
+    "path": "wavlm_cv_results.csv",
+    "sha256": "10de714fd40bd72882f251ab3092756974eeefe2e9d6e7586c69b60daac8d130",
+    "size_bytes": 1322
+  },
+  {
+    "path": "wavlm_gpu_verification_report.json",
+    "sha256": "ce45c9e80d42044c86526b3a61f77a2e0b59953de2a030e65383fe89510c20bc",
+    "size_bytes": 2611
+  }
+]

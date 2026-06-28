@@ -1,0 +1,52 @@
+[
+  {
+    "path": "android_interview_bootstrap_intervals.csv",
+    "sha256": "de9954d8e55e8b51886bc11d8d8732340d3772d6cb5fd7dbed488dc3680bba3d",
+    "size_bytes": 1556
+  },
+  {
+    "path": "android_interview_duration_correlation_report.csv",
+    "sha256": "03e317da77d1fd30a6a881d6bc1f6925a5d6abb278f1a34ffc3577a10468f403",
+    "size_bytes": 541
+  },
+  {
+    "path": "android_interview_probability_shift_report.json",
+    "sha256": "4d70e376ac834f8136e40f28d61a2966b8d5cb2746f83ded6208a3c691f4eac0",
+    "size_bytes": 1052
+  },
+  {
+    "path": "android_interview_subgroup_audit.csv",
+    "sha256": "1ff29adeb3eef07b375ef4ca9ad95df91c2606911b9a2471abc4fbe19a8ab3f1",
+    "size_bytes": 310
+  },
+  {
+    "path": "android_interview_zero_shot_metrics.csv",
+    "sha256": "af44eb026cd63032076852ae71ed5de2aa1d6ac88f7eb79cb332504e9919da52",
+    "size_bytes": 817
+  },
+  {
+    "path": "daic_android_zero_shot_comparison.csv",
+    "sha256": "8577685c1ef3119e6bb33a0107ddaaafc15f380dca44d3fde1ff9a2b4aeb5283",
+    "size_bytes": 1131
+  },
+  {
+    "path": "frozen_daic_pipeline_verification.json",
+    "sha256": "a7365f4aaac4c4fccf1498d0a3f63a2e04a1337d5da3fe2e7be9d2fa3a1bcdf5",
+    "size_bytes": 445
+  },
+  {
+    "path": "phase2b_run_metadata.json",
+    "sha256": "3c6d4e64bdb002a6614ea40368567aedf9794a479247dca708ef40a0eeaef3bd",
+    "size_bytes": 3105
+  },
+  {
+    "path": "PHASE2B_ZERO_SHOT_INTERVIEW_REPORT.json",
+    "sha256": "d9197b644c49ee7ebf789bfaee2667e08e078fabfa4372c599fdcc30ce87be5f",
+    "size_bytes": 12677
+  },
+  {
+    "path": "PHASE2B_ZERO_SHOT_INTERVIEW_REPORT.md",
+    "sha256": "b6097bdb36e2516c3d177ed1a21d69cdd6bfa1bb7aa732b40a7662d6775d39b4",
+    "size_bytes": 1412
+  }
+]

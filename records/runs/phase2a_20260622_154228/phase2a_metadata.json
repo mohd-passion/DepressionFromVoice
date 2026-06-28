@@ -1,0 +1,104 @@
+{
+  "created_at": "2026-06-22T10:12:28.878194+00:00",
+  "phase": "Phase 2A Android preparation and compatibility audit",
+  "android_root": "Android-Corpus\\Androids-Corpus\\Androids-Corpus",
+  "phase1_status": "completed_baseline_ready_for_external_validation",
+  "phase1_models_modified": false,
+  "models_trained": false,
+  "predictions_generated": false,
+  "wavlm_embeddings_extracted": false,
+  "thresholds_tuned": false,
+  "labels": {
+    "DAIC-WOZ": "PHQ8_Binary derived from questionnaire threshold",
+    "Androids-Corpus": "clinical patient-versus-control grouping; HC=0, PT=1",
+    "target_equivalence_warning": "Related but not identical clinical targets."
+  },
+  "input_hashes": {
+    "fold_lists_sha256": "ee730f61ed9f27dd105e22e2057e85a552a59169b20af7609358ea3faed3f761",
+    "interview_timedata_sha256": "d5f92bf937510e9347b90a5043ad06db79736aa1a645e8ed559438c3aaaa9bce",
+    "androids_conf_sha256": "95124fb34954b32cd3ad802f5399855fd2bd4fe9b0732b59faf29b4c7b2066be",
+    "readme_sha256": "234c22d69b14c43a8616f8c9131a11738b456ff8adfae02a515cd018ae3230d7"
+  },
+  "summary": {
+    "created_at": "2026-06-22T10:12:28.876983+00:00",
+    "num_full_interview_recordings": 116,
+    "num_read_speech_recordings": 112,
+    "num_interview_clips": 874,
+    "num_unique_participants": 118,
+    "num_healthy_controls": 54,
+    "num_depression_patients": 64,
+    "number_by_task_and_condition": {
+      "reading": {
+        "HC": 54,
+        "PT": 58
+      },
+      "interview": {
+        "HC": 52,
+        "PT": 64
+      },
+      "interview_clip": {
+        "HC": 569,
+        "PT": 305
+      }
+    },
+    "participants_with_both_tasks": 110,
+    "participants_with_only_one_task": 8,
+    "sample_rate_distribution": {
+      "44100": 1102
+    },
+    "channel_count_distribution": {
+      "1": 1101,
+      "2": 1
+    },
+    "duration_distribution_all_audio": {
+      "count": 1102,
+      "min": 0.18,
+      "max": 579.3726984126985,
+      "mean": 49.35848945022656,
+      "median": 18.780997732426304
+    },
+    "duration_distribution_reading": {
+      "count": 112,
+      "min": 32.829954648526076,
+      "max": 84.15625850340136,
+      "mean": 50.26289358600583,
+      "median": 48.3675283446712
+    },
+    "duration_distribution_full_interview": {
+      "count": 116,
+      "min": 70.6492970521542,
+      "max": 579.3726984126985,
+      "mean": 229.84312397372742,
+      "median": 240.7792970521542
+    },
+    "duration_distribution_interview_clips": {
+      "count": 874,
+      "min": 0.18,
+      "max": 530.4390022675736,
+      "mean": 25.288110882797053,
+      "median": 12.690997732426304
+    },
+    "corrupted_or_unreadable_audio_files": 0,
+    "data_quality_issue_count": 11
+  },
+  "fold_integrity_status": "failed",
+  "clip_mapping_status": "passed",
+  "timing_file_usability": {
+    "created_at": "2026-06-22T10:12:28.855185+00:00",
+    "source_path": "Android-Corpus\\Androids-Corpus\\Androids-Corpus\\interview_timedata.csv",
+    "column_names": "No header row; first column is recording identifier, following columns are alternating start/end timestamps.",
+    "participant_identifier_format": "recording id nn_XGmm_t, where X is condition character C/P",
+    "time_units": "seconds, inferred from README and clip-duration alignment",
+    "identifies_interviewer_vs_participant": false,
+    "entries_identify": "participant speech turns/clips only; no explicit interviewer rows or speaker column",
+    "timestamps_refer_to_full_interview_recordings": true,
+    "timing_rows": 116,
+    "timing_intervals": 874,
+    "can_reproduce_participant_speech_turns": true,
+    "can_reproduce_phase1_response_latency_features": false,
+    "phase1_timing_feature_compatibility": "partial; response-latency features unavailable and interview-duration definition differs"
+  },
+  "timing_exactly_compatible_feature_count": 17,
+  "frozen_candidate_B_direct_transfer_valid": false,
+  "candidate_A_preprocessing_can_be_reproduced": true
+}

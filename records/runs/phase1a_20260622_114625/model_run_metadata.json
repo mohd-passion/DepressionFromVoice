@@ -1,0 +1,77 @@
+{
+  "execution_timestamp": "2026-06-22T06:16:47.145727+00:00",
+  "machine_name": "DellWork3660",
+  "git_commit": "",
+  "python_version": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+  "numpy_version": "2.5.0",
+  "pandas_version": "3.0.1",
+  "scikit_learn_version": "1.9.0",
+  "input_manifest_paths": {
+    "participant_manifest_clean": "outputs\\phase1_daic\\daic_phase1_participant_manifest_clean.csv",
+    "window_manifest_clean": "outputs\\phase1_daic\\daic_phase1_window_manifest_clean.csv",
+    "participant_embedding_manifest": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625\\participant_embedding_manifest.csv",
+    "embedding_manifest_gpu": "outputs\\phase1_daic\\wavlm_embedding_manifest_gpu.csv",
+    "wavlm_extraction_metadata_gpu": "outputs\\phase1_daic\\wavlm_extraction_metadata_gpu.json"
+  },
+  "input_manifest_hashes": {
+    "participant_manifest_clean_sha256": "70ce140476317020ca1e2911de9c0aa1c0dd286231fec08fedff91973e656563",
+    "window_manifest_clean_sha256": "e33edcafe8516a83c329ce0d1b1328debbbf0e938c23a59538c17ad039e2c141",
+    "participant_embedding_manifest_sha256": "f42f16b7c98334bb83711bb43fdec23dde0d97782e3c794a9a6f8f9d94edfecc",
+    "embedding_manifest_gpu_sha256": "17fdf5bbb15c87278469a4ea43d09b280d714e1d84834ba335ab4b2fc34c1a51",
+    "wavlm_extraction_metadata_gpu_sha256": "46e87341e76aa57632083b58da6a76a1f4016749ff1e28f02126bb48a0204f4e"
+  },
+  "wavlm_extraction_metadata_path": "outputs\\phase1_daic\\wavlm_extraction_metadata_gpu.json",
+  "wavlm_model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+  "participant_aggregation_method": "arithmetic mean over participant windows; float64 accumulation; float32 output",
+  "random_seed": 42,
+  "cross_validation_configuration": {
+    "splitter": "RepeatedStratifiedKFold",
+    "n_splits": 5,
+    "n_repeats": 10,
+    "random_state": 42
+  },
+  "C_search_grid": [
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0
+  ],
+  "selected_C": {
+    "metadata_logistic_regression": 1.0,
+    "wavlm_participant_logistic_regression": 100.0
+  },
+  "scaler_configuration": {
+    "metadata_numeric": "SimpleImputer(strategy=median) then StandardScaler fit inside CV/final train-only pipeline",
+    "metadata_gender": "SimpleImputer(strategy=most_frequent) then OneHotEncoder(handle_unknown=ignore) fit inside CV/final train-only pipeline",
+    "wavlm": "StandardScaler fit inside CV/final train-only pipeline"
+  },
+  "class_weight_configuration": "LogisticRegression(class_weight='balanced')",
+  "threshold_selection_rule": {
+    "primary": "maximum dev macro F1",
+    "tie_break_1": "highest dev balanced accuracy",
+    "tie_break_2": "threshold closest to 0.5",
+    "tie_break_3": "lower threshold",
+    "candidate_thresholds": "0.5, unique dev predicted probabilities, and midpoints between consecutive sorted unique probabilities"
+  },
+  "selected_threshold": {
+    "metadata_logistic_regression": 0.609298970673674,
+    "wavlm_participant_logistic_regression": 0.8408696949481964
+  },
+  "participant_ids_by_split": {
+    "redacted_for_github": true,
+    "counts": {
+      "train": 106,
+      "dev": 34,
+      "test": 47
+    }
+  },
+  "test_label_provenance_status": "local_labeled_test",
+  "test_metrics_provisional": true,
+  "saved_models": {
+    "metadata_pipeline": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625\\models\\metadata_logistic_regression_pipeline.joblib",
+    "wavlm_pipeline": "outputs\\phase1_daic\\phase1_participant_baseline_runs\\20260622_114625\\models\\wavlm_logistic_regression_pipeline.joblib"
+  }
+}

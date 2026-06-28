@@ -1,0 +1,42 @@
+[
+  {
+    "path": "aggregation_comparison.csv",
+    "sha256": "a21bc9e9387ef01b1d5faa4c670f535066c11f4c4417527624982edfa998e9e6",
+    "size_bytes": 1574
+  },
+  {
+    "path": "aggregation_nested_cv_summary.csv",
+    "sha256": "79837955368cde382354da12c0172eee1df65f842de458b650969bb9f3c5f280",
+    "size_bytes": 1114
+  },
+  {
+    "path": "evaluation_report.json",
+    "sha256": "f4d50d74ae9452557278abc6848488a9deb71ac95be9c6fa03f4b2e29e09f779",
+    "size_bytes": 18349
+  },
+  {
+    "path": "final_hyperparameter_search.csv",
+    "sha256": "96bc5c9e9b1a72a497f355637fd11d2997bf599e417a4aca16f2b0cbf0214256",
+    "size_bytes": 954
+  },
+  {
+    "path": "final_selected_hyperparameters.json",
+    "sha256": "a22714fb93fb0a22537afa9329633ebaff350c69be56ddc81c120f9adf55b1ec",
+    "size_bytes": 221
+  },
+  {
+    "path": "layer_selection_stability_report.json",
+    "sha256": "468cd34835d5e8a7d62c8a9f749e291a0f22891dde01a88d9698317cc8a37eb2",
+    "size_bytes": 10322
+  },
+  {
+    "path": "run_metadata.json",
+    "sha256": "3f672b1a9490ea7eb548fee655b6e77edafe1b0f2d81841f61c9b29df96989e7",
+    "size_bytes": 2394
+  },
+  {
+    "path": "selected_aggregation_method.json",
+    "sha256": "e7ba6c88154409db137165e964ecd1aa28cde3291fc5382f669ac0cc243295a4",
+    "size_bytes": 2183
+  }
+]

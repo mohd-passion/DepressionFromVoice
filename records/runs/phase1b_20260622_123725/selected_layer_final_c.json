@@ -1,0 +1,25 @@
+{
+  "selected_layer": "layer_09",
+  "selected_layer_index": 9,
+  "selected_C": 0.001,
+  "selection_rule": [
+    "highest mean ROC-AUC",
+    "lowest ROC-AUC std",
+    "lower C"
+  ],
+  "cv_configuration": {
+    "splitter": "RepeatedStratifiedKFold",
+    "n_splits": 5,
+    "n_repeats": 10,
+    "random_state": 42
+  },
+  "C_grid": [
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0
+  ]
+}

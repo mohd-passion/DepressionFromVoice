@@ -1,0 +1,7 @@
+group,variable,n,pearson_correlation,spearman_correlation,status
+all,participant_speech_duration_sec,116,-0.22929823901143806,-0.2463229923499789,reported
+all,num_windows,116,-0.23279669928003302,-0.24462885110347452,reported
+HC,participant_speech_duration_sec,52,0.06079540981887794,0.06548279689234184,reported
+HC,num_windows,52,0.0632556774222687,0.08413862039290698,reported
+PT,participant_speech_duration_sec,64,-0.2601854109492088,-0.2876831501831501,reported
+PT,num_windows,64,-0.2647273918721978,-0.29908603068176587,reported

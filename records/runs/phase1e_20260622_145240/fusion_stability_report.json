@@ -1,0 +1,36 @@
+{
+  "created_at": "2026-06-22T09:24:31.966550+00:00",
+  "weighted_fusion": {
+    "selected_weight_frequency": {
+      "0.0": 3,
+      "0.1": 2,
+      "0.4": 1,
+      "0.5": 2,
+      "0.6": 3,
+      "0.8": 1,
+      "0.9": 7,
+      "1.0": 6
+    },
+    "mean_selected_timing_weight": 0.66,
+    "std_selected_timing_weight": 0.35665109000254014,
+    "percent_weight_0_wavlm_only": 12.0,
+    "percent_weight_1_timing_only": 24.0,
+    "percent_true_mixed_weight": 64.0,
+    "interpretation_rule": "If fusion frequently chooses weight 0 or 1, evidence for complementarity is weak."
+  },
+  "logistic_stacking": {
+    "timing_coefficient_mean": 0.14904038958339325,
+    "timing_coefficient_std": 0.19754043014562184,
+    "timing_coefficient_min": -0.05131887798093046,
+    "timing_coefficient_max": 0.6193198876111331,
+    "wavlm_coefficient_mean": 0.015696342753717892,
+    "wavlm_coefficient_std": 0.21382165559010796,
+    "wavlm_coefficient_min": -0.4785140541444936,
+    "wavlm_coefficient_max": 0.6605435686367874,
+    "percent_timing_coefficient_positive": 84.0,
+    "percent_wavlm_coefficient_positive": 56.00000000000001,
+    "timing_sign_consistent": false,
+    "wavlm_sign_consistent": false,
+    "interpretation_rule": "If stacker coefficient signs are unstable, do not claim a reliable fusion effect."
+  }
+}

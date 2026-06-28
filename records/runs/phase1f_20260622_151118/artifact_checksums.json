@@ -1,0 +1,42 @@
+[
+  {
+    "path": "phase1_bootstrap_intervals.csv",
+    "sha256": "eb57ba7c2cc9e9dd4b23ba27ee0ddd335a9b632a7da0045d4549f832016d7930",
+    "size_bytes": 2492
+  },
+  {
+    "path": "phase1_final_comparison.csv",
+    "sha256": "7ad1b64969238b480dfd0c3c68a634fe324d5b7a50c88b186a29dde5aa5486cf",
+    "size_bytes": 2939
+  },
+  {
+    "path": "PHASE1_FINAL_REPORT.json",
+    "sha256": "ae62824456c6bb7e495c26ffc34bd85da8aae47a305b3490803ca5d8c455058a",
+    "size_bytes": 22928
+  },
+  {
+    "path": "phase1_final_test_metrics.csv",
+    "sha256": "179bf2d94d516945b4a1b272a684bc1868222e8b36597a1d5db1b075a8c3cc45",
+    "size_bytes": 1190
+  },
+  {
+    "path": "phase1f_hashes.json",
+    "sha256": "f8527cf77c7eea0404d1992b9029337abdff83f99bb1a8c2d933f91cb800cecb",
+    "size_bytes": 844
+  },
+  {
+    "path": "phase1f_pipeline_verification.csv",
+    "sha256": "69253f05ecd0f750abfb02cca8db9bec395845f14c79c06a78be34070efe4f2e",
+    "size_bytes": 294
+  },
+  {
+    "path": "phase1f_reproducibility_verification.csv",
+    "sha256": "91bc81588649c3a8b33eb27efa1feb9ce99e1d013a29d1efd2925715ec4c5b0a",
+    "size_bytes": 129
+  },
+  {
+    "path": "phase1f_run_metadata.json",
+    "sha256": "0318b43d879534ee3b6e6a38ab2782c2d6575f79040953dfa89a24cf59f0c7d3",
+    "size_bytes": 1984
+  }
+]

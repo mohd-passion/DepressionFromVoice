@@ -1,0 +1,3 @@
+C,C_matches_expected,class_weight,classifier_class,expected_C,max_iter,model_name,scaler_or_preprocessor_present
+0.001,True,balanced,LogisticRegression,0.001,10000,candidate_A_wavlm_free_speech,True
+100.0,True,balanced,LogisticRegression,100.0,10000,candidate_B_timing_guided_interview,True

@@ -1,7 +1,7 @@
 {
   "registry_version": "1.0",
   "project": "DepressionFromVoice",
-  "last_updated": "2026-06-28T03:37:06.596038+00:00",
+  "last_updated": "2026-07-03T07:31:57.453656+00:00",
   "project_status": {
     "phase1_status": "completed_baseline_ready_for_external_validation",
     "phase2_status": "phase2b_zero_shot_external_validation_completed",
@@ -120,13 +120,14 @@
     {
       "id": "phase2c_android_adaptation_analysis",
       "phase": "Phase 2C",
-      "status": "planned",
+      "status": "completed_by_phase2c_registry_entries",
       "protocols": [
         "frozen DAIC zero-shot reference",
         "threshold-only adaptation",
         "probability calibration",
         "Android-trained logistic regression using fixed layer-9 embeddings"
       ],
+      "completed_by": "Phase 2C registry entries when a phase2c_domain_shift run is imported",
       "purpose": [
         "distinguish calibration shift",
         "distinguish classifier-boundary shift",
@@ -3514,11 +3515,518 @@
         "git_commit": null
       },
       "history": []
+    },
+    {
+      "id": "phase2c_protocol_a_frozen_daic_reference",
+      "revision": 1,
+      "phase": "Phase 2C",
+      "name": "Protocol A frozen DAIC zero-shot reference",
+      "status": "completed_phase2c_domain_shift_diagnosis",
+      "run_directory": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614",
+      "parent_id": "P2C_ANDROID_DOMAIN_SHIFT_001",
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "interview participant speech",
+        "language": "Italian",
+        "train_n": null,
+        "dev_n": null,
+        "test_n": 116,
+        "class_counts": {
+          "HC": 52,
+          "PT": 64
+        },
+        "split_protocol": "official Android interview five-fold participant-independent protocol",
+        "excluded": []
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "Frozen DAIC LogisticRegression/calibrator",
+        "pipeline": "Frozen DAIC StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": 0.001,
+        "other_parameters": {
+          "calibration_method_distribution": null,
+          "selected_C_distribution": null
+        },
+        "selection_protocol": "Frozen DAIC threshold; no Android adaptation"
+      },
+      "threshold": {
+        "source": "Frozen DAIC threshold; no Android adaptation",
+        "value": 0.555840134621,
+        "tuned_on": "DAIC or fixed 0.5"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.6412259615384616,
+          "pr_auc": 0.6808532952868427,
+          "balanced_accuracy": 0.5,
+          "macro_f1": 0.30952380952380953,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "positive_precision": 0.0,
+          "negative_predictive_value": 0.4482758620689655,
+          "brier_score": 0.40557196167213305,
+          "threshold": 0.555840134621,
+          "tn": 52,
+          "fp": 0,
+          "fn": 64,
+          "tp": 0
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\phase2c_bootstrap_intervals.csv",
+          "bootstrap_replicates": 5000,
+          "paired_comparisons": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\phase2c_paired_comparisons.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under official interview folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": true,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 2C is diagnostic; no Phase 1 frozen candidate was altered.",
+          "No reading speech, WavLM extraction, timing features, or new model family was introduced."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "classifier_boundary_shift",
+        "selected": false,
+        "selection_reason": "Diagnostic protocol result; not a new frozen cross-corpus candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "Android labels and DAIC PHQ8_Binary are related but not identical targets.",
+          "Within-Android Protocol D estimates target-domain boundary shift, not zero-shot clinical validity."
+        ],
+        "warnings": [
+          "Do not claim clinical validation.",
+          "Repeated external-result inspection must be treated as diagnostic history."
+        ],
+        "next_step": "Design any future Android adaptation protocol separately before execution."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\PHASE2C_WITHIN_ANDROID_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\PHASE2C_WITHIN_ANDROID_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": "1.9.0",
+        "cuda": null,
+        "gpu": null,
+        "git_commit": "03bcd03c09c1fe2adf061e3cf4a7416c4d7e74fb"
+      },
+      "history": []
+    },
+    {
+      "id": "phase2c_protocol_b_threshold_only",
+      "revision": 1,
+      "phase": "Phase 2C",
+      "name": "Protocol B threshold-only adaptation",
+      "status": "completed_phase2c_domain_shift_diagnosis",
+      "run_directory": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614",
+      "parent_id": "P2C_ANDROID_DOMAIN_SHIFT_001",
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "interview participant speech",
+        "language": "Italian",
+        "train_n": "official five-fold outer training folds",
+        "dev_n": null,
+        "test_n": 116,
+        "class_counts": {
+          "HC": 52,
+          "PT": 64
+        },
+        "split_protocol": "official Android interview five-fold participant-independent protocol",
+        "excluded": []
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "Frozen DAIC LogisticRegression/calibrator",
+        "pipeline": "Frozen DAIC StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": 0.001,
+        "other_parameters": {
+          "calibration_method_distribution": null,
+          "selected_C_distribution": null
+        },
+        "selection_protocol": "Fold-specific Android training-fold threshold adaptation"
+      },
+      "threshold": {
+        "source": "Fold-specific Android training-fold threshold adaptation",
+        "value": null,
+        "tuned_on": "Android outer-training folds only"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.6412259615384616,
+          "pr_auc": 0.6808532952868427,
+          "balanced_accuracy": 0.5733173076923077,
+          "macro_f1": 0.5688373476063038,
+          "sensitivity": 0.53125,
+          "specificity": 0.6153846153846154,
+          "positive_precision": 0.6296296296296297,
+          "negative_predictive_value": 0.5161290322580645,
+          "brier_score": 0.40557196167213294,
+          "threshold": null,
+          "tn": 32,
+          "fp": 20,
+          "fn": 30,
+          "tp": 34
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\phase2c_bootstrap_intervals.csv",
+          "bootstrap_replicates": 5000,
+          "paired_comparisons": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\phase2c_paired_comparisons.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under official interview folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": true,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 2C is diagnostic; no Phase 1 frozen candidate was altered.",
+          "No reading speech, WavLM extraction, timing features, or new model family was introduced."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "classifier_boundary_shift",
+        "selected": false,
+        "selection_reason": "Diagnostic protocol result; not a new frozen cross-corpus candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "Android labels and DAIC PHQ8_Binary are related but not identical targets.",
+          "Within-Android Protocol D estimates target-domain boundary shift, not zero-shot clinical validity."
+        ],
+        "warnings": [
+          "Do not claim clinical validation.",
+          "Repeated external-result inspection must be treated as diagnostic history."
+        ],
+        "next_step": "Design any future Android adaptation protocol separately before execution."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\PHASE2C_WITHIN_ANDROID_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\PHASE2C_WITHIN_ANDROID_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": "1.9.0",
+        "cuda": null,
+        "gpu": null,
+        "git_commit": "03bcd03c09c1fe2adf061e3cf4a7416c4d7e74fb"
+      },
+      "history": []
+    },
+    {
+      "id": "phase2c_protocol_c_score_calibration",
+      "revision": 1,
+      "phase": "Phase 2C",
+      "name": "Protocol C frozen-score calibration",
+      "status": "completed_phase2c_domain_shift_diagnosis",
+      "run_directory": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614",
+      "parent_id": "P2C_ANDROID_DOMAIN_SHIFT_001",
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "interview participant speech",
+        "language": "Italian",
+        "train_n": "official five-fold outer training folds",
+        "dev_n": null,
+        "test_n": 116,
+        "class_counts": {
+          "HC": 52,
+          "PT": 64
+        },
+        "split_protocol": "official Android interview five-fold participant-independent protocol",
+        "excluded": []
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "Frozen DAIC LogisticRegression/calibrator",
+        "pipeline": "Frozen DAIC score plus fold-selected calibrator",
+        "class_weight": "not applicable to calibrator",
+        "C": null,
+        "other_parameters": {
+          "calibration_method_distribution": {
+            "intercept_only": 4,
+            "platt": 1
+          },
+          "selected_C_distribution": null
+        },
+        "selection_protocol": "Fold-selected intercept/Platt/isotonic calibration; threshold 0.5"
+      },
+      "threshold": {
+        "source": "Fold-selected intercept/Platt/isotonic calibration; threshold 0.5",
+        "value": 0.5,
+        "tuned_on": "DAIC or fixed 0.5"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.5694110576923077,
+          "pr_auc": 0.6001495281412669,
+          "balanced_accuracy": 0.5883413461538461,
+          "macro_f1": 0.5857142857142857,
+          "sensitivity": 0.734375,
+          "specificity": 0.4423076923076923,
+          "positive_precision": 0.618421052631579,
+          "negative_predictive_value": 0.575,
+          "brier_score": 0.24739768717839625,
+          "threshold": 0.5,
+          "tn": 23,
+          "fp": 29,
+          "fn": 17,
+          "tp": 47
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\phase2c_bootstrap_intervals.csv",
+          "bootstrap_replicates": 5000,
+          "paired_comparisons": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\phase2c_paired_comparisons.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under official interview folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": false,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 2C is diagnostic; no Phase 1 frozen candidate was altered.",
+          "No reading speech, WavLM extraction, timing features, or new model family was introduced."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "classifier_boundary_shift",
+        "selected": false,
+        "selection_reason": "Diagnostic protocol result; not a new frozen cross-corpus candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "Android labels and DAIC PHQ8_Binary are related but not identical targets.",
+          "Within-Android Protocol D estimates target-domain boundary shift, not zero-shot clinical validity."
+        ],
+        "warnings": [
+          "Do not claim clinical validation.",
+          "Repeated external-result inspection must be treated as diagnostic history."
+        ],
+        "next_step": "Design any future Android adaptation protocol separately before execution."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\PHASE2C_WITHIN_ANDROID_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\PHASE2C_WITHIN_ANDROID_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": "1.9.0",
+        "cuda": null,
+        "gpu": null,
+        "git_commit": "03bcd03c09c1fe2adf061e3cf4a7416c4d7e74fb"
+      },
+      "history": []
+    },
+    {
+      "id": "phase2c_protocol_d_android_lr",
+      "revision": 1,
+      "phase": "Phase 2C",
+      "name": "Protocol D Android-trained logistic regression",
+      "status": "completed_phase2c_domain_shift_diagnosis",
+      "run_directory": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614",
+      "parent_id": "P2C_ANDROID_DOMAIN_SHIFT_001",
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "interview participant speech",
+        "language": "Italian",
+        "train_n": "official five-fold outer training folds",
+        "dev_n": null,
+        "test_n": 116,
+        "class_counts": {
+          "HC": 52,
+          "PT": 64
+        },
+        "split_protocol": "official Android interview five-fold participant-independent protocol",
+        "excluded": []
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "Android fold-trained StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": {
+          "10.0": 1,
+          "100.0": 3,
+          "0.01": 1
+        },
+        "other_parameters": {
+          "calibration_method_distribution": null,
+          "selected_C_distribution": {
+            "10.0": 1,
+            "100.0": 3,
+            "0.01": 1
+          }
+        },
+        "selection_protocol": "Official Android five-fold inner C and threshold selection"
+      },
+      "threshold": {
+        "source": "Official Android five-fold inner C and threshold selection",
+        "value": null,
+        "tuned_on": "Android outer-training folds only"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.8674879807692308,
+          "pr_auc": 0.8891814233744046,
+          "balanced_accuracy": 0.8275240384615384,
+          "macro_f1": 0.8262952979934111,
+          "sensitivity": 0.828125,
+          "specificity": 0.8269230769230769,
+          "positive_precision": 0.8548387096774194,
+          "negative_predictive_value": 0.7962962962962963,
+          "brier_score": 0.1694976570076466,
+          "threshold": null,
+          "tn": 43,
+          "fp": 9,
+          "fn": 11,
+          "tp": 53
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\phase2c_bootstrap_intervals.csv",
+          "bootstrap_replicates": 5000,
+          "paired_comparisons": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\phase2c_paired_comparisons.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under official interview folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": false,
+        "target_model_refitted": true,
+        "target_threshold_refitted": true,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 2C is diagnostic; no Phase 1 frozen candidate was altered.",
+          "No reading speech, WavLM extraction, timing features, or new model family was introduced."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "classifier_boundary_shift",
+        "selected": false,
+        "selection_reason": "Diagnostic protocol result; not a new frozen cross-corpus candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "Android labels and DAIC PHQ8_Binary are related but not identical targets.",
+          "Within-Android Protocol D estimates target-domain boundary shift, not zero-shot clinical validity."
+        ],
+        "warnings": [
+          "Do not claim clinical validation.",
+          "Repeated external-result inspection must be treated as diagnostic history."
+        ],
+        "next_step": "Design any future Android adaptation protocol separately before execution."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\PHASE2C_WITHIN_ANDROID_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614\\PHASE2C_WITHIN_ANDROID_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": "1.9.0",
+        "cuda": null,
+        "gpu": null,
+        "git_commit": "03bcd03c09c1fe2adf061e3cf4a7416c4d7e74fb"
+      },
+      "history": []
     }
   ],
   "validation": {
     "status": "passed",
-    "checked_at": "2026-06-28T03:37:06.597092+00:00",
+    "checked_at": "2026-07-03T07:31:57.454659+00:00",
     "errors": [],
     "warnings": []
   }

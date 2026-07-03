@@ -1,0 +1,15 @@
+{
+  "created_at": "2026-07-03T07:27:10.097709+00:00",
+  "config_path": "configs\\phase2c_android_domain_shift.json",
+  "config_sha256": "8b11d70469649383922c143b318e2e53fd53cb2bc1f3f7220147db37d9a17534",
+  "run_directory": "outputs\\phase2_android\\phase2c_domain_shift_runs\\20260703_125614",
+  "python_version": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+  "numpy_version": "2.3.5",
+  "sklearn_version": "1.9.0",
+  "joblib_version": "1.5.3",
+  "machine_name": "DellWork3660",
+  "git_commit": "03bcd03c09c1fe2adf061e3cf4a7416c4d7e74fb",
+  "random_seed": 42,
+  "bootstrap_replicates": 5000,
+  "modeling_scope": "Phase 2C only; no WavLM extraction, no reading speech, no fine tuning"
+}

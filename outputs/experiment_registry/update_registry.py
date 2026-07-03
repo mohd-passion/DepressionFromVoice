@@ -255,13 +255,14 @@ def planned_experiments() -> list[dict[str, Any]]:
         {
             "id": "phase2c_android_adaptation_analysis",
             "phase": "Phase 2C",
-            "status": "planned",
+            "status": "completed_by_phase2c_registry_entries",
             "protocols": [
                 "frozen DAIC zero-shot reference",
                 "threshold-only adaptation",
                 "probability calibration",
                 "Android-trained logistic regression using fixed layer-9 embeddings",
             ],
+            "completed_by": "Phase 2C registry entries when a phase2c_domain_shift run is imported",
             "purpose": [
                 "distinguish calibration shift",
                 "distinguish classifier-boundary shift",
@@ -623,6 +624,177 @@ def parse_phase2b(run_dir: Path) -> list[dict[str, Any]]:
     return [e]
 
 
+def parse_phase2c(run_dir: Path) -> list[dict[str, Any]]:
+    report = read_json(run_dir / "PHASE2C_WITHIN_ANDROID_REPORT.json")
+    metadata = read_json(run_dir / "phase2c_run_metadata.json") if (run_dir / "phase2c_run_metadata.json").exists() else {}
+    by_protocol = {row["protocol"]: row for row in report["protocol_metrics"]}
+    protocol_map = [
+        (
+            "A_frozen_daic_at_frozen_threshold",
+            "phase2c_protocol_a_frozen_daic_reference",
+            "Protocol A frozen DAIC zero-shot reference",
+            "Frozen DAIC StandardScaler + LogisticRegression",
+            False,
+            False,
+            True,
+            "Frozen DAIC threshold; no Android adaptation",
+        ),
+        (
+            "B_threshold_only",
+            "phase2c_protocol_b_threshold_only",
+            "Protocol B threshold-only adaptation",
+            "Frozen DAIC StandardScaler + LogisticRegression",
+            False,
+            True,
+            False,
+            "Fold-specific Android training-fold threshold adaptation",
+        ),
+        (
+            "C_frozen_score_calibration",
+            "phase2c_protocol_c_score_calibration",
+            "Protocol C frozen-score calibration",
+            "Frozen DAIC score plus fold-selected calibrator",
+            False,
+            False,
+            False,
+            "Fold-selected intercept/Platt/isotonic calibration; threshold 0.5",
+        ),
+        (
+            "D_android_lr_threshold_adapted",
+            "phase2c_protocol_d_android_lr",
+            "Protocol D Android-trained logistic regression",
+            "Android fold-trained StandardScaler + LogisticRegression",
+            True,
+            True,
+            False,
+            "Official Android five-fold inner C and threshold selection",
+        ),
+    ]
+    entries: list[dict[str, Any]] = []
+    for protocol_key, exp_id, name, pipeline, target_refit, threshold_refit, zero_shot, selection_protocol in protocol_map:
+        metrics = by_protocol[protocol_key]
+        e = empty_entry(exp_id, "Phase 2C", name, report["status"], run_dir)
+        e["parent_id"] = "P2C_ANDROID_DOMAIN_SHIFT_001"
+        e["data"].update(
+            {
+                "dataset_id": "androids_corpus",
+                "task": "interview participant speech",
+                "language": "Italian",
+                "train_n": None if protocol_key.startswith("A_") else "official five-fold outer training folds",
+                "dev_n": None,
+                "test_n": report["data_summary"]["participants"],
+                "class_counts": report["data_summary"]["class_counts"],
+                "split_protocol": "official Android interview five-fold participant-independent protocol",
+                "excluded": [],
+            }
+        )
+        e["representation"].update(
+            {
+                "feature_family": "wavlm_embedding",
+                "model": "microsoft/wavlm-base-plus",
+                "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+                "layer": "layer_09",
+                "window_sec": 10,
+                "overlap": 0.5,
+                "window_pooling": "temporal mean",
+                "participant_aggregation": "mean",
+                "dimension": 768,
+                "fusion": "none",
+            }
+        )
+        selected_c = None
+        if protocol_key == "D_android_lr_threshold_adapted":
+            selected_c = report.get("selected_C_distribution")
+        elif protocol_key.startswith("A_") or protocol_key == "B_threshold_only":
+            selected_c = 0.001
+        e["classifier"].update(
+            {
+                "name": "LogisticRegression" if protocol_key.startswith("D_") else "Frozen DAIC LogisticRegression/calibrator",
+                "pipeline": pipeline,
+                "class_weight": "balanced" if protocol_key != "C_frozen_score_calibration" else "not applicable to calibrator",
+                "C": selected_c,
+                "other_parameters": {
+                    "calibration_method_distribution": report.get("calibration_method_distribution") if protocol_key == "C_frozen_score_calibration" else None,
+                    "selected_C_distribution": report.get("selected_C_distribution") if protocol_key == "D_android_lr_threshold_adapted" else None,
+                },
+                "selection_protocol": selection_protocol,
+            }
+        )
+        threshold_value = metrics.get("threshold")
+        e["threshold"].update({"source": selection_protocol, "value": threshold_value, "tuned_on": "Android outer-training folds only" if threshold_refit else "DAIC or fixed 0.5"})
+        e["metrics"]["test"].update(
+            {
+                "roc_auc": metrics["roc_auc"],
+                "pr_auc": metrics["pr_auc"],
+                "balanced_accuracy": metrics["balanced_accuracy"],
+                "macro_f1": metrics["macro_f1"],
+                "sensitivity": metrics["sensitivity"],
+                "specificity": metrics["specificity"],
+                "positive_precision": metrics["positive_class_precision"],
+                "negative_predictive_value": metrics["negative_predictive_value"],
+                "brier_score": metrics["brier_score"],
+                "threshold": threshold_value,
+                "tn": metrics["tn"],
+                "fp": metrics["fp"],
+                "fn": metrics["fn"],
+                "tp": metrics["tp"],
+            }
+        )
+        e["metrics"]["confidence_intervals"].update(
+            {
+                "source": rel(run_dir / "phase2c_bootstrap_intervals.csv"),
+                "bootstrap_replicates": 5000,
+                "paired_comparisons": rel(run_dir / "phase2c_paired_comparisons.csv"),
+            }
+        )
+        e["integrity"].update(
+            {
+                "test_provenance": "Android clinical patient/control labels under official interview folds",
+                "external_validation": True,
+                "zero_shot": zero_shot,
+                "test_result_viewed": True,
+                "target_model_refitted": target_refit,
+                "target_threshold_refitted": threshold_refit,
+                "test_used_for_selection": False,
+                "decisions_made_after_test_view": [
+                    "Phase 2C is diagnostic; no Phase 1 frozen candidate was altered.",
+                    "No reading speech, WavLM extraction, timing features, or new model family was introduced.",
+                ],
+                "leakage_status": report["leakage_checks"]["status"],
+            }
+        )
+        e["conclusion"].update(
+            {
+                "main_finding": report["interpretation"]["dominant_failure_source"],
+                "selected": False,
+                "selection_reason": "Diagnostic protocol result; not a new frozen cross-corpus candidate.",
+                "limitations": [
+                    "Android labels and DAIC PHQ8_Binary are related but not identical targets.",
+                    "Within-Android Protocol D estimates target-domain boundary shift, not zero-shot clinical validity.",
+                ],
+                "warnings": ["Do not claim clinical validation.", "Repeated external-result inspection must be treated as diagnostic history."],
+                "next_step": "Design any future Android adaptation protocol separately before execution.",
+            }
+        )
+        e["artifacts"].update(
+            {
+                "report_json": rel(run_dir / "PHASE2C_WITHIN_ANDROID_REPORT.json"),
+                "report_markdown": rel(run_dir / "PHASE2C_WITHIN_ANDROID_REPORT.md"),
+                "predictions": "",
+                "manifest": "",
+            }
+        )
+        e["environment"].update(
+            {
+                "python": metadata.get("python_version"),
+                "scikit_learn": metadata.get("sklearn_version"),
+                "git_commit": metadata.get("git_commit"),
+            }
+        )
+        entries.append(e)
+    return entries
+
+
 def parse_run(run_dir: Path) -> list[dict[str, Any]]:
     run_dir = Path(rel(run_dir))
     if run_dir == OFFICIAL_RUNS["phase1a"]:
@@ -641,6 +813,8 @@ def parse_run(run_dir: Path) -> list[dict[str, Any]]:
         return parse_phase2a(run_dir)
     if run_dir == OFFICIAL_RUNS["phase2b"]:
         return parse_phase2b(run_dir)
+    if (run_dir / "PHASE2C_WITHIN_ANDROID_REPORT.json").exists():
+        return parse_phase2c(run_dir)
     return parse_generic_run(run_dir)
 
 

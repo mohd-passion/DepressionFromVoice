@@ -48,6 +48,10 @@ _Generated automatically from `experiment_registry.json` by `update_registry.py`
 | Phase 1F | Frozen DAIC WavLM free-speech candidate |  |  | 0.506 | selected | Free-speech-compatible candidate closed for external validation, but provisional local-test AUC was near chance. |
 | Phase 2A | Androids Corpus preparation and compatibility audit |  |  |  | audit | Android interview WavLM preprocessing is reproducible; timing model direct transfer is invalid because response-latency features are unavailable. |
 | Phase 2B | Frozen DAIC-to-Android zero-shot WavLM interview |  |  | 0.641 | not selected | Ranking transferred modestly, but probability scale and frozen threshold did not: all Android participants were predicted negative. |
+| Phase 2C | Protocol A frozen DAIC zero-shot reference |  |  | 0.641 | not selected | classifier_boundary_shift |
+| Phase 2C | Protocol B threshold-only adaptation |  |  | 0.641 | not selected | classifier_boundary_shift |
+| Phase 2C | Protocol C frozen-score calibration |  |  | 0.569 | not selected | classifier_boundary_shift |
+| Phase 2C | Protocol D Android-trained logistic regression |  |  | 0.867 | not selected | classifier_boundary_shift |
 
 ## 4. Selected And Rejected Approaches
 

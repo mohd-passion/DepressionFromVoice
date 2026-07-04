@@ -1,0 +1,33 @@
+{
+  "created_at": "2026-07-04T07:32:11.585834+00:00",
+  "execution_start_timestamp": "2026-07-04T07:29:36.154642+00:00",
+  "execution_completion_timestamp": "2026-07-04T07:32:11.585834+00:00",
+  "config_path": "configs\\phase2d_android_reading.json",
+  "config_sha256": "ef8d315ad5eb9a7a03d55dbd453e1d2c21a3eede993e6b0e771ecca4dd69e9cd",
+  "run_directory": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931",
+  "python_version": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+  "numpy_version": "2.3.5",
+  "pytorch_version": "2.11.0+cu128",
+  "torchaudio_version": "2.11.0+cu128",
+  "transformers_version": "5.12.1",
+  "sklearn_version": "1.9.0",
+  "joblib_version": "1.5.3",
+  "machine_name": "DellWork3660",
+  "git_commit": "2cf1761b6d8738cf77e626b44f5129a40e79b7d6",
+  "random_seed": 42,
+  "bootstrap_replicates": 5000,
+  "batch_size": 2,
+  "cuda_available": true,
+  "cuda_version": "12.8",
+  "gpu_model": "NVIDIA GeForce RTX 3050",
+  "normalization_method": "float32_dc_offset_removal_peak_normalization_no_dataset_norm_no_augmentation_no_denoising",
+  "input_hashes": {
+    "android_participant_manifest.csv": "979485c3763c562757e6efbe5324c3368bcb3255fb132aa902f1b8f233981d9b",
+    "android_recording_manifest.csv": "6590b96bbb91efb0f61a1087f84ca9f03ef81d24df8c514012509a76f0d1fcf7",
+    "android_fold_assignment.csv": "a126f3bebc60a3fb82bf1a0c261b7f984d0e089723194d7b7b776c706f5ea763"
+  },
+  "phase2c_report_sha256": "3de3e60e6541d8f91cc86b7037e1a9f49823d199d15237bdfee57612747debcc",
+  "phase1_pipeline_path": "outputs/phase1_daic/phase1c_aggregation_runs/20260622_135800/models/selected_aggregation_pipeline.joblib",
+  "phase1_pipeline_sha256": "f17118552a03e08ec4a3cdb5ddae89292628e5d866803e5b56132334a2b29f30",
+  "modeling_scope": "Phase 2D only; reading WavLM extraction plus logistic regression; no Phase 2E"
+}

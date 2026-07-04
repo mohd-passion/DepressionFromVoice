@@ -1,0 +1,1009 @@
+{
+  "status": "completed_phase2d_android_reading_benchmark",
+  "created_at": "2026-07-04T07:32:11.584851+00:00",
+  "run_directory": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931",
+  "official_inputs": {
+    "phase2a_run": "outputs/phase2_android/phase2a_preparation_runs/20260622_154228",
+    "phase2c_run": "outputs/phase2_android/phase2c_domain_shift_runs/20260703_125614",
+    "phase2b_interview_run": "outputs/phase2_android/phase2b_zero_shot_interview_runs/20260622_162548",
+    "superseded_phase2a_used": false
+  },
+  "data_summary": {
+    "eligible_reading_participants": 112,
+    "reading_recordings": 112,
+    "class_counts": {
+      "HC": 54,
+      "PT": 58
+    },
+    "fold_summary": [
+      {
+        "fold": "fold1",
+        "participants": 23,
+        "HC": 10,
+        "PT": 13,
+        "reading_recordings": 23,
+        "reading_windows": 196
+      },
+      {
+        "fold": "fold2",
+        "participants": 23,
+        "HC": 5,
+        "PT": 18,
+        "reading_recordings": 23,
+        "reading_windows": 204
+      },
+      {
+        "fold": "fold3",
+        "participants": 22,
+        "HC": 13,
+        "PT": 9,
+        "reading_recordings": 22,
+        "reading_windows": 178
+      },
+      {
+        "fold": "fold4",
+        "participants": 22,
+        "HC": 11,
+        "PT": 11,
+        "reading_recordings": 22,
+        "reading_windows": 196
+      },
+      {
+        "fold": "fold5",
+        "participants": 22,
+        "HC": 15,
+        "PT": 7,
+        "reading_recordings": 22,
+        "reading_windows": 181
+      }
+    ],
+    "reading_windows": 955,
+    "average_windows_per_participant": 8.526785714285714
+  },
+  "extraction": {
+    "execution_start_timestamp": "2026-07-04T07:29:45.963036+00:00",
+    "execution_completion_timestamp": "2026-07-04T07:31:18.995407+00:00",
+    "elapsed_seconds": 93.0323715209961,
+    "status": "passed",
+    "wavlm_model": "microsoft/wavlm-base-plus",
+    "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+    "model_metadata": {
+      "model_name": "microsoft/wavlm-base-plus",
+      "requested_model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+      "loaded_model_config_commit_hash": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+      "num_hidden_layers": 12,
+      "hidden_size": 768,
+      "hidden_state_indexing": {
+        "hidden_states[0]": "pre-transformer feature-projection state; not used",
+        "hidden_states[9]": "transformer encoder layer 09 used for Phase 2B"
+      }
+    },
+    "layer": "layer_09",
+    "hidden_state_index": 9,
+    "pooling_method": "temporal_mean_pooling",
+    "device": "cuda",
+    "cuda_available": true,
+    "cuda_version": "12.8",
+    "gpu_model": "NVIDIA GeForce RTX 3050",
+    "gpu_memory_total_bytes": 8589410304,
+    "gpu_memory_free_bytes_at_completion": 6704594944,
+    "python_version": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+    "numpy_version": "2.3.5",
+    "pytorch_version": "2.11.0+cu128",
+    "torchaudio_version": "2.11.0+cu128",
+    "transformers_version": "5.12.1",
+    "batch_size": 2,
+    "float32_inference": true,
+    "gradient_mode": "torch.inference_mode",
+    "output_hidden_states": true,
+    "hidden_state_shapes_observed_first_batch": [
+      [
+        2,
+        499,
+        768
+      ],
+      [
+        2,
+        499,
+        768
+      ],
+      [
+        2,
+        499,
+        768
+      ],
+      [
+        2,
+        499,
+        768
+      ],
+      [
+        2,
+        499,
+        768
+      ],
+      [
+        2,
+        499,
+        768
+      ],
+      [
+        2,
+        499,
+        768
+      ],
+      [
+        2,
+        499,
+        768
+      ],
+      [
+        2,
+        499,
+        768
+      ],
+      [
+        2,
+        499,
+        768
+      ],
+      [
+        2,
+        499,
+        768
+      ],
+      [
+        2,
+        499,
+        768
+      ],
+      [
+        2,
+        499,
+        768
+      ]
+    ],
+    "normalization_method": "float32_dc_offset_removal_peak_normalization_no_dataset_norm_no_augmentation_no_denoising",
+    "total_expected_windows": 955,
+    "total_successful_or_skipped_embeddings": 955,
+    "total_extracted": 955,
+    "total_skipped_valid": 0,
+    "total_failed": 0,
+    "participant_count": 112,
+    "window_embedding_dir": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\android_reading_wavlm_window_embeddings",
+    "reading_only_scope": true
+  },
+  "aggregation": {
+    "created_at": "2026-07-04T07:31:19.453339+00:00",
+    "status": "passed",
+    "participant_embeddings": 112,
+    "expected_participants": 112,
+    "total_windows_used": 955,
+    "aggregation_method": "float64 accumulation arithmetic mean; saved float32",
+    "reading_only_scope": true
+  },
+  "protocol_metrics": [
+    {
+      "protocol": "A_zero_shot_daic_at_0_5",
+      "roc_auc": 0.5795019157088123,
+      "pr_auc": 0.5996959032350415,
+      "brier_score": 0.3350677214156148,
+      "probability_min": 0.11188560724258423,
+      "probability_max": 0.3947707414627075,
+      "probability_mean": 0.21927475689777307,
+      "probability_std": 0.05343811255692176,
+      "balanced_accuracy": 0.5,
+      "macro_f1": 0.3253012048192771,
+      "positive_class_precision": 0.0,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "negative_predictive_value": 0.48214285714285715,
+      "predicted_positive_rate": 0.0,
+      "tn": 54,
+      "fp": 0,
+      "fn": 58,
+      "tp": 0,
+      "threshold": 0.5,
+      "participant_count": 112
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "roc_auc": 0.5795019157088123,
+      "pr_auc": 0.5996959032350415,
+      "brier_score": 0.3350677214156148,
+      "probability_min": 0.11188560724258423,
+      "probability_max": 0.3947707414627075,
+      "probability_mean": 0.21927475689777307,
+      "probability_std": 0.05343811255692176,
+      "balanced_accuracy": 0.5,
+      "macro_f1": 0.3253012048192771,
+      "positive_class_precision": 0.0,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "negative_predictive_value": 0.48214285714285715,
+      "predicted_positive_rate": 0.0,
+      "tn": 54,
+      "fp": 0,
+      "fn": 58,
+      "tp": 0,
+      "threshold": 0.555840134621,
+      "participant_count": 112
+    },
+    {
+      "protocol": "B_android_lr_at_0_5",
+      "roc_auc": 0.8796296296296295,
+      "pr_auc": 0.8929005527094656,
+      "brier_score": 0.14381025547048054,
+      "probability_min": 1.706818175391017e-06,
+      "probability_max": 0.9999965316112069,
+      "probability_mean": 0.5176778105488876,
+      "probability_std": 0.389833833835533,
+      "balanced_accuracy": 0.8033205619412516,
+      "macro_f1": 0.8033205619412516,
+      "positive_class_precision": 0.8103448275862069,
+      "sensitivity": 0.8103448275862069,
+      "specificity": 0.7962962962962963,
+      "negative_predictive_value": 0.7962962962962963,
+      "predicted_positive_rate": 0.5178571428571429,
+      "tn": 43,
+      "fp": 11,
+      "fn": 11,
+      "tp": 47,
+      "threshold": 0.5,
+      "participant_count": 112
+    },
+    {
+      "protocol": "B_android_lr_threshold_adapted",
+      "roc_auc": 0.8796296296296295,
+      "pr_auc": 0.8929005527094656,
+      "brier_score": 0.14381025547048054,
+      "probability_min": 1.706818175391017e-06,
+      "probability_max": 0.9999965316112069,
+      "probability_mean": 0.5176778105488876,
+      "probability_std": 0.389833833835533,
+      "balanced_accuracy": 0.7768199233716475,
+      "macro_f1": 0.7766254487435182,
+      "positive_class_precision": 0.7894736842105263,
+      "sensitivity": 0.7758620689655172,
+      "specificity": 0.7777777777777778,
+      "negative_predictive_value": 0.7636363636363637,
+      "predicted_positive_rate": 0.5089285714285714,
+      "tn": 42,
+      "fp": 12,
+      "fn": 13,
+      "tp": 45,
+      "threshold": null,
+      "participant_count": 112
+    }
+  ],
+  "zero_shot_reading": {
+    "probability_range": [
+      0.11188560724258423,
+      0.3947707414627075
+    ],
+    "probability_mean": 0.21927475689777307,
+    "probability_std": 0.05343811255692176,
+    "metrics_at_frozen_threshold": {
+      "protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "roc_auc": 0.5795019157088123,
+      "pr_auc": 0.5996959032350415,
+      "brier_score": 0.3350677214156148,
+      "probability_min": 0.11188560724258423,
+      "probability_max": 0.3947707414627075,
+      "probability_mean": 0.21927475689777307,
+      "probability_std": 0.05343811255692176,
+      "balanced_accuracy": 0.5,
+      "macro_f1": 0.3253012048192771,
+      "positive_class_precision": 0.0,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "negative_predictive_value": 0.48214285714285715,
+      "predicted_positive_rate": 0.0,
+      "tn": 54,
+      "fp": 0,
+      "fn": 58,
+      "tp": 0,
+      "threshold": 0.555840134621,
+      "participant_count": 112
+    },
+    "metrics_at_0_5": {
+      "protocol": "A_zero_shot_daic_at_0_5",
+      "roc_auc": 0.5795019157088123,
+      "pr_auc": 0.5996959032350415,
+      "brier_score": 0.3350677214156148,
+      "probability_min": 0.11188560724258423,
+      "probability_max": 0.3947707414627075,
+      "probability_mean": 0.21927475689777307,
+      "probability_std": 0.05343811255692176,
+      "balanced_accuracy": 0.5,
+      "macro_f1": 0.3253012048192771,
+      "positive_class_precision": 0.0,
+      "sensitivity": 0.0,
+      "specificity": 1.0,
+      "negative_predictive_value": 0.48214285714285715,
+      "predicted_positive_rate": 0.0,
+      "tn": 54,
+      "fp": 0,
+      "fn": 58,
+      "tp": 0,
+      "threshold": 0.5,
+      "participant_count": 112
+    }
+  },
+  "android_trained_reading": {
+    "metrics_at_training_selected_threshold": {
+      "protocol": "B_android_lr_threshold_adapted",
+      "roc_auc": 0.8796296296296295,
+      "pr_auc": 0.8929005527094656,
+      "brier_score": 0.14381025547048054,
+      "probability_min": 1.706818175391017e-06,
+      "probability_max": 0.9999965316112069,
+      "probability_mean": 0.5176778105488876,
+      "probability_std": 0.389833833835533,
+      "balanced_accuracy": 0.7768199233716475,
+      "macro_f1": 0.7766254487435182,
+      "positive_class_precision": 0.7894736842105263,
+      "sensitivity": 0.7758620689655172,
+      "specificity": 0.7777777777777778,
+      "negative_predictive_value": 0.7636363636363637,
+      "predicted_positive_rate": 0.5089285714285714,
+      "tn": 42,
+      "fp": 12,
+      "fn": 13,
+      "tp": 45,
+      "threshold": null,
+      "participant_count": 112
+    },
+    "metrics_at_0_5": {
+      "protocol": "B_android_lr_at_0_5",
+      "roc_auc": 0.8796296296296295,
+      "pr_auc": 0.8929005527094656,
+      "brier_score": 0.14381025547048054,
+      "probability_min": 1.706818175391017e-06,
+      "probability_max": 0.9999965316112069,
+      "probability_mean": 0.5176778105488876,
+      "probability_std": 0.389833833835533,
+      "balanced_accuracy": 0.8033205619412516,
+      "macro_f1": 0.8033205619412516,
+      "positive_class_precision": 0.8103448275862069,
+      "sensitivity": 0.8103448275862069,
+      "specificity": 0.7962962962962963,
+      "negative_predictive_value": 0.7962962962962963,
+      "predicted_positive_rate": 0.5178571428571429,
+      "tn": 43,
+      "fp": 11,
+      "fn": 11,
+      "tp": 47,
+      "threshold": 0.5,
+      "participant_count": 112
+    },
+    "selected_C_distribution": {
+      "10.0": 1,
+      "0.1": 3,
+      "0.01": 1
+    },
+    "selected_threshold_distribution": {
+      "0.468513": 1,
+      "0.665017": 1,
+      "0.362810": 1,
+      "0.514185": 1,
+      "0.431652": 1
+    }
+  },
+  "bootstrap_intervals": [
+    {
+      "protocol": "A_zero_shot_daic_at_0_5",
+      "metric": "roc_auc",
+      "point_estimate": 0.5795019157088123,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.4715756704980843,
+      "percentile_50": 0.5795019157088122,
+      "percentile_97_5": 0.6807151979565773
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_0_5",
+      "metric": "pr_auc",
+      "point_estimate": 0.5996959032350415,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.5186120559222198,
+      "percentile_50": 0.6110483923912596,
+      "percentile_97_5": 0.7200163312311091
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_0_5",
+      "metric": "balanced_accuracy",
+      "point_estimate": 0.5,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.5,
+      "percentile_50": 0.5,
+      "percentile_97_5": 0.5
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_0_5",
+      "metric": "macro_f1",
+      "point_estimate": 0.3253012048192771,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.3253012048192771,
+      "percentile_50": 0.3253012048192771,
+      "percentile_97_5": 0.3253012048192771
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_0_5",
+      "metric": "sensitivity",
+      "point_estimate": 0.0,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.0,
+      "percentile_50": 0.0,
+      "percentile_97_5": 0.0
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_0_5",
+      "metric": "specificity",
+      "point_estimate": 1.0,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 1.0,
+      "percentile_50": 1.0,
+      "percentile_97_5": 1.0
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_0_5",
+      "metric": "brier_score",
+      "point_estimate": 0.3350677214156148,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.32384052753059084,
+      "percentile_50": 0.3350981400077977,
+      "percentile_97_5": 0.3464795746569357
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "metric": "roc_auc",
+      "point_estimate": 0.5795019157088123,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.4747685185185185,
+      "percentile_50": 0.5795019157088123,
+      "percentile_97_5": 0.685823754789272
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "metric": "pr_auc",
+      "point_estimate": 0.5996959032350415,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.5166259441883851,
+      "percentile_50": 0.6115890491995475,
+      "percentile_97_5": 0.7173443346776446
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "metric": "balanced_accuracy",
+      "point_estimate": 0.5,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.5,
+      "percentile_50": 0.5,
+      "percentile_97_5": 0.5
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "metric": "macro_f1",
+      "point_estimate": 0.3253012048192771,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.3253012048192771,
+      "percentile_50": 0.3253012048192771,
+      "percentile_97_5": 0.3253012048192771
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "metric": "sensitivity",
+      "point_estimate": 0.0,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.0,
+      "percentile_50": 0.0,
+      "percentile_97_5": 0.0
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "metric": "specificity",
+      "point_estimate": 1.0,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 1.0,
+      "percentile_50": 1.0,
+      "percentile_97_5": 1.0
+    },
+    {
+      "protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "metric": "brier_score",
+      "point_estimate": 0.3350677214156148,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.3240722342294798,
+      "percentile_50": 0.3350680441944917,
+      "percentile_97_5": 0.34618700227176513
+    },
+    {
+      "protocol": "B_android_lr_at_0_5",
+      "metric": "roc_auc",
+      "point_estimate": 0.8796296296296295,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.8106641123882503,
+      "percentile_50": 0.8809067688378034,
+      "percentile_97_5": 0.938058748403576
+    },
+    {
+      "protocol": "B_android_lr_at_0_5",
+      "metric": "pr_auc",
+      "point_estimate": 0.8929005527094656,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.8324652202884281,
+      "percentile_50": 0.8961368134013018,
+      "percentile_97_5": 0.946306316588623
+    },
+    {
+      "protocol": "B_android_lr_at_0_5",
+      "metric": "balanced_accuracy",
+      "point_estimate": 0.8033205619412516,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.7238186462324393,
+      "percentile_50": 0.8033205619412516,
+      "percentile_97_5": 0.8742017879948915
+    },
+    {
+      "protocol": "B_android_lr_at_0_5",
+      "metric": "macro_f1",
+      "point_estimate": 0.8033205619412516,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.7230155564419625,
+      "percentile_50": 0.8033205619412516,
+      "percentile_97_5": 0.8746402302526384
+    },
+    {
+      "protocol": "B_android_lr_at_0_5",
+      "metric": "sensitivity",
+      "point_estimate": 0.8103448275862069,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.7068965517241379,
+      "percentile_50": 0.8103448275862069,
+      "percentile_97_5": 0.9137931034482759
+    },
+    {
+      "protocol": "B_android_lr_at_0_5",
+      "metric": "specificity",
+      "point_estimate": 0.7962962962962963,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.6851851851851852,
+      "percentile_50": 0.7962962962962963,
+      "percentile_97_5": 0.8888888888888888
+    },
+    {
+      "protocol": "B_android_lr_at_0_5",
+      "metric": "brier_score",
+      "point_estimate": 0.14381025547048054,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.09849114628660062,
+      "percentile_50": 0.14357460842443548,
+      "percentile_97_5": 0.1931751511457531
+    },
+    {
+      "protocol": "B_android_lr_threshold_adapted",
+      "metric": "roc_auc",
+      "point_estimate": 0.8796296296296295,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.8113026819923372,
+      "percentile_50": 0.8818646232439337,
+      "percentile_97_5": 0.9377394636015325
+    },
+    {
+      "protocol": "B_android_lr_threshold_adapted",
+      "metric": "pr_auc",
+      "point_estimate": 0.8929005527094656,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.8312185053995799,
+      "percentile_50": 0.8968445714480766,
+      "percentile_97_5": 0.9464310015286301
+    },
+    {
+      "protocol": "B_android_lr_threshold_adapted",
+      "metric": "balanced_accuracy",
+      "point_estimate": 0.7768199233716475,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.6973180076628352,
+      "percentile_50": 0.7768199233716475,
+      "percentile_97_5": 0.8544061302681992
+    },
+    {
+      "protocol": "B_android_lr_threshold_adapted",
+      "metric": "macro_f1",
+      "point_estimate": 0.7766254487435182,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.6963317384370016,
+      "percentile_50": 0.7766254487435181,
+      "percentile_97_5": 0.8554838709677419
+    },
+    {
+      "protocol": "B_android_lr_threshold_adapted",
+      "metric": "sensitivity",
+      "point_estimate": 0.7758620689655172,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.6724137931034483,
+      "percentile_50": 0.7758620689655172,
+      "percentile_97_5": 0.8793103448275862
+    },
+    {
+      "protocol": "B_android_lr_threshold_adapted",
+      "metric": "specificity",
+      "point_estimate": 0.7777777777777778,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.6666666666666666,
+      "percentile_50": 0.7777777777777778,
+      "percentile_97_5": 0.8888888888888888
+    },
+    {
+      "protocol": "B_android_lr_threshold_adapted",
+      "metric": "brier_score",
+      "point_estimate": 0.14381025547048054,
+      "n_bootstrap_replicates": 5000,
+      "n_successful_replicates": 5000,
+      "percentile_2_5": 0.0989080661826959,
+      "percentile_50": 0.142631392405116,
+      "percentile_97_5": 0.19157203633562944
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "comparison": "zero_shot_0_5_vs_android_lr_0_5",
+      "left_protocol": "A_zero_shot_daic_at_0_5",
+      "right_protocol": "B_android_lr_at_0_5",
+      "metric": "roc_auc",
+      "point_difference_right_minus_left": 0.3001277139208173,
+      "percentile_2_5": 0.17496807151979576,
+      "percentile_50": 0.30044699872286074,
+      "percentile_97_5": 0.42113665389527455,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_0_5_vs_android_lr_0_5",
+      "left_protocol": "A_zero_shot_daic_at_0_5",
+      "right_protocol": "B_android_lr_at_0_5",
+      "metric": "pr_auc",
+      "point_difference_right_minus_left": 0.29320464947442404,
+      "percentile_2_5": 0.1611349985546707,
+      "percentile_50": 0.2830116062635323,
+      "percentile_97_5": 0.3907377397396754,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_0_5_vs_android_lr_0_5",
+      "left_protocol": "A_zero_shot_daic_at_0_5",
+      "right_protocol": "B_android_lr_at_0_5",
+      "metric": "balanced_accuracy",
+      "point_difference_right_minus_left": 0.30332056194125157,
+      "percentile_2_5": 0.2238186462324393,
+      "percentile_50": 0.30332056194125157,
+      "percentile_97_5": 0.37420178799489145,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_0_5_vs_android_lr_0_5",
+      "left_protocol": "A_zero_shot_daic_at_0_5",
+      "right_protocol": "B_android_lr_at_0_5",
+      "metric": "macro_f1",
+      "point_difference_right_minus_left": 0.47801935712197446,
+      "percentile_2_5": 0.39771435162268537,
+      "percentile_50": 0.47801935712197446,
+      "percentile_97_5": 0.5493390254333612,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_0_5_vs_android_lr_0_5",
+      "left_protocol": "A_zero_shot_daic_at_0_5",
+      "right_protocol": "B_android_lr_at_0_5",
+      "metric": "sensitivity",
+      "point_difference_right_minus_left": 0.8103448275862069,
+      "percentile_2_5": 0.7068965517241379,
+      "percentile_50": 0.8103448275862069,
+      "percentile_97_5": 0.9137931034482759,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_0_5_vs_android_lr_0_5",
+      "left_protocol": "A_zero_shot_daic_at_0_5",
+      "right_protocol": "B_android_lr_at_0_5",
+      "metric": "specificity",
+      "point_difference_right_minus_left": -0.20370370370370372,
+      "percentile_2_5": -0.31481481481481477,
+      "percentile_50": -0.20370370370370372,
+      "percentile_97_5": -0.11111111111111116,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_0_5_vs_android_lr_0_5",
+      "left_protocol": "A_zero_shot_daic_at_0_5",
+      "right_protocol": "B_android_lr_at_0_5",
+      "metric": "brier_score",
+      "point_difference_right_minus_left": -0.19125746594513426,
+      "percentile_2_5": -0.2368105158568231,
+      "percentile_50": -0.19160645697510267,
+      "percentile_97_5": -0.13977347074108246,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_frozen_threshold_vs_android_lr_threshold_adapted",
+      "left_protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "right_protocol": "B_android_lr_threshold_adapted",
+      "metric": "roc_auc",
+      "point_difference_right_minus_left": 0.3001277139208173,
+      "percentile_2_5": 0.17879150702426558,
+      "percentile_50": 0.30140485312899107,
+      "percentile_97_5": 0.41922892720306515,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_frozen_threshold_vs_android_lr_threshold_adapted",
+      "left_protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "right_protocol": "B_android_lr_threshold_adapted",
+      "metric": "pr_auc",
+      "point_difference_right_minus_left": 0.29320464947442404,
+      "percentile_2_5": 0.1618200757403915,
+      "percentile_50": 0.283272553844554,
+      "percentile_97_5": 0.3911866999686113,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_frozen_threshold_vs_android_lr_threshold_adapted",
+      "left_protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "right_protocol": "B_android_lr_threshold_adapted",
+      "metric": "balanced_accuracy",
+      "point_difference_right_minus_left": 0.2768199233716475,
+      "percentile_2_5": 0.19731800766283525,
+      "percentile_50": 0.2768199233716475,
+      "percentile_97_5": 0.3544061302681992,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_frozen_threshold_vs_android_lr_threshold_adapted",
+      "left_protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "right_protocol": "B_android_lr_threshold_adapted",
+      "metric": "macro_f1",
+      "point_difference_right_minus_left": 0.45132424392424114,
+      "percentile_2_5": 0.3710305336177245,
+      "percentile_50": 0.45132424392424103,
+      "percentile_97_5": 0.5301826661484648,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_frozen_threshold_vs_android_lr_threshold_adapted",
+      "left_protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "right_protocol": "B_android_lr_threshold_adapted",
+      "metric": "sensitivity",
+      "point_difference_right_minus_left": 0.7758620689655172,
+      "percentile_2_5": 0.6724137931034483,
+      "percentile_50": 0.7758620689655172,
+      "percentile_97_5": 0.8793103448275862,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_frozen_threshold_vs_android_lr_threshold_adapted",
+      "left_protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "right_protocol": "B_android_lr_threshold_adapted",
+      "metric": "specificity",
+      "point_difference_right_minus_left": -0.2222222222222222,
+      "percentile_2_5": -0.33333333333333337,
+      "percentile_50": -0.2222222222222222,
+      "percentile_97_5": -0.11111111111111116,
+      "n_bootstrap_replicates": 5000
+    },
+    {
+      "comparison": "zero_shot_frozen_threshold_vs_android_lr_threshold_adapted",
+      "left_protocol": "A_zero_shot_daic_at_frozen_threshold",
+      "right_protocol": "B_android_lr_threshold_adapted",
+      "metric": "brier_score",
+      "point_difference_right_minus_left": -0.19125746594513426,
+      "percentile_2_5": -0.2377508181417928,
+      "percentile_50": -0.19257523748174754,
+      "percentile_97_5": -0.1422404652198153,
+      "n_bootstrap_replicates": 5000
+    }
+  ],
+  "task_comparison": [
+    {
+      "task": "Android reading",
+      "participant_count": 112,
+      "class_counts": "HC=54;PT=58",
+      "total_windows": 955,
+      "average_windows_per_participant": 8.526785714285714,
+      "speech_type": "controlled_reading",
+      "fold_protocol": "official reading five-fold OOF",
+      "selected_C_distribution": {
+        "10.0": 1,
+        "0.1": 3,
+        "0.01": 1
+      },
+      "selected_threshold_distribution": {
+        "0.468513": 1,
+        "0.665017": 1,
+        "0.362810": 1,
+        "0.514185": 1,
+        "0.431652": 1
+      },
+      "roc_auc": 0.8796296296296295,
+      "roc_auc_ci_95": "[0.8113, 0.9377]",
+      "pr_auc": 0.8929005527094656,
+      "balanced_accuracy": 0.7768199233716475,
+      "macro_f1": 0.7766254487435182,
+      "sensitivity": 0.7758620689655172,
+      "specificity": 0.7777777777777778,
+      "brier_score": 0.14381025547048054
+    },
+    {
+      "task": "Android interview",
+      "participant_count": 116,
+      "class_counts": "HC=52;PT=64",
+      "total_windows": 4249,
+      "average_windows_per_participant": 36.62931034482759,
+      "speech_type": "spontaneous_interview",
+      "fold_protocol": "official interview five-fold OOF from Phase 2C Protocol D",
+      "selected_C_distribution": {
+        "10.0": 1,
+        "100.0": 3,
+        "0.01": 1
+      },
+      "selected_threshold_distribution": {
+        "0.146581": 2,
+        "0.140310": 2,
+        "0.143386": 1,
+        "0.109269": 1,
+        "0.649585": 1,
+        "0.114440": 1,
+        "0.395406": 1,
+        "0.309655": 1
+      },
+      "roc_auc": 0.8674879807692308,
+      "roc_auc_ci_95": "[0.7978, 0.9303]",
+      "pr_auc": 0.8891814233744046,
+      "balanced_accuracy": 0.8275240384615384,
+      "macro_f1": 0.8262952979934111,
+      "sensitivity": 0.828125,
+      "specificity": 0.8269230769230769,
+      "brier_score": 0.1694976570076466
+    }
+  ],
+  "task_shift": {
+    "created_at": "2026-07-04T07:32:11.581661+00:00",
+    "common_reading_interview_participants": 110,
+    "within_participant_cosine_similarity": {
+      "min": 0.7788363099098206,
+      "max": 0.9722039103507996,
+      "mean": 0.9273294047875837,
+      "std": 0.03250499319717727,
+      "median": 0.9337224364280701,
+      "p10": 0.8852032899856568,
+      "p90": 0.9590446054935455
+    },
+    "random_cross_participant_cosine_similarity": {
+      "min": 0.6897497160963608,
+      "max": 0.9574822977243987,
+      "mean": 0.8910243340481576,
+      "std": 0.04513182295536812,
+      "median": 0.9008905642392095,
+      "p10": 0.8342001363546344,
+      "p90": 0.9383694984949844
+    },
+    "task_centroid_cosine_distance": 0.04421660033542707,
+    "embedding_norms": {
+      "reading": {
+        "min": 2.5625780476090694,
+        "max": 3.0605732503797456,
+        "mean": 2.7871843019543086,
+        "std": 0.1072206876816536,
+        "median": 2.7934103186593067,
+        "p10": 2.6222275510401776,
+        "p90": 2.909593003504023
+      },
+      "interview": {
+        "min": 2.614891468095428,
+        "max": 3.2455028754967388,
+        "mean": 2.9252648591789963,
+        "std": 0.11957148053712774,
+        "median": 2.9135606638937936,
+        "p10": 2.7839292379734393,
+        "p90": 3.1096966754417177
+      }
+    },
+    "standardized_feature_shift_using_interview_std": {
+      "mean_absolute_shift": 0.883059636689866,
+      "median_absolute_shift": 0.7344060083074477,
+      "features_shifted_more_than_one_interview_std": 292,
+      "fraction_features_shifted_more_than_one_interview_std": 0.3802083333333333
+    },
+    "within_android_classifier_probability_comparison": {
+      "common_participants": 110,
+      "reading_probability": {
+        "min": 9.382580435095428e-06,
+        "max": 0.9999965316112069,
+        "mean": 0.5263389681510773,
+        "std": 0.38794536835900445,
+        "median": 0.5698002157041095,
+        "p10": 0.007156252878715378,
+        "p90": 0.999381162103257
+      },
+      "interview_probability": {
+        "min": 2.942933762296849e-11,
+        "max": 0.9999999999989142,
+        "mean": 0.47052138537009736,
+        "std": 0.4408278576022362,
+        "median": 0.44132412780676156,
+        "p10": 3.3386978425924594e-08,
+        "p90": 0.9999987240582128
+      },
+      "reading_minus_interview_probability": {
+        "min": -0.9930096997758565,
+        "max": 0.9929625738979845,
+        "mean": 0.05581758278097987,
+        "std": 0.3835921546141527,
+        "median": 0.015915493151552083,
+        "p10": -0.42300569765304186,
+        "p90": 0.5768627810031203
+      },
+      "pearson_correlation": 0.5779768169234709
+    },
+    "label_independent_analysis_only": true
+  },
+  "interpretation": {
+    "reading_signal_classification": "reading_signal_strong",
+    "narrative": "Reading and interview performance were similar enough that useful vocal cues may persist across speech tasks under this representation, though the comparison remains descriptive.",
+    "zero_shot_vs_android_trained_reading": {
+      "roc_auc_difference": 0.3001277139208173,
+      "macro_f1_difference": 0.45132424392424114,
+      "brier_difference": -0.19125746594513426
+    },
+    "interview_minus_reading": {
+      "roc_auc_difference": -0.012141648860398702,
+      "macro_f1_difference": 0.04966984924989282,
+      "brier_difference": 0.02568740153716606
+    },
+    "clinical_validity_claim": false
+  },
+  "leakage_checks": {
+    "status": "passed",
+    "participant_grouping_unit": true,
+    "reading_fold_only": true,
+    "interview_fold_used_for_reading": false,
+    "outer_test_features_used_for_scaler": false,
+    "outer_test_labels_used_for_C_selection": false,
+    "outer_test_labels_used_for_threshold_selection": false,
+    "each_reading_participant_one_oof_prediction": true
+  },
+  "scope_confirmation": {
+    "phase2c_rerun_performed": false,
+    "interview_audio_reprocessed": false,
+    "timing_features_used": false,
+    "wavlm_layer_changed": false,
+    "participant_aggregation_changed": false,
+    "new_classifier_family_used": false,
+    "phase2e_started": false
+  }
+}

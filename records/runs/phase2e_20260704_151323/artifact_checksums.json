@@ -1,0 +1,22 @@
+{
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_bootstrap_intervals.csv": "f0664c3c919a3316f2f40adade8e7cfb0a6a05aff527020e12e3e199a0b9568e",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_classifier_boundary_analysis.csv": "644e81bfc3f2f3a4230e11d3582b386bfebaeeafb99cc93fc6f35c56a0127ac7",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.json": "d62389e2f013c26dd9aeeadf30bbfd4df55d0c053103b990b2ceef4d5ac4a6ae",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.md": "1e1c72fa4a3e46bb332062b973387d16a2182f2853f1d249acf7d1ac4c098aeb",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_fold_metadata.json": "9db4a850d37aa9498acd103e2cd4c90d129481f453b245931565221fb6203047",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_fold_metrics.csv": "f1af14eb228c3efb93974f1c705ba2f419fe9cdadfee98f49f688a05799e4f18",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_fold_summary.csv": "dc917693303d94f980228100c34a52e8d94014daf0d66e177583dab8b84de867",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_inner_c_selection.csv": "8dd38749d869ee296103e93768d9c0692c1560444b190340f89c19169944389c",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_leakage_report.json": "c3c0cba37b77f3884629e67fcd70f0bb9e47eabaa6cefd73fee2191a4c4d8674",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_outer_predictions.csv": "c0f5a1f92c7c0bee435ce25130c53289b5aa41956f2179f6254d3bc01701ce18",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_paired_comparisons.csv": "b6977f0bba2a2314a3ec86b6219bd439949dfb11298308178ba17911a9cad3c3",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_paired_participant_quality_report.csv": "424a1c6ecb0a4915890e289acbe041ad01a9e21a38733f6f0aef6654d7070602",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_paired_participant_summary.json": "0a007425a212928e573a2078636015715fc298a51a146b56da5adea55ddb26ae",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_participant_coherent_folds.csv": "0208af436d436c5beb51902c70149aa0017e2a56dea47f4eab139edee0752daa",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_protocol_comparison.csv": "479b85d7bcfe3b242c77854188376c3fa09d1b2bb72b1ecc3c53d6159a0c7232",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_quality_report.json": "2995bf2e407ce5c43cdb846ded09f6d46d499cb9cc96573891f3b88bece7e58f",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_run_metadata.json": "c50e418b4bebdd9184aa15f41cce5f75fb8728e222c0e5ace10034577caf7968",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_selected_parameters.csv": "cfb0a8a1c383bebf8c35a062528a882c95057ab8c376e7965691654fabb550dc",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_selected_parameters_summary.csv": "ccfe2229c8f0f90d1dbcfd5431dba8904e1da677499299fb9a029743ed2ac8a3",
+  "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_transfer_gap_analysis.csv": "509c80e0e3780fbdbef477ad0dc7c26d5a859bb283ef2200e87d1350dff2bc6b"
+}

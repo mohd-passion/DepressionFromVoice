@@ -1,0 +1,72 @@
+{
+  "phase": "Phase 2E",
+  "planned_registry_ids": [
+    "phase2e_matched_reading_within_task",
+    "phase2e_matched_interview_within_task",
+    "phase2e_reading_to_interview_transfer",
+    "phase2e_interview_to_reading_transfer",
+    "phase2e_pooled_to_reading",
+    "phase2e_pooled_to_interview",
+    "phase2e_cross_task_transfer_conclusion"
+  ],
+  "phase2a_run": "outputs/phase2_android/phase2a_preparation_runs/20260622_154228",
+  "phase2c_run": "outputs/phase2_android/phase2c_domain_shift_runs/20260703_125614",
+  "phase2d_run": "outputs/phase2_android/phase2d_reading_runs/20260704_125931",
+  "phase2b_interview_run": "outputs/phase2_android/phase2b_zero_shot_interview_runs/20260622_162548",
+  "superseded_phase2a_run_forbidden": "outputs/phase2_android/phase2a_preparation_runs/20260622_154008",
+  "output_root": "outputs/phase2_android/phase2e_cross_task_runs",
+  "compact_record_root": "records/runs",
+  "wavlm_model": "microsoft/wavlm-base-plus",
+  "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+  "wavlm_layer": "layer_09",
+  "window_seconds": 10.0,
+  "overlap": 0.5,
+  "window_pooling": "temporal_mean",
+  "participant_aggregation": "mean",
+  "embedding_dimension": 768,
+  "embedding_dtype": "float32",
+  "c_grid": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+  "outer_folds": 5,
+  "fold_seed": 20260704,
+  "random_seed": 42,
+  "bootstrap_replicates": 5000,
+  "protocols": [
+    "matched_reading_within_task",
+    "matched_interview_within_task",
+    "reading_to_interview",
+    "interview_to_reading",
+    "pooled_to_reading",
+    "pooled_to_interview"
+  ],
+  "frozen_references": {
+    "phase2c_within_interview": {
+      "roc_auc": 0.8675,
+      "pr_auc": 0.8892,
+      "balanced_accuracy": 0.8275,
+      "macro_f1": 0.8263,
+      "sensitivity": 0.8281,
+      "specificity": 0.8269,
+      "brier_score": 0.1695
+    },
+    "phase2d_within_reading": {
+      "roc_auc": 0.8796,
+      "pr_auc": 0.8929,
+      "balanced_accuracy": 0.7768,
+      "macro_f1": 0.7766,
+      "sensitivity": 0.7759,
+      "specificity": 0.7778,
+      "brier_score": 0.1438
+    }
+  },
+  "forbidden": {
+    "new_wavlm_extraction": true,
+    "audio_preprocessing": true,
+    "layer_selection": true,
+    "alternative_pooling": true,
+    "wavlm_fine_tuning": true,
+    "feature_concatenation_across_tasks": true,
+    "participant_level_task_fusion": true,
+    "timing_features": true,
+    "new_model_family": true
+  }
+}

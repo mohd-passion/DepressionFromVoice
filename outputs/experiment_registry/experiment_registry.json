@@ -1,7 +1,7 @@
 {
   "registry_version": "1.0",
   "project": "DepressionFromVoice",
-  "last_updated": "2026-07-03T07:31:57.453656+00:00",
+  "last_updated": "2026-07-04T07:40:55.606387+00:00",
   "project_status": {
     "phase1_status": "completed_baseline_ready_for_external_validation",
     "phase2_status": "phase2b_zero_shot_external_validation_completed",
@@ -4022,11 +4022,407 @@
         "git_commit": "03bcd03c09c1fe2adf061e3cf4a7416c4d7e74fb"
       },
       "history": []
+    },
+    {
+      "id": "phase2d_android_interview_vs_reading_comparison",
+      "revision": 1,
+      "phase": "Phase 2D",
+      "name": "Android interview-versus-reading comparison",
+      "status": "completed_phase2d_android_reading_benchmark",
+      "run_directory": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "reading versus interview speech",
+        "language": "Italian",
+        "train_n": null,
+        "dev_n": null,
+        "test_n": {
+          "reading": 112,
+          "interview": 116
+        },
+        "class_counts": {
+          "reading": {
+            "HC": 54,
+            "PT": 58
+          },
+          "interview": "HC=52;PT=64"
+        },
+        "split_protocol": "descriptive comparison of Phase 2D reading Protocol B and Phase 2C interview Protocol D",
+        "excluded": []
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "Comparison of Android-trained logistic-regression protocols",
+        "pipeline": "Reading Phase 2D Protocol B versus interview Phase 2C Protocol D",
+        "class_weight": "balanced",
+        "C": {
+          "reading": {
+            "10.0": 1,
+            "0.1": 3,
+            "0.01": 1
+          },
+          "interview": {
+            "10.0": 1,
+            "100.0": 3,
+            "0.01": 1
+          }
+        },
+        "other_parameters": {},
+        "selection_protocol": "descriptive task comparison; no pooled task training"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.8796296296296295,
+          "reading_roc_auc": 0.8796296296296295,
+          "interview_roc_auc": 0.8674879807692308,
+          "pr_auc": 0.8929005527094656,
+          "reading_pr_auc": 0.8929005527094656,
+          "interview_pr_auc": 0.8891814233744046,
+          "balanced_accuracy": 0.7768199233716475,
+          "macro_f1": 0.7766254487435182,
+          "sensitivity": 0.7758620689655172,
+          "specificity": 0.7777777777777778,
+          "brier_score": 0.14381025547048054
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\phase2d_bootstrap_intervals.csv",
+          "paired_comparisons": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\phase2d_paired_comparisons.csv",
+          "task_comparison": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\phase2d_task_comparison.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under official task-specific folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": false,
+        "target_model_refitted": true,
+        "target_threshold_refitted": true,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "No pooled task model was trained.",
+          "No Phase 2C interview model was rerun."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Reading and interview performance were similar enough that useful vocal cues may persist across speech tasks under this representation, though the comparison remains descriptive.",
+        "selected": false,
+        "selection_reason": "Task comparison record only.",
+        "rejection_reason": "",
+        "limitations": [
+          "Reading and interview participant sets/folds are not identical.",
+          "Task comparison is descriptive and not a clinical validation claim."
+        ],
+        "warnings": [
+          "Do not claim clinical validation."
+        ],
+        "next_step": "Do not proceed without freezing a new protocol."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\PHASE2D_ANDROID_READING_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\PHASE2D_ANDROID_READING_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\phase2d_task_comparison.csv"
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": "2.11.0+cu128",
+        "transformers": "5.12.1",
+        "scikit_learn": "1.9.0",
+        "cuda": "12.8",
+        "gpu": "NVIDIA GeForce RTX 3050",
+        "git_commit": "2cf1761b6d8738cf77e626b44f5129a40e79b7d6"
+      },
+      "history": []
+    },
+    {
+      "id": "phase2d_android_reading_logistic_regression",
+      "revision": 1,
+      "phase": "Phase 2D",
+      "name": "Android-trained reading logistic regression",
+      "status": "completed_phase2d_android_reading_benchmark",
+      "run_directory": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "reading speech",
+        "language": "Italian",
+        "train_n": "four official reading folds per outer evaluation",
+        "dev_n": null,
+        "test_n": 112,
+        "class_counts": {
+          "HC": 54,
+          "PT": 58
+        },
+        "split_protocol": "official Android reading five-fold participant-independent protocol",
+        "excluded": []
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "Official reading-fold StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": {
+          "10.0": 1,
+          "0.1": 3,
+          "0.01": 1
+        },
+        "other_parameters": {
+          "selected_C_distribution": {
+            "10.0": 1,
+            "0.1": 3,
+            "0.01": 1
+          },
+          "selected_threshold_distribution": {
+            "0.468513": 1,
+            "0.665017": 1,
+            "0.362810": 1,
+            "0.514185": 1,
+            "0.431652": 1
+          }
+        },
+        "selection_protocol": "Official reading five-fold outer evaluation with leave-one-training-fold-out inner C selection"
+      },
+      "threshold": {
+        "source": "Official reading five-fold outer evaluation with leave-one-training-fold-out inner C selection",
+        "value": null,
+        "tuned_on": "Android reading outer-training folds only"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.8796296296296295,
+          "pr_auc": 0.8929005527094656,
+          "balanced_accuracy": 0.7768199233716475,
+          "macro_f1": 0.7766254487435182,
+          "sensitivity": 0.7758620689655172,
+          "specificity": 0.7777777777777778,
+          "positive_precision": 0.7894736842105263,
+          "negative_predictive_value": 0.7636363636363637,
+          "brier_score": 0.14381025547048054,
+          "threshold": null,
+          "tn": 42,
+          "fp": 12,
+          "fn": 13,
+          "tp": 45
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\phase2d_bootstrap_intervals.csv",
+          "bootstrap_replicates": 5000,
+          "paired_comparisons": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\phase2d_paired_comparisons.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under official reading folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": false,
+        "target_model_refitted": true,
+        "target_threshold_refitted": true,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 2D is a pre-specified reading benchmark and task comparison.",
+          "No Phase 1 model, Phase 2C model, WavLM layer, or aggregation rule was altered."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Android-trained reading model achieved 0.8796 ROC-AUC under official reading folds.",
+        "selected": false,
+        "selection_reason": "Completed Phase 2D diagnostic protocol; not a new frozen cross-corpus candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "Android clinical group labels and DAIC PHQ8_Binary are related but not identical.",
+          "Reading and interview participant sets/folds differ slightly; task comparison is descriptive."
+        ],
+        "warnings": [
+          "Do not claim clinical validation.",
+          "Repeated external-result inspection must be treated as diagnostic history."
+        ],
+        "next_step": "Use Phase 2D only as a recorded benchmark unless a new protocol is frozen."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\PHASE2D_ANDROID_READING_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\PHASE2D_ANDROID_READING_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": "2.11.0+cu128",
+        "transformers": "5.12.1",
+        "scikit_learn": "1.9.0",
+        "cuda": "12.8",
+        "gpu": "NVIDIA GeForce RTX 3050",
+        "git_commit": "2cf1761b6d8738cf77e626b44f5129a40e79b7d6"
+      },
+      "history": []
+    },
+    {
+      "id": "phase2d_android_reading_zero_shot_daic",
+      "revision": 1,
+      "phase": "Phase 2D",
+      "name": "Frozen DAIC zero-shot Android reading",
+      "status": "completed_phase2d_android_reading_benchmark",
+      "run_directory": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "reading speech",
+        "language": "Italian",
+        "train_n": null,
+        "dev_n": null,
+        "test_n": 112,
+        "class_counts": {
+          "HC": 54,
+          "PT": 58
+        },
+        "split_protocol": "official Android reading five-fold participant-independent protocol",
+        "excluded": []
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "Frozen DAIC LogisticRegression",
+        "pipeline": "Frozen Phase 1C StandardScaler + LogisticRegression",
+        "class_weight": "balanced",
+        "C": 0.001,
+        "other_parameters": {
+          "selected_C_distribution": null,
+          "selected_threshold_distribution": null
+        },
+        "selection_protocol": "Frozen DAIC dev threshold; no Android reading fitting"
+      },
+      "threshold": {
+        "source": "Frozen DAIC dev threshold; no Android reading fitting",
+        "value": 0.555840134621,
+        "tuned_on": "DAIC dev only"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.5795019157088123,
+          "pr_auc": 0.5996959032350415,
+          "balanced_accuracy": 0.5,
+          "macro_f1": 0.3253012048192771,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "positive_precision": 0.0,
+          "negative_predictive_value": 0.48214285714285715,
+          "brier_score": 0.3350677214156148,
+          "threshold": 0.555840134621,
+          "tn": 54,
+          "fp": 0,
+          "fn": 58,
+          "tp": 0
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\phase2d_bootstrap_intervals.csv",
+          "bootstrap_replicates": 5000,
+          "paired_comparisons": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\phase2d_paired_comparisons.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under official reading folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": true,
+        "target_model_refitted": false,
+        "target_threshold_refitted": false,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 2D is a pre-specified reading benchmark and task comparison.",
+          "No Phase 1 model, Phase 2C model, WavLM layer, or aggregation rule was altered."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Frozen DAIC reading transfer retained modest ranking but threshold transfer failed.",
+        "selected": false,
+        "selection_reason": "Completed Phase 2D diagnostic protocol; not a new frozen cross-corpus candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "Android clinical group labels and DAIC PHQ8_Binary are related but not identical.",
+          "Reading and interview participant sets/folds differ slightly; task comparison is descriptive."
+        ],
+        "warnings": [
+          "Do not claim clinical validation.",
+          "Repeated external-result inspection must be treated as diagnostic history."
+        ],
+        "next_step": "Use Phase 2D only as a recorded benchmark unless a new protocol is frozen."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\PHASE2D_ANDROID_READING_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2d_reading_runs\\20260704_125931\\PHASE2D_ANDROID_READING_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": "2.11.0+cu128",
+        "transformers": "5.12.1",
+        "scikit_learn": "1.9.0",
+        "cuda": "12.8",
+        "gpu": "NVIDIA GeForce RTX 3050",
+        "git_commit": "2cf1761b6d8738cf77e626b44f5129a40e79b7d6"
+      },
+      "history": []
     }
   ],
   "validation": {
     "status": "passed",
-    "checked_at": "2026-07-03T07:31:57.454659+00:00",
+    "checked_at": "2026-07-04T07:40:55.607784+00:00",
     "errors": [],
     "warnings": []
   }

@@ -1,0 +1,34 @@
+{
+  "created_at": "2026-07-04T09:47:26.263961+00:00",
+  "execution_start_timestamp": "2026-07-04T09:43:23.311130+00:00",
+  "execution_completion_timestamp": "2026-07-04T09:47:26.263961+00:00",
+  "config_path": "configs\\phase2e_cross_task_transfer.json",
+  "config_sha256": "d047bb7c7d890c1097331b0720c5168823d4bcb967d2e2853fe5b318f26f14e8",
+  "run_directory": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323",
+  "python_version": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+  "numpy_version": "2.3.5",
+  "sklearn_version": "1.9.0",
+  "joblib_version": "1.5.3",
+  "machine_name": "DellWork3660",
+  "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735",
+  "random_seed": 42,
+  "fold_seed": 20260704,
+  "bootstrap_replicates": 5000,
+  "c_grid": [
+    0.0001,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0
+  ],
+  "input_hashes": {
+    "config": "d047bb7c7d890c1097331b0720c5168823d4bcb967d2e2853fe5b318f26f14e8",
+    "reading_manifest": "4b11fdcf876b6690ba79dba2fbafd8e75ddea780db6da3c8b0ef6d3349aa7869",
+    "interview_manifest": "b1a41e6d5ca03a00befa0cc6bb67088edee3b4d784f6c2298121372aa37c1d72",
+    "phase2c_report": "3de3e60e6541d8f91cc86b7037e1a9f49823d199d15237bdfee57612747debcc",
+    "phase2d_report": "f7f802a963e44d0222ed737d0a0d98653650767bb1aea2777f30bc60dbd87497"
+  },
+  "modeling_scope": "Phase 2E only; existing participant embeddings; balanced logistic regression; no WavLM extraction"
+}

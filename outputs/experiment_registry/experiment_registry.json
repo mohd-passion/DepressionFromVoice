@@ -1,7 +1,7 @@
 {
   "registry_version": "1.0",
   "project": "DepressionFromVoice",
-  "last_updated": "2026-07-04T09:54:32.427645+00:00",
+  "last_updated": "2026-07-04T16:20:44.453629+00:00",
   "project_status": {
     "phase1_status": "completed_baseline_ready_for_external_validation",
     "phase2_status": "phase2e_cross_task_transfer_completed",
@@ -248,7 +248,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": true,
@@ -282,7 +282,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "provisional_local_labeled_test",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "official train/dev plus provisional local labeled test",
+        "participant_level_split": "DAIC train/dev plus provisional local labeled test split",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.44372294372294374,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Metadata-only sanity baseline achieved ROC-AUC 0.4437 on the provisional local labeled DAIC test split; this was not an official hidden AVEC test evaluation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "DAIC local labeled test labels are provisional and must not be described as official AVEC hidden-test labels."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1a_wavlm_final_layer",
@@ -383,7 +418,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": true,
@@ -417,7 +452,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "provisional_local_labeled_test",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "official train/dev plus provisional local labeled test",
+        "participant_level_split": "DAIC train/dev plus provisional local labeled test split",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5194805194805194,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Final-layer WavLM participant baseline achieved ROC-AUC 0.5195 on the provisional local labeled DAIC test split; this was not an official hidden AVEC test evaluation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "DAIC local labeled test labels are provisional and must not be described as official AVEC hidden-test labels."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1b_wavlm_layer_01",
@@ -502,7 +572,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -534,7 +604,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested repeated stratified CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5931666666666667,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "WavLM layer_01 layer-wise analysis was a DAIC-WOZ methodological ablation with ROC-AUC 0.5932 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1b_wavlm_layer_02",
@@ -619,7 +724,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -651,7 +756,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested repeated stratified CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5721111111111111,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "WavLM layer_02 layer-wise analysis was a DAIC-WOZ methodological ablation with ROC-AUC 0.5721 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1b_wavlm_layer_03",
@@ -736,7 +876,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -768,7 +908,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested repeated stratified CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.49200000000000005,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "WavLM layer_03 layer-wise analysis was a DAIC-WOZ methodological ablation with ROC-AUC 0.4920 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1b_wavlm_layer_04",
@@ -853,7 +1028,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -885,7 +1060,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested repeated stratified CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.46830555555555564,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "WavLM layer_04 layer-wise analysis was a DAIC-WOZ methodological ablation with ROC-AUC 0.4683 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1b_wavlm_layer_05",
@@ -970,7 +1180,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -1002,7 +1212,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested repeated stratified CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5203888888888889,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "WavLM layer_05 layer-wise analysis was a DAIC-WOZ methodological ablation with ROC-AUC 0.5204 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1b_wavlm_layer_06",
@@ -1087,7 +1332,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -1119,7 +1364,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested repeated stratified CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5126944444444445,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "WavLM layer_06 layer-wise analysis was a DAIC-WOZ methodological ablation with ROC-AUC 0.5127 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1b_wavlm_layer_07",
@@ -1204,7 +1484,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -1236,7 +1516,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested repeated stratified CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5582499999999999,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "WavLM layer_07 layer-wise analysis was a DAIC-WOZ methodological ablation with ROC-AUC 0.5582 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1b_wavlm_layer_08",
@@ -1321,7 +1636,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -1353,7 +1668,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested repeated stratified CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5729722222222222,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "WavLM layer_08 layer-wise analysis was a DAIC-WOZ methodological ablation with ROC-AUC 0.5730 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1b_wavlm_layer_09",
@@ -1447,7 +1797,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -1481,7 +1831,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested repeated stratified CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.6442687747035574,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "WavLM layer_09 layer-wise analysis was a DAIC-WOZ methodological ablation with ROC-AUC 0.6443 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1b_wavlm_layer_10",
@@ -1566,7 +1951,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -1598,7 +1983,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested repeated stratified CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5513333333333333,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "WavLM layer_10 layer-wise analysis was a DAIC-WOZ methodological ablation with ROC-AUC 0.5513 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1b_wavlm_layer_11",
@@ -1683,7 +2103,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -1715,7 +2135,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested repeated stratified CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5418888888888889,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "WavLM layer_11 layer-wise analysis was a DAIC-WOZ methodological ablation with ROC-AUC 0.5419 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1b_wavlm_layer_12",
@@ -1800,7 +2255,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -1832,7 +2287,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested repeated stratified CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.4987777777777778,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "WavLM layer_12 layer-wise analysis was a DAIC-WOZ methodological ablation with ROC-AUC 0.4988 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1c_aggregation_mean",
@@ -1927,7 +2417,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -1959,7 +2449,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.6442687747035574,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Layer-9 mean aggregation was a DAIC-WOZ methodological ablation with ROC-AUC 0.6443 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1c_aggregation_mean_std_pca",
@@ -2045,7 +2570,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -2077,7 +2602,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5683333333333332,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Layer-9 mean_std_pca aggregation was a DAIC-WOZ methodological ablation with ROC-AUC 0.5683 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1c_aggregation_median",
@@ -2163,7 +2723,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -2195,7 +2755,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5905277777777778,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Layer-9 median aggregation was a DAIC-WOZ methodological ablation with ROC-AUC 0.5905 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1d_early_fusion",
@@ -2280,7 +2875,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -2312,7 +2907,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5746944444444444,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Timing fusion model: early_fusion was a DAIC-WOZ methodological ablation with ROC-AUC 0.5747 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1d_timing_only",
@@ -2406,7 +3036,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -2440,7 +3070,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.624505928853755,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Timing fusion model: timing_only was a DAIC-WOZ methodological ablation with ROC-AUC 0.6245 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1d_wavlm_only",
@@ -2525,7 +3190,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -2557,7 +3222,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5956111111111111,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Timing fusion model: wavlm_only was a DAIC-WOZ methodological ablation with ROC-AUC 0.5956 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1e_logistic_stacking",
@@ -2645,7 +3345,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -2677,7 +3377,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5413055555555555,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Late-fusion protocol: logistic_stacking was a DAIC-WOZ methodological ablation with ROC-AUC 0.5413 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1e_timing_only",
@@ -2774,7 +3509,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -2808,7 +3543,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.624505928853755,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Late-fusion protocol: timing_only was a DAIC-WOZ methodological ablation with ROC-AUC 0.6245 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1e_wavlm_only",
@@ -2896,7 +3666,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -2928,7 +3698,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5956111111111111,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Late-fusion protocol: wavlm_only was a DAIC-WOZ methodological ablation with ROC-AUC 0.5956 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1e_weighted_late_fusion",
@@ -3016,7 +3821,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "train/dev model selection separated from test where applicable",
         "test_result_viewed": false,
@@ -3048,7 +3853,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "methodological_ablation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "DAIC-WOZ participant speech",
+        "evaluation_task": "DAIC-WOZ participant speech",
+        "evaluation_protocol": "train-only nested CV",
+        "participant_level_split": "DAIC train/dev development split; no Phase 1 test evaluation for this record",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.6043888888888889,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Late-fusion protocol: weighted_late_fusion was a DAIC-WOZ methodological ablation with ROC-AUC 0.6044 under the recorded train/dev protocol; it should not be presented as external validation.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Ablation results support method selection only within DAIC-WOZ development data."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1f_frozen_timing",
@@ -3131,7 +3971,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "test viewed once for Phase 1 closure; no post-test tuning recorded",
         "test_result_viewed": true,
@@ -3170,7 +4010,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "provisional_local_labeled_test",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "guided-interview timing features",
+        "evaluation_task": "guided-interview timing features",
+        "evaluation_protocol": "Frozen Phase 1 candidate evaluated once on provisional local labeled DAIC test labels from Data/full_test_split.csv",
+        "participant_level_split": "DAIC train/dev plus provisional local labeled test split",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.6774891774891775,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Frozen DAIC guided-interview timing candidate achieved ROC-AUC 0.6775 on the provisional local labeled DAIC test split from Data/full_test_split.csv; this was not the official hidden AVEC test evaluation and no post-test model changes were permitted.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Report as provisional local labeled DAIC test performance only."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase1f_frozen_wavlm",
@@ -3253,7 +4128,7 @@
         "test_used_for_selection": false,
         "external_validation": false,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "test viewed once for Phase 1 closure; no post-test tuning recorded",
         "test_result_viewed": true,
@@ -3291,7 +4166,42 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "provisional_local_labeled_test",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "DAIC-WOZ",
+        "training_task": "free-speech-compatible participant speech",
+        "evaluation_task": "free-speech-compatible participant speech",
+        "evaluation_protocol": "Frozen Phase 1 candidate evaluated once on provisional local labeled DAIC test labels from Data/full_test_split.csv",
+        "participant_level_split": "DAIC train/dev plus provisional local labeled test split",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5064935064935066,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Frozen DAIC WavLM free-speech candidate achieved ROC-AUC 0.5065 on the provisional local labeled DAIC test split from Data/full_test_split.csv; this was not the official hidden AVEC test evaluation and no post-test model changes were permitted.",
+        "allowed_claims": [
+          "DAIC-WOZ research estimate under the recorded split and selection protocol"
+        ],
+        "prohibited_claims": [
+          "official AVEC hidden-test performance",
+          "cross-corpus generalization",
+          "clinical diagnosis",
+          "deployment readiness"
+        ],
+        "comparison_caveats": [
+          "Report as provisional local labeled DAIC test performance only."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2a_android_audit",
@@ -3389,7 +4299,41 @@
         "gpu": null,
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "data_quality_audit",
+        "training_dataset": "not_applicable",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "not_applicable",
+        "evaluation_task": "data inventory and compatibility audit",
+        "evaluation_protocol": "dataset preparation and DAIC-to-Android compatibility audit only",
+        "participant_level_split": "not_applicable_no_modeling",
+        "target_labels_used_for_training": false,
+        "target_labels_used_for_model_selection": false,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": false,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "not_applicable",
+        "primary_metric_value": null,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Phase 2A was a data-quality and compatibility audit; it did not train or evaluate a classifier.",
+        "allowed_claims": [
+          "Androids Corpus inventory and compatibility findings"
+        ],
+        "prohibited_claims": [
+          "model performance",
+          "clinical diagnosis",
+          "external validation"
+        ],
+        "comparison_caveats": [
+          "No modeling was performed in this audit."
+        ],
+        "clinical_status": "not_applicable_no_modeling"
+      }
     },
     {
       "id": "phase2b_daic_to_android_zero_shot_wavlm",
@@ -3514,7 +4458,42 @@
         "gpu": "NVIDIA GeForce RTX 3050",
         "git_commit": null
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "cross_corpus_zero_shot_external_evaluation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "interview/free speech",
+        "evaluation_task": "interview",
+        "evaluation_protocol": "Frozen DAIC-WOZ classifier applied once to Android interview participant embeddings",
+        "participant_level_split": "all eligible Android interview participants evaluated once; no Android fitting",
+        "target_labels_used_for_training": false,
+        "target_labels_used_for_model_selection": false,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": true,
+        "cross_corpus": true,
+        "zero_shot": true,
+        "target_domain_refitting": false,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.6412259615384616,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "The frozen DAIC-WOZ classifier achieved a zero-shot ROC-AUC of 0.6412 on Android interview speech, indicating limited cross-corpus ranking transfer; however, its frozen decision thresholds predicted every participant as negative.",
+        "allowed_claims": [
+          "limited ranking information transferred across corpora"
+        ],
+        "prohibited_claims": [
+          "successful cross-corpus classification",
+          "strong external validation",
+          "clinical usefulness",
+          "clinical diagnosis"
+        ],
+        "comparison_caveats": [
+          "DAIC PHQ8_Binary and Android clinical grouping are related but not identical targets."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2c_protocol_a_frozen_daic_reference",
@@ -3638,7 +4617,41 @@
         "gpu": null,
         "git_commit": "03bcd03c09c1fe2adf061e3cf4a7416c4d7e74fb"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "cross_corpus_zero_shot_external_evaluation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "interview/free speech",
+        "evaluation_task": "interview",
+        "evaluation_protocol": "Protocol A: frozen DAIC model, no Android fitting or adaptation",
+        "participant_level_split": "official Android interview participant-level five-fold protocol",
+        "target_labels_used_for_training": false,
+        "target_labels_used_for_model_selection": false,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": true,
+        "cross_corpus": true,
+        "zero_shot": true,
+        "target_domain_refitting": false,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.6412259615384616,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Protocol A reproduced the frozen DAIC-to-Android interview zero-shot ROC-AUC of 0.6412 without Android fitting or adaptation.",
+        "allowed_claims": [
+          "limited zero-shot ranking transfer"
+        ],
+        "prohibited_claims": [
+          "successful target-domain classification",
+          "target-domain adaptation",
+          "clinical diagnosis"
+        ],
+        "comparison_caveats": [
+          "Android labels and DAIC PHQ8_Binary are related but not identical targets."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2c_protocol_b_threshold_only",
@@ -3762,7 +4775,41 @@
         "gpu": null,
         "git_commit": "03bcd03c09c1fe2adf061e3cf4a7416c4d7e74fb"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "cross_corpus_target_adaptation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "interview/free speech",
+        "evaluation_task": "interview",
+        "evaluation_protocol": "Protocol B: frozen DAIC scores with Android training-fold threshold adaptation",
+        "participant_level_split": "official Android interview participant-level five-fold protocol",
+        "target_labels_used_for_training": false,
+        "target_labels_used_for_model_selection": false,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": true,
+        "cross_corpus": true,
+        "zero_shot": false,
+        "target_domain_refitting": false,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": true,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.6412259615384616,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Protocol B adapted decision thresholds using Android training folds while preserving the frozen DAIC score ranking; therefore it was target-domain threshold adaptation, not pure zero-shot evaluation.",
+        "allowed_claims": [
+          "threshold shift contributed to DAIC-to-Android transfer failure"
+        ],
+        "prohibited_claims": [
+          "pure zero-shot evaluation",
+          "new Android classifier training",
+          "clinical diagnosis"
+        ],
+        "comparison_caveats": [
+          "Android labels and DAIC PHQ8_Binary are related but not identical targets."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2c_protocol_c_score_calibration",
@@ -3848,7 +4895,7 @@
         "test_used_for_selection": false,
         "external_validation": true,
         "zero_shot": false,
-        "target_model_refitted": false,
+        "target_model_refitted": true,
         "target_threshold_refitted": false,
         "leakage_status": "passed",
         "test_result_viewed": true,
@@ -3889,7 +4936,41 @@
         "gpu": null,
         "git_commit": "03bcd03c09c1fe2adf061e3cf4a7416c4d7e74fb"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "cross_corpus_target_adaptation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "interview/free speech",
+        "evaluation_task": "interview",
+        "evaluation_protocol": "Protocol C: frozen DAIC scores calibrated using Android training folds",
+        "participant_level_split": "official Android interview participant-level five-fold protocol",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": true,
+        "cross_corpus": true,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": true,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5694110576923077,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Protocol C calibrated frozen DAIC scores using Android training folds; Brier score improved but ROC-AUC decreased to 0.5694, so calibration did not improve ranking.",
+        "allowed_claims": [
+          "target-domain calibration improved probability scale under the recorded folds"
+        ],
+        "prohibited_claims": [
+          "pure zero-shot evaluation",
+          "improved ranking transfer",
+          "clinical diagnosis"
+        ],
+        "comparison_caveats": [
+          "Android labels and DAIC PHQ8_Binary are related but not identical targets."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2c_protocol_d_android_lr",
@@ -3978,7 +5059,7 @@
       "integrity": {
         "test_provenance": "Android clinical patient/control labels under official interview folds",
         "test_used_for_selection": false,
-        "external_validation": true,
+        "external_validation": false,
         "zero_shot": false,
         "target_model_refitted": true,
         "target_threshold_refitted": true,
@@ -4021,7 +5102,41 @@
         "gpu": null,
         "git_commit": "03bcd03c09c1fe2adf061e3cf4a7416c4d7e74fb"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "within_corpus_cross_validation",
+        "training_dataset": "Androids Corpus",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "interview",
+        "evaluation_task": "interview",
+        "evaluation_protocol": "Protocol D: Android-trained interview logistic regression under participant-level nested cross-validation",
+        "participant_level_split": "official Android interview participant-level five-fold protocol",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": true,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.8674879807692308,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "The Android-trained interview classifier achieved an out-of-fold ROC-AUC of 0.8675 under nested participant-level cross-validation. This demonstrates strong within-Android discrimination after learning an Android-specific classifier boundary, not direct DAIC-to-Android model transfer.",
+        "allowed_claims": [
+          "strong within-Android interview discrimination under participant-level cross-validation"
+        ],
+        "prohibited_claims": [
+          "direct DAIC-to-Android model transfer",
+          "external validation",
+          "clinical diagnosis"
+        ],
+        "comparison_caveats": [
+          "Android labels and DAIC PHQ8_Binary are related but not identical targets."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2d_android_interview_vs_reading_comparison",
@@ -4113,7 +5228,7 @@
       "integrity": {
         "test_provenance": "Android clinical patient/control labels under official task-specific folds",
         "test_used_for_selection": false,
-        "external_validation": true,
+        "external_validation": false,
         "zero_shot": false,
         "target_model_refitted": true,
         "target_threshold_refitted": true,
@@ -4155,7 +5270,42 @@
         "gpu": "NVIDIA GeForce RTX 3050",
         "git_commit": "2cf1761b6d8738cf77e626b44f5129a40e79b7d6"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "within_corpus_cross_validation",
+        "training_dataset": "Androids Corpus",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "reading and interview",
+        "evaluation_task": "reading and interview",
+        "evaluation_protocol": "descriptive comparison of completed within-Android task-specific protocols",
+        "participant_level_split": "official Android task-specific five-fold participant protocol",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": true,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.8796296296296295,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "Phase 2D compared Android-trained reading and interview classifiers descriptively; the task-specific folds and participant sets differed, so this comparison is not a controlled cross-task transfer test.",
+        "allowed_claims": [
+          "descriptive comparison of within-Android reading and interview benchmarks"
+        ],
+        "prohibited_claims": [
+          "controlled cross-task transfer",
+          "external validation",
+          "clinical diagnosis"
+        ],
+        "comparison_caveats": [
+          "Phase 2C interview and Phase 2D reading experiments used task-specific fold assignments.",
+          "Participant sets were not identical; direct task differences are descriptive."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2d_android_reading_logistic_regression",
@@ -4250,7 +5400,7 @@
       "integrity": {
         "test_provenance": "Android clinical patient/control labels under official reading folds",
         "test_used_for_selection": false,
-        "external_validation": true,
+        "external_validation": false,
         "zero_shot": false,
         "target_model_refitted": true,
         "target_threshold_refitted": true,
@@ -4293,7 +5443,42 @@
         "gpu": "NVIDIA GeForce RTX 3050",
         "git_commit": "2cf1761b6d8738cf77e626b44f5129a40e79b7d6"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "within_corpus_cross_validation",
+        "training_dataset": "Androids Corpus",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "reading",
+        "evaluation_task": "reading",
+        "evaluation_protocol": "participant-level nested five-fold cross-validation using official reading folds",
+        "participant_level_split": "official Android task-specific five-fold participant protocol",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": true,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.8796296296296295,
+        "confidence_interval": "[0.8113, 0.9377]",
+        "paper_ready_result_sentence": "The Android-trained reading-speech classifier achieved an out-of-fold ROC-AUC of 0.8796 under participant-level nested cross-validation within the Androids Corpus. This is a within-corpus discrimination estimate and does not constitute external validation or cross-corpus generalization.",
+        "allowed_claims": [
+          "strong within-Android reading-speech discrimination under participant-level cross-validation"
+        ],
+        "prohibited_claims": [
+          "external validation",
+          "cross-corpus generalization",
+          "clinical diagnosis"
+        ],
+        "comparison_caveats": [
+          "Phase 2C interview and Phase 2D reading experiments used task-specific fold assignments.",
+          "Participant sets were not identical; direct task differences are descriptive."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2d_android_reading_zero_shot_daic",
@@ -4417,7 +5602,42 @@
         "gpu": "NVIDIA GeForce RTX 3050",
         "git_commit": "2cf1761b6d8738cf77e626b44f5129a40e79b7d6"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "cross_corpus_zero_shot_external_evaluation",
+        "training_dataset": "DAIC-WOZ",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "interview/free speech",
+        "evaluation_task": "reading",
+        "evaluation_protocol": "Frozen DAIC-WOZ classifier applied to Android reading embeddings",
+        "participant_level_split": "official Android task-specific five-fold participant protocol",
+        "target_labels_used_for_training": false,
+        "target_labels_used_for_model_selection": false,
+        "target_labels_used_for_threshold_selection": false,
+        "external_validation": true,
+        "cross_corpus": true,
+        "zero_shot": true,
+        "target_domain_refitting": false,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": false,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.5795019157088123,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": "The frozen DAIC-WOZ classifier achieved a zero-shot ROC-AUC of 0.5795 on Android reading speech, but its frozen thresholds predicted every participant as negative.",
+        "allowed_claims": [
+          "modest zero-shot ranking signal on Android reading speech"
+        ],
+        "prohibited_claims": [
+          "successful cross-corpus classification",
+          "Android-trained result",
+          "clinical diagnosis"
+        ],
+        "comparison_caveats": [
+          "Phase 2C interview and Phase 2D reading experiments used task-specific fold assignments.",
+          "Participant sets were not identical; direct task differences are descriptive."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2e_cross_task_transfer_conclusion",
@@ -4495,7 +5715,7 @@
       "integrity": {
         "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
         "test_used_for_selection": false,
-        "external_validation": true,
+        "external_validation": false,
         "zero_shot": false,
         "target_model_refitted": true,
         "target_threshold_refitted": true,
@@ -4536,7 +5756,45 @@
         "gpu": null,
         "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "cross_task_transfer",
+        "training_dataset": "Androids Corpus",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "reading and interview",
+        "evaluation_task": "reading and interview",
+        "evaluation_protocol": "Phase 2E participant-coherent nested five-fold cross-validation over 110 paired Androids Corpus participants",
+        "participant_level_split": "new participant-coherent five-fold split shared by reading and interview tasks",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": true,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.8474801061007957,
+        "confidence_interval": "paired bootstrap intervals recorded in phase2e_paired_comparisons.csv",
+        "paper_ready_result_sentence": "Under participant-coherent nested cross-validation on 110 paired Androids Corpus participants, reading-to-interview and interview-to-reading transfer achieved ROC-AUCs of 0.8475 and 0.8501. Pooled reading-and-interview training achieved ROC-AUCs of 0.9058 for reading and 0.9135 for interview speech.",
+        "allowed_claims": [
+          "WavLM representations contain information shared across reading and interview tasks",
+          "cross-task transfer remained strong but lower than matched within-task performance",
+          "classifier boundaries were partly task-specific"
+        ],
+        "prohibited_claims": [
+          "external validation",
+          "cross-dataset generalization",
+          "clinical diagnosis",
+          "statistical proof that pooled training is superior"
+        ],
+        "comparison_caveats": [
+          "All Phase 2E results are within Androids Corpus on 110 paired participants.",
+          "Pooled-task gains were suggestive rather than conclusive because bootstrap confidence intervals included zero."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2e_interview_to_reading_transfer",
@@ -4629,7 +5887,7 @@
       "integrity": {
         "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
         "test_used_for_selection": false,
-        "external_validation": true,
+        "external_validation": false,
         "zero_shot": false,
         "target_model_refitted": true,
         "target_threshold_refitted": true,
@@ -4672,7 +5930,45 @@
         "gpu": null,
         "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "cross_task_transfer",
+        "training_dataset": "Androids Corpus",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "interview",
+        "evaluation_task": "reading",
+        "evaluation_protocol": "Phase 2E participant-coherent nested five-fold cross-validation over 110 paired Androids Corpus participants",
+        "participant_level_split": "new participant-coherent five-fold split shared by reading and interview tasks",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": true,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.850132625994695,
+        "confidence_interval": "[0.7699, 0.9204]; gap versus matched reading [-0.1436, 0.0325]",
+        "paper_ready_result_sentence": "Interview-to-reading transfer achieved ROC-AUC 0.8501 under participant-coherent nested cross-validation, with a matched-reading AUC gap of -0.0547.",
+        "allowed_claims": [
+          "WavLM representations contain information shared across reading and interview tasks",
+          "cross-task transfer remained strong but lower than matched within-task performance",
+          "classifier boundaries were partly task-specific"
+        ],
+        "prohibited_claims": [
+          "external validation",
+          "cross-dataset generalization",
+          "clinical diagnosis",
+          "statistical proof that pooled training is superior"
+        ],
+        "comparison_caveats": [
+          "All Phase 2E results are within Androids Corpus on 110 paired participants.",
+          "Pooled-task gains were suggestive rather than conclusive because bootstrap confidence intervals included zero."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2e_matched_interview_within_task",
@@ -4765,7 +6061,7 @@
       "integrity": {
         "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
         "test_used_for_selection": false,
-        "external_validation": true,
+        "external_validation": false,
         "zero_shot": false,
         "target_model_refitted": true,
         "target_threshold_refitted": true,
@@ -4808,7 +6104,45 @@
         "gpu": null,
         "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "within_corpus_cross_validation",
+        "training_dataset": "Androids Corpus",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "interview",
+        "evaluation_task": "interview",
+        "evaluation_protocol": "Phase 2E participant-coherent nested five-fold cross-validation over 110 paired Androids Corpus participants",
+        "participant_level_split": "new participant-coherent five-fold split shared by reading and interview tasks",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": true,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.9064986737400531,
+        "confidence_interval": "[0.8452, 0.9589]",
+        "paper_ready_result_sentence": "Under participant-coherent nested cross-validation on 110 paired Androids Corpus participants, the matched interview classifier achieved ROC-AUC 0.9065.",
+        "allowed_claims": [
+          "WavLM representations contain information shared across reading and interview tasks",
+          "cross-task transfer remained strong but lower than matched within-task performance",
+          "classifier boundaries were partly task-specific"
+        ],
+        "prohibited_claims": [
+          "external validation",
+          "cross-dataset generalization",
+          "clinical diagnosis",
+          "statistical proof that pooled training is superior"
+        ],
+        "comparison_caveats": [
+          "All Phase 2E results are within Androids Corpus on 110 paired participants.",
+          "Pooled-task gains were suggestive rather than conclusive because bootstrap confidence intervals included zero."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2e_matched_reading_within_task",
@@ -4901,7 +6235,7 @@
       "integrity": {
         "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
         "test_used_for_selection": false,
-        "external_validation": true,
+        "external_validation": false,
         "zero_shot": false,
         "target_model_refitted": true,
         "target_threshold_refitted": true,
@@ -4944,7 +6278,45 @@
         "gpu": null,
         "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "within_corpus_cross_validation",
+        "training_dataset": "Androids Corpus",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "reading",
+        "evaluation_task": "reading",
+        "evaluation_protocol": "Phase 2E participant-coherent nested five-fold cross-validation over 110 paired Androids Corpus participants",
+        "participant_level_split": "new participant-coherent five-fold split shared by reading and interview tasks",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": true,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.9048408488063661,
+        "confidence_interval": "[0.8435, 0.9562]",
+        "paper_ready_result_sentence": "Under participant-coherent nested cross-validation on 110 paired Androids Corpus participants, the matched reading classifier achieved ROC-AUC 0.9048.",
+        "allowed_claims": [
+          "WavLM representations contain information shared across reading and interview tasks",
+          "cross-task transfer remained strong but lower than matched within-task performance",
+          "classifier boundaries were partly task-specific"
+        ],
+        "prohibited_claims": [
+          "external validation",
+          "cross-dataset generalization",
+          "clinical diagnosis",
+          "statistical proof that pooled training is superior"
+        ],
+        "comparison_caveats": [
+          "All Phase 2E results are within Androids Corpus on 110 paired participants.",
+          "Pooled-task gains were suggestive rather than conclusive because bootstrap confidence intervals included zero."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2e_pooled_to_interview",
@@ -5037,7 +6409,7 @@
       "integrity": {
         "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
         "test_used_for_selection": false,
-        "external_validation": true,
+        "external_validation": false,
         "zero_shot": false,
         "target_model_refitted": true,
         "target_threshold_refitted": true,
@@ -5080,7 +6452,45 @@
         "gpu": null,
         "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "pooled_task_within_corpus_cross_validation",
+        "training_dataset": "Androids Corpus",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "reading plus interview",
+        "evaluation_task": "interview",
+        "evaluation_protocol": "Phase 2E participant-coherent nested five-fold cross-validation over 110 paired Androids Corpus participants",
+        "participant_level_split": "new participant-coherent five-fold split shared by reading and interview tasks",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": true,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.9134615384615384,
+        "confidence_interval": "[0.8515, 0.9635]; gain versus reading-to-interview [-0.0013, 0.1346]",
+        "paper_ready_result_sentence": "Pooled reading-and-interview training achieved ROC-AUC 0.9135 for interview speech under participant-coherent nested cross-validation; the gain over single-source transfer was suggestive rather than conclusive.",
+        "allowed_claims": [
+          "WavLM representations contain information shared across reading and interview tasks",
+          "cross-task transfer remained strong but lower than matched within-task performance",
+          "classifier boundaries were partly task-specific"
+        ],
+        "prohibited_claims": [
+          "external validation",
+          "cross-dataset generalization",
+          "clinical diagnosis",
+          "statistical proof that pooled training is superior"
+        ],
+        "comparison_caveats": [
+          "All Phase 2E results are within Androids Corpus on 110 paired participants.",
+          "Pooled-task gains were suggestive rather than conclusive because bootstrap confidence intervals included zero."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2e_pooled_to_reading",
@@ -5173,7 +6583,7 @@
       "integrity": {
         "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
         "test_used_for_selection": false,
-        "external_validation": true,
+        "external_validation": false,
         "zero_shot": false,
         "target_model_refitted": true,
         "target_threshold_refitted": true,
@@ -5216,7 +6626,45 @@
         "gpu": null,
         "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "pooled_task_within_corpus_cross_validation",
+        "training_dataset": "Androids Corpus",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "reading plus interview",
+        "evaluation_task": "reading",
+        "evaluation_protocol": "Phase 2E participant-coherent nested five-fold cross-validation over 110 paired Androids Corpus participants",
+        "participant_level_split": "new participant-coherent five-fold split shared by reading and interview tasks",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": true,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.9058355437665783,
+        "confidence_interval": "[0.8442, 0.9539]; gain versus interview-to-reading [-0.0172, 0.1340]",
+        "paper_ready_result_sentence": "Pooled reading-and-interview training achieved ROC-AUC 0.9058 for reading speech under participant-coherent nested cross-validation; the gain over single-source transfer was suggestive rather than conclusive.",
+        "allowed_claims": [
+          "WavLM representations contain information shared across reading and interview tasks",
+          "cross-task transfer remained strong but lower than matched within-task performance",
+          "classifier boundaries were partly task-specific"
+        ],
+        "prohibited_claims": [
+          "external validation",
+          "cross-dataset generalization",
+          "clinical diagnosis",
+          "statistical proof that pooled training is superior"
+        ],
+        "comparison_caveats": [
+          "All Phase 2E results are within Androids Corpus on 110 paired participants.",
+          "Pooled-task gains were suggestive rather than conclusive because bootstrap confidence intervals included zero."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     },
     {
       "id": "phase2e_reading_to_interview_transfer",
@@ -5309,7 +6757,7 @@
       "integrity": {
         "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
         "test_used_for_selection": false,
-        "external_validation": true,
+        "external_validation": false,
         "zero_shot": false,
         "target_model_refitted": true,
         "target_threshold_refitted": true,
@@ -5352,12 +6800,50 @@
         "gpu": null,
         "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
       },
-      "history": []
+      "history": [],
+      "paper_interpretation": {
+        "result_scope": "cross_task_transfer",
+        "training_dataset": "Androids Corpus",
+        "evaluation_dataset": "Androids Corpus",
+        "training_task": "reading",
+        "evaluation_task": "interview",
+        "evaluation_protocol": "Phase 2E participant-coherent nested five-fold cross-validation over 110 paired Androids Corpus participants",
+        "participant_level_split": "new participant-coherent five-fold split shared by reading and interview tasks",
+        "target_labels_used_for_training": true,
+        "target_labels_used_for_model_selection": true,
+        "target_labels_used_for_threshold_selection": true,
+        "external_validation": false,
+        "cross_corpus": false,
+        "zero_shot": false,
+        "target_domain_refitting": true,
+        "calibration_performed": false,
+        "threshold_adaptation_performed": true,
+        "primary_metric_name": "ROC-AUC",
+        "primary_metric_value": 0.8474801061007957,
+        "confidence_interval": "[0.7699, 0.9158]; gap versus matched interview [-0.1316, 0.0116]",
+        "paper_ready_result_sentence": "Reading-to-interview transfer achieved ROC-AUC 0.8475 under participant-coherent nested cross-validation, with a matched-interview AUC gap of -0.0590.",
+        "allowed_claims": [
+          "WavLM representations contain information shared across reading and interview tasks",
+          "cross-task transfer remained strong but lower than matched within-task performance",
+          "classifier boundaries were partly task-specific"
+        ],
+        "prohibited_claims": [
+          "external validation",
+          "cross-dataset generalization",
+          "clinical diagnosis",
+          "statistical proof that pooled training is superior"
+        ],
+        "comparison_caveats": [
+          "All Phase 2E results are within Androids Corpus on 110 paired participants.",
+          "Pooled-task gains were suggestive rather than conclusive because bootstrap confidence intervals included zero."
+        ],
+        "clinical_status": "not_clinically_validated"
+      }
     }
   ],
   "validation": {
     "status": "passed",
-    "checked_at": "2026-07-04T09:54:32.428650+00:00",
+    "checked_at": "2026-07-04T16:20:44.454626+00:00",
     "errors": [],
     "warnings": []
   }

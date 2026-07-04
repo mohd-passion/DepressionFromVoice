@@ -1,0 +1,46 @@
+{
+  "phase": "Phase 2D",
+  "planned_registry_ids": [
+    "phase2d_android_reading_zero_shot_daic",
+    "phase2d_android_reading_logistic_regression",
+    "phase2d_android_interview_vs_reading_comparison"
+  ],
+  "phase2a_run": "outputs/phase2_android/phase2a_preparation_runs/20260622_154228",
+  "phase2c_run": "outputs/phase2_android/phase2c_domain_shift_runs/20260703_125614",
+  "phase2b_interview_run": "outputs/phase2_android/phase2b_zero_shot_interview_runs/20260622_162548",
+  "superseded_phase2a_run_forbidden": "outputs/phase2_android/phase2a_preparation_runs/20260622_154008",
+  "phase1c_run": "outputs/phase1_daic/phase1c_aggregation_runs/20260622_135800",
+  "phase1c_pipeline": "outputs/phase1_daic/phase1c_aggregation_runs/20260622_135800/models/selected_aggregation_pipeline.joblib",
+  "output_root": "outputs/phase2_android/phase2d_reading_runs",
+  "compact_record_root": "records/runs",
+  "wavlm_model": "microsoft/wavlm-base-plus",
+  "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+  "wavlm_layer": "layer_09",
+  "hidden_state_index": 9,
+  "window_seconds": 10.0,
+  "hop_seconds": 5.0,
+  "overlap": 0.5,
+  "window_pooling": "temporal_mean",
+  "participant_aggregation": "mean",
+  "target_sample_rate": 16000,
+  "target_samples": 160000,
+  "embedding_dimension": 768,
+  "frozen_daic_threshold": 0.555840134621,
+  "c_grid": [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0],
+  "bootstrap_replicates": 5000,
+  "random_seed": 42,
+  "protocols": [
+    "A_frozen_daic_zero_shot_reading",
+    "B_android_trained_reading_logistic_regression",
+    "interview_versus_reading_comparison"
+  ],
+  "forbidden": {
+    "use_interview_audio": true,
+    "rerun_phase2c": true,
+    "use_timing_features": true,
+    "change_layer": true,
+    "change_participant_aggregation": true,
+    "fine_tune_wavlm": true,
+    "combine_reading_and_interview_features": true
+  }
+}

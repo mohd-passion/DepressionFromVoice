@@ -163,7 +163,7 @@ def base_registry(existing: dict[str, Any] | None = None) -> dict[str, Any]:
             "last_updated": utc_now(),
             "project_status": {
                 "phase1_status": "completed_baseline_ready_for_external_validation",
-                "phase2_status": "phase2b_zero_shot_external_validation_completed",
+                "phase2_status": "phase2e_cross_task_transfer_completed",
                 "current_scope": "research experiment tracking only",
                 "accuracy_hunting_warning": ACCURACY_HUNTING_WARNING,
             },
@@ -1057,6 +1057,284 @@ def parse_phase2d(run_dir: Path) -> list[dict[str, Any]]:
     return entries
 
 
+def parse_phase2e(run_dir: Path) -> list[dict[str, Any]]:
+    report = read_json(run_dir / "PHASE2E_CROSS_TASK_REPORT.json")
+    metadata = read_json(run_dir / "phase2e_run_metadata.json") if (run_dir / "phase2e_run_metadata.json").exists() else {}
+    by_protocol = {(row["protocol"], row["threshold_variant"]): row for row in report["protocol_metrics"]}
+    primary = "threshold_adapted"
+    data_summary = report["data_summary"]
+    selected_params = {row["source_model"]: row for row in report.get("selected_parameter_summary", [])}
+    common_representation = {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "fusion": "none",
+    }
+    protocol_map = [
+        (
+            "matched_reading_within_task",
+            "phase2e_matched_reading_within_task",
+            "Phase 2E matched reading within-task",
+            "reading speech",
+            "reading_only",
+            "reading",
+            "reading",
+            "Fold-matched reading within-task reference under participant-coherent folds.",
+        ),
+        (
+            "matched_interview_within_task",
+            "phase2e_matched_interview_within_task",
+            "Phase 2E matched interview within-task",
+            "interview speech",
+            "interview_only",
+            "interview",
+            "interview",
+            "Fold-matched interview within-task reference under participant-coherent folds.",
+        ),
+        (
+            "reading_to_interview",
+            "phase2e_reading_to_interview_transfer",
+            "Phase 2E reading-to-interview transfer",
+            "reading to interview transfer",
+            "reading_only",
+            "reading",
+            "interview",
+            "Reading-trained classifier evaluated on interview speech from held-out participants.",
+        ),
+        (
+            "interview_to_reading",
+            "phase2e_interview_to_reading_transfer",
+            "Phase 2E interview-to-reading transfer",
+            "interview to reading transfer",
+            "interview_only",
+            "interview",
+            "reading",
+            "Interview-trained classifier evaluated on reading speech from held-out participants.",
+        ),
+        (
+            "pooled_to_reading",
+            "phase2e_pooled_to_reading",
+            "Phase 2E pooled-task training to reading",
+            "pooled task training to reading",
+            "pooled",
+            "reading plus interview",
+            "reading",
+            "Pooled reading/interview training evaluated on held-out reading speech.",
+        ),
+        (
+            "pooled_to_interview",
+            "phase2e_pooled_to_interview",
+            "Phase 2E pooled-task training to interview",
+            "pooled task training to interview",
+            "pooled",
+            "reading plus interview",
+            "interview",
+            "Pooled reading/interview training evaluated on held-out interview speech.",
+        ),
+    ]
+    entries: list[dict[str, Any]] = []
+    for protocol, exp_id, name, task, source_model, source_task, target_task, finding in protocol_map:
+        metrics = by_protocol[(protocol, primary)]
+        e = empty_entry(exp_id, "Phase 2E", name, report["status"], run_dir)
+        e["data"].update(
+            {
+                "dataset_id": "androids_corpus",
+                "task": task,
+                "language": "Italian",
+                "train_n": "four participant-coherent folds per outer evaluation",
+                "dev_n": None,
+                "test_n": data_summary["paired_participants"],
+                "class_counts": data_summary["class_counts"],
+                "split_protocol": "new Phase 2E participant-coherent five-fold split over paired reading/interview participants",
+                "excluded": {
+                    "reading_only": data_summary.get("reading_only_participants"),
+                    "interview_only": data_summary.get("interview_only_participants"),
+                },
+            }
+        )
+        e["representation"].update(common_representation)
+        e["classifier"].update(
+            {
+                "name": "LogisticRegression",
+                "pipeline": "StandardScaler + balanced L2 LogisticRegression",
+                "class_weight": "balanced",
+                "C": selected_params.get(source_model, {}).get("selected_C_distribution"),
+                "other_parameters": {
+                    "source_task": source_task,
+                    "target_task": target_task,
+                    "threshold_distribution": selected_params.get(source_model, {}),
+                },
+                "selection_protocol": "participant-coherent outer folds with leave-one-training-fold-out inner C selection",
+            }
+        )
+        e["threshold"].update({"source": "outer-training inner OOF macro-F1", "value": None, "tuned_on": "outer-training participants only"})
+        e["metrics"]["test"].update(
+            {
+                "roc_auc": metrics["roc_auc"],
+                "pr_auc": metrics["pr_auc"],
+                "balanced_accuracy": metrics["balanced_accuracy"],
+                "macro_f1": metrics["macro_f1"],
+                "sensitivity": metrics["sensitivity"],
+                "specificity": metrics["specificity"],
+                "positive_precision": metrics["positive_class_precision"],
+                "negative_predictive_value": metrics["negative_predictive_value"],
+                "brier_score": metrics["brier_score"],
+                "threshold": metrics.get("threshold"),
+                "tn": metrics["tn"],
+                "fp": metrics["fp"],
+                "fn": metrics["fn"],
+                "tp": metrics["tp"],
+            }
+        )
+        e["metrics"]["confidence_intervals"].update(
+            {
+                "source": rel(run_dir / "phase2e_bootstrap_intervals.csv"),
+                "paired_comparisons": rel(run_dir / "phase2e_paired_comparisons.csv"),
+                "transfer_gaps": rel(run_dir / "phase2e_transfer_gap_analysis.csv"),
+            }
+        )
+        e["integrity"].update(
+            {
+                "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
+                "external_validation": True,
+                "zero_shot": False,
+                "test_result_viewed": True,
+                "target_model_refitted": True,
+                "target_threshold_refitted": True,
+                "test_used_for_selection": False,
+                "decisions_made_after_test_view": [
+                    "Phase 2E used a frozen protocol and did not alter Phase 1, Phase 2C, or Phase 2D models.",
+                    "No new WavLM extraction, audio processing, layer selection, or model family was introduced.",
+                ],
+                "leakage_status": report["leakage_checks"]["status"],
+            }
+        )
+        e["conclusion"].update(
+            {
+                "main_finding": finding,
+                "selected": False,
+                "selection_reason": "Participant-safe cross-task diagnostic protocol; not a new frozen deployment candidate.",
+                "limitations": [
+                    "Phase 2E folds differ from official task-specific Phase 2C and Phase 2D folds.",
+                    "Android clinical grouping is not the same target as DAIC PHQ8_Binary.",
+                ],
+                "warnings": ["Do not claim clinical validation.", "Cross-task findings are diagnostic and task-specific."],
+                "next_step": "Do not proceed without freezing a new protocol.",
+            }
+        )
+        e["artifacts"].update(
+            {
+                "report_json": rel(run_dir / "PHASE2E_CROSS_TASK_REPORT.json"),
+                "report_markdown": rel(run_dir / "PHASE2E_CROSS_TASK_REPORT.md"),
+                "predictions": "",
+                "manifest": "",
+            }
+        )
+        e["environment"].update(
+            {
+                "python": metadata.get("python_version"),
+                "scikit_learn": metadata.get("sklearn_version"),
+                "git_commit": metadata.get("git_commit"),
+            }
+        )
+        entries.append(e)
+
+    interp = report["interpretation"]
+    conclusion = empty_entry(
+        "phase2e_cross_task_transfer_conclusion",
+        "Phase 2E",
+        "Phase 2E cross-task transfer conclusion",
+        report["status"],
+        run_dir,
+    )
+    conclusion["data"].update(
+        {
+            "dataset_id": "androids_corpus",
+            "task": "reading-interview cross-task comparison",
+            "language": "Italian",
+            "train_n": "participant-coherent cross-validation",
+            "dev_n": None,
+            "test_n": data_summary["paired_participants"],
+            "class_counts": data_summary["class_counts"],
+            "split_protocol": "new Phase 2E participant-coherent five-fold split over paired participants",
+            "excluded": {
+                "reading_only": data_summary.get("reading_only_participants"),
+                "interview_only": data_summary.get("interview_only_participants"),
+            },
+        }
+    )
+    conclusion["representation"].update(common_representation)
+    conclusion["classifier"].update(
+        {
+            "name": "Comparison of participant-safe logistic-regression protocols",
+            "pipeline": "matched within-task, cross-task, and pooled-task evaluations",
+            "class_weight": "balanced",
+            "C": {row["source_model"]: row.get("selected_C_distribution") for row in report.get("selected_parameter_summary", [])},
+            "selection_protocol": "pre-specified Phase 2E participant-coherent protocol",
+        }
+    )
+    conclusion["metrics"]["test"].update(
+        {
+            "roc_auc": interp.get("reading_to_interview_auc"),
+            "reading_to_interview_auc": interp.get("reading_to_interview_auc"),
+            "interview_to_reading_auc": interp.get("interview_to_reading_auc"),
+            "matched_reading_auc": interp.get("matched_reading_auc"),
+            "matched_interview_auc": interp.get("matched_interview_auc"),
+            "pooled_to_reading_auc": interp.get("pooled_to_reading_auc"),
+            "pooled_to_interview_auc": interp.get("pooled_to_interview_auc"),
+        }
+    )
+    conclusion["metrics"]["confidence_intervals"].update(
+        {
+            "source": rel(run_dir / "phase2e_bootstrap_intervals.csv"),
+            "paired_comparisons": rel(run_dir / "phase2e_paired_comparisons.csv"),
+            "transfer_gaps": rel(run_dir / "phase2e_transfer_gap_analysis.csv"),
+        }
+    )
+    conclusion["integrity"].update(
+        {
+            "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
+            "external_validation": True,
+            "zero_shot": False,
+            "test_result_viewed": True,
+            "target_model_refitted": True,
+            "target_threshold_refitted": True,
+            "test_used_for_selection": False,
+            "decisions_made_after_test_view": ["No Phase 1, Phase 2C, or Phase 2D frozen decision was changed."],
+            "leakage_status": report["leakage_checks"]["status"],
+        }
+    )
+    conclusion["conclusion"].update(
+        {
+            "main_finding": f"Phase 2E interpretation category: {interp['category']}.",
+            "selected": False,
+            "selection_reason": "Conclusion record only.",
+            "limitations": [
+                "Fold-matched results are not replacements for official Phase 2C/2D task-specific benchmarks.",
+                "No clinical-validity claim is made.",
+            ],
+            "warnings": ["Repeated external-result inspection must remain documented."],
+            "next_step": "Freeze any future protocol before execution.",
+        }
+    )
+    conclusion["artifacts"].update(
+        {
+            "report_json": rel(run_dir / "PHASE2E_CROSS_TASK_REPORT.json"),
+            "report_markdown": rel(run_dir / "PHASE2E_CROSS_TASK_REPORT.md"),
+            "manifest": rel(run_dir / "phase2e_protocol_comparison.csv"),
+        }
+    )
+    conclusion["environment"].update(entries[-1]["environment"])
+    entries.append(conclusion)
+    return entries
+
+
 def parse_run(run_dir: Path) -> list[dict[str, Any]]:
     run_dir = Path(rel(run_dir))
     if run_dir == OFFICIAL_RUNS["phase1a"]:
@@ -1079,6 +1357,8 @@ def parse_run(run_dir: Path) -> list[dict[str, Any]]:
         return parse_phase2c(run_dir)
     if (run_dir / "PHASE2D_ANDROID_READING_REPORT.json").exists():
         return parse_phase2d(run_dir)
+    if (run_dir / "PHASE2E_CROSS_TASK_REPORT.json").exists():
+        return parse_phase2e(run_dir)
     return parse_generic_run(run_dir)
 
 

@@ -5,7 +5,7 @@ _Generated automatically from `experiment_registry.json` by `update_registry.py`
 ## 1. Current Research Status
 
 - Phase 1 status: `completed_baseline_ready_for_external_validation`
-- Phase 2 status: `phase2b_zero_shot_external_validation_completed`
+- Phase 2 status: `phase2e_cross_task_transfer_completed`
 - Current candidates are research candidates only; no universal best model is declared.
 - Accuracy-hunting warning: Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation.
 
@@ -55,6 +55,13 @@ _Generated automatically from `experiment_registry.json` by `update_registry.py`
 | Phase 2D | Android interview-versus-reading comparison |  |  | 0.880 | not selected | Reading and interview performance were similar enough that useful vocal cues may persist across speech tasks under this representation, though the comparison remains descriptive. |
 | Phase 2D | Android-trained reading logistic regression |  |  | 0.880 | not selected | Android-trained reading model achieved 0.8796 ROC-AUC under official reading folds. |
 | Phase 2D | Frozen DAIC zero-shot Android reading |  |  | 0.580 | not selected | Frozen DAIC reading transfer retained modest ranking but threshold transfer failed. |
+| Phase 2E | Phase 2E cross-task transfer conclusion |  |  | 0.847 | not selected | Phase 2E interpretation category: pooled_training_advantage. |
+| Phase 2E | Phase 2E interview-to-reading transfer |  |  | 0.850 | not selected | Interview-trained classifier evaluated on reading speech from held-out participants. |
+| Phase 2E | Phase 2E matched interview within-task |  |  | 0.906 | not selected | Fold-matched interview within-task reference under participant-coherent folds. |
+| Phase 2E | Phase 2E matched reading within-task |  |  | 0.905 | not selected | Fold-matched reading within-task reference under participant-coherent folds. |
+| Phase 2E | Phase 2E pooled-task training to interview |  |  | 0.913 | not selected | Pooled reading/interview training evaluated on held-out interview speech. |
+| Phase 2E | Phase 2E pooled-task training to reading |  |  | 0.906 | not selected | Pooled reading/interview training evaluated on held-out reading speech. |
+| Phase 2E | Phase 2E reading-to-interview transfer |  |  | 0.847 | not selected | Reading-trained classifier evaluated on interview speech from held-out participants. |
 
 ## 4. Selected And Rejected Approaches
 

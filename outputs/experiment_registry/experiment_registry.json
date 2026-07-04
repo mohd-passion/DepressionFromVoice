@@ -1,10 +1,10 @@
 {
   "registry_version": "1.0",
   "project": "DepressionFromVoice",
-  "last_updated": "2026-07-04T07:40:55.606387+00:00",
+  "last_updated": "2026-07-04T09:54:32.427645+00:00",
   "project_status": {
     "phase1_status": "completed_baseline_ready_for_external_validation",
-    "phase2_status": "phase2b_zero_shot_external_validation_completed",
+    "phase2_status": "phase2e_cross_task_transfer_completed",
     "current_scope": "research experiment tracking only",
     "accuracy_hunting_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
   },
@@ -4418,11 +4418,946 @@
         "git_commit": "2cf1761b6d8738cf77e626b44f5129a40e79b7d6"
       },
       "history": []
+    },
+    {
+      "id": "phase2e_cross_task_transfer_conclusion",
+      "revision": 1,
+      "phase": "Phase 2E",
+      "name": "Phase 2E cross-task transfer conclusion",
+      "status": "completed_phase2e_cross_task_transfer",
+      "run_directory": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "reading-interview cross-task comparison",
+        "language": "Italian",
+        "train_n": "participant-coherent cross-validation",
+        "dev_n": null,
+        "test_n": 110,
+        "class_counts": {
+          "HC": 52,
+          "PT": 58
+        },
+        "split_protocol": "new Phase 2E participant-coherent five-fold split over paired participants",
+        "excluded": {
+          "reading_only": 2,
+          "interview_only": 6
+        }
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "Comparison of participant-safe logistic-regression protocols",
+        "pipeline": "matched within-task, cross-task, and pooled-task evaluations",
+        "class_weight": "balanced",
+        "C": {
+          "interview_only": "{\"0.01\": 1, \"0.1\": 3, \"100.0\": 1}",
+          "pooled": "{\"0.01\": 3, \"0.1\": 1, \"1.0\": 1}",
+          "reading_only": "{\"1.0\": 3, \"10.0\": 2}"
+        },
+        "other_parameters": {},
+        "selection_protocol": "pre-specified Phase 2E participant-coherent protocol"
+      },
+      "threshold": {
+        "source": "",
+        "value": null,
+        "tuned_on": ""
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.8474801061007957,
+          "reading_to_interview_auc": 0.8474801061007957,
+          "interview_to_reading_auc": 0.850132625994695,
+          "matched_reading_auc": 0.9048408488063661,
+          "matched_interview_auc": 0.9064986737400531,
+          "pooled_to_reading_auc": 0.9058355437665783,
+          "pooled_to_interview_auc": 0.9134615384615384
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_bootstrap_intervals.csv",
+          "paired_comparisons": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_paired_comparisons.csv",
+          "transfer_gaps": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_transfer_gap_analysis.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": false,
+        "target_model_refitted": true,
+        "target_threshold_refitted": true,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "No Phase 1, Phase 2C, or Phase 2D frozen decision was changed."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Phase 2E interpretation category: pooled_training_advantage.",
+        "selected": false,
+        "selection_reason": "Conclusion record only.",
+        "rejection_reason": "",
+        "limitations": [
+          "Fold-matched results are not replacements for official Phase 2C/2D task-specific benchmarks.",
+          "No clinical-validity claim is made."
+        ],
+        "warnings": [
+          "Repeated external-result inspection must remain documented."
+        ],
+        "next_step": "Freeze any future protocol before execution."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_protocol_comparison.csv"
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": "1.9.0",
+        "cuda": null,
+        "gpu": null,
+        "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
+      },
+      "history": []
+    },
+    {
+      "id": "phase2e_interview_to_reading_transfer",
+      "revision": 1,
+      "phase": "Phase 2E",
+      "name": "Phase 2E interview-to-reading transfer",
+      "status": "completed_phase2e_cross_task_transfer",
+      "run_directory": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "interview to reading transfer",
+        "language": "Italian",
+        "train_n": "four participant-coherent folds per outer evaluation",
+        "dev_n": null,
+        "test_n": 110,
+        "class_counts": {
+          "HC": 52,
+          "PT": 58
+        },
+        "split_protocol": "new Phase 2E participant-coherent five-fold split over paired reading/interview participants",
+        "excluded": {
+          "reading_only": 2,
+          "interview_only": 6
+        }
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + balanced L2 LogisticRegression",
+        "class_weight": "balanced",
+        "C": "{\"0.01\": 1, \"0.1\": 3, \"100.0\": 1}",
+        "other_parameters": {
+          "source_task": "interview",
+          "target_task": "reading",
+          "threshold_distribution": {
+            "source_model": "interview_only",
+            "outer_folds": 5,
+            "selected_C_distribution": "{\"0.01\": 1, \"0.1\": 3, \"100.0\": 1}",
+            "selected_threshold_min": 0.19941187551599418,
+            "selected_threshold_max": 0.5,
+            "selected_threshold_mean": 0.37048329353391585,
+            "selected_threshold_std": 0.11629065073116417
+          }
+        },
+        "selection_protocol": "participant-coherent outer folds with leave-one-training-fold-out inner C selection"
+      },
+      "threshold": {
+        "source": "outer-training inner OOF macro-F1",
+        "value": null,
+        "tuned_on": "outer-training participants only"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.850132625994695,
+          "pr_auc": 0.8601691797397513,
+          "balanced_accuracy": 0.8136604774535809,
+          "macro_f1": 0.8151881720430108,
+          "sensitivity": 0.896551724137931,
+          "specificity": 0.7307692307692307,
+          "positive_precision": 0.7878787878787878,
+          "negative_predictive_value": 0.8636363636363636,
+          "brier_score": 0.15707091419801114,
+          "threshold": null,
+          "tn": 38,
+          "fp": 14,
+          "fn": 6,
+          "tp": 52
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_bootstrap_intervals.csv",
+          "paired_comparisons": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_paired_comparisons.csv",
+          "transfer_gaps": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_transfer_gap_analysis.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": false,
+        "target_model_refitted": true,
+        "target_threshold_refitted": true,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 2E used a frozen protocol and did not alter Phase 1, Phase 2C, or Phase 2D models.",
+          "No new WavLM extraction, audio processing, layer selection, or model family was introduced."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Interview-trained classifier evaluated on reading speech from held-out participants.",
+        "selected": false,
+        "selection_reason": "Participant-safe cross-task diagnostic protocol; not a new frozen deployment candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "Phase 2E folds differ from official task-specific Phase 2C and Phase 2D folds.",
+          "Android clinical grouping is not the same target as DAIC PHQ8_Binary."
+        ],
+        "warnings": [
+          "Do not claim clinical validation.",
+          "Cross-task findings are diagnostic and task-specific."
+        ],
+        "next_step": "Do not proceed without freezing a new protocol."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": "1.9.0",
+        "cuda": null,
+        "gpu": null,
+        "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
+      },
+      "history": []
+    },
+    {
+      "id": "phase2e_matched_interview_within_task",
+      "revision": 1,
+      "phase": "Phase 2E",
+      "name": "Phase 2E matched interview within-task",
+      "status": "completed_phase2e_cross_task_transfer",
+      "run_directory": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "interview speech",
+        "language": "Italian",
+        "train_n": "four participant-coherent folds per outer evaluation",
+        "dev_n": null,
+        "test_n": 110,
+        "class_counts": {
+          "HC": 52,
+          "PT": 58
+        },
+        "split_protocol": "new Phase 2E participant-coherent five-fold split over paired reading/interview participants",
+        "excluded": {
+          "reading_only": 2,
+          "interview_only": 6
+        }
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + balanced L2 LogisticRegression",
+        "class_weight": "balanced",
+        "C": "{\"0.01\": 1, \"0.1\": 3, \"100.0\": 1}",
+        "other_parameters": {
+          "source_task": "interview",
+          "target_task": "interview",
+          "threshold_distribution": {
+            "source_model": "interview_only",
+            "outer_folds": 5,
+            "selected_C_distribution": "{\"0.01\": 1, \"0.1\": 3, \"100.0\": 1}",
+            "selected_threshold_min": 0.19941187551599418,
+            "selected_threshold_max": 0.5,
+            "selected_threshold_mean": 0.37048329353391585,
+            "selected_threshold_std": 0.11629065073116417
+          }
+        },
+        "selection_protocol": "participant-coherent outer folds with leave-one-training-fold-out inner C selection"
+      },
+      "threshold": {
+        "source": "outer-training inner OOF macro-F1",
+        "value": null,
+        "tuned_on": "outer-training participants only"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.9064986737400531,
+          "pr_auc": 0.9304937331623232,
+          "balanced_accuracy": 0.8166445623342176,
+          "macro_f1": 0.8172150216018611,
+          "sensitivity": 0.8448275862068966,
+          "specificity": 0.7884615384615384,
+          "positive_precision": 0.8166666666666667,
+          "negative_predictive_value": 0.82,
+          "brier_score": 0.12140110813069431,
+          "threshold": null,
+          "tn": 41,
+          "fp": 11,
+          "fn": 9,
+          "tp": 49
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_bootstrap_intervals.csv",
+          "paired_comparisons": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_paired_comparisons.csv",
+          "transfer_gaps": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_transfer_gap_analysis.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": false,
+        "target_model_refitted": true,
+        "target_threshold_refitted": true,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 2E used a frozen protocol and did not alter Phase 1, Phase 2C, or Phase 2D models.",
+          "No new WavLM extraction, audio processing, layer selection, or model family was introduced."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Fold-matched interview within-task reference under participant-coherent folds.",
+        "selected": false,
+        "selection_reason": "Participant-safe cross-task diagnostic protocol; not a new frozen deployment candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "Phase 2E folds differ from official task-specific Phase 2C and Phase 2D folds.",
+          "Android clinical grouping is not the same target as DAIC PHQ8_Binary."
+        ],
+        "warnings": [
+          "Do not claim clinical validation.",
+          "Cross-task findings are diagnostic and task-specific."
+        ],
+        "next_step": "Do not proceed without freezing a new protocol."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": "1.9.0",
+        "cuda": null,
+        "gpu": null,
+        "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
+      },
+      "history": []
+    },
+    {
+      "id": "phase2e_matched_reading_within_task",
+      "revision": 1,
+      "phase": "Phase 2E",
+      "name": "Phase 2E matched reading within-task",
+      "status": "completed_phase2e_cross_task_transfer",
+      "run_directory": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "reading speech",
+        "language": "Italian",
+        "train_n": "four participant-coherent folds per outer evaluation",
+        "dev_n": null,
+        "test_n": 110,
+        "class_counts": {
+          "HC": 52,
+          "PT": 58
+        },
+        "split_protocol": "new Phase 2E participant-coherent five-fold split over paired reading/interview participants",
+        "excluded": {
+          "reading_only": 2,
+          "interview_only": 6
+        }
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + balanced L2 LogisticRegression",
+        "class_weight": "balanced",
+        "C": "{\"1.0\": 3, \"10.0\": 2}",
+        "other_parameters": {
+          "source_task": "reading",
+          "target_task": "reading",
+          "threshold_distribution": {
+            "source_model": "reading_only",
+            "outer_folds": 5,
+            "selected_C_distribution": "{\"1.0\": 3, \"10.0\": 2}",
+            "selected_threshold_min": 0.20192536129072103,
+            "selected_threshold_max": 0.8046718861093862,
+            "selected_threshold_mean": 0.39430434049080343,
+            "selected_threshold_std": 0.23237530988074823
+          }
+        },
+        "selection_protocol": "participant-coherent outer folds with leave-one-training-fold-out inner C selection"
+      },
+      "threshold": {
+        "source": "outer-training inner OOF macro-F1",
+        "value": null,
+        "tuned_on": "outer-training participants only"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.9048408488063661,
+          "pr_auc": 0.928106430315839,
+          "balanced_accuracy": 0.796419098143236,
+          "macro_f1": 0.7975911676145868,
+          "sensitivity": 0.8620689655172413,
+          "specificity": 0.7307692307692307,
+          "positive_precision": 0.78125,
+          "negative_predictive_value": 0.8260869565217391,
+          "brier_score": 0.1273970010799491,
+          "threshold": null,
+          "tn": 38,
+          "fp": 14,
+          "fn": 8,
+          "tp": 50
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_bootstrap_intervals.csv",
+          "paired_comparisons": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_paired_comparisons.csv",
+          "transfer_gaps": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_transfer_gap_analysis.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": false,
+        "target_model_refitted": true,
+        "target_threshold_refitted": true,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 2E used a frozen protocol and did not alter Phase 1, Phase 2C, or Phase 2D models.",
+          "No new WavLM extraction, audio processing, layer selection, or model family was introduced."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Fold-matched reading within-task reference under participant-coherent folds.",
+        "selected": false,
+        "selection_reason": "Participant-safe cross-task diagnostic protocol; not a new frozen deployment candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "Phase 2E folds differ from official task-specific Phase 2C and Phase 2D folds.",
+          "Android clinical grouping is not the same target as DAIC PHQ8_Binary."
+        ],
+        "warnings": [
+          "Do not claim clinical validation.",
+          "Cross-task findings are diagnostic and task-specific."
+        ],
+        "next_step": "Do not proceed without freezing a new protocol."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": "1.9.0",
+        "cuda": null,
+        "gpu": null,
+        "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
+      },
+      "history": []
+    },
+    {
+      "id": "phase2e_pooled_to_interview",
+      "revision": 1,
+      "phase": "Phase 2E",
+      "name": "Phase 2E pooled-task training to interview",
+      "status": "completed_phase2e_cross_task_transfer",
+      "run_directory": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "pooled task training to interview",
+        "language": "Italian",
+        "train_n": "four participant-coherent folds per outer evaluation",
+        "dev_n": null,
+        "test_n": 110,
+        "class_counts": {
+          "HC": 52,
+          "PT": 58
+        },
+        "split_protocol": "new Phase 2E participant-coherent five-fold split over paired reading/interview participants",
+        "excluded": {
+          "reading_only": 2,
+          "interview_only": 6
+        }
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + balanced L2 LogisticRegression",
+        "class_weight": "balanced",
+        "C": "{\"0.01\": 3, \"0.1\": 1, \"1.0\": 1}",
+        "other_parameters": {
+          "source_task": "reading plus interview",
+          "target_task": "interview",
+          "threshold_distribution": {
+            "source_model": "pooled",
+            "outer_folds": 5,
+            "selected_C_distribution": "{\"0.01\": 3, \"0.1\": 1, \"1.0\": 1}",
+            "selected_threshold_min": 0.35669319473488686,
+            "selected_threshold_max": 0.5425008945332354,
+            "selected_threshold_mean": 0.43489216364186484,
+            "selected_threshold_std": 0.06565698496646355
+          }
+        },
+        "selection_protocol": "participant-coherent outer folds with leave-one-training-fold-out inner C selection"
+      },
+      "threshold": {
+        "source": "outer-training inner OOF macro-F1",
+        "value": null,
+        "tuned_on": "outer-training participants only"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.9134615384615384,
+          "pr_auc": 0.9250397862160252,
+          "balanced_accuracy": 0.8262599469496021,
+          "macro_f1": 0.8265704090946808,
+          "sensitivity": 0.8448275862068966,
+          "specificity": 0.8076923076923077,
+          "positive_precision": 0.8305084745762712,
+          "negative_predictive_value": 0.8235294117647058,
+          "brier_score": 0.11221901544142186,
+          "threshold": null,
+          "tn": 42,
+          "fp": 10,
+          "fn": 9,
+          "tp": 49
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_bootstrap_intervals.csv",
+          "paired_comparisons": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_paired_comparisons.csv",
+          "transfer_gaps": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_transfer_gap_analysis.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": false,
+        "target_model_refitted": true,
+        "target_threshold_refitted": true,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 2E used a frozen protocol and did not alter Phase 1, Phase 2C, or Phase 2D models.",
+          "No new WavLM extraction, audio processing, layer selection, or model family was introduced."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Pooled reading/interview training evaluated on held-out interview speech.",
+        "selected": false,
+        "selection_reason": "Participant-safe cross-task diagnostic protocol; not a new frozen deployment candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "Phase 2E folds differ from official task-specific Phase 2C and Phase 2D folds.",
+          "Android clinical grouping is not the same target as DAIC PHQ8_Binary."
+        ],
+        "warnings": [
+          "Do not claim clinical validation.",
+          "Cross-task findings are diagnostic and task-specific."
+        ],
+        "next_step": "Do not proceed without freezing a new protocol."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": "1.9.0",
+        "cuda": null,
+        "gpu": null,
+        "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
+      },
+      "history": []
+    },
+    {
+      "id": "phase2e_pooled_to_reading",
+      "revision": 1,
+      "phase": "Phase 2E",
+      "name": "Phase 2E pooled-task training to reading",
+      "status": "completed_phase2e_cross_task_transfer",
+      "run_directory": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "pooled task training to reading",
+        "language": "Italian",
+        "train_n": "four participant-coherent folds per outer evaluation",
+        "dev_n": null,
+        "test_n": 110,
+        "class_counts": {
+          "HC": 52,
+          "PT": 58
+        },
+        "split_protocol": "new Phase 2E participant-coherent five-fold split over paired reading/interview participants",
+        "excluded": {
+          "reading_only": 2,
+          "interview_only": 6
+        }
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + balanced L2 LogisticRegression",
+        "class_weight": "balanced",
+        "C": "{\"0.01\": 3, \"0.1\": 1, \"1.0\": 1}",
+        "other_parameters": {
+          "source_task": "reading plus interview",
+          "target_task": "reading",
+          "threshold_distribution": {
+            "source_model": "pooled",
+            "outer_folds": 5,
+            "selected_C_distribution": "{\"0.01\": 3, \"0.1\": 1, \"1.0\": 1}",
+            "selected_threshold_min": 0.35669319473488686,
+            "selected_threshold_max": 0.5425008945332354,
+            "selected_threshold_mean": 0.43489216364186484,
+            "selected_threshold_std": 0.06565698496646355
+          }
+        },
+        "selection_protocol": "participant-coherent outer folds with leave-one-training-fold-out inner C selection"
+      },
+      "threshold": {
+        "source": "outer-training inner OOF macro-F1",
+        "value": null,
+        "tuned_on": "outer-training participants only"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.9058355437665783,
+          "pr_auc": 0.9226089826313001,
+          "balanced_accuracy": 0.7994031830238726,
+          "macro_f1": 0.7994031830238726,
+          "sensitivity": 0.8103448275862069,
+          "specificity": 0.7884615384615384,
+          "positive_precision": 0.8103448275862069,
+          "negative_predictive_value": 0.7884615384615384,
+          "brier_score": 0.12324681864602853,
+          "threshold": null,
+          "tn": 41,
+          "fp": 11,
+          "fn": 11,
+          "tp": 47
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_bootstrap_intervals.csv",
+          "paired_comparisons": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_paired_comparisons.csv",
+          "transfer_gaps": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_transfer_gap_analysis.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": false,
+        "target_model_refitted": true,
+        "target_threshold_refitted": true,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 2E used a frozen protocol and did not alter Phase 1, Phase 2C, or Phase 2D models.",
+          "No new WavLM extraction, audio processing, layer selection, or model family was introduced."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Pooled reading/interview training evaluated on held-out reading speech.",
+        "selected": false,
+        "selection_reason": "Participant-safe cross-task diagnostic protocol; not a new frozen deployment candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "Phase 2E folds differ from official task-specific Phase 2C and Phase 2D folds.",
+          "Android clinical grouping is not the same target as DAIC PHQ8_Binary."
+        ],
+        "warnings": [
+          "Do not claim clinical validation.",
+          "Cross-task findings are diagnostic and task-specific."
+        ],
+        "next_step": "Do not proceed without freezing a new protocol."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": "1.9.0",
+        "cuda": null,
+        "gpu": null,
+        "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
+      },
+      "history": []
+    },
+    {
+      "id": "phase2e_reading_to_interview_transfer",
+      "revision": 1,
+      "phase": "Phase 2E",
+      "name": "Phase 2E reading-to-interview transfer",
+      "status": "completed_phase2e_cross_task_transfer",
+      "run_directory": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323",
+      "parent_id": null,
+      "data": {
+        "dataset_id": "androids_corpus",
+        "task": "reading to interview transfer",
+        "language": "Italian",
+        "train_n": "four participant-coherent folds per outer evaluation",
+        "dev_n": null,
+        "test_n": 110,
+        "class_counts": {
+          "HC": 52,
+          "PT": 58
+        },
+        "split_protocol": "new Phase 2E participant-coherent five-fold split over paired reading/interview participants",
+        "excluded": {
+          "reading_only": 2,
+          "interview_only": 6
+        }
+      },
+      "representation": {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "timing_feature_count": null,
+        "fusion": "none"
+      },
+      "classifier": {
+        "name": "LogisticRegression",
+        "pipeline": "StandardScaler + balanced L2 LogisticRegression",
+        "class_weight": "balanced",
+        "C": "{\"1.0\": 3, \"10.0\": 2}",
+        "other_parameters": {
+          "source_task": "reading",
+          "target_task": "interview",
+          "threshold_distribution": {
+            "source_model": "reading_only",
+            "outer_folds": 5,
+            "selected_C_distribution": "{\"1.0\": 3, \"10.0\": 2}",
+            "selected_threshold_min": 0.20192536129072103,
+            "selected_threshold_max": 0.8046718861093862,
+            "selected_threshold_mean": 0.39430434049080343,
+            "selected_threshold_std": 0.23237530988074823
+          }
+        },
+        "selection_protocol": "participant-coherent outer folds with leave-one-training-fold-out inner C selection"
+      },
+      "threshold": {
+        "source": "outer-training inner OOF macro-F1",
+        "value": null,
+        "tuned_on": "outer-training participants only"
+      },
+      "metrics": {
+        "train_cv": {},
+        "dev": {},
+        "test": {
+          "roc_auc": 0.8474801061007957,
+          "pr_auc": 0.8877379932467955,
+          "balanced_accuracy": 0.6770557029177718,
+          "macro_f1": 0.6623329721921272,
+          "sensitivity": 0.9310344827586207,
+          "specificity": 0.4230769230769231,
+          "positive_precision": 0.6428571428571429,
+          "negative_predictive_value": 0.8461538461538461,
+          "brier_score": 0.2824544537651082,
+          "threshold": null,
+          "tn": 22,
+          "fp": 30,
+          "fn": 4,
+          "tp": 54
+        },
+        "confidence_intervals": {
+          "source": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_bootstrap_intervals.csv",
+          "paired_comparisons": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_paired_comparisons.csv",
+          "transfer_gaps": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\phase2e_transfer_gap_analysis.csv"
+        }
+      },
+      "integrity": {
+        "test_provenance": "Android clinical patient/control labels under Phase 2E participant-coherent folds",
+        "test_used_for_selection": false,
+        "external_validation": true,
+        "zero_shot": false,
+        "target_model_refitted": true,
+        "target_threshold_refitted": true,
+        "leakage_status": "passed",
+        "test_result_viewed": true,
+        "decisions_made_after_test_view": [
+          "Phase 2E used a frozen protocol and did not alter Phase 1, Phase 2C, or Phase 2D models.",
+          "No new WavLM extraction, audio processing, layer selection, or model family was introduced."
+        ],
+        "evaluation_reuse_warning": "Do not pursue desired accuracy by repeatedly evaluating the same test set. Use training and validation data for model development; freeze decisions before test evaluation; record every inspected test result; document decisions made after viewing test performance; judge improvements using cross-validation stability, confidence intervals and external validation."
+      },
+      "conclusion": {
+        "main_finding": "Reading-trained classifier evaluated on interview speech from held-out participants.",
+        "selected": false,
+        "selection_reason": "Participant-safe cross-task diagnostic protocol; not a new frozen deployment candidate.",
+        "rejection_reason": "",
+        "limitations": [
+          "Phase 2E folds differ from official task-specific Phase 2C and Phase 2D folds.",
+          "Android clinical grouping is not the same target as DAIC PHQ8_Binary."
+        ],
+        "warnings": [
+          "Do not claim clinical validation.",
+          "Cross-task findings are diagnostic and task-specific."
+        ],
+        "next_step": "Do not proceed without freezing a new protocol."
+      },
+      "artifacts": {
+        "report_json": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.json",
+        "report_markdown": "outputs\\phase2_android\\phase2e_cross_task_runs\\20260704_151323\\PHASE2E_CROSS_TASK_REPORT.md",
+        "predictions": "",
+        "model": "",
+        "manifest": ""
+      },
+      "environment": {
+        "python": "3.12.13 (main, Mar  3 2026, 15:01:35) [MSC v.1944 64 bit (AMD64)]",
+        "pytorch": null,
+        "transformers": null,
+        "scikit_learn": "1.9.0",
+        "cuda": null,
+        "gpu": null,
+        "git_commit": "301f1e3c40d71cf20432df9efd7d86bb9375c735"
+      },
+      "history": []
     }
   ],
   "validation": {
     "status": "passed",
-    "checked_at": "2026-07-04T07:40:55.607784+00:00",
+    "checked_at": "2026-07-04T09:54:32.428650+00:00",
     "errors": [],
     "warnings": []
   }

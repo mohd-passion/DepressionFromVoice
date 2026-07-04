@@ -62,6 +62,7 @@ CSV_FIELDS = [
     "phase",
     "experiment_name",
     "status",
+    "result_scope",
     "dataset",
     "task",
     "representation",
@@ -80,10 +81,51 @@ CSV_FIELDS = [
     "specificity",
     "threshold",
     "evaluation_type",
+    "clinical_status",
     "selected",
     "main_finding",
+    "paper_ready_result_sentence",
     "limitation",
     "run_directory",
+]
+
+RESULT_SCOPES = {
+    "methodological_ablation",
+    "within_corpus_cross_validation",
+    "within_corpus_held_out_test",
+    "provisional_local_labeled_test",
+    "cross_corpus_zero_shot_external_evaluation",
+    "cross_corpus_target_adaptation",
+    "cross_task_transfer",
+    "pooled_task_within_corpus_cross_validation",
+    "data_quality_audit",
+}
+
+PAPER_INTERPRETATION_FIELDS = [
+    "result_scope",
+    "training_dataset",
+    "evaluation_dataset",
+    "training_task",
+    "evaluation_task",
+    "evaluation_protocol",
+    "participant_level_split",
+    "target_labels_used_for_training",
+    "target_labels_used_for_model_selection",
+    "target_labels_used_for_threshold_selection",
+    "external_validation",
+    "cross_corpus",
+    "zero_shot",
+    "target_domain_refitting",
+    "calibration_performed",
+    "threshold_adaptation_performed",
+    "primary_metric_name",
+    "primary_metric_value",
+    "confidence_interval",
+    "paper_ready_result_sentence",
+    "allowed_claims",
+    "prohibited_claims",
+    "comparison_caveats",
+    "clinical_status",
 ]
 
 
@@ -384,6 +426,433 @@ def apply_phase1_common(entry: dict[str, Any]) -> None:
             "leakage_status": "train/dev model selection separated from test where applicable",
         }
     )
+
+
+def dataset_label(dataset_id: str) -> str:
+    labels = {
+        "daic_woz_phase1_clean": "DAIC-WOZ",
+        "androids_corpus": "Androids Corpus",
+    }
+    return labels.get(dataset_id, dataset_id or "not_applicable")
+
+
+def first_metric(exp: dict[str, Any], key: str = "roc_auc") -> float | None:
+    for section in ["test", "dev", "train_cv"]:
+        value = get_path(exp, "metrics", section, key)
+        numeric = fnum(value)
+        if numeric is not None:
+            return numeric
+    return None
+
+
+def fmt_metric(value: Any) -> str:
+    numeric = fnum(value)
+    if numeric is None:
+        return "not_reported"
+    return f"{numeric:.4f}"
+
+
+def paper_defaults(exp: dict[str, Any]) -> dict[str, Any]:
+    dataset = dataset_label(str(exp.get("data", {}).get("dataset_id", "")))
+    task = str(exp.get("data", {}).get("task", ""))
+    metric = first_metric(exp)
+    return {
+        "result_scope": "methodological_ablation",
+        "training_dataset": dataset,
+        "evaluation_dataset": dataset,
+        "training_task": task or "not_applicable",
+        "evaluation_task": task or "not_applicable",
+        "evaluation_protocol": str(exp.get("data", {}).get("split_protocol", "")) or "recorded experiment protocol",
+        "participant_level_split": str(exp.get("data", {}).get("split_protocol", "")) or "participant-level split recorded where applicable",
+        "target_labels_used_for_training": bool(exp.get("classifier", {}).get("name") not in {"none", ""}),
+        "target_labels_used_for_model_selection": bool(exp.get("metrics", {}).get("train_cv")),
+        "target_labels_used_for_threshold_selection": bool(exp.get("threshold", {}).get("source")),
+        "external_validation": False,
+        "cross_corpus": False,
+        "zero_shot": False,
+        "target_domain_refitting": bool(exp.get("classifier", {}).get("name") not in {"none", ""}),
+        "calibration_performed": False,
+        "threshold_adaptation_performed": bool(exp.get("integrity", {}).get("target_threshold_refitted", False)),
+        "primary_metric_name": "ROC-AUC" if metric is not None else "not_applicable",
+        "primary_metric_value": metric,
+        "confidence_interval": "not_reported",
+        "paper_ready_result_sentence": f"{exp.get('name', exp.get('id'))} was evaluated under its recorded protocol; interpret the result only within that methodological scope.",
+        "allowed_claims": ["research result within the stated protocol"],
+        "prohibited_claims": ["clinical diagnosis", "deployment readiness", "causal claims", "universal model superiority"],
+        "comparison_caveats": ["Compare only with experiments using compatible data splits, tasks and target definitions."],
+        "clinical_status": "not_clinically_validated",
+    }
+
+
+def _phase1_interpretation(exp: dict[str, Any], p: dict[str, Any]) -> None:
+    exp_id = exp["id"]
+    metric = fmt_metric(p["primary_metric_value"])
+    p.update(
+        {
+            "training_dataset": "DAIC-WOZ",
+            "evaluation_dataset": "DAIC-WOZ",
+            "external_validation": False,
+            "cross_corpus": False,
+            "zero_shot": False,
+            "allowed_claims": ["DAIC-WOZ research estimate under the recorded split and selection protocol"],
+            "prohibited_claims": [
+                "official AVEC hidden-test performance",
+                "cross-corpus generalization",
+                "clinical diagnosis",
+                "deployment readiness",
+            ],
+            "clinical_status": "not_clinically_validated",
+        }
+    )
+    if exp["phase"] in {"Phase 1B", "Phase 1C", "Phase 1D", "Phase 1E"}:
+        p["result_scope"] = "methodological_ablation"
+        p["evaluation_protocol"] = str(exp["classifier"].get("selection_protocol", "train-only model-development protocol"))
+        p["participant_level_split"] = "DAIC train/dev development split; no Phase 1 test evaluation for this record"
+        p["target_labels_used_for_training"] = True
+        p["target_labels_used_for_model_selection"] = True
+        p["target_labels_used_for_threshold_selection"] = bool(exp.get("metrics", {}).get("dev"))
+        p["target_domain_refitting"] = True
+        p["paper_ready_result_sentence"] = (
+            f"{exp['name']} was a DAIC-WOZ methodological ablation with ROC-AUC {metric} under the recorded train/dev protocol; "
+            "it should not be presented as external validation."
+        )
+        p["comparison_caveats"] = ["Ablation results support method selection only within DAIC-WOZ development data."]
+    elif exp["phase"] == "Phase 1A":
+        p["result_scope"] = "provisional_local_labeled_test"
+        p["participant_level_split"] = "DAIC train/dev plus provisional local labeled test split"
+        p["target_labels_used_for_training"] = True
+        p["target_labels_used_for_model_selection"] = True
+        p["target_labels_used_for_threshold_selection"] = True
+        p["target_domain_refitting"] = True
+        p["paper_ready_result_sentence"] = (
+            f"{exp['name']} achieved ROC-AUC {metric} on the provisional local labeled DAIC test split; "
+            "this was not an official hidden AVEC test evaluation."
+        )
+        p["comparison_caveats"] = ["DAIC local labeled test labels are provisional and must not be described as official AVEC hidden-test labels."]
+    elif exp["phase"] == "Phase 1F":
+        p["result_scope"] = "provisional_local_labeled_test"
+        p["evaluation_protocol"] = "Frozen Phase 1 candidate evaluated once on provisional local labeled DAIC test labels from Data/full_test_split.csv"
+        p["participant_level_split"] = "DAIC train/dev plus provisional local labeled test split"
+        p["target_labels_used_for_training"] = True
+        p["target_labels_used_for_model_selection"] = True
+        p["target_labels_used_for_threshold_selection"] = True
+        p["target_domain_refitting"] = True
+        p["paper_ready_result_sentence"] = (
+            f"{exp['name']} achieved ROC-AUC {metric} on the provisional local labeled DAIC test split from Data/full_test_split.csv; "
+            "this was not the official hidden AVEC test evaluation and no post-test model changes were permitted."
+        )
+        p["comparison_caveats"] = ["Report as provisional local labeled DAIC test performance only."]
+    if exp_id == "phase1f_frozen_wavlm":
+        p["training_task"] = "free-speech-compatible participant speech"
+        p["evaluation_task"] = "free-speech-compatible participant speech"
+    elif exp_id == "phase1f_frozen_timing":
+        p["training_task"] = "guided-interview timing features"
+        p["evaluation_task"] = "guided-interview timing features"
+
+
+def _phase2a_interpretation(exp: dict[str, Any], p: dict[str, Any]) -> None:
+    p.update(
+        {
+            "result_scope": "data_quality_audit",
+            "training_dataset": "not_applicable",
+            "evaluation_dataset": "Androids Corpus",
+            "training_task": "not_applicable",
+            "evaluation_task": "data inventory and compatibility audit",
+            "evaluation_protocol": "dataset preparation and DAIC-to-Android compatibility audit only",
+            "participant_level_split": "not_applicable_no_modeling",
+            "target_labels_used_for_training": False,
+            "target_labels_used_for_model_selection": False,
+            "target_labels_used_for_threshold_selection": False,
+            "external_validation": False,
+            "cross_corpus": False,
+            "zero_shot": False,
+            "target_domain_refitting": False,
+            "calibration_performed": False,
+            "threshold_adaptation_performed": False,
+            "primary_metric_name": "not_applicable",
+            "primary_metric_value": None,
+            "paper_ready_result_sentence": "Phase 2A was a data-quality and compatibility audit; it did not train or evaluate a classifier.",
+            "allowed_claims": ["Androids Corpus inventory and compatibility findings"],
+            "prohibited_claims": ["model performance", "clinical diagnosis", "external validation"],
+            "comparison_caveats": ["No modeling was performed in this audit."],
+            "clinical_status": "not_applicable_no_modeling",
+        }
+    )
+
+
+def _phase2b_interpretation(exp: dict[str, Any], p: dict[str, Any]) -> None:
+    p.update(
+        {
+            "result_scope": "cross_corpus_zero_shot_external_evaluation",
+            "training_dataset": "DAIC-WOZ",
+            "evaluation_dataset": "Androids Corpus",
+            "training_task": "interview/free speech",
+            "evaluation_task": "interview",
+            "evaluation_protocol": "Frozen DAIC-WOZ classifier applied once to Android interview participant embeddings",
+            "participant_level_split": "all eligible Android interview participants evaluated once; no Android fitting",
+            "target_labels_used_for_training": False,
+            "target_labels_used_for_model_selection": False,
+            "target_labels_used_for_threshold_selection": False,
+            "external_validation": True,
+            "cross_corpus": True,
+            "zero_shot": True,
+            "target_domain_refitting": False,
+            "calibration_performed": False,
+            "threshold_adaptation_performed": False,
+            "paper_ready_result_sentence": "The frozen DAIC-WOZ classifier achieved a zero-shot ROC-AUC of 0.6412 on Android interview speech, indicating limited cross-corpus ranking transfer; however, its frozen decision thresholds predicted every participant as negative.",
+            "allowed_claims": ["limited ranking information transferred across corpora"],
+            "prohibited_claims": ["successful cross-corpus classification", "strong external validation", "clinical usefulness", "clinical diagnosis"],
+            "comparison_caveats": ["DAIC PHQ8_Binary and Android clinical grouping are related but not identical targets."],
+            "clinical_status": "not_clinically_validated",
+        }
+    )
+
+
+def _phase2c_interpretation(exp: dict[str, Any], p: dict[str, Any]) -> None:
+    exp_id = exp["id"]
+    p.update(
+        {
+            "training_dataset": "DAIC-WOZ" if exp_id != "phase2c_protocol_d_android_lr" else "Androids Corpus",
+            "evaluation_dataset": "Androids Corpus",
+            "training_task": "interview/free speech" if exp_id != "phase2c_protocol_d_android_lr" else "interview",
+            "evaluation_task": "interview",
+            "participant_level_split": "official Android interview participant-level five-fold protocol",
+            "comparison_caveats": ["Android labels and DAIC PHQ8_Binary are related but not identical targets."],
+            "clinical_status": "not_clinically_validated",
+        }
+    )
+    if exp_id == "phase2c_protocol_a_frozen_daic_reference":
+        p.update(
+            {
+                "result_scope": "cross_corpus_zero_shot_external_evaluation",
+                "evaluation_protocol": "Protocol A: frozen DAIC model, no Android fitting or adaptation",
+                "target_labels_used_for_training": False,
+                "target_labels_used_for_model_selection": False,
+                "target_labels_used_for_threshold_selection": False,
+                "external_validation": True,
+                "cross_corpus": True,
+                "zero_shot": True,
+                "target_domain_refitting": False,
+                "paper_ready_result_sentence": "Protocol A reproduced the frozen DAIC-to-Android interview zero-shot ROC-AUC of 0.6412 without Android fitting or adaptation.",
+                "allowed_claims": ["limited zero-shot ranking transfer"],
+                "prohibited_claims": ["successful target-domain classification", "target-domain adaptation", "clinical diagnosis"],
+            }
+        )
+    elif exp_id == "phase2c_protocol_b_threshold_only":
+        p.update(
+            {
+                "result_scope": "cross_corpus_target_adaptation",
+                "evaluation_protocol": "Protocol B: frozen DAIC scores with Android training-fold threshold adaptation",
+                "target_labels_used_for_training": False,
+                "target_labels_used_for_model_selection": False,
+                "target_labels_used_for_threshold_selection": True,
+                "external_validation": True,
+                "cross_corpus": True,
+                "zero_shot": False,
+                "target_domain_refitting": False,
+                "threshold_adaptation_performed": True,
+                "paper_ready_result_sentence": "Protocol B adapted decision thresholds using Android training folds while preserving the frozen DAIC score ranking; therefore it was target-domain threshold adaptation, not pure zero-shot evaluation.",
+                "allowed_claims": ["threshold shift contributed to DAIC-to-Android transfer failure"],
+                "prohibited_claims": ["pure zero-shot evaluation", "new Android classifier training", "clinical diagnosis"],
+            }
+        )
+    elif exp_id == "phase2c_protocol_c_score_calibration":
+        p.update(
+            {
+                "result_scope": "cross_corpus_target_adaptation",
+                "evaluation_protocol": "Protocol C: frozen DAIC scores calibrated using Android training folds",
+                "target_labels_used_for_training": True,
+                "target_labels_used_for_model_selection": True,
+                "target_labels_used_for_threshold_selection": False,
+                "external_validation": True,
+                "cross_corpus": True,
+                "zero_shot": False,
+                "target_domain_refitting": True,
+                "calibration_performed": True,
+                "paper_ready_result_sentence": "Protocol C calibrated frozen DAIC scores using Android training folds; Brier score improved but ROC-AUC decreased to 0.5694, so calibration did not improve ranking.",
+                "allowed_claims": ["target-domain calibration improved probability scale under the recorded folds"],
+                "prohibited_claims": ["pure zero-shot evaluation", "improved ranking transfer", "clinical diagnosis"],
+            }
+        )
+    elif exp_id == "phase2c_protocol_d_android_lr":
+        p.update(
+            {
+                "result_scope": "within_corpus_cross_validation",
+                "evaluation_protocol": "Protocol D: Android-trained interview logistic regression under participant-level nested cross-validation",
+                "target_labels_used_for_training": True,
+                "target_labels_used_for_model_selection": True,
+                "target_labels_used_for_threshold_selection": True,
+                "external_validation": False,
+                "cross_corpus": False,
+                "zero_shot": False,
+                "target_domain_refitting": True,
+                "threshold_adaptation_performed": True,
+                "paper_ready_result_sentence": "The Android-trained interview classifier achieved an out-of-fold ROC-AUC of 0.8675 under nested participant-level cross-validation. This demonstrates strong within-Android discrimination after learning an Android-specific classifier boundary, not direct DAIC-to-Android model transfer.",
+                "allowed_claims": ["strong within-Android interview discrimination under participant-level cross-validation"],
+                "prohibited_claims": ["direct DAIC-to-Android model transfer", "external validation", "clinical diagnosis"],
+            }
+        )
+
+
+def _phase2d_interpretation(exp: dict[str, Any], p: dict[str, Any]) -> None:
+    exp_id = exp["id"]
+    p.update(
+        {
+            "evaluation_dataset": "Androids Corpus",
+            "participant_level_split": "official Android task-specific five-fold participant protocol",
+            "clinical_status": "not_clinically_validated",
+            "comparison_caveats": [
+                "Phase 2C interview and Phase 2D reading experiments used task-specific fold assignments.",
+                "Participant sets were not identical; direct task differences are descriptive.",
+            ],
+        }
+    )
+    if exp_id == "phase2d_android_reading_zero_shot_daic":
+        p.update(
+            {
+                "result_scope": "cross_corpus_zero_shot_external_evaluation",
+                "training_dataset": "DAIC-WOZ",
+                "training_task": "interview/free speech",
+                "evaluation_task": "reading",
+                "evaluation_protocol": "Frozen DAIC-WOZ classifier applied to Android reading embeddings",
+                "target_labels_used_for_training": False,
+                "target_labels_used_for_model_selection": False,
+                "target_labels_used_for_threshold_selection": False,
+                "external_validation": True,
+                "cross_corpus": True,
+                "zero_shot": True,
+                "target_domain_refitting": False,
+                "paper_ready_result_sentence": "The frozen DAIC-WOZ classifier achieved a zero-shot ROC-AUC of 0.5795 on Android reading speech, but its frozen thresholds predicted every participant as negative.",
+                "allowed_claims": ["modest zero-shot ranking signal on Android reading speech"],
+                "prohibited_claims": ["successful cross-corpus classification", "Android-trained result", "clinical diagnosis"],
+            }
+        )
+    elif exp_id == "phase2d_android_reading_logistic_regression":
+        p.update(
+            {
+                "result_scope": "within_corpus_cross_validation",
+                "training_dataset": "Androids Corpus",
+                "training_task": "reading",
+                "evaluation_task": "reading",
+                "evaluation_protocol": "participant-level nested five-fold cross-validation using official reading folds",
+                "target_labels_used_for_training": True,
+                "target_labels_used_for_model_selection": True,
+                "target_labels_used_for_threshold_selection": True,
+                "external_validation": False,
+                "cross_corpus": False,
+                "zero_shot": False,
+                "target_domain_refitting": True,
+                "threshold_adaptation_performed": True,
+                "confidence_interval": "[0.8113, 0.9377]",
+                "paper_ready_result_sentence": "The Android-trained reading-speech classifier achieved an out-of-fold ROC-AUC of 0.8796 under participant-level nested cross-validation within the Androids Corpus. This is a within-corpus discrimination estimate and does not constitute external validation or cross-corpus generalization.",
+                "allowed_claims": ["strong within-Android reading-speech discrimination under participant-level cross-validation"],
+                "prohibited_claims": ["external validation", "cross-corpus generalization", "clinical diagnosis"],
+            }
+        )
+    else:
+        p.update(
+            {
+                "result_scope": "within_corpus_cross_validation",
+                "training_dataset": "Androids Corpus",
+                "training_task": "reading and interview",
+                "evaluation_task": "reading and interview",
+                "evaluation_protocol": "descriptive comparison of completed within-Android task-specific protocols",
+                "target_labels_used_for_training": True,
+                "target_labels_used_for_model_selection": True,
+                "target_labels_used_for_threshold_selection": True,
+                "external_validation": False,
+                "cross_corpus": False,
+                "zero_shot": False,
+                "target_domain_refitting": True,
+                "threshold_adaptation_performed": True,
+                "paper_ready_result_sentence": "Phase 2D compared Android-trained reading and interview classifiers descriptively; the task-specific folds and participant sets differed, so this comparison is not a controlled cross-task transfer test.",
+                "allowed_claims": ["descriptive comparison of within-Android reading and interview benchmarks"],
+                "prohibited_claims": ["controlled cross-task transfer", "external validation", "clinical diagnosis"],
+            }
+        )
+
+
+def _phase2e_interpretation(exp: dict[str, Any], p: dict[str, Any]) -> None:
+    exp_id = exp["id"]
+    ci = {
+        "phase2e_matched_reading_within_task": "[0.8435, 0.9562]",
+        "phase2e_matched_interview_within_task": "[0.8452, 0.9589]",
+        "phase2e_reading_to_interview_transfer": "[0.7699, 0.9158]; gap versus matched interview [-0.1316, 0.0116]",
+        "phase2e_interview_to_reading_transfer": "[0.7699, 0.9204]; gap versus matched reading [-0.1436, 0.0325]",
+        "phase2e_pooled_to_reading": "[0.8442, 0.9539]; gain versus interview-to-reading [-0.0172, 0.1340]",
+        "phase2e_pooled_to_interview": "[0.8515, 0.9635]; gain versus reading-to-interview [-0.0013, 0.1346]",
+        "phase2e_cross_task_transfer_conclusion": "paired bootstrap intervals recorded in phase2e_paired_comparisons.csv",
+    }
+    p.update(
+        {
+            "training_dataset": "Androids Corpus",
+            "evaluation_dataset": "Androids Corpus",
+            "evaluation_protocol": "Phase 2E participant-coherent nested five-fold cross-validation over 110 paired Androids Corpus participants",
+            "participant_level_split": "new participant-coherent five-fold split shared by reading and interview tasks",
+            "target_labels_used_for_training": True,
+            "target_labels_used_for_model_selection": True,
+            "target_labels_used_for_threshold_selection": True,
+            "external_validation": False,
+            "cross_corpus": False,
+            "zero_shot": False,
+            "target_domain_refitting": True,
+            "threshold_adaptation_performed": True,
+            "confidence_interval": ci.get(exp_id, "not_reported"),
+            "allowed_claims": [
+                "WavLM representations contain information shared across reading and interview tasks",
+                "cross-task transfer remained strong but lower than matched within-task performance",
+                "classifier boundaries were partly task-specific",
+            ],
+            "prohibited_claims": ["external validation", "cross-dataset generalization", "clinical diagnosis", "statistical proof that pooled training is superior"],
+            "comparison_caveats": ["All Phase 2E results are within Androids Corpus on 110 paired participants.", "Pooled-task gains were suggestive rather than conclusive because bootstrap confidence intervals included zero."],
+            "clinical_status": "not_clinically_validated",
+        }
+    )
+    if exp_id == "phase2e_matched_reading_within_task":
+        p.update({"result_scope": "within_corpus_cross_validation", "training_task": "reading", "evaluation_task": "reading", "paper_ready_result_sentence": "Under participant-coherent nested cross-validation on 110 paired Androids Corpus participants, the matched reading classifier achieved ROC-AUC 0.9048."})
+    elif exp_id == "phase2e_matched_interview_within_task":
+        p.update({"result_scope": "within_corpus_cross_validation", "training_task": "interview", "evaluation_task": "interview", "paper_ready_result_sentence": "Under participant-coherent nested cross-validation on 110 paired Androids Corpus participants, the matched interview classifier achieved ROC-AUC 0.9065."})
+    elif exp_id == "phase2e_reading_to_interview_transfer":
+        p.update({"result_scope": "cross_task_transfer", "training_task": "reading", "evaluation_task": "interview", "paper_ready_result_sentence": "Reading-to-interview transfer achieved ROC-AUC 0.8475 under participant-coherent nested cross-validation, with a matched-interview AUC gap of -0.0590."})
+    elif exp_id == "phase2e_interview_to_reading_transfer":
+        p.update({"result_scope": "cross_task_transfer", "training_task": "interview", "evaluation_task": "reading", "paper_ready_result_sentence": "Interview-to-reading transfer achieved ROC-AUC 0.8501 under participant-coherent nested cross-validation, with a matched-reading AUC gap of -0.0547."})
+    elif exp_id == "phase2e_pooled_to_reading":
+        p.update({"result_scope": "pooled_task_within_corpus_cross_validation", "training_task": "reading plus interview", "evaluation_task": "reading", "paper_ready_result_sentence": "Pooled reading-and-interview training achieved ROC-AUC 0.9058 for reading speech under participant-coherent nested cross-validation; the gain over single-source transfer was suggestive rather than conclusive."})
+    elif exp_id == "phase2e_pooled_to_interview":
+        p.update({"result_scope": "pooled_task_within_corpus_cross_validation", "training_task": "reading plus interview", "evaluation_task": "interview", "paper_ready_result_sentence": "Pooled reading-and-interview training achieved ROC-AUC 0.9135 for interview speech under participant-coherent nested cross-validation; the gain over single-source transfer was suggestive rather than conclusive."})
+    else:
+        p.update({"result_scope": "cross_task_transfer", "training_task": "reading and interview", "evaluation_task": "reading and interview", "paper_ready_result_sentence": "Under participant-coherent nested cross-validation on 110 paired Androids Corpus participants, reading-to-interview and interview-to-reading transfer achieved ROC-AUCs of 0.8475 and 0.8501. Pooled reading-and-interview training achieved ROC-AUCs of 0.9058 for reading and 0.9135 for interview speech."})
+
+
+def paper_interpretation_for(exp: dict[str, Any]) -> dict[str, Any]:
+    p = paper_defaults(exp)
+    phase = exp.get("phase")
+    if phase and str(phase).startswith("Phase 1"):
+        _phase1_interpretation(exp, p)
+    elif phase == "Phase 2A":
+        _phase2a_interpretation(exp, p)
+    elif phase == "Phase 2B":
+        _phase2b_interpretation(exp, p)
+    elif phase == "Phase 2C":
+        _phase2c_interpretation(exp, p)
+    elif phase == "Phase 2D":
+        _phase2d_interpretation(exp, p)
+    elif phase == "Phase 2E":
+        _phase2e_interpretation(exp, p)
+    for field in PAPER_INTERPRETATION_FIELDS:
+        p.setdefault(field, None)
+    return p
+
+
+def apply_paper_interpretations(registry: dict[str, Any]) -> None:
+    for exp in registry.get("experiments", []):
+        p = paper_interpretation_for(exp)
+        exp["paper_interpretation"] = p
+        integrity = exp.setdefault("integrity", {})
+        integrity["external_validation"] = bool(p["external_validation"])
+        integrity["zero_shot"] = bool(p["zero_shot"])
+        integrity["target_model_refitted"] = bool(p["target_domain_refitting"])
+        integrity["target_threshold_refitted"] = bool(p["threshold_adaptation_performed"])
 
 
 def metric_block(source: dict[str, Any] | None) -> dict[str, Any]:
@@ -1431,6 +1900,7 @@ def validate_registry(registry: dict[str, Any]) -> dict[str, Any]:
             if value and (Path(str(value)).is_absolute() or ":" in str(value)[:3]):
                 errors.append(f"{exp['id']} artifact {artifact_name} is not project-relative: {value}")
         validate_metrics(exp.get("metrics", {}), exp.get("id", ""), errors)
+        validate_paper_interpretation(exp, errors)
     official_dirs = [str(path) for path in OFFICIAL_RUNS.values()]
     if len(official_dirs) != len(set(official_dirs)):
         errors.append("Official run directory list contains duplicates.")
@@ -1469,6 +1939,88 @@ def validate_metrics(metrics: dict[str, Any], exp_id: str, errors: list[str]) ->
     walk(metrics)
 
 
+def validate_paper_interpretation(exp: dict[str, Any], errors: list[str]) -> None:
+    exp_id = exp.get("id", "<missing>")
+    p = exp.get("paper_interpretation")
+    if not isinstance(p, dict):
+        errors.append(f"{exp_id} missing paper_interpretation block.")
+        return
+
+    missing = [field for field in PAPER_INTERPRETATION_FIELDS if field not in p]
+    if missing:
+        errors.append(f"{exp_id} missing paper interpretation fields: {', '.join(missing)}.")
+
+    required_nonempty = [
+        "result_scope",
+        "training_dataset",
+        "evaluation_dataset",
+        "evaluation_protocol",
+        "participant_level_split",
+        "paper_ready_result_sentence",
+        "clinical_status",
+    ]
+    for field in required_nonempty:
+        if p.get(field) in (None, "", []):
+            errors.append(f"{exp_id} has empty paper interpretation field {field}.")
+
+    for field in [
+        "target_labels_used_for_training",
+        "target_labels_used_for_model_selection",
+        "target_labels_used_for_threshold_selection",
+        "external_validation",
+        "cross_corpus",
+        "zero_shot",
+        "target_domain_refitting",
+        "calibration_performed",
+        "threshold_adaptation_performed",
+    ]:
+        if not isinstance(p.get(field), bool):
+            errors.append(f"{exp_id} paper interpretation field {field} must be boolean.")
+
+    if p.get("result_scope") not in RESULT_SCOPES:
+        errors.append(f"{exp_id} has unknown result_scope: {p.get('result_scope')}.")
+
+    if not p.get("allowed_claims"):
+        errors.append(f"{exp_id} needs at least one allowed paper claim.")
+    if not p.get("prohibited_claims"):
+        errors.append(f"{exp_id} needs at least one prohibited paper claim.")
+
+    scope = p.get("result_scope")
+    if scope in {
+        "methodological_ablation",
+        "within_corpus_cross_validation",
+        "within_corpus_held_out_test",
+        "provisional_local_labeled_test",
+        "cross_task_transfer",
+        "pooled_task_within_corpus_cross_validation",
+        "data_quality_audit",
+    } and p.get("external_validation"):
+        errors.append(f"{exp_id} marks a non-external scope as external validation.")
+
+    if scope == "cross_corpus_zero_shot_external_evaluation" and not (p.get("external_validation") and p.get("cross_corpus") and p.get("zero_shot")):
+        errors.append(f"{exp_id} zero-shot external scope is missing external/cross-corpus/zero-shot flags.")
+
+    if p.get("target_domain_refitting") and p.get("zero_shot"):
+        errors.append(f"{exp_id} marks target-domain refitting as zero-shot.")
+    if p.get("threshold_adaptation_performed") and p.get("zero_shot"):
+        errors.append(f"{exp_id} marks target-label threshold adaptation as pure zero-shot.")
+
+    paper_text = " ".join(
+        [
+            str(p.get("paper_ready_result_sentence", "")),
+            " ".join(str(item) for item in p.get("allowed_claims", [])),
+            str(p.get("evaluation_protocol", "")),
+            str(p.get("participant_level_split", "")),
+        ]
+    ).lower()
+    if scope == "provisional_local_labeled_test" and ("official avec" in paper_text or "official_avec" in paper_text):
+        errors.append(f"{exp_id} describes provisional DAIC testing as official AVEC test evaluation.")
+    if p.get("clinical_status") != "clinically_validated" and any(term in paper_text for term in ["diagnostic", "diagnosis", "clinical deployment"]):
+        errors.append(f"{exp_id} uses diagnostic wording despite not being clinically validated.")
+    if scope == "cross_task_transfer" and any(term in paper_text for term in ["cross-corpus", "cross-dataset"]):
+        errors.append(f"{exp_id} describes cross-task transfer as cross-corpus transfer.")
+
+
 def summary_value(exp: dict[str, Any], section: str, key: str) -> Any:
     return get_path(exp, "metrics", section, key)
 
@@ -1486,12 +2038,14 @@ def csv_rows(registry: dict[str, Any]) -> list[dict[str, Any]]:
     for exp in registry["experiments"]:
         rep = exp["representation"]
         clf = exp["classifier"]
+        paper = exp.get("paper_interpretation", {})
         rows.append(
             {
                 "experiment_id": exp["id"],
                 "phase": exp["phase"],
                 "experiment_name": exp["name"],
                 "status": exp["status"],
+                "result_scope": paper.get("result_scope"),
                 "dataset": exp["data"].get("dataset_id"),
                 "task": exp["data"].get("task"),
                 "representation": rep.get("feature_family"),
@@ -1510,8 +2064,10 @@ def csv_rows(registry: dict[str, Any]) -> list[dict[str, Any]]:
                 "specificity": best_metric(exp, "specificity"),
                 "threshold": exp["threshold"].get("value") if exp["threshold"].get("value") is not None else best_metric(exp, "threshold"),
                 "evaluation_type": "external_zero_shot" if exp["integrity"].get("zero_shot") else "provisional_test" if exp["metrics"].get("test") else "train_dev_or_audit",
+                "clinical_status": paper.get("clinical_status"),
                 "selected": exp["conclusion"].get("selected"),
                 "main_finding": exp["conclusion"].get("main_finding"),
+                "paper_ready_result_sentence": paper.get("paper_ready_result_sentence"),
                 "limitation": "; ".join(exp["conclusion"].get("limitations", [])[:2]),
                 "run_directory": exp["run_directory"],
             }
@@ -1527,6 +2083,62 @@ def fmt(value: Any, digits: int = 3) -> str:
     if isinstance(value, (int, float)):
         return f"{value:.{digits}f}"
     return str(value)
+
+
+def md_cell(value: Any) -> str:
+    if value in (None, ""):
+        return ""
+    if isinstance(value, bool):
+        value = "yes" if value else "no"
+    if isinstance(value, list):
+        value = "; ".join(str(item) for item in value)
+    return str(value).replace("|", "\\|").replace("\n", " ")
+
+
+def paper_matrix_path() -> Path:
+    return project_root() / "docs" / "PAPER_RESULTS_INTERPRETATION_MATRIX.md"
+
+
+def generate_paper_matrix(registry: dict[str, Any]) -> str:
+    lines = [
+        "# Paper Results Interpretation Matrix",
+        "",
+        "_Generated automatically from `outputs/experiment_registry/experiment_registry.json` by `update_registry.py`._",
+        "",
+        "This matrix separates methodological ablations, within-corpus estimates, provisional local test results, zero-shot external validation, target-domain adaptation and cross-task transfer. It is intended to prevent paper text from overstating what each completed experiment can support.",
+        "",
+        "| Experiment ID | Phase | Experiment | Scope | Train -> Evaluate | Protocol | Primary metric | Paper-ready interpretation | Allowed claim | Do not claim | Clinical status |",
+        "|---|---|---|---|---|---|---|---|---|---|---|",
+    ]
+    for exp in registry.get("experiments", []):
+        p = exp.get("paper_interpretation", {})
+        metric_name = p.get("primary_metric_name")
+        metric_value = fmt(p.get("primary_metric_value"), 4)
+        metric = f"{metric_name}: {metric_value}" if metric_name and metric_value else md_cell(metric_name)
+        train_eval = f"{p.get('training_dataset', '')} / {p.get('training_task', '')} -> {p.get('evaluation_dataset', '')} / {p.get('evaluation_task', '')}"
+        allowed = p.get("allowed_claims", [""])[0] if p.get("allowed_claims") else ""
+        prohibited = p.get("prohibited_claims", [""])[0] if p.get("prohibited_claims") else ""
+        lines.append(
+            "| "
+            + " | ".join(
+                md_cell(value)
+                for value in [
+                    exp.get("id"),
+                    exp.get("phase"),
+                    exp.get("name"),
+                    p.get("result_scope"),
+                    train_eval,
+                    p.get("evaluation_protocol"),
+                    metric,
+                    p.get("paper_ready_result_sentence"),
+                    allowed,
+                    prohibited,
+                    p.get("clinical_status"),
+                ]
+            )
+            + " |"
+        )
+    return "\n".join(lines) + "\n"
 
 
 def generate_markdown(registry: dict[str, Any]) -> str:
@@ -1562,7 +2174,22 @@ def generate_markdown(registry: dict[str, Any]) -> str:
         lines.append(
             f"| {row['phase']} | {row['experiment_name']} | {fmt(row['train_cv_auc'])} | {fmt(row['dev_auc'])} | {fmt(row['test_auc'])} | {decision} | {row['main_finding']} |"
         )
-    lines.extend(["", "## 4. Selected And Rejected Approaches", "", "### Selected / Frozen Research Candidates", "", "| Experiment | Why It Was Kept | Limitation |", "|---|---|---|"])
+    lines.extend(
+        [
+            "",
+            "## 4. Guidance For Paper Reporting",
+            "",
+            "| Experiment | Scope | External? | Zero-shot? | Paper-ready interpretation | Do Not Claim |",
+            "|---|---|---:|---:|---|---|",
+        ]
+    )
+    for exp in registry["experiments"]:
+        p = exp.get("paper_interpretation", {})
+        prohibited = "; ".join(p.get("prohibited_claims", [])[:2])
+        lines.append(
+            f"| {md_cell(exp['name'])} | {md_cell(p.get('result_scope'))} | {fmt(p.get('external_validation'))} | {fmt(p.get('zero_shot'))} | {md_cell(p.get('paper_ready_result_sentence'))} | {md_cell(prohibited)} |"
+        )
+    lines.extend(["", "## 5. Selected And Rejected Approaches", "", "### Selected / Frozen Research Candidates", "", "| Experiment | Why It Was Kept | Limitation |", "|---|---|---|"])
     for exp in selected:
         lines.append(f"| {exp['name']} | {exp['conclusion'].get('selection_reason', '')} | {'; '.join(exp['conclusion'].get('limitations', [])[:2])} |")
     lines.extend(["", "### Rejected Or Not Advanced", "", "| Experiment | Reason |", "|---|---|"])
@@ -1571,21 +2198,21 @@ def generate_markdown(registry: dict[str, Any]) -> str:
     lines.extend(
         [
             "",
-            "## 5. Current Conclusions",
+            "## 6. Current Conclusions",
             "",
             "- WavLM layer_09 is the frozen free-speech DAIC representation.",
             "- Mean participant aggregation was retained; aggregation variants did not appear to be the main bottleneck.",
             "- DAIC timing features are useful inside guided-interview DAIC conditions but do not directly transfer to Android because required response-latency features are unavailable.",
             "- Phase 2B showed Android ranking signal for frozen DAIC WavLM, but the DAIC probability scale and threshold failed externally.",
             "",
-            "## 6. Important Limitations",
+            "## 7. Important Limitations",
             "",
             "- DAIC test labels are provisional local labeled test labels, not confirmed official AVEC test-label provenance.",
             "- DAIC PHQ8_Binary and Android clinical patient/control status are related but not equivalent.",
             "- Android cross-task folds are inconsistent for 85 participants; keep task protocols explicit.",
             "- Repeated inspection of the same test/external data must not drive model development.",
             "",
-            "## 7. Next Planned Experiment",
+            "## 8. Next Planned Experiment",
             "",
             "| Planned phase | Protocols | Purpose |",
             "|---|---|---|",
@@ -1598,15 +2225,18 @@ def generate_markdown(registry: dict[str, Any]) -> str:
 
 def save_registry(registry: dict[str, Any]) -> None:
     registry["last_updated"] = utc_now()
+    apply_paper_interpretations(registry)
     registry["validation"] = validate_registry(registry)
     write_json(registry_dir() / "experiment_registry.json", registry)
     write_csv(registry_dir() / "experiment_summary.csv", csv_rows(registry))
     (registry_dir() / "EXPERIMENT_LOG.md").write_text(generate_markdown(registry), encoding="utf-8")
+    paper_matrix_path().write_text(generate_paper_matrix(registry), encoding="utf-8")
 
 
 def validate_existing_artifacts(registry: dict[str, Any], validation: dict[str, Any]) -> None:
     summary_path = registry_dir() / "experiment_summary.csv"
     log_path = registry_dir() / "EXPERIMENT_LOG.md"
+    matrix_path = paper_matrix_path()
     expected_ids = [str(exp.get("id", "")) for exp in registry.get("experiments", [])]
 
     if not summary_path.exists():
@@ -1629,6 +2259,19 @@ def validate_existing_artifacts(registry: dict[str, Any], validation: dict[str, 
                 validation["errors"].append("EXPERIMENT_LOG.md does not look like the generated experiment log.")
         except (OSError, UnicodeDecodeError) as exc:
             validation["errors"].append(f"Could not read EXPERIMENT_LOG.md: {exc}")
+
+    if not matrix_path.exists():
+        validation["errors"].append(f"Missing paper interpretation matrix: {matrix_path}")
+    else:
+        try:
+            matrix_text = matrix_path.read_text(encoding="utf-8")
+            if not matrix_text.startswith("# Paper Results Interpretation Matrix"):
+                validation["errors"].append("PAPER_RESULTS_INTERPRETATION_MATRIX.md does not look like the generated paper matrix.")
+            missing_ids = [exp_id for exp_id in expected_ids if exp_id and exp_id not in matrix_text]
+            if missing_ids:
+                validation["errors"].append("PAPER_RESULTS_INTERPRETATION_MATRIX.md is missing experiment IDs: " + ", ".join(missing_ids[:5]))
+        except (OSError, UnicodeDecodeError) as exc:
+            validation["errors"].append(f"Could not read PAPER_RESULTS_INTERPRETATION_MATRIX.md: {exc}")
 
     validation["status"] = "passed" if not validation["errors"] else "failed"
 

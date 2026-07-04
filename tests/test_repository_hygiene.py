@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = ROOT / "outputs" / "experiment_registry" / "experiment_registry.json"
 SUMMARY_PATH = ROOT / "outputs" / "experiment_registry" / "experiment_summary.csv"
 EXPERIMENT_LOG_PATH = ROOT / "outputs" / "experiment_registry" / "EXPERIMENT_LOG.md"
+PAPER_MATRIX_PATH = ROOT / "docs" / "PAPER_RESULTS_INTERPRETATION_MATRIX.md"
 UPDATE_REGISTRY_PATH = ROOT / "outputs" / "experiment_registry" / "update_registry.py"
 SUPERSEDED_PHASE2A = "outputs/phase2_android/phase2a_preparation_runs/20260622_154008"
 FORBIDDEN_SUFFIXES = {".wav", ".mp3", ".flac", ".mp4", ".zip", ".7z", ".rar", ".npy", ".npz", ".pt", ".pth", ".ckpt", ".joblib", ".pkl", ".onnx"}
@@ -64,7 +65,7 @@ class RegistryTests(unittest.TestCase):
         self.assertTrue(SUMMARY_PATH.exists())
 
     def test_registry_validation_is_read_only(self) -> None:
-        registry_files = [REGISTRY_PATH, SUMMARY_PATH, EXPERIMENT_LOG_PATH]
+        registry_files = [REGISTRY_PATH, SUMMARY_PATH, EXPERIMENT_LOG_PATH, PAPER_MATRIX_PATH]
         before = {path: sha256_file(path) for path in registry_files}
         result = subprocess.run(
             [sys.executable, str(UPDATE_REGISTRY_PATH), "--validate"],

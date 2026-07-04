@@ -1,0 +1,32 @@
+[
+  {
+    "path": "PHASE2D_ANDROID_READING_REPORT.json",
+    "sha256": "f7f802a963e44d0222ed737d0a0d98653650767bb1aea2777f30bc60dbd87497",
+    "size_bytes": 34313
+  },
+  {
+    "path": "PHASE2D_ANDROID_READING_REPORT.md",
+    "sha256": "bb8c53dec2280f9540688f3ed732c84d1dd149f199af63a5ac7a491c52bcd254",
+    "size_bytes": 1551
+  },
+  {
+    "path": "phase2d_protocol_comparison.csv",
+    "sha256": "be1400e3ebd7a19f8adbc4304fb0337fa435dc773571476008fc8385fd522294",
+    "size_bytes": 1399
+  },
+  {
+    "path": "phase2d_run_metadata.json",
+    "sha256": "ea3aa98ed7f9f24e6a569573e375da657e16f7d3eebf9107a156c13eb85bca04",
+    "size_bytes": 1892
+  },
+  {
+    "path": "phase2d_selected_parameters.csv",
+    "sha256": "02768aa65dbd6cd0300e4ec7314ff04c33e636ca5364a999489c936b6cbc67af",
+    "size_bytes": 5372
+  },
+  {
+    "path": "phase2d_task_comparison.csv",
+    "sha256": "5c5bb70036eed6e8c23b04da0b4294d9901d32084c0c0e4a67b272d5b2655ba8",
+    "size_bytes": 1068
+  }
+]

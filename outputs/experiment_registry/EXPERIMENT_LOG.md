@@ -52,6 +52,9 @@ _Generated automatically from `experiment_registry.json` by `update_registry.py`
 | Phase 2C | Protocol B threshold-only adaptation |  |  | 0.641 | not selected | classifier_boundary_shift |
 | Phase 2C | Protocol C frozen-score calibration |  |  | 0.569 | not selected | classifier_boundary_shift |
 | Phase 2C | Protocol D Android-trained logistic regression |  |  | 0.867 | not selected | classifier_boundary_shift |
+| Phase 2D | Android interview-versus-reading comparison |  |  | 0.880 | not selected | Reading and interview performance were similar enough that useful vocal cues may persist across speech tasks under this representation, though the comparison remains descriptive. |
+| Phase 2D | Android-trained reading logistic regression |  |  | 0.880 | not selected | Android-trained reading model achieved 0.8796 ROC-AUC under official reading folds. |
+| Phase 2D | Frozen DAIC zero-shot Android reading |  |  | 0.580 | not selected | Frozen DAIC reading transfer retained modest ranking but threshold transfer failed. |
 
 ## 4. Selected And Rejected Approaches
 

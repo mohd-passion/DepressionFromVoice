@@ -18,6 +18,7 @@ import argparse
 import csv
 import json
 import math
+import sys
 from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
@@ -795,6 +796,267 @@ def parse_phase2c(run_dir: Path) -> list[dict[str, Any]]:
     return entries
 
 
+def parse_phase2d(run_dir: Path) -> list[dict[str, Any]]:
+    report = read_json(run_dir / "PHASE2D_ANDROID_READING_REPORT.json")
+    metadata = read_json(run_dir / "phase2d_run_metadata.json") if (run_dir / "phase2d_run_metadata.json").exists() else {}
+    by_protocol = {row["protocol"]: row for row in report["protocol_metrics"]}
+    task_rows = {row["task"]: row for row in report["task_comparison"]}
+    entries: list[dict[str, Any]] = []
+
+    common_data = {
+        "dataset_id": "androids_corpus",
+        "task": "reading speech",
+        "language": "Italian",
+        "train_n": None,
+        "dev_n": None,
+        "test_n": report["data_summary"]["eligible_reading_participants"],
+        "class_counts": report["data_summary"]["class_counts"],
+        "split_protocol": "official Android reading five-fold participant-independent protocol",
+        "excluded": [],
+    }
+    common_representation = {
+        "feature_family": "wavlm_embedding",
+        "model": "microsoft/wavlm-base-plus",
+        "model_commit": "4c66d4806a428f2e922ccfa1a962776e232d487b",
+        "layer": "layer_09",
+        "window_sec": 10,
+        "overlap": 0.5,
+        "window_pooling": "temporal mean",
+        "participant_aggregation": "mean",
+        "dimension": 768,
+        "fusion": "none",
+    }
+
+    protocol_map = [
+        (
+            "A_zero_shot_daic_at_frozen_threshold",
+            "phase2d_android_reading_zero_shot_daic",
+            "Frozen DAIC zero-shot Android reading",
+            "Frozen Phase 1C StandardScaler + LogisticRegression",
+            0.001,
+            False,
+            False,
+            True,
+            "Frozen DAIC dev threshold; no Android reading fitting",
+            report["zero_shot_reading"]["metrics_at_frozen_threshold"]["threshold"],
+            "DAIC dev only",
+        ),
+        (
+            "B_android_lr_threshold_adapted",
+            "phase2d_android_reading_logistic_regression",
+            "Android-trained reading logistic regression",
+            "Official reading-fold StandardScaler + LogisticRegression",
+            report["android_trained_reading"]["selected_C_distribution"],
+            True,
+            True,
+            False,
+            "Official reading five-fold outer evaluation with leave-one-training-fold-out inner C selection",
+            None,
+            "Android reading outer-training folds only",
+        ),
+    ]
+    for protocol_key, exp_id, name, pipeline, c_value, target_refit, threshold_refit, zero_shot, selection_protocol, threshold_value, tuned_on in protocol_map:
+        metrics = by_protocol[protocol_key]
+        e = empty_entry(exp_id, "Phase 2D", name, report["status"], run_dir)
+        e["data"].update(common_data)
+        if target_refit:
+            e["data"]["train_n"] = "four official reading folds per outer evaluation"
+        e["representation"].update(common_representation)
+        e["classifier"].update(
+            {
+                "name": "LogisticRegression" if target_refit else "Frozen DAIC LogisticRegression",
+                "pipeline": pipeline,
+                "class_weight": "balanced",
+                "C": c_value,
+                "other_parameters": {
+                    "selected_C_distribution": report["android_trained_reading"].get("selected_C_distribution") if target_refit else None,
+                    "selected_threshold_distribution": report["android_trained_reading"].get("selected_threshold_distribution") if target_refit else None,
+                },
+                "selection_protocol": selection_protocol,
+            }
+        )
+        e["threshold"].update({"source": selection_protocol, "value": threshold_value, "tuned_on": tuned_on})
+        e["metrics"]["test"].update(
+            {
+                "roc_auc": metrics["roc_auc"],
+                "pr_auc": metrics["pr_auc"],
+                "balanced_accuracy": metrics["balanced_accuracy"],
+                "macro_f1": metrics["macro_f1"],
+                "sensitivity": metrics["sensitivity"],
+                "specificity": metrics["specificity"],
+                "positive_precision": metrics["positive_class_precision"],
+                "negative_predictive_value": metrics["negative_predictive_value"],
+                "brier_score": metrics["brier_score"],
+                "threshold": metrics.get("threshold"),
+                "tn": metrics["tn"],
+                "fp": metrics["fp"],
+                "fn": metrics["fn"],
+                "tp": metrics["tp"],
+            }
+        )
+        e["metrics"]["confidence_intervals"].update(
+            {
+                "source": rel(run_dir / "phase2d_bootstrap_intervals.csv"),
+                "bootstrap_replicates": 5000,
+                "paired_comparisons": rel(run_dir / "phase2d_paired_comparisons.csv"),
+            }
+        )
+        e["integrity"].update(
+            {
+                "test_provenance": "Android clinical patient/control labels under official reading folds",
+                "external_validation": True,
+                "zero_shot": zero_shot,
+                "test_result_viewed": True,
+                "target_model_refitted": target_refit,
+                "target_threshold_refitted": threshold_refit,
+                "test_used_for_selection": False,
+                "decisions_made_after_test_view": [
+                    "Phase 2D is a pre-specified reading benchmark and task comparison.",
+                    "No Phase 1 model, Phase 2C model, WavLM layer, or aggregation rule was altered.",
+                ],
+                "leakage_status": report["leakage_checks"]["status"],
+            }
+        )
+        main_finding = (
+            "Frozen DAIC reading transfer retained modest ranking but threshold transfer failed."
+            if zero_shot
+            else f"Android-trained reading model achieved {metrics['roc_auc']:.4f} ROC-AUC under official reading folds."
+        )
+        e["conclusion"].update(
+            {
+                "main_finding": main_finding,
+                "selected": False,
+                "selection_reason": "Completed Phase 2D diagnostic protocol; not a new frozen cross-corpus candidate.",
+                "limitations": [
+                    "Android clinical group labels and DAIC PHQ8_Binary are related but not identical.",
+                    "Reading and interview participant sets/folds differ slightly; task comparison is descriptive.",
+                ],
+                "warnings": ["Do not claim clinical validation.", "Repeated external-result inspection must be treated as diagnostic history."],
+                "next_step": "Use Phase 2D only as a recorded benchmark unless a new protocol is frozen.",
+            }
+        )
+        e["artifacts"].update(
+            {
+                "report_json": rel(run_dir / "PHASE2D_ANDROID_READING_REPORT.json"),
+                "report_markdown": rel(run_dir / "PHASE2D_ANDROID_READING_REPORT.md"),
+                "predictions": "",
+                "manifest": "",
+            }
+        )
+        e["environment"].update(
+            {
+                "python": metadata.get("python_version"),
+                "pytorch": metadata.get("pytorch_version"),
+                "transformers": metadata.get("transformers_version"),
+                "scikit_learn": metadata.get("sklearn_version"),
+                "cuda": metadata.get("cuda_version"),
+                "gpu": metadata.get("gpu_model"),
+                "git_commit": metadata.get("git_commit"),
+            }
+        )
+        entries.append(e)
+
+    comparison = empty_entry(
+        "phase2d_android_interview_vs_reading_comparison",
+        "Phase 2D",
+        "Android interview-versus-reading comparison",
+        report["status"],
+        run_dir,
+    )
+    comparison["data"].update(
+        {
+            "dataset_id": "androids_corpus",
+            "task": "reading versus interview speech",
+            "language": "Italian",
+            "train_n": None,
+            "dev_n": None,
+            "test_n": {
+                "reading": report["data_summary"]["eligible_reading_participants"],
+                "interview": task_rows["Android interview"]["participant_count"],
+            },
+            "class_counts": {
+                "reading": report["data_summary"]["class_counts"],
+                "interview": task_rows["Android interview"]["class_counts"],
+            },
+            "split_protocol": "descriptive comparison of Phase 2D reading Protocol B and Phase 2C interview Protocol D",
+            "excluded": [],
+        }
+    )
+    comparison["representation"].update(common_representation)
+    comparison["classifier"].update(
+        {
+            "name": "Comparison of Android-trained logistic-regression protocols",
+            "pipeline": "Reading Phase 2D Protocol B versus interview Phase 2C Protocol D",
+            "class_weight": "balanced",
+            "C": {
+                "reading": report["android_trained_reading"]["selected_C_distribution"],
+                "interview": task_rows["Android interview"]["selected_C_distribution"],
+            },
+            "selection_protocol": "descriptive task comparison; no pooled task training",
+        }
+    )
+    reading_row = task_rows["Android reading"]
+    interview_row = task_rows["Android interview"]
+    comparison["metrics"]["test"].update(
+        {
+            "roc_auc": reading_row["roc_auc"],
+            "reading_roc_auc": reading_row["roc_auc"],
+            "interview_roc_auc": interview_row["roc_auc"],
+            "pr_auc": reading_row["pr_auc"],
+            "reading_pr_auc": reading_row["pr_auc"],
+            "interview_pr_auc": interview_row["pr_auc"],
+            "balanced_accuracy": reading_row["balanced_accuracy"],
+            "macro_f1": reading_row["macro_f1"],
+            "sensitivity": reading_row["sensitivity"],
+            "specificity": reading_row["specificity"],
+            "brier_score": reading_row["brier_score"],
+        }
+    )
+    comparison["metrics"]["confidence_intervals"].update(
+        {
+            "source": rel(run_dir / "phase2d_bootstrap_intervals.csv"),
+            "paired_comparisons": rel(run_dir / "phase2d_paired_comparisons.csv"),
+            "task_comparison": rel(run_dir / "phase2d_task_comparison.csv"),
+        }
+    )
+    comparison["integrity"].update(
+        {
+            "test_provenance": "Android clinical patient/control labels under official task-specific folds",
+            "external_validation": True,
+            "zero_shot": False,
+            "test_result_viewed": True,
+            "target_model_refitted": True,
+            "target_threshold_refitted": True,
+            "test_used_for_selection": False,
+            "decisions_made_after_test_view": ["No pooled task model was trained.", "No Phase 2C interview model was rerun."],
+            "leakage_status": report["leakage_checks"]["status"],
+        }
+    )
+    comparison["conclusion"].update(
+        {
+            "main_finding": report["interpretation"]["narrative"],
+            "selected": False,
+            "selection_reason": "Task comparison record only.",
+            "limitations": [
+                "Reading and interview participant sets/folds are not identical.",
+                "Task comparison is descriptive and not a clinical validation claim.",
+            ],
+            "warnings": ["Do not claim clinical validation."],
+            "next_step": "Do not proceed without freezing a new protocol.",
+        }
+    )
+    comparison["artifacts"].update(
+        {
+            "report_json": rel(run_dir / "PHASE2D_ANDROID_READING_REPORT.json"),
+            "report_markdown": rel(run_dir / "PHASE2D_ANDROID_READING_REPORT.md"),
+            "manifest": rel(run_dir / "phase2d_task_comparison.csv"),
+        }
+    )
+    comparison["environment"].update(entries[-1]["environment"])
+    entries.append(comparison)
+    return entries
+
+
 def parse_run(run_dir: Path) -> list[dict[str, Any]]:
     run_dir = Path(rel(run_dir))
     if run_dir == OFFICIAL_RUNS["phase1a"]:
@@ -815,6 +1077,8 @@ def parse_run(run_dir: Path) -> list[dict[str, Any]]:
         return parse_phase2b(run_dir)
     if (run_dir / "PHASE2C_WITHIN_ANDROID_REPORT.json").exists():
         return parse_phase2c(run_dir)
+    if (run_dir / "PHASE2D_ANDROID_READING_REPORT.json").exists():
+        return parse_phase2d(run_dir)
     return parse_generic_run(run_dir)
 
 
@@ -1060,6 +1324,53 @@ def save_registry(registry: dict[str, Any]) -> None:
     (registry_dir() / "EXPERIMENT_LOG.md").write_text(generate_markdown(registry), encoding="utf-8")
 
 
+def validate_existing_artifacts(registry: dict[str, Any], validation: dict[str, Any]) -> None:
+    summary_path = registry_dir() / "experiment_summary.csv"
+    log_path = registry_dir() / "EXPERIMENT_LOG.md"
+    expected_ids = [str(exp.get("id", "")) for exp in registry.get("experiments", [])]
+
+    if not summary_path.exists():
+        validation["errors"].append(f"Missing registry summary: {summary_path}")
+    else:
+        try:
+            summary_rows = read_csv(summary_path)
+            summary_ids = [row.get("experiment_id", "") for row in summary_rows]
+            if summary_ids != expected_ids:
+                validation["errors"].append("experiment_summary.csv experiment order does not match experiment_registry.json.")
+        except (csv.Error, OSError, UnicodeDecodeError) as exc:
+            validation["errors"].append(f"Could not read experiment_summary.csv: {exc}")
+
+    if not log_path.exists():
+        validation["errors"].append(f"Missing experiment log: {log_path}")
+    else:
+        try:
+            log_text = log_path.read_text(encoding="utf-8")
+            if not log_text.startswith("# DepressionFromVoice Experiment Log"):
+                validation["errors"].append("EXPERIMENT_LOG.md does not look like the generated experiment log.")
+        except (OSError, UnicodeDecodeError) as exc:
+            validation["errors"].append(f"Could not read EXPERIMENT_LOG.md: {exc}")
+
+    validation["status"] = "passed" if not validation["errors"] else "failed"
+
+
+def print_validation(registry: dict[str, Any], validation: dict[str, Any]) -> None:
+    print(f"registry={registry_dir() / 'experiment_registry.json'}")
+    print(f"experiments={len(registry.get('experiments', []))}")
+    print(f"validation_status={validation['status']}")
+    if validation["errors"]:
+        print("errors=" + "; ".join(validation["errors"]))
+    if validation["warnings"]:
+        print("warnings=" + "; ".join(validation["warnings"]))
+
+
+def validate_registry_read_only() -> int:
+    registry = load_registry()
+    validation = validate_registry(registry)
+    validate_existing_artifacts(registry, validation)
+    print_validation(registry, validation)
+    return 0 if validation["status"] == "passed" else 1
+
+
 def load_registry() -> dict[str, Any]:
     path = registry_dir() / "experiment_registry.json"
     if path.exists():
@@ -1071,11 +1382,14 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scan", action="store_true", help="Scan official completed run directories and regenerate registry artifacts.")
     parser.add_argument("--run-dir", default="", help="Add or update one run directory.")
-    parser.add_argument("--validate", action="store_true", help="Validate and regenerate summary/log from the existing registry.")
+    parser.add_argument("--validate", action="store_true", help="Validate existing registry artifacts without modifying them.")
     args = parser.parse_args()
 
     if not (args.scan or args.run_dir or args.validate):
         parser.error("Use --scan, --run-dir <path>, or --validate.")
+
+    if args.validate and not (args.scan or args.run_dir):
+        raise SystemExit(validate_registry_read_only())
 
     registry = base_registry(load_registry())
     if args.scan:
@@ -1090,11 +1404,9 @@ def main() -> None:
         registry["experiments"] = merge_entries(registry.get("experiments", []), parse_run(run_path))
     save_registry(registry)
     validation = registry["validation"]
-    print(f"registry={registry_dir() / 'experiment_registry.json'}")
-    print(f"experiments={len(registry['experiments'])}")
-    print(f"validation_status={validation['status']}")
-    if validation["errors"]:
-        print("errors=" + "; ".join(validation["errors"]))
+    print_validation(registry, validation)
+    if validation["status"] != "passed":
+        sys.exit(1)
 
 
 if __name__ == "__main__":

@@ -18,6 +18,7 @@ import argparse
 import csv
 import json
 import math
+import sys
 from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
@@ -1060,6 +1061,53 @@ def save_registry(registry: dict[str, Any]) -> None:
     (registry_dir() / "EXPERIMENT_LOG.md").write_text(generate_markdown(registry), encoding="utf-8")
 
 
+def validate_existing_artifacts(registry: dict[str, Any], validation: dict[str, Any]) -> None:
+    summary_path = registry_dir() / "experiment_summary.csv"
+    log_path = registry_dir() / "EXPERIMENT_LOG.md"
+    expected_ids = [str(exp.get("id", "")) for exp in registry.get("experiments", [])]
+
+    if not summary_path.exists():
+        validation["errors"].append(f"Missing registry summary: {summary_path}")
+    else:
+        try:
+            summary_rows = read_csv(summary_path)
+            summary_ids = [row.get("experiment_id", "") for row in summary_rows]
+            if summary_ids != expected_ids:
+                validation["errors"].append("experiment_summary.csv experiment order does not match experiment_registry.json.")
+        except (csv.Error, OSError, UnicodeDecodeError) as exc:
+            validation["errors"].append(f"Could not read experiment_summary.csv: {exc}")
+
+    if not log_path.exists():
+        validation["errors"].append(f"Missing experiment log: {log_path}")
+    else:
+        try:
+            log_text = log_path.read_text(encoding="utf-8")
+            if not log_text.startswith("# DepressionFromVoice Experiment Log"):
+                validation["errors"].append("EXPERIMENT_LOG.md does not look like the generated experiment log.")
+        except (OSError, UnicodeDecodeError) as exc:
+            validation["errors"].append(f"Could not read EXPERIMENT_LOG.md: {exc}")
+
+    validation["status"] = "passed" if not validation["errors"] else "failed"
+
+
+def print_validation(registry: dict[str, Any], validation: dict[str, Any]) -> None:
+    print(f"registry={registry_dir() / 'experiment_registry.json'}")
+    print(f"experiments={len(registry.get('experiments', []))}")
+    print(f"validation_status={validation['status']}")
+    if validation["errors"]:
+        print("errors=" + "; ".join(validation["errors"]))
+    if validation["warnings"]:
+        print("warnings=" + "; ".join(validation["warnings"]))
+
+
+def validate_registry_read_only() -> int:
+    registry = load_registry()
+    validation = validate_registry(registry)
+    validate_existing_artifacts(registry, validation)
+    print_validation(registry, validation)
+    return 0 if validation["status"] == "passed" else 1
+
+
 def load_registry() -> dict[str, Any]:
     path = registry_dir() / "experiment_registry.json"
     if path.exists():
@@ -1071,11 +1119,14 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scan", action="store_true", help="Scan official completed run directories and regenerate registry artifacts.")
     parser.add_argument("--run-dir", default="", help="Add or update one run directory.")
-    parser.add_argument("--validate", action="store_true", help="Validate and regenerate summary/log from the existing registry.")
+    parser.add_argument("--validate", action="store_true", help="Validate existing registry artifacts without modifying them.")
     args = parser.parse_args()
 
     if not (args.scan or args.run_dir or args.validate):
         parser.error("Use --scan, --run-dir <path>, or --validate.")
+
+    if args.validate and not (args.scan or args.run_dir):
+        raise SystemExit(validate_registry_read_only())
 
     registry = base_registry(load_registry())
     if args.scan:
@@ -1090,11 +1141,9 @@ def main() -> None:
         registry["experiments"] = merge_entries(registry.get("experiments", []), parse_run(run_path))
     save_registry(registry)
     validation = registry["validation"]
-    print(f"registry={registry_dir() / 'experiment_registry.json'}")
-    print(f"experiments={len(registry['experiments'])}")
-    print(f"validation_status={validation['status']}")
-    if validation["errors"]:
-        print("errors=" + "; ".join(validation["errors"]))
+    print_validation(registry, validation)
+    if validation["status"] != "passed":
+        sys.exit(1)
 
 
 if __name__ == "__main__":

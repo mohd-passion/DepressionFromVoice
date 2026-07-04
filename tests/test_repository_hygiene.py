@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import re
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -9,6 +12,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = ROOT / "outputs" / "experiment_registry" / "experiment_registry.json"
 SUMMARY_PATH = ROOT / "outputs" / "experiment_registry" / "experiment_summary.csv"
+EXPERIMENT_LOG_PATH = ROOT / "outputs" / "experiment_registry" / "EXPERIMENT_LOG.md"
+UPDATE_REGISTRY_PATH = ROOT / "outputs" / "experiment_registry" / "update_registry.py"
 SUPERSEDED_PHASE2A = "outputs/phase2_android/phase2a_preparation_runs/20260622_154008"
 FORBIDDEN_SUFFIXES = {".wav", ".mp3", ".flac", ".mp4", ".zip", ".7z", ".rar", ".npy", ".npz", ".pt", ".pth", ".ckpt", ".joblib", ".pkl", ".onnx"}
 METRIC_KEYS = {
@@ -32,6 +37,10 @@ def load_registry() -> dict:
     return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
 
 
+def sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def walk_values(obj):
     if isinstance(obj, dict):
         for key, value in obj.items():
@@ -53,6 +62,20 @@ class RegistryTests(unittest.TestCase):
         self.assertEqual(registry["validation"]["errors"], [])
         self.assertGreaterEqual(len(registry["experiments"]), 28)
         self.assertTrue(SUMMARY_PATH.exists())
+
+    def test_registry_validation_is_read_only(self) -> None:
+        registry_files = [REGISTRY_PATH, SUMMARY_PATH, EXPERIMENT_LOG_PATH]
+        before = {path: sha256_file(path) for path in registry_files}
+        result = subprocess.run(
+            [sys.executable, str(UPDATE_REGISTRY_PATH), "--validate"],
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        after = {path: sha256_file(path) for path in registry_files}
+        self.assertEqual(before, after)
 
     def test_unique_experiment_ids(self) -> None:
         experiments = load_registry()["experiments"]

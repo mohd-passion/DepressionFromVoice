@@ -45,8 +45,43 @@ STAGE3_FILES = [
     PAPER / "SUBMISSION_READINESS_CHECKLIST.md",
 ]
 
+STAGE3B_FILES = [
+    PAPER / "AUTHOR_INPUT_FORM.md",
+    PAPER / "AUTHOR_DECISION_LOG.md",
+    PAPER / "MANUSCRIPT_AUTHOR_REVIEW_CHECKLIST.md",
+    PAPER / "JOURNAL_CANDIDATE_MATRIX.md",
+    PAPER / "JOURNAL_SELECTION_CRITERIA.md",
+    PAPER / "JOURNAL_SHORTLIST.md",
+    PAPER / "SUBMISSION_STRATEGY.md",
+    PAPER / "JOURNAL_FIT_GAP_ANALYSIS.md",
+    PAPER / "MANUSCRIPT_AUTHOR_REVIEW_COPY.md",
+    PAPER / "JOURNAL_INFORMATION_VERIFICATION_LOG.md",
+]
+
 REGISTRY = ROOT / "outputs" / "experiment_registry" / "experiment_registry.json"
 REGISTRY_VALIDATOR = ROOT / "outputs" / "experiment_registry" / "update_registry.py"
+MANUSCRIPT_SHA256 = "e0a89872e7244bf4aac47a055c055c590bd5394dea63f0516bf1e804d170d97c"
+
+
+def first_markdown_table(path: Path) -> tuple[list[str], list[list[str]]]:
+    header: list[str] = []
+    rows: list[list[str]] = []
+    in_table = False
+    for line in path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if not stripped.startswith("|"):
+            if in_table and rows:
+                break
+            continue
+        if set(stripped.replace("|", "").replace(" ", "")) <= {"-", ":"}:
+            continue
+        cells = [cell.strip().strip("`") for cell in stripped.strip("|").split("|")]
+        if not header:
+            header = cells
+            in_table = True
+            continue
+        rows.append(cells)
+    return header, rows
 
 
 class ManuscriptValidationTests(unittest.TestCase):
@@ -73,6 +108,11 @@ class ManuscriptValidationTests(unittest.TestCase):
 
     def test_stage3_files_exist(self) -> None:
         for path in STAGE3_FILES:
+            with self.subTest(path=path.name):
+                self.assertTrue(path.exists(), f"Missing {path}")
+
+    def test_stage3b_files_exist(self) -> None:
+        for path in STAGE3B_FILES:
             with self.subTest(path=path.name):
                 self.assertTrue(path.exists(), f"Missing {path}")
 
@@ -262,6 +302,169 @@ class ManuscriptValidationTests(unittest.TestCase):
                 continue
             cells = [cell.strip(" `") for cell in line.strip().strip("|").split("|")]
             self.assertIn(cells[1], allowed, line)
+
+    def test_stage3b_author_input_form_contains_required_fields(self) -> None:
+        text = (PAPER / "AUTHOR_INPUT_FORM.md").read_text(encoding="utf-8")
+        for field in [
+            "Final working title",
+            "Running title",
+            "Manuscript article type",
+            "Target journal, once selected",
+            "Full name",
+            "Preferred publication name",
+            "Author order",
+            "Highest qualification",
+            "Department",
+            "Institution",
+            "Institutional email",
+            "ORCID",
+            "Corresponding-author status",
+            "Funding",
+            "Competing interests",
+            "Ethics approval or exemption",
+            "Consent to participate",
+            "Consent for publication",
+            "Data availability",
+            "Code availability",
+            "Use of AI-assisted writing tools",
+            "Prior presentation or preprint status",
+        ]:
+            with self.subTest(field=field):
+                self.assertIn(field, text)
+        self.assertIn("Unverified Author Context", text)
+        self.assertIn("Mohammad Ilyas", text)
+        self.assertIn("Final affiliation wording | not_verified", text)
+        for role in [
+            "Conceptualization",
+            "Methodology",
+            "Software",
+            "Validation",
+            "Formal analysis",
+            "Investigation",
+            "Resources",
+            "Data curation",
+            "Writing - original draft",
+            "Writing - review and editing",
+            "Visualization",
+            "Supervision",
+            "Project administration",
+            "Funding acquisition",
+        ]:
+            with self.subTest(role=role):
+                self.assertIn(role, text)
+
+    def test_stage3b_decision_log_covers_required_topics(self) -> None:
+        text = (PAPER / "AUTHOR_DECISION_LOG.md").read_text(encoding="utf-8")
+        for topic in [
+            "Final title",
+            "Author order",
+            "Corresponding author",
+            "Journal choice",
+            "Article type",
+            "Open-access preference",
+            "Maximum APC",
+            "Figure count",
+            "Supplement scope",
+            "Ethics wording",
+            "AI-assistance disclosure",
+            "Preprint preference",
+        ]:
+            with self.subTest(topic=topic):
+                self.assertIn(topic, text)
+        self.assertIn("Do not select final journal until author preferences are supplied", text)
+
+    def test_stage3b_journal_matrix_structure_and_sources(self) -> None:
+        header, rows = first_markdown_table(PAPER / "JOURNAL_CANDIDATE_MATRIX.md")
+        expected_columns = {
+            "journal",
+            "publisher",
+            "scope fit",
+            "speech/affective-computing fit",
+            "mental-health fit",
+            "methodological fit",
+            "article type",
+            "word limit",
+            "figure/table constraints",
+            "open-access model",
+            "APC",
+            "preprint policy",
+            "data/code policy",
+            "likely manuscript changes",
+            "main advantage",
+            "main risk",
+            "official source",
+            "verification date",
+        }
+        self.assertLessEqual(expected_columns, set(header))
+        self.assertGreaterEqual(len(rows), 6)
+        self.assertLessEqual(len(rows), 10)
+        text = (PAPER / "JOURNAL_CANDIDATE_MATRIX.md").read_text(encoding="utf-8")
+        for journal in [
+            "Biomedical Signal Processing and Control",
+            "PLOS Digital Health",
+            "Frontiers in Digital Health",
+            "Computer Speech & Language",
+            "Artificial Intelligence in Medicine",
+            "Speech Communication",
+        ]:
+            with self.subTest(journal=journal):
+                self.assertIn(journal, text)
+        for row in rows:
+            row_data = dict(zip(header, row))
+            self.assertEqual(row_data["verification date"], "2026-07-06")
+            self.assertIn("https://", row_data["official source"])
+        self.assertIn("not_verified", text)
+
+    def test_stage3b_verification_log_is_complete(self) -> None:
+        header, rows = first_markdown_table(PAPER / "JOURNAL_INFORMATION_VERIFICATION_LOG.md")
+        expected_columns = {
+            "journal",
+            "publisher",
+            "information checked",
+            "official source",
+            "date checked",
+            "status",
+            "ambiguity",
+            "action needed before submission",
+        }
+        self.assertLessEqual(expected_columns, set(header))
+        self.assertGreaterEqual(len(rows), 6)
+        statuses = {"verified", "partially_verified", "not_verified"}
+        for row in rows:
+            row_data = dict(zip(header, row))
+            self.assertEqual(row_data["date checked"], "2026-07-06")
+            self.assertIn("https://", row_data["official source"])
+            self.assertIn(row_data["status"], statuses)
+        text = (PAPER / "JOURNAL_INFORMATION_VERIFICATION_LOG.md").read_text(encoding="utf-8")
+        self.assertIn("not_verified", text)
+
+    def test_stage3b_avoids_fabricated_journal_metrics(self) -> None:
+        combined = "\n".join(path.read_text(encoding="utf-8") for path in STAGE3B_FILES)
+        for phrase in ["Impact Factor", "CiteScore", "acceptance rate", "quartile"]:
+            with self.subTest(phrase=phrase):
+                self.assertNotIn(phrase.lower(), combined.lower())
+        self.assertIn("No candidate should be described as guaranteed acceptance", combined)
+
+    def test_stage3b_manuscript_metrics_are_preserved(self) -> None:
+        text = MANUSCRIPT.read_text(encoding="utf-8")
+        self.assertEqual(hashlib.sha256(MANUSCRIPT.read_bytes()).hexdigest(), MANUSCRIPT_SHA256)
+        citation_markers = re.findall(r"@([A-Za-z][A-Za-z0-9_:-]*)", text)
+        self.assertEqual(len(citation_markers), 99)
+        self.assertEqual(len(set(citation_markers)), 28)
+        self.assertNotIn("[REFERENCE NEEDED:", text)
+
+        status = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Manuscript draft word count: 5309",
+            "Experiment registry records: 42",
+            "`awaiting_author_input_and_journal_selection`",
+            "Final journal not selected",
+            "Figures not generated",
+            "Journal formatting not applied",
+            "Manuscript not submitted",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, status)
 
     def test_stage3_terminology_and_clinical_restrictions(self) -> None:
         terminology = (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").read_text(encoding="utf-8")

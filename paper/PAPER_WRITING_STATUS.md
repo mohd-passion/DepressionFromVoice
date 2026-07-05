@@ -2,11 +2,12 @@
 
 ## Source Freeze
 
-- Current branch: `paper/literature-integration-v1`
+- Current branch: `paper/author-review-journal-selection-v1`
 - Frozen source tag: `paper-experiment-freeze-v1`
 - Tag commit: `1bf9434f047c0b69b90c1d5264e665d6ccd941a0`
 - Remote: `https://github.com/mohd-passion/DepressionFromVoice.git`
 - Stage 3A status: full manuscript consistency audit and journal-neutral submission package prepared.
+- Stage 3B status: author-input preparation and verified journal-selection package prepared; awaiting author decisions.
 
 ## Current Counts
 
@@ -59,6 +60,19 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 - `paper/FINAL_CLINICAL_CLAIM_AUDIT.md`
 - `paper/SUBMISSION_READINESS_CHECKLIST.md`
 
+## Completed Stage 3B Package Files
+
+- `paper/AUTHOR_INPUT_FORM.md`
+- `paper/AUTHOR_DECISION_LOG.md`
+- `paper/MANUSCRIPT_AUTHOR_REVIEW_CHECKLIST.md`
+- `paper/JOURNAL_CANDIDATE_MATRIX.md`
+- `paper/JOURNAL_SELECTION_CRITERIA.md`
+- `paper/JOURNAL_SHORTLIST.md`
+- `paper/SUBMISSION_STRATEGY.md`
+- `paper/JOURNAL_FIT_GAP_ANALYSIS.md`
+- `paper/MANUSCRIPT_AUTHOR_REVIEW_COPY.md`
+- `paper/JOURNAL_INFORMATION_VERIFICATION_LOG.md`
+
 ## Tables Prepared
 
 1. Dataset and task summary
@@ -110,10 +124,22 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 
 ## Journal Selection Status
 
-`needs_journal_selection`
+`awaiting_author_input_and_journal_selection`
 
 ## Current Readiness Category
 
-`ready_for_author_review`
+`awaiting_author_input_and_journal_selection`
+
+## Stage 3B Completion Notes
+
+- Author details missing: author names, order, final affiliations, institutional emails, ORCID identifiers and corresponding-author designation.
+- Declaration details missing: funding, competing interests, ethics approval or exemption, consent to participate, consent for publication, acknowledgements and AI-assisted writing disclosure.
+- Journal preferences missing: maximum APC, no-APC requirement, open-access preference, indexing requirements, preferred audience and preprint preference.
+- Candidate journals reviewed: Biomedical Signal Processing and Control; PLOS Digital Health; Frontiers in Digital Health; Computer Speech & Language; Artificial Intelligence in Medicine; Speech Communication.
+- Primary candidates: Biomedical Signal Processing and Control; PLOS Digital Health; Frontiers in Digital Health.
+- Final journal not selected.
+- Figures not generated.
+- Journal formatting not applied.
+- Manuscript not submitted.
 
 Do not mark `submission_ready` until author, journal, figure, ethics, consent, funding, conflict and formatting details are complete.

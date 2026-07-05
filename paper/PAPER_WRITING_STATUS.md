@@ -2,28 +2,28 @@
 
 ## Source Freeze
 
+- Current branch: `paper/literature-integration-v1`
 - Frozen source tag: `paper-experiment-freeze-v1`
 - Tag commit: `1bf9434f047c0b69b90c1d5264e665d6ccd941a0`
-- Manuscript branch: `paper/manuscript-v1`
 - Remote: `https://github.com/mohd-passion/DepressionFromVoice.git`
+- Stage 3A status: full manuscript consistency audit and journal-neutral submission package prepared.
+
+## Current Counts
+
+- Manuscript draft word count: 5309
+- Reference count: 31
+- Citation markers in manuscript: 99
+- Unique manuscript citation keys: 28
+- Unresolved citation placeholders in manuscript: 0
+- Experiment registry records: 42
+- Evidence-map entries: 99
+- Result tables prepared: 6
+- Planned/specification figure entries: 7
+- Supplementary items planned: 11
 
 ## Working Title
 
 Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM Representations
-
-## Draft Metrics
-
-- Manuscript draft word count: 5,060
-- Reference placeholders: 21
-- Result tables prepared: 6
-- Planned figures: 7
-- Evidence-map entries: 99
-
-## Alternative Titles
-
-1. Domain Shift in Frozen WavLM Speech Representations for Cross-Corpus Depression Detection
-2. Reading and Interview Speech for Depression Classification with Frozen Self-Supervised Speech Features
-3. Cross-Task Transfer and Pooled Training for Depression Detection from Frozen WavLM Representations
 
 ## Completed Sections
 
@@ -31,40 +31,33 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 - Abstract
 - Keywords
 - Introduction
-- Related Work with citation placeholders
+- Related Work
 - Materials and Methods
 - Results
 - Discussion
+- Ethical and Clinical Considerations
 - Limitations
 - Conclusion
-- Evidence map
-- Results tables
-- Figure plan
-- Claim audit
-- Reference needs
-- Abbreviation list
+- Data and Code Availability
+- References
 
-## Sections Requiring Literature References
+## Completed Stage 3A Package Files
 
-- Depression background and burden
-- Speech-based depression detection
-- Acoustic and timing features
-- DAIC-WOZ dataset description
-- Androids Corpus dataset description
-- Self-supervised speech representation learning
-- WavLM
-- Cross-corpus depression detection
-- Domain shift and calibration
-- Reading versus spontaneous speech
-- Clinical validation and ethical limitations
-
-## Sections Requiring Author Review
-
-- Abstract framing and target journal fit
-- Related Work scope and final citations
-- Whether to include DAIC timing Candidate B prominently or mainly as a portability contrast
-- How strongly to emphasize pooled-task training given confidence intervals including zero
-- Whether Android HC/PT labels should be described with additional corpus-specific clinical detail after citation review
+- `paper/FINAL_NUMERICAL_AUDIT.csv`
+- `paper/FINAL_RESULT_SCOPE_AUDIT.md`
+- `paper/FINAL_CITATION_AUDIT.csv`
+- `paper/REFERENCE_CLEANUP_REPORT.md`
+- `paper/TERMINOLOGY_STYLE_GUIDE.md`
+- `paper/MANUSCRIPT_STRUCTURE_AUDIT.md`
+- `paper/REDUNDANCY_EDIT_LOG.md`
+- `paper/CONTRIBUTION_CLAIM_AUDIT.md`
+- `paper/FINAL_TABLE_AUDIT.md`
+- `paper/FIGURE_SPECIFICATIONS.md`
+- `paper/SUPPLEMENTARY_MATERIAL_PLAN.md`
+- `paper/JOURNAL_NEUTRAL_FRONT_MATTER.md`
+- `paper/DATA_CODE_AVAILABILITY_AUDIT.md`
+- `paper/FINAL_CLINICAL_CLAIM_AUDIT.md`
+- `paper/SUBMISSION_READINESS_CHECKLIST.md`
 
 ## Tables Prepared
 
@@ -75,31 +68,52 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 5. Participant-coherent cross-task results
 6. Result-scope and claim matrix
 
-## Figures Planned
+## Planned Figures
 
 1. End-to-end experimental pipeline
 2. Phase 1-2E experimental progression
-3. Zero-shot versus adapted Android performance
-4. Reading/interview and cross-task ROC-AUC comparison
+3. Zero-shot versus adapted Android interview performance
+4. Reading, interview and cross-task ROC-AUC comparison
 5. Domain-shift feature summary
-6. Classifier-boundary similarity analysis
-7. Participant-coherent fold design
+6. Optional supplement: classifier-boundary similarity analysis
+7. Optional supplement: participant-coherent fold design
 
-## Unresolved Methodological Questions
+## Supplement Plan
 
-- Which journal or conference format should determine word count and section order?
-- Should DAIC local labeled test results be moved to supplementary material because official hidden AVEC provenance was not established?
-- Should timing Candidate B be retained as a secondary DAIC result even though it cannot transfer directly to Android?
-- Should confidence intervals be added to every table row where compact records provide them, or kept only for primary Android results?
+Supplementary candidates include Phase 1 layer-wise results, aggregation ablation, timing/fusion ablations, selected C values, thresholds, calibration diagnostics, bootstrap intervals, domain-shift summaries, classifier-boundary fold metrics, claim/evidence governance and reproducibility workflow. Participant-level data, raw audio, embeddings, predictions and fitted models remain excluded.
 
-## Claims Requiring Cautious Wording
+## Remaining Author Inputs
 
-- Zero-shot transfer: ranking signal was present, but thresholded predictions failed.
-- Android-trained performance: within-corpus only, not external validation.
-- Cross-task transfer: strong within Android, not cross-corpus transfer.
-- Pooled-task training: strongest point estimates, but gains were suggestive.
-- Clinical interpretation: no diagnostic or deployment claim.
+- Author names and order
+- Affiliations
+- Corresponding author details
+- ORCID identifiers
+- Funding statement
+- Conflict-of-interest statement
+- Author contributions
+- Acknowledgements
+- Ethics/IRB statement
+- Consent statement
+- Repository visibility and license wording
+- Confirmation of dataset-license language
 
-## Next Writing Task
+## Remaining Formatting Work
 
-Replace citation placeholders with verified references, then revise the Related Work and Discussion to match the selected venue and reference style.
+- Journal selection
+- Journal-specific word count and section order
+- Reference style conversion
+- Final figure generation
+- Supplementary file formatting
+- Table caption formatting
+- Any required reporting-guideline checklist
+- DOCX/PDF generation after venue selection
+
+## Journal Selection Status
+
+`needs_journal_selection`
+
+## Current Readiness Category
+
+`ready_for_author_review`
+
+Do not mark `submission_ready` until author, journal, figure, ethics, consent, funding, conflict and formatting details are complete.

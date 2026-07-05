@@ -25,9 +25,9 @@ This file tracks every `[REFERENCE NEEDED: ...]` placeholder used in `paper/MANU
 
 ## Self-Supervised Speech Models
 
-- `[REFERENCE NEEDED: self-supervised speech representation learning]` - unresolved; Stage 2A resolved only WavLM-specific model claims.
-- `[REFERENCE NEEDED: wav2vec 2.0 and related SSL speech models]` - unresolved.
-- `[REFERENCE NEEDED: SSL transfer in paralinguistic or affective speech]` - unresolved.
+- `[REFERENCE NEEDED: self-supervised speech representation learning]` - resolved in Stage 2C with `baevski2020wav2vec2`, `chen2022wavlm` and `yang2021superb`; supports reusable SSL speech representations, not depression-specific clinical validity or domain invariance.
+- `[REFERENCE NEEDED: wav2vec 2.0 and related SSL speech models]` - resolved in Stage 2C with `baevski2020wav2vec2`, `chen2022wavlm`, `yang2021superb`, `wu2023sslDepression` and `huang2024voicePretraining`; manuscript wording remains limited to feature-extractor/fine-tuning framing.
+- `[REFERENCE NEEDED: SSL transfer in paralinguistic or affective speech]` - resolved in Stage 2C with `baevski2020wav2vec2`, `yang2021superb`, `wu2023sslDepression` and `huang2024voicePretraining`; support is methodological and application-level, not proof of target-condition validity.
 
 ## WavLM
 
@@ -35,14 +35,14 @@ This file tracks every `[REFERENCE NEEDED: ...]` placeholder used in `paper/MANU
 
 ## Cross-Corpus Depression Detection
 
-- `[REFERENCE NEEDED: cross-corpus depression detection]` - unresolved.
-- `[REFERENCE NEEDED: prior cross-corpus findings in depression speech]` - unresolved.
+- `[REFERENCE NEEDED: cross-corpus depression detection]` - resolved in Stage 2C with `alghowinem2016crossCultural`, `seneviratne2021generalized` and `leal2025survey`; `seneviratne2021generalized` is retained as an arXiv preprint.
+- `[REFERENCE NEEDED: prior cross-corpus findings in depression speech]` - resolved in Stage 2C with `alghowinem2016crossCultural`, `seneviratne2021generalized` and `leal2025survey`; support is used only for cautious comparison with transfer concerns.
 
 ## Calibration and Domain Shift
 
-- `[REFERENCE NEEDED: domain shift and calibration in machine learning]` - unresolved.
-- `[REFERENCE NEEDED: domain adaptation and dataset shift taxonomy]` - unresolved.
-- `[REFERENCE NEEDED: classifier boundary shift under dataset shift]` - unresolved.
+- `[REFERENCE NEEDED: domain shift and calibration in machine learning]` - resolved in Stage 2C with `morenoTorres2012datasetShift`, `niculescuMizil2005probabilities` and `vanCalster2019calibration`.
+- `[REFERENCE NEEDED: domain adaptation and dataset shift taxonomy]` - resolved in Stage 2C with `morenoTorres2012datasetShift`; calibration and probability-score tools are additionally supported by `brier1950probabilityForecasts`, `niculescuMizil2005probabilities`, `guo2017calibration` and `vanCalster2019calibration`.
+- `[REFERENCE NEEDED: classifier boundary shift under dataset shift]` - resolved in Stage 2C with `morenoTorres2012datasetShift` and `vanCalster2019calibration`; manuscript uses classifier-boundary shift descriptively for this project's Protocol D versus frozen DAIC comparison.
 
 ## Reading Versus Spontaneous Speech
 
@@ -51,7 +51,8 @@ This file tracks every `[REFERENCE NEEDED: ...]` placeholder used in `paper/MANU
 
 ## Evaluation Metrics
 
-- Add references for ROC-AUC, PR-AUC, balanced accuracy, macro F1, Brier score and bootstrap confidence intervals if the target venue expects metric citations.
+- Brier score and calibration-versus-discrimination framing are partially resolved in Stage 2C with `brier1950probabilityForecasts`, `niculescuMizil2005probabilities`, `guo2017calibration` and `vanCalster2019calibration`.
+- Add references for ROC-AUC, PR-AUC, balanced accuracy, macro F1 and bootstrap confidence intervals if the target venue expects metric citations.
 
 ## Clinical Validation and Ethical Limitations
 

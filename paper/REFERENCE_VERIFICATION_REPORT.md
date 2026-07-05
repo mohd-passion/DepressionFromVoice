@@ -1,6 +1,6 @@
 # Reference Verification Report
 
-Stage 2A verifies and integrates only dataset, assessment, and WavLM primary sources. Broader depression-speech, domain-shift, calibration, and clinical-ethics sources remain out of scope.
+Stage 2A verified dataset, assessment, and WavLM primary sources. Stage 2B added depression-speech, feature-family, and reading/interview task sources. Stage 2C adds cross-corpus depression-detection, dataset-shift, calibration, classifier-boundary, and SSL-transfer sources. Burden/prevalence, ethics/privacy, clinical deployment, and submission-material sources remain out of scope.
 
 ## Verified Sources
 
@@ -29,6 +29,8 @@ Stage 2B verified depression-speech, feature-family, and reading/interview task 
 
 - `AVEC-2019.pdf`: verified as an AVEC challenge paper, but not used for Stage 2A because this project does not claim official AVEC 2019 DDS hidden-test usage.
 - `pHQ-8(Question).pdf`: retained as local supporting material for the questionnaire text, but not added as the bibliographic source because it is a form with incomplete citation metadata.
+- `Investigation of Layer-Wise Speech Representations in Self-Supervised.pdf`: title/authors and cross-lingual SSL depression-detection scope were visible locally, but stable venue/year/DOI metadata was not verified for Stage 2C.
+- `HIERARCHICAL SELF-SUPERVISED REPRESENTATION LEARNING.pdf`: identified as a newer SSL depression-detection preprint, but not needed for the focused Stage 2C claims and not used in the manuscript.
 
 ## Stage 2A Boundaries
 
@@ -40,3 +42,29 @@ Stage 2B verified depression-speech, feature-family, and reading/interview task 
 - Stage 2B resolved the manuscript placeholders for depression-related speech evidence, handcrafted acoustic/timing feature families, speech-study heterogeneity, and reading/interview task differences.
 - Stage 2B did not resolve placeholders for depression burden/prevalence, ethics or clinical deployment, broad self-supervised learning, cross-corpus depression detection, domain shift, probability calibration, classifier-boundary shift, or metric definitions.
 - Literature citations added in Stage 2B support background and interpretation only; internal numerical results remain supported by `paper/PAPER_EVIDENCE_MAP.md`.
+
+## Stage 2C Verified Sources
+
+Stage 2C verified sources for transfer methodology and SSL context. These sources support background, protocol labeling, and interpretation only. Internal result numbers remain tied to the experiment registry and paper evidence map.
+
+| Citation key | Title | Primary or secondary | Scope verified | Claims directly supported | Claims only partially supported or not supported | Verification confidence |
+| --- | --- | --- | --- | --- | --- | --- |
+| `alghowinem2016crossCultural` | Cross-Cultural Depression Recognition from Vocal Biomarkers | Primary Interspeech paper | Cross-cultural depression-recognition from vocal biomarkers | Depression speech models can be sensitive to language/cultural/dataset differences. | Does not support DAIC-to-Android numeric results or clinical utility. | High for bibliographic identity from ISCA Archive. |
+| `ravi2022speakerDisentanglement` | A Step Towards Preserving Speakers' Identity While Detecting Depression Via Speaker Disentanglement | Primary Interspeech paper | DAIC-WOZ and CONVERGE depression-speech modeling with Wav2vec2 features | Provides cross-dataset depression-speech context for the methods literature table. | Not used to support ethics/privacy or this project's performance claims. | High for ISCA DOI metadata and local title/authors. |
+| `seneviratne2021generalized` | Generalized Dilated CNN Models for Depression Detection Using Inverted Vocal Tract Variables | arXiv preprint | Cross-corpus evaluation across depression databases | Cross-corpus evaluations exist and motivate cautious protocol labels. | Preprint only; publication venue not verified. | Medium; arXiv metadata verified. |
+| `morenoTorres2012datasetShift` | A Unifying View on Dataset Shift in Classification | Primary taxonomy/review article | Dataset-shift definitions and feature/prior/concept-shift framing | Dataset shift can affect feature distributions, priors, conditional relationships and classifier behavior. | General ML source, not speech-depression evidence. | High for title/authors/pages/DOI and abstract from ScienceDirect. |
+| `brier1950probabilityForecasts` | Verification of Forecasts Expressed in Terms of Probability | Primary scoring-rule article | Probability forecast verification | Brier score is a probability-error measure. | Does not cover modern clinical ML or speech models. | High for bibliographic identity through DOI metadata. |
+| `niculescuMizil2005probabilities` | Predicting Good Probabilities with Supervised Learning | Primary ICML paper | Probability calibration with Platt scaling and isotonic regression | Calibration can change probability reliability without being the same as ranking discrimination. | General supervised-learning source; not depression-specific. | High for title/authors/venue from hosted paper. |
+| `guo2017calibration` | On Calibration of Modern Neural Networks | Primary ICML/PMLR paper | Modern calibration and temperature scaling | Temperature scaling and expected calibration error are common calibration tools. | Neural-network focus; used only for calibration-method context. | High for PMLR metadata. |
+| `vanCalster2019calibration` | Calibration: The Achilles Heel of Predictive Analytics | Review/methodology article | Clinical predictive-model calibration | Discrimination and calibration are different; intercept/slope/recalibration support cautious probability interpretation. | Not speech-depression-specific. | High for BMC DOI metadata and article text. |
+| `baevski2020wav2vec2` | wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations | Primary NeurIPS paper | SSL speech representation learning | wav2vec 2.0 supports the broad SSL representation claim. | Does not validate depression detection or transfer. | High for NeurIPS metadata. |
+| `yang2021superb` | SUPERB: Speech Processing Universal Performance Benchmark | Primary benchmark paper | Frozen/shared SSL encoder benchmarking with lightweight heads | Supports reusable SSL representations and downstream-head framing. | Broad benchmark; not depression-specific. | High for ISCA metadata and DOI. |
+| `wu2023sslDepression` | Self-Supervised Representations in Speech-Based Depression Detection | Primary ICASSP paper | SSL representations in speech-based depression detection | Depression-speech SSL applications exist and motivate comparison. | Does not prove DAIC-to-Android transfer or clinical readiness. | High for DOI/arXiv identity; local PDF title/authors verified. |
+| `huang2024voicePretraining` | Depression Recognition Using Voice-Based Pre-Training Model | Primary Scientific Reports article | wav2vec 2.0 voice pretraining for depression recognition | Supports wav2vec-style feature-extractor/fine-tuning context in depression recognition. | DAIC-WOZ application only; not cross-corpus external validation. | High for Nature DOI metadata. |
+
+## Stage 2C Boundaries
+
+- Stage 2C resolved the manuscript placeholders for broad SSL speech representations, wav2vec 2.0/related SSL models, SSL transfer context, cross-corpus depression detection, dataset-shift taxonomy, probability calibration, and descriptive classifier-boundary shift.
+- Stage 2C did not resolve the depression burden/prevalence placeholder or the ethical/clinical-limits placeholder.
+- Stage 2C did not fabricate publication metadata for local PDFs with incomplete venue/year/DOI information; those sources were either verified externally or left out.
+- Stage 2C citations do not support new clinical, deployment, fairness, privacy, or prospective-validation claims.

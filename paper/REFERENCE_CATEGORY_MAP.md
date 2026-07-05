@@ -30,3 +30,13 @@ Stage 1 map of unresolved manuscript citation placeholders. Counts refer only to
 - REF-009, REF-018, and REF-019 all require general ML methodology sources for domain shift, calibration, and classifier-boundary shift.
 - REF-016 and REF-020 both require cross-corpus depression-speech evidence.
 - REF-006, REF-014, REF-015, and REF-021 overlap across SSL speech, WavLM, and depression-specific SSL transfer.
+
+## Stage 2C Resolution Addendum
+
+Stage 2C resolved the original map entries for broad self-supervised speech representations, wav2vec 2.0/related SSL models, cross-corpus depression detection, general dataset-shift taxonomy, probability calibration, and classifier-boundary framing. The canonical status is now tracked in `paper/CITATION_PLACEHOLDER_AUDIT.csv` and `paper/PAPER_REFERENCE_NEEDS.md`.
+
+The following categories still need later work before submission:
+
+- Depression prevalence, burden and clinical context.
+- Bias, ethics, privacy and clinical validation.
+- Optional venue-specific metric citations for ROC-AUC, PR-AUC, balanced accuracy, macro F1 and bootstrap uncertainty.

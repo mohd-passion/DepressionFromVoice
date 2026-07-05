@@ -18,6 +18,12 @@ STAGE2C_FILES = [
     PAPER / "CALIBRATION_METHODS_TABLE.md",
 ]
 
+STAGE2D_FILES = [
+    PAPER / "CLAIM_REFERENCE_MAP_STAGE2D.md",
+    PAPER / "RESPONSIBLE_AI_EVIDENCE_TABLE.md",
+    PAPER / "CLINICAL_READINESS_MATRIX.md",
+]
+
 
 class ManuscriptValidationTests(unittest.TestCase):
     def test_manuscript_validator_passes(self) -> None:
@@ -33,6 +39,11 @@ class ManuscriptValidationTests(unittest.TestCase):
 
     def test_stage2c_files_exist(self) -> None:
         for path in STAGE2C_FILES:
+            with self.subTest(path=path.name):
+                self.assertTrue(path.exists(), f"Missing {path}")
+
+    def test_stage2d_files_exist(self) -> None:
+        for path in STAGE2D_FILES:
             with self.subTest(path=path.name):
                 self.assertTrue(path.exists(), f"Missing {path}")
 
@@ -82,6 +93,64 @@ class ManuscriptValidationTests(unittest.TestCase):
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, text)
+
+    def test_stage2d_manuscript_preserves_clinical_safeguards(self) -> None:
+        text = MANUSCRIPT.read_text(encoding="utf-8")
+        self.assertNotIn("[REFERENCE NEEDED:", text)
+        for phrase in [
+            "research-only",
+            "not diagnostic tools",
+            "No prospective deployment study was performed",
+            "No demographic fairness audit was completed",
+            "No clinical utility study was completed",
+            "source datasets are not redistributed",
+            "raw audio",
+            "participant-level artifacts",
+            "paper-experiment-freeze-v1",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, text)
+
+    def test_stage2d_responsible_ai_table_contains_required_issues(self) -> None:
+        text = (PAPER / "RESPONSIBLE_AI_EVIDENCE_TABLE.md").read_text(encoding="utf-8")
+        for issue in [
+            "Mental-health data sensitivity",
+            "Speech privacy",
+            "Voice re-identification",
+            "Linguistic bias",
+            "Demographic bias",
+            "Dataset imbalance",
+            "Subgroup evaluation",
+            "External validation",
+            "Prospective clinical validation",
+            "Calibration in target populations",
+            "Screening versus diagnosis",
+            "Human oversight",
+            "Deployment monitoring",
+            "Informed consent",
+        ]:
+            with self.subTest(issue=issue):
+                self.assertIn(issue, text)
+
+    def test_stage2d_clinical_readiness_matrix_preserves_statuses(self) -> None:
+        text = (PAPER / "CLINICAL_READINESS_MATRIX.md").read_text(encoding="utf-8")
+        self.assertIn("Project is not clinically deployment-ready.", text)
+        expected = {
+            "Retrospective technical validation": "completed",
+            "Participant-level evaluation": "completed",
+            "Cross-corpus zero-shot evaluation": "completed",
+            "Target-domain calibration": "partially_completed",
+            "Independent external validation of Android-trained models": "not_completed",
+            "Subgroup fairness analysis": "not_completed",
+            "Prospective clinical validation": "not_completed",
+            "Comparison with clinician assessment": "not_completed",
+            "Clinical utility evaluation": "not_completed",
+            "Privacy and governance assessment": "partially_completed",
+            "Deployment monitoring and drift management": "not_completed",
+        }
+        for criterion, status in expected.items():
+            with self.subTest(criterion=criterion):
+                self.assertIn(f"| {criterion} | {status} |", text)
 
 
 if __name__ == "__main__":

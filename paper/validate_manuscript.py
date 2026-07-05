@@ -23,6 +23,9 @@ DOCS_WITH_CITATIONS = [
     PAPER / "CROSS_CORPUS_METHODS_LITERATURE_TABLE.md",
     PAPER / "DOMAIN_SHIFT_CONCEPT_TABLE.md",
     PAPER / "CALIBRATION_METHODS_TABLE.md",
+    PAPER / "CLAIM_REFERENCE_MAP_STAGE2D.md",
+    PAPER / "RESPONSIBLE_AI_EVIDENCE_TABLE.md",
+    PAPER / "CLINICAL_READINESS_MATRIX.md",
     PAPER / "REFERENCE_VERIFICATION_REPORT.md",
     PAPER / "LITERATURE_SOURCE_INVENTORY.md",
     PAPER / "PAPER_REFERENCE_NEEDS.md",
@@ -50,10 +53,20 @@ STAGE2C_PLACEHOLDERS = {
     "[REFERENCE NEEDED: SSL transfer in paralinguistic or affective speech]",
 }
 
+STAGE2D_PLACEHOLDERS = {
+    "[REFERENCE NEEDED: depression burden and prevalence]",
+    "[REFERENCE NEEDED: ethical and clinical limits of speech-based mental-health models]",
+}
+
 STAGE2C_TABLE_MIN_ROWS = {
     PAPER / "CROSS_CORPUS_METHODS_LITERATURE_TABLE.md": 4,
     PAPER / "DOMAIN_SHIFT_CONCEPT_TABLE.md": 9,
     PAPER / "CALIBRATION_METHODS_TABLE.md": 5,
+}
+
+STAGE2D_TABLE_MIN_ROWS = {
+    PAPER / "RESPONSIBLE_AI_EVIDENCE_TABLE.md": 14,
+    PAPER / "CLINICAL_READINESS_MATRIX.md": 11,
 }
 
 REQUIRED_STAGE2C_PHRASES = {
@@ -66,9 +79,75 @@ REQUIRED_STAGE2C_PHRASES = {
     "predicted every Android interview participant as negative",
 }
 
+REQUIRED_STAGE2D_MANUSCRIPT_PHRASES = {
+    "research-only",
+    "not diagnostic tools",
+    "No prospective deployment study was performed",
+    "No demographic fairness audit was completed",
+    "No clinical utility study was completed",
+    "source datasets are not redistributed",
+    "paper-experiment-freeze-v1",
+    "raw audio",
+    "participant-level artifacts",
+}
+
+REQUIRED_RESPONSIBLE_AI_ISSUES = {
+    "Mental-health data sensitivity",
+    "Speech privacy",
+    "Voice re-identification",
+    "Linguistic bias",
+    "Demographic bias",
+    "Dataset imbalance",
+    "Subgroup evaluation",
+    "External validation",
+    "Prospective clinical validation",
+    "Calibration in target populations",
+    "Screening versus diagnosis",
+    "Human oversight",
+    "Deployment monitoring",
+    "Informed consent",
+}
+
+REQUIRED_CLINICAL_READINESS_CRITERIA = {
+    "Retrospective technical validation": "completed",
+    "Participant-level evaluation": "completed",
+    "Cross-corpus zero-shot evaluation": "completed",
+    "Target-domain calibration": "partially_completed",
+    "Independent external validation of Android-trained models": "not_completed",
+    "Subgroup fairness analysis": "not_completed",
+    "Prospective clinical validation": "not_completed",
+    "Comparison with clinician assessment": "not_completed",
+    "Screening workflow evaluation": "not_completed",
+    "Clinical utility evaluation": "not_completed",
+    "Privacy and governance assessment": "partially_completed",
+    "Deployment monitoring and drift management": "not_completed",
+}
+
 REQUIRED_CALIBRATION_TABLE_PHRASES = {
     "Threshold-only adaptation does not alter predicted probabilities.",
     "Calibration can improve probability scores without improving ranking.",
+}
+
+PROHIBITED_CLINICAL_OVERCLAIM_PHRASES = {
+    "clinically validated",
+    "diagnostic system",
+    "diagnoses depression",
+    "deployment-ready",
+    "generalizes to all populations",
+    "bias-free",
+    "fair across demographics",
+}
+
+NEGATION_OR_LIMITING_MARKERS = {
+    "not",
+    "no ",
+    "without",
+    "unmet",
+    "would require",
+    "does not",
+    "do not",
+    "not ready",
+    "not clinically",
 }
 
 REQUIRED_AUDIT_COLUMNS = {
@@ -194,6 +273,19 @@ def validate() -> list[str]:
         if row["resolution_status"] != "resolved":
             errors.append(f"Stage 2C placeholder not marked resolved in audit: {placeholder}")
 
+    for placeholder in STAGE2D_PLACEHOLDERS:
+        row = audit_by_text.get(placeholder)
+        if row is None:
+            errors.append(f"Stage 2D placeholder lacks audit row: {placeholder}")
+            continue
+        if placeholder in manuscript_placeholders:
+            errors.append(f"Stage 2D placeholder still present in manuscript: {placeholder}")
+        if row["resolution_status"] != "resolved":
+            errors.append(f"Stage 2D placeholder not marked resolved in audit: {placeholder}")
+
+    if manuscript_placeholders:
+        errors.append(f"Manuscript still contains unresolved citation placeholders: {sorted(manuscript_placeholders)}")
+
     for row in rows:
         if row["resolution_status"] != "resolved":
             continue
@@ -229,14 +321,41 @@ def validate() -> list[str]:
                 f"{path.relative_to(ROOT)} has too few data rows: {rows}; expected at least {minimum_rows}"
             )
 
+    for path, minimum_rows in STAGE2D_TABLE_MIN_ROWS.items():
+        if not path.exists():
+            errors.append(f"Missing Stage 2D table: {path.relative_to(ROOT)}")
+            continue
+        rows = markdown_table_data_rows(path)
+        if rows < minimum_rows:
+            errors.append(
+                f"{path.relative_to(ROOT)} has too few data rows: {rows}; expected at least {minimum_rows}"
+            )
+
     for phrase in REQUIRED_STAGE2C_PHRASES:
         if phrase not in manuscript_text:
             errors.append(f"Manuscript missing Stage 2C safeguard phrase: {phrase}")
+
+    for phrase in REQUIRED_STAGE2D_MANUSCRIPT_PHRASES:
+        if phrase not in manuscript_text:
+            errors.append(f"Manuscript missing Stage 2D safeguard phrase: {phrase}")
 
     calibration_text = (PAPER / "CALIBRATION_METHODS_TABLE.md").read_text(encoding="utf-8")
     for phrase in REQUIRED_CALIBRATION_TABLE_PHRASES:
         if phrase not in calibration_text:
             errors.append(f"Calibration table missing safeguard phrase: {phrase}")
+
+    responsible_text = (PAPER / "RESPONSIBLE_AI_EVIDENCE_TABLE.md").read_text(encoding="utf-8")
+    for issue in REQUIRED_RESPONSIBLE_AI_ISSUES:
+        if issue not in responsible_text:
+            errors.append(f"Responsible-AI table missing issue: {issue}")
+
+    readiness_text = (PAPER / "CLINICAL_READINESS_MATRIX.md").read_text(encoding="utf-8")
+    for criterion, status in REQUIRED_CLINICAL_READINESS_CRITERIA.items():
+        pattern = rf"\|\s*{re.escape(criterion)}\s*\|\s*{status}\s*\|"
+        if not re.search(pattern, readiness_text):
+            errors.append(f"Clinical readiness matrix missing criterion/status: {criterion} -> {status}")
+    if "Project is not clinically deployment-ready." not in readiness_text:
+        errors.append("Clinical readiness matrix must explicitly state the project is not clinically deployment-ready.")
 
     for sentence in sentences(manuscript_text):
         normalized = sentence.lower()
@@ -254,6 +373,9 @@ def validate() -> list[str]:
             }
             if not any(marker in normalized for marker in safe_markers):
                 errors.append(f"Target-domain protocol may be overstated as zero-shot: {sentence}")
+        for phrase in PROHIBITED_CLINICAL_OVERCLAIM_PHRASES:
+            if phrase in normalized and not any(marker in normalized for marker in NEGATION_OR_LIMITING_MARKERS):
+                errors.append(f"Potential clinical overclaim without negation or limitation: {sentence}")
 
     return errors
 

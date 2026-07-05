@@ -31,6 +31,38 @@ DOCS_WITH_CITATIONS = [
     PAPER / "PAPER_REFERENCE_NEEDS.md",
 ]
 
+STAGE3_REQUIRED_FILES = [
+    PAPER / "FINAL_NUMERICAL_AUDIT.csv",
+    PAPER / "FINAL_RESULT_SCOPE_AUDIT.md",
+    PAPER / "FINAL_CITATION_AUDIT.csv",
+    PAPER / "REFERENCE_CLEANUP_REPORT.md",
+    PAPER / "TERMINOLOGY_STYLE_GUIDE.md",
+    PAPER / "MANUSCRIPT_STRUCTURE_AUDIT.md",
+    PAPER / "REDUNDANCY_EDIT_LOG.md",
+    PAPER / "CONTRIBUTION_CLAIM_AUDIT.md",
+    PAPER / "FINAL_TABLE_AUDIT.md",
+    PAPER / "FIGURE_SPECIFICATIONS.md",
+    PAPER / "SUPPLEMENTARY_MATERIAL_PLAN.md",
+    PAPER / "JOURNAL_NEUTRAL_FRONT_MATTER.md",
+    PAPER / "DATA_CODE_AVAILABILITY_AUDIT.md",
+    PAPER / "FINAL_CLINICAL_CLAIM_AUDIT.md",
+    PAPER / "SUBMISSION_READINESS_CHECKLIST.md",
+]
+
+REQUIRED_MANUSCRIPT_SECTIONS = {
+    "## Abstract",
+    "## Keywords",
+    "## 1. Introduction",
+    "## 2. Related Work",
+    "## 3. Materials and Methods",
+    "## 4. Results",
+    "## 5. Discussion",
+    "### 5.8 Ethical and Clinical Considerations",
+    "## 6. Limitations",
+    "## 7. Conclusion",
+    "## 8. Data and Code Availability",
+}
+
 STAGE2B_PLACEHOLDERS = {
     "[REFERENCE NEEDED: depression and speech as behavioral signal]",
     "[REFERENCE NEEDED: acoustic and prosodic correlates of depression]",
@@ -108,6 +140,50 @@ REQUIRED_RESPONSIBLE_AI_ISSUES = {
     "Informed consent",
 }
 
+REQUIRED_STAGE3_SCOPE_TERMS = {
+    "DAIC methodological development",
+    "provisional local labeled DAIC test",
+    "cross-corpus zero-shot external evaluation",
+    "target-domain threshold adaptation",
+    "target-domain score calibration",
+    "within-Android interview nested cross-validation",
+    "within-Android reading nested cross-validation",
+    "Cross-task transfer within Android",
+    "Pooled-task within-Android evaluation",
+}
+
+REQUIRED_STAGE3_NUMERIC_VALUES = {
+    "0.6412",
+    "0.8675",
+    "0.8796",
+    "0.8475",
+    "0.8501",
+    "0.9058",
+    "0.9135",
+    "550 of 768",
+    "292 of 768",
+    "0.4752",
+    "0.6659",
+    "0.1216",
+}
+
+VALID_CHECKLIST_STATUSES = {
+    "complete",
+    "needs_author_input",
+    "needs_formatting",
+    "needs_figure",
+    "needs_journal_selection",
+    "not_applicable",
+}
+
+REQUIRED_FRONT_MATTER_PLACEHOLDERS = {
+    "[AUTHOR INPUT REQUIRED: author names and order]",
+    "[AUTHOR INPUT REQUIRED: affiliations]",
+    "[AUTHOR INPUT REQUIRED: funding statement or \"No external funding\" if accurate]",
+    "[AUTHOR INPUT REQUIRED: ethics/IRB statement for use of DAIC-WOZ and Androids Corpus data]",
+    "[AUTHOR INPUT REQUIRED: disclose AI-assisted drafting/auditing if required by target journal or institution]",
+}
+
 REQUIRED_CLINICAL_READINESS_CRITERIA = {
     "Retrospective technical validation": "completed",
     "Participant-level evaluation": "completed",
@@ -160,6 +236,35 @@ REQUIRED_AUDIT_COLUMNS = {
     "citation_key",
 }
 
+REQUIRED_NUMERICAL_AUDIT_COLUMNS = {
+    "manuscript section",
+    "table or paragraph",
+    "reported value",
+    "metric or quantity",
+    "official phase",
+    "experiment ID",
+    "source file",
+    "authoritative value",
+    "match status",
+    "correction required",
+    "notes",
+}
+
+REQUIRED_CITATION_AUDIT_COLUMNS = {
+    "manuscript section",
+    "claim",
+    "citation key",
+    "BibTeX entry exists",
+    "source verified",
+    "direct support",
+    "partial support",
+    "contextual support",
+    "primary or secondary source",
+    "citation appropriate",
+    "action required",
+    "notes",
+}
+
 
 def bib_keys_and_dois() -> tuple[set[str], list[str], list[str]]:
     text = BIB_PATH.read_text(encoding="utf-8")
@@ -180,6 +285,15 @@ def audit_rows() -> list[dict[str, str]]:
         missing_columns = REQUIRED_AUDIT_COLUMNS.difference(reader.fieldnames or [])
         if missing_columns:
             raise ValueError(f"Audit CSV missing columns: {sorted(missing_columns)}")
+        return list(reader)
+
+
+def csv_rows(path: Path, required_columns: set[str]) -> list[dict[str, str]]:
+    with path.open(newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle)
+        missing_columns = required_columns.difference(reader.fieldnames or [])
+        if missing_columns:
+            raise ValueError(f"{path.relative_to(ROOT)} missing columns: {sorted(missing_columns)}")
         return list(reader)
 
 
@@ -243,6 +357,14 @@ def validate() -> list[str]:
             errors.append(f"{path.relative_to(ROOT)} cites keys missing from references.bib: {missing}")
 
     manuscript_text = MANUSCRIPT_PATH.read_text(encoding="utf-8")
+    for section in REQUIRED_MANUSCRIPT_SECTIONS:
+        if section not in manuscript_text:
+            errors.append(f"Manuscript missing required section: {section}")
+
+    for path in STAGE3_REQUIRED_FILES:
+        if not path.exists():
+            errors.append(f"Missing Stage 3A package file: {path.relative_to(ROOT)}")
+
     manuscript_placeholders = set(re.findall(r"\[REFERENCE NEEDED: [^\]]+\]", manuscript_text))
     rows = audit_rows()
     audit_by_text = {row["placeholder_text"]: row for row in rows}
@@ -285,6 +407,10 @@ def validate() -> list[str]:
 
     if manuscript_placeholders:
         errors.append(f"Manuscript still contains unresolved citation placeholders: {sorted(manuscript_placeholders)}")
+
+    obvious_metric_placeholders = re.findall(r"\b(?:TBD|TODO|INSERT|0\.XXXX|X\.XXXX|XX\.XX)\b", manuscript_text)
+    if obvious_metric_placeholders:
+        errors.append(f"Manuscript contains obvious placeholder metrics/text: {sorted(set(obvious_metric_placeholders))}")
 
     for row in rows:
         if row["resolution_status"] != "resolved":
@@ -356,6 +482,79 @@ def validate() -> list[str]:
             errors.append(f"Clinical readiness matrix missing criterion/status: {criterion} -> {status}")
     if "Project is not clinically deployment-ready." not in readiness_text:
         errors.append("Clinical readiness matrix must explicitly state the project is not clinically deployment-ready.")
+
+    if (PAPER / "FINAL_NUMERICAL_AUDIT.csv").exists():
+        numeric_rows = csv_rows(PAPER / "FINAL_NUMERICAL_AUDIT.csv", REQUIRED_NUMERICAL_AUDIT_COLUMNS)
+        if len(numeric_rows) < 80:
+            errors.append(f"Final numerical audit has too few rows: {len(numeric_rows)}")
+        bad_numeric_rows = [
+            row["reported value"]
+            for row in numeric_rows
+            if row["correction required"].strip().lower() not in {"no", "none"}
+        ]
+        if bad_numeric_rows:
+            errors.append(f"Final numerical audit still requires corrections: {bad_numeric_rows[:5]}")
+        numeric_text = (PAPER / "FINAL_NUMERICAL_AUDIT.csv").read_text(encoding="utf-8")
+        for value in REQUIRED_STAGE3_NUMERIC_VALUES:
+            if value not in numeric_text:
+                errors.append(f"Final numerical audit missing required value: {value}")
+
+    if (PAPER / "FINAL_CITATION_AUDIT.csv").exists():
+        citation_rows = csv_rows(PAPER / "FINAL_CITATION_AUDIT.csv", REQUIRED_CITATION_AUDIT_COLUMNS)
+        cited_keys = citations_in_text(manuscript_text)
+        audited_keys = {row["citation key"] for row in citation_rows}
+        missing_audited_keys = sorted(cited_keys.difference(audited_keys))
+        if missing_audited_keys:
+            errors.append(f"Final citation audit missing manuscript keys: {missing_audited_keys}")
+        inappropriate = [
+            row["citation key"]
+            for row in citation_rows
+            if row["citation appropriate"].strip().lower() != "yes"
+        ]
+        if inappropriate:
+            errors.append(f"Final citation audit contains inappropriate citation rows: {inappropriate[:5]}")
+
+    if (PAPER / "FINAL_RESULT_SCOPE_AUDIT.md").exists():
+        scope_text = (PAPER / "FINAL_RESULT_SCOPE_AUDIT.md").read_text(encoding="utf-8")
+        for term in REQUIRED_STAGE3_SCOPE_TERMS:
+            if term.lower() not in scope_text.lower():
+                errors.append(f"Final result-scope audit missing term: {term}")
+
+    if (PAPER / "FIGURE_SPECIFICATIONS.md").exists():
+        figure_text = (PAPER / "FIGURE_SPECIFICATIONS.md").read_text(encoding="utf-8")
+        for label in ["Figure 1", "Figure 2", "Figure 3", "Figure 4", "Figure 5", "Figure S1", "Figure S2"]:
+            if label not in figure_text:
+                errors.append(f"Figure specifications missing {label}")
+
+    if (PAPER / "FINAL_TABLE_AUDIT.md").exists():
+        table_text = (PAPER / "FINAL_TABLE_AUDIT.md").read_text(encoding="utf-8")
+        for label in ["Table 1", "Table 2", "Table 3", "Table 4", "Table 5", "Table 6"]:
+            if label not in table_text:
+                errors.append(f"Final table audit missing {label}")
+
+    if (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").exists():
+        checklist_text = (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").read_text(encoding="utf-8")
+        if "`ready_for_author_review`" not in checklist_text:
+            errors.append("Submission checklist missing ready_for_author_review readiness category.")
+        for line in checklist_text.splitlines():
+            separator = line.replace("|", "").replace(" ", "").strip()
+            if not line.startswith("| ") or line.startswith("| Item ") or set(separator) <= {"-", ":"}:
+                continue
+            cells = [cell.strip(" `") for cell in line.strip().strip("|").split("|")]
+            if len(cells) >= 2 and cells[1] not in VALID_CHECKLIST_STATUSES:
+                errors.append(f"Submission checklist has invalid status: {cells[1]} in row {cells[0]}")
+
+    if (PAPER / "JOURNAL_NEUTRAL_FRONT_MATTER.md").exists():
+        front_matter_text = (PAPER / "JOURNAL_NEUTRAL_FRONT_MATTER.md").read_text(encoding="utf-8")
+        for placeholder in REQUIRED_FRONT_MATTER_PLACEHOLDERS:
+            if placeholder not in front_matter_text:
+                errors.append(f"Front matter missing explicit placeholder: {placeholder}")
+
+    if (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").exists():
+        terminology_text = (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").read_text(encoding="utf-8")
+        for term in ["within-corpus nested cross-validation", "diagnostic system", "research classification model"]:
+            if term not in terminology_text:
+                errors.append(f"Terminology guide missing term: {term}")
 
     for sentence in sentences(manuscript_text):
         normalized = sentence.lower()

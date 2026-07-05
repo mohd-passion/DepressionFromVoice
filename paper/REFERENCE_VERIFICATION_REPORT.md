@@ -1,6 +1,6 @@
 # Reference Verification Report
 
-Stage 2A verified dataset, assessment, and WavLM primary sources. Stage 2B added depression-speech, feature-family, and reading/interview task sources. Stage 2C adds cross-corpus depression-detection, dataset-shift, calibration, classifier-boundary, and SSL-transfer sources. Burden/prevalence, ethics/privacy, clinical deployment, and submission-material sources remain out of scope.
+Stage 2A verified dataset, assessment, and WavLM primary sources. Stage 2B added depression-speech, feature-family, and reading/interview task sources. Stage 2C added cross-corpus depression-detection, dataset-shift, calibration, classifier-boundary, and SSL-transfer sources. Stage 2D adds depression burden, screening-versus-diagnosis, speech privacy, fairness, clinical validation and responsible-AI governance sources. Submission-material sources remain out of scope.
 
 ## Verified Sources
 
@@ -68,3 +68,27 @@ Stage 2C verified sources for transfer methodology and SSL context. These source
 - Stage 2C did not resolve the depression burden/prevalence placeholder or the ethical/clinical-limits placeholder.
 - Stage 2C did not fabricate publication metadata for local PDFs with incomplete venue/year/DOI information; those sources were either verified externally or left out.
 - Stage 2C citations do not support new clinical, deployment, fairness, privacy, or prospective-validation claims.
+
+## Stage 2D Verified Sources
+
+Stage 2D verified burden/prevalence and responsible-AI sources. These citations support context, limitations and readiness criteria only. They do not support any new project metrics, clinical deployment claim, diagnostic claim, or fairness-performance claim.
+
+| Citation key | Title | Primary or secondary | Scope verified | Claims directly supported | Claims only partially supported or not supported | Verification confidence |
+| --- | --- | --- | --- | --- | --- | --- |
+| `who2025depression` | Depressive Disorder (Depression) | Authoritative public-health fact sheet | Global depression prevalence, functional impact, treatment and care barriers | Depression is common, has functional/public-health impact and affects adults globally. | Does not support speech-model metrics, diagnosis by speech, or deployment readiness. | High for title, date and prevalence statements from WHO page. |
+| `uspstf2023depressionScreening` | Screening for Depression and Suicide Risk in Adults: US Preventive Services Task Force Recommendation Statement | Clinical screening guideline/recommendation statement | Adult depression screening in primary care and follow-up-system requirements | Screening positives require further evaluation and adequate systems for diagnosis, treatment and follow-up. | US preventive-services guidance; not a speech-model validation source. | High for JAMA citation, DOI and recommendation text. |
+| `who2021aiHealthEthics` | Ethics and Governance of Artificial Intelligence for Health | WHO guidance | Health-AI ethics, human rights and governance principles | Responsible AI for health requires ethics and governance before deployment. | Does not certify this project's system or supply speech-specific metrics. | High for WHO publication page, date, title and overview. |
+| `nist2023aiRmf` | Artificial Intelligence Risk Management Framework (AI RMF 1.0) | Risk-management framework | Trustworthy-AI characteristics and govern/map/measure/manage functions | AI systems should manage validity, reliability, safety, privacy, transparency, accountability and harmful bias. | General AI framework; not clinical-trial evidence. | High for NIST PDF metadata, DOI and framework text. |
+| `kelly2019clinicalImpactAI` | Key Challenges for Delivering Clinical Impact with Artificial Intelligence | Clinical AI perspective/review | Translation from retrospective AI research to clinical impact | Robust evaluation, representative testing, prospective assessment and bias/dataset-shift attention are needed for clinical impact. | General healthcare AI source; not speech-depression-specific. | High for Springer/BMC title, authors, date, DOI and abstract. |
+| `vasey2022decideAI` | Reporting Guideline for the Early-Stage Clinical Evaluation of Decision Support Systems Driven by Artificial Intelligence: DECIDE-AI | Reporting guideline/consensus statement | Early-stage clinical evaluation of AI decision-support systems | Early-stage AI evaluation should assess clinical performance, safety, human factors and trial readiness. | Does not mean this project has completed early-stage clinical evaluation. | High for Nature title, authors, date, pages and DOI. |
+| `liu2020consortAI` | Reporting Guidelines for Clinical Trial Reports for Interventions Involving Artificial Intelligence: The CONSORT-AI Extension | Clinical-trial reporting guideline | AI clinical-trial reporting requirements | AI trials should report intervention context, human-AI interaction, error cases, subgroup errors and reuse constraints. | Future clinical-trial guidance only; this project is retrospective. | High for Nature title, authors, date, pages and DOI. |
+| `nautsch2019gdprSpeech` | The GDPR and Speech Data | Speech-data privacy paper | Privacy and data-protection issues for speech data | Speech data raise privacy and protection concerns requiring safeguards. | GDPR-centered; does not by itself define this project's full governance program. | High for arXiv metadata and related INTERSPEECH DOI. |
+| `tomashenko2021voicePrivacy` | The VoicePrivacy 2020 Challenge: Results and Findings | Voice anonymization benchmark report | Voice anonymization task, attack models and privacy/utility metrics | Voice anonymization is an active technical response to speaker re-identification risk. | Does not anonymize this project's data or validate artifact exclusion alone. | High for arXiv metadata; journal DOI retained as related metadata only. |
+| `koenecke2020racialDisparitiesASR` | Racial Disparities in Automated Speech Recognition | Primary empirical speech-technology fairness paper | Differential ASR performance across speaker groups | Speech technologies can exhibit demographic performance disparities, motivating subgroup fairness audits. | ASR transcription bias is adjacent evidence, not direct depression-classifier fairness evidence. | Medium-high; DOI and bibliographic metadata verified, but the PNAS page was not fully readable by crawler. |
+
+## Stage 2D Boundaries
+
+- Stage 2D resolved the remaining manuscript placeholders for depression burden/prevalence and ethical/clinical limits.
+- Stage 2D added no new experiments, model metrics, figures, submission targets, DOCX/PDF exports or dataset scans.
+- Stage 2D citations support background, risk framing and unmet evidence requirements. They do not make the models clinically validated, diagnostic, bias-free or deployment-ready.
+- Prospective validation, clinical utility testing, demographic fairness auditing, subgroup calibration and workflow evaluation remain limitations of the study, not unresolved citation gaps.

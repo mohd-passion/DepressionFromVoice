@@ -5,7 +5,7 @@ This file tracks every `[REFERENCE NEEDED: ...]` placeholder used in `paper/MANU
 ## Depression Background
 
 - `[REFERENCE NEEDED: depression and speech as behavioral signal]` - resolved in Stage 2B with `leal2025survey`; survey-level support only.
-- `[REFERENCE NEEDED: depression burden and prevalence]` - unresolved; still needs an authoritative epidemiology or public-health source.
+- `[REFERENCE NEEDED: depression burden and prevalence]` - resolved in Stage 2D with `who2025depression` and `uspstf2023depressionScreening`; supports burden/prevalence and screening-program context, not any speech-model result.
 
 ## Speech Biomarkers
 
@@ -56,5 +56,6 @@ This file tracks every `[REFERENCE NEEDED: ...]` placeholder used in `paper/MANU
 
 ## Clinical Validation and Ethical Limitations
 
-- `[REFERENCE NEEDED: ethical and clinical limits of speech-based mental-health models]` - unresolved.
-- Add references for prospective validation, clinical utility, dataset bias and fairness before submission.
+- `[REFERENCE NEEDED: ethical and clinical limits of speech-based mental-health models]` - resolved in Stage 2D with `who2021aiHealthEthics`, `nist2023aiRmf`, `nautsch2019gdprSpeech`, `tomashenko2021voicePrivacy`, `koenecke2020racialDisparitiesASR`, `kelly2019clinicalImpactAI`, `vasey2022decideAI`, `liu2020consortAI` and `uspstf2023depressionScreening`.
+- Prospective validation, clinical utility, dataset bias and fairness now have literature support for why they matter, but this project has not completed those studies. They remain manuscript limitations and clinical-readiness gaps rather than unresolved citation placeholders.
+- Stage 2D added `paper/RESPONSIBLE_AI_EVIDENCE_TABLE.md`, `paper/CLINICAL_READINESS_MATRIX.md` and `paper/CLAIM_REFERENCE_MAP_STAGE2D.md` to keep ethics, privacy, fairness, screening-versus-diagnosis and governance claims separated from project metric claims.

@@ -7,7 +7,16 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PAPER = ROOT / "paper"
 VALIDATOR = ROOT / "paper" / "validate_manuscript.py"
+MANUSCRIPT = PAPER / "MANUSCRIPT_DRAFT.md"
+
+STAGE2C_FILES = [
+    PAPER / "CLAIM_REFERENCE_MAP_STAGE2C.md",
+    PAPER / "CROSS_CORPUS_METHODS_LITERATURE_TABLE.md",
+    PAPER / "DOMAIN_SHIFT_CONCEPT_TABLE.md",
+    PAPER / "CALIBRATION_METHODS_TABLE.md",
+]
 
 
 class ManuscriptValidationTests(unittest.TestCase):
@@ -21,6 +30,58 @@ class ManuscriptValidationTests(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("manuscript validation passed", result.stdout)
+
+    def test_stage2c_files_exist(self) -> None:
+        for path in STAGE2C_FILES:
+            with self.subTest(path=path.name):
+                self.assertTrue(path.exists(), f"Missing {path}")
+
+    def test_stage2c_tables_contain_expected_methods(self) -> None:
+        cross_corpus = (PAPER / "CROSS_CORPUS_METHODS_LITERATURE_TABLE.md").read_text(encoding="utf-8")
+        self.assertIn("Alghowinem", cross_corpus)
+        self.assertIn("Ravi", cross_corpus)
+        self.assertIn("Seneviratne", cross_corpus)
+
+        domain_shift = (PAPER / "DOMAIN_SHIFT_CONCEPT_TABLE.md").read_text(encoding="utf-8")
+        for concept in [
+            "Covariate shift",
+            "Prior probability shift",
+            "Concept or conditional shift",
+            "Label-definition shift",
+            "Task shift",
+            "Language or cultural shift",
+            "Score calibration shift",
+            "Threshold shift",
+            "Classifier-boundary shift",
+        ]:
+            with self.subTest(concept=concept):
+                self.assertIn(concept, domain_shift)
+
+        calibration = (PAPER / "CALIBRATION_METHODS_TABLE.md").read_text(encoding="utf-8")
+        for method in [
+            "No calibration",
+            "Intercept-only recalibration",
+            "Logistic calibration / Platt scaling",
+            "Isotonic regression",
+            "Temperature scaling",
+            "Threshold-only adaptation",
+        ]:
+            with self.subTest(method=method):
+                self.assertIn(method, calibration)
+
+    def test_stage2c_manuscript_preserves_transfer_claim_safeguards(self) -> None:
+        text = MANUSCRIPT.read_text(encoding="utf-8")
+        for phrase in [
+            "ROC-AUC 0.6412",
+            "ROC-AUC 0.8675",
+            "0.5558",
+            "predicted every Android interview participant as negative",
+            "target-domain threshold adaptation, not pure zero-shot evaluation",
+            "target-domain score calibration rather than zero-shot evaluation",
+            "not DAIC-to-Android model transfer",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, text)
 
 
 if __name__ == "__main__":

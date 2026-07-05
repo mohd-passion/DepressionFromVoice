@@ -17,8 +17,12 @@ DOCS_WITH_CITATIONS = [
     MANUSCRIPT_PATH,
     PAPER / "CLAIM_REFERENCE_MAP_STAGE2A.md",
     PAPER / "CLAIM_REFERENCE_MAP_STAGE2B.md",
+    PAPER / "CLAIM_REFERENCE_MAP_STAGE2C.md",
     PAPER / "DEPRESSION_SPEECH_EVIDENCE_TABLE.md",
     PAPER / "READING_INTERVIEW_LITERATURE_COMPARISON.md",
+    PAPER / "CROSS_CORPUS_METHODS_LITERATURE_TABLE.md",
+    PAPER / "DOMAIN_SHIFT_CONCEPT_TABLE.md",
+    PAPER / "CALIBRATION_METHODS_TABLE.md",
     PAPER / "REFERENCE_VERIFICATION_REPORT.md",
     PAPER / "LITERATURE_SOURCE_INVENTORY.md",
     PAPER / "PAPER_REFERENCE_NEEDS.md",
@@ -33,6 +37,38 @@ STAGE2B_PLACEHOLDERS = {
     "[REFERENCE NEEDED: evaluation variability in depression speech studies]",
     "[REFERENCE NEEDED: acoustic feature sets for depression speech]",
     "[REFERENCE NEEDED: reading speech and spontaneous speech comparison]",
+}
+
+STAGE2C_PLACEHOLDERS = {
+    "[REFERENCE NEEDED: self-supervised speech representation learning]",
+    "[REFERENCE NEEDED: wav2vec 2.0 and related SSL speech models]",
+    "[REFERENCE NEEDED: cross-corpus depression detection]",
+    "[REFERENCE NEEDED: domain shift and calibration in machine learning]",
+    "[REFERENCE NEEDED: domain adaptation and dataset shift taxonomy]",
+    "[REFERENCE NEEDED: classifier boundary shift under dataset shift]",
+    "[REFERENCE NEEDED: prior cross-corpus findings in depression speech]",
+    "[REFERENCE NEEDED: SSL transfer in paralinguistic or affective speech]",
+}
+
+STAGE2C_TABLE_MIN_ROWS = {
+    PAPER / "CROSS_CORPUS_METHODS_LITERATURE_TABLE.md": 4,
+    PAPER / "DOMAIN_SHIFT_CONCEPT_TABLE.md": 9,
+    PAPER / "CALIBRATION_METHODS_TABLE.md": 5,
+}
+
+REQUIRED_STAGE2C_PHRASES = {
+    "target-domain threshold adaptation, not pure zero-shot evaluation",
+    "target-domain score calibration rather than zero-shot evaluation",
+    "not DAIC-to-Android model transfer",
+    "ROC-AUC 0.6412",
+    "ROC-AUC 0.8675",
+    "0.5558",
+    "predicted every Android interview participant as negative",
+}
+
+REQUIRED_CALIBRATION_TABLE_PHRASES = {
+    "Threshold-only adaptation does not alter predicted probabilities.",
+    "Calibration can improve probability scores without improving ranking.",
 }
 
 REQUIRED_AUDIT_COLUMNS = {
@@ -86,6 +122,31 @@ def markdown_table_rows(path: Path) -> int:
     return rows
 
 
+def markdown_table_data_rows(path: Path) -> int:
+    rows = 0
+    in_table = False
+    saw_header = False
+    for line in path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if not stripped.startswith("|"):
+            in_table = False
+            saw_header = False
+            continue
+        if set(stripped.replace("|", "").replace(" ", "")) <= {"-", ":"}:
+            continue
+        if not in_table:
+            in_table = True
+            saw_header = True
+            continue
+        if saw_header:
+            rows += 1
+    return rows
+
+
+def sentences(text: str) -> list[str]:
+    return [item.strip() for item in re.split(r"(?<=[.!?])\s+", text) if item.strip()]
+
+
 def validate() -> list[str]:
     errors: list[str] = []
     bib_keys, duplicate_keys, duplicate_dois = bib_keys_and_dois()
@@ -123,6 +184,16 @@ def validate() -> list[str]:
         if row["resolution_status"] != "resolved":
             errors.append(f"Stage 2B placeholder not marked resolved in audit: {placeholder}")
 
+    for placeholder in STAGE2C_PLACEHOLDERS:
+        row = audit_by_text.get(placeholder)
+        if row is None:
+            errors.append(f"Stage 2C placeholder lacks audit row: {placeholder}")
+            continue
+        if placeholder in manuscript_placeholders:
+            errors.append(f"Stage 2C placeholder still present in manuscript: {placeholder}")
+        if row["resolution_status"] != "resolved":
+            errors.append(f"Stage 2C placeholder not marked resolved in audit: {placeholder}")
+
     for row in rows:
         if row["resolution_status"] != "resolved":
             continue
@@ -147,6 +218,42 @@ def validate() -> list[str]:
     reading_rows = markdown_table_rows(PAPER / "READING_INTERVIEW_LITERATURE_COMPARISON.md")
     if reading_rows < 4:
         errors.append(f"Reading/interview comparison table has too few data rows: {reading_rows}")
+
+    for path, minimum_rows in STAGE2C_TABLE_MIN_ROWS.items():
+        if not path.exists():
+            errors.append(f"Missing Stage 2C table: {path.relative_to(ROOT)}")
+            continue
+        rows = markdown_table_data_rows(path)
+        if rows < minimum_rows:
+            errors.append(
+                f"{path.relative_to(ROOT)} has too few data rows: {rows}; expected at least {minimum_rows}"
+            )
+
+    for phrase in REQUIRED_STAGE2C_PHRASES:
+        if phrase not in manuscript_text:
+            errors.append(f"Manuscript missing Stage 2C safeguard phrase: {phrase}")
+
+    calibration_text = (PAPER / "CALIBRATION_METHODS_TABLE.md").read_text(encoding="utf-8")
+    for phrase in REQUIRED_CALIBRATION_TABLE_PHRASES:
+        if phrase not in calibration_text:
+            errors.append(f"Calibration table missing safeguard phrase: {phrase}")
+
+    for sentence in sentences(manuscript_text):
+        normalized = sentence.lower()
+        if "android-trained" in normalized and "external validation" in normalized:
+            if "not external validation" not in normalized and "not cross-corpus external validation" not in normalized:
+                errors.append(f"Android-trained result may be overstated as external validation: {sentence}")
+        if "target-domain" in normalized and "zero-shot" in normalized:
+            safe_markers = {
+                "separation between",
+                "different questions",
+                "zero-shot result measures",
+                "distinguishing",
+                "not pure zero-shot",
+                "rather than zero-shot",
+            }
+            if not any(marker in normalized for marker in safe_markers):
+                errors.append(f"Target-domain protocol may be overstated as zero-shot: {sentence}")
 
     return errors
 

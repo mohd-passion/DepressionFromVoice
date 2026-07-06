@@ -12,19 +12,26 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 
 ## Authors
 
-[AUTHOR INPUT REQUIRED: author names and order]
+1. Mohammad Ilyas
+2. Dr. Vikram Singh
 
 ## Affiliations
 
-[AUTHOR INPUT REQUIRED: affiliations]
+Mohammad Ilyas, Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India.
+
+Dr. Vikram Singh, Department of Computer Engineering, National Institute of Technology, Kurukshetra, Haryana, India.
 
 ## Corresponding Author
 
-[AUTHOR INPUT REQUIRED: corresponding author name, email and address]
+Mohammad Ilyas, Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India. Email: mohd.passion.cse@mitmoradabad.edu.in.
+
+Dr. Vikram Singh corresponding-author status: [AUTHOR CONFIRMATION REQUIRED: not confirmed].
 
 ## ORCID
 
-[AUTHOR INPUT REQUIRED: ORCID identifiers if available]
+Mohammad Ilyas: not available.
+
+Dr. Vikram Singh: [AUTHOR CONFIRMATION REQUIRED: ORCID not provided].
 
 ## Abstract
 
@@ -38,23 +45,27 @@ depression detection; speech analysis; self-supervised learning; WavLM; cross-co
 
 ## Funding
 
-[AUTHOR INPUT REQUIRED: funding statement or "No external funding" if accurate]
+No funding was received for this study.
 
 ## Conflicts of Interest
 
-[AUTHOR INPUT REQUIRED: conflict-of-interest statement]
+The authors declare no competing interests.
 
 ## Author Contributions
 
-[AUTHOR INPUT REQUIRED: contribution taxonomy and author initials]
+Mohammad Ilyas: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Writing - original draft, Visualization, Project administration.
+
+Dr. Vikram Singh: [AUTHOR CONFIRMATION REQUIRED: supervision, methodology review, writing - review and editing, or other CRediT roles]
 
 ## Acknowledgements
 
-[AUTHOR INPUT REQUIRED: acknowledgements or "None" if accurate]
+[AUTHOR CONFIRMATION REQUIRED: acknowledgements]
 
 ## Ethics Statement
 
-[AUTHOR INPUT REQUIRED: ethics/IRB statement for use of DAIC-WOZ and Androids Corpus data]
+This study used previously collected datasets obtained under their original access terms. No new human participants were recruited. Ethics approval was not sought because the study involved secondary analysis of existing datasets.
+
+Author-review note: check this wording against institutional policy and the dataset licence terms before submission.
 
 ## Data Availability
 
@@ -66,8 +77,16 @@ Code, compact configuration records, evidence maps and the experiment registry a
 
 ## Consent Statement
 
-[AUTHOR INPUT REQUIRED: participant consent statement based on original dataset documentation and institutional requirements]
+[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]
 
 ## AI-Assistance Disclosure
 
-[AUTHOR INPUT REQUIRED: disclose AI-assisted drafting/auditing if required by target journal or institution]
+[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used during drafting, code organization, manuscript preparation, or workflow assistance; final wording must follow BSPC/Elsevier policy.]
+
+## Preprint Statement
+
+Preprint decision: undecided.
+
+## BSPC Submission Route
+
+BSPC submission route: undecided; subscription/no-publication-fee route preferred but not yet finally confirmed.

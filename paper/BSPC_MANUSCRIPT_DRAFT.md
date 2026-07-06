@@ -6,11 +6,15 @@ Article type: Full paper [AUTHOR CONFIRMATION REQUIRED]
 
 Submission status: journal-specific preparation only; not submitted.
 
-Author metadata: [AUTHOR CONFIRMATION REQUIRED]
+Authors: Mohammad Ilyas; Dr. Vikram Singh.
 
-Corresponding author: [AUTHOR CONFIRMATION REQUIRED]
+Corresponding author: Mohammad Ilyas, Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India. Email: mohd.passion.cse@mitmoradabad.edu.in.
 
-Affiliations: [AUTHOR CONFIRMATION REQUIRED]
+Affiliations: Mohammad Ilyas, Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India; Dr. Vikram Singh, Department of Computer Engineering, National Institute of Technology, Kurukshetra, Haryana, India.
+
+ORCID: Mohammad Ilyas, not available; Dr. Vikram Singh, [AUTHOR CONFIRMATION REQUIRED: ORCID not provided].
+
+Author metadata still unresolved: Dr. Vikram Singh email and corresponding-author status.
 
 ## Highlights
 
@@ -263,36 +267,44 @@ The source datasets are not redistributed. Access to DAIC-WOZ and Androids Corpu
 
 ## Declaration of Competing Interest
 
-[AUTHOR CONFIRMATION REQUIRED]
+The authors declare no competing interests.
 
 ## Funding
 
-[AUTHOR CONFIRMATION REQUIRED]
+No funding was received for this study.
 
 ## Ethics Approval
 
-[AUTHOR CONFIRMATION REQUIRED]
+This study used previously collected datasets obtained under their original access terms. No new human participants were recruited. Ethics approval was not sought because the study involved secondary analysis of existing datasets.
+
+Author-review note: this wording must be checked against institutional policy and the dataset licence terms before submission.
 
 ## Consent to Participate
 
-[AUTHOR CONFIRMATION REQUIRED]
+[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]
 
 ## Consent for Publication
 
-[AUTHOR CONFIRMATION REQUIRED]
+[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]
 
 ## CRediT Authorship Contribution Statement
 
-[AUTHOR CONFIRMATION REQUIRED]
+Mohammad Ilyas: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Writing - original draft, Visualization, Project administration.
+
+Dr. Vikram Singh: [AUTHOR CONFIRMATION REQUIRED: supervision, methodology review, writing - review and editing, or other CRediT roles]
 
 ## Acknowledgements
 
-[AUTHOR CONFIRMATION REQUIRED]
+[AUTHOR CONFIRMATION REQUIRED: acknowledgements]
 
 ## Declaration of Generative AI and AI-Assisted Technologies in the Writing Process
 
-[AUTHOR CONFIRMATION REQUIRED]
+[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used during drafting, code organization, manuscript preparation, or workflow assistance; final wording must follow BSPC/Elsevier policy.]
 
 ## Preprint Statement
 
-[AUTHOR CONFIRMATION REQUIRED]
+Preprint decision: undecided.
+
+## BSPC Submission Route
+
+BSPC submission route: undecided; subscription/no-publication-fee route preferred but not yet finally confirmed.

@@ -10,6 +10,7 @@
 - Stage 3B status: author-input preparation and verified journal-selection package prepared.
 - Stage 3C status: preliminary author preferences applied; Biomedical Signal Processing and Control selected as provisional first target; awaiting author confirmation for target journal.
 - Stage 3D status: Biomedical Signal Processing and Control journal-specific preparation files drafted; awaiting author confirmations before figure generation, DOCX/PDF or submission.
+- Stage 3E status: confirmed author details and declarations applied; figures in preparation; no DOCX/PDF or submission.
 
 ## Current Counts
 
@@ -120,18 +121,19 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 
 ## Remaining Author Inputs
 
-- Author names and order
-- Affiliations
-- Corresponding author details
-- ORCID identifiers
-- Funding statement
-- Conflict-of-interest statement
+- Final target journal confirmation
+- Dr. Vikram Singh email
+- Dr. Vikram Singh ORCID
+- Dr. Vikram Singh corresponding-author status
 - Author contributions
 - Acknowledgements
-- Ethics/IRB statement
+- Institutional/dataset-policy check of ethics wording
 - Consent statement
 - Repository visibility and license wording
 - Confirmation of dataset-license language
+- AI-assisted writing/tool-use disclosure wording
+- Preprint decision beyond "undecided"
+- BSPC submission route final confirmation
 
 ## Remaining Formatting Work
 
@@ -185,5 +187,19 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Current official BSPC page verifies open-access APC and subscription/no-publication-fee routes, but final route preference remains author-confirmed.
 - No author declarations, ORCID, funding, ethics, consent, conflicts or acknowledgements were invented.
 - Manuscript not submitted, DOCX/PDF not generated and experiment registry records not modified.
+
+## Stage 3E Author/Declaration Notes
+
+- Final title decision applied: keep current title.
+- Author 1 applied: Mohammad Ilyas, Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India; email `mohd.passion.cse@mitmoradabad.edu.in`; ORCID not available; corresponding author Yes.
+- Author 2 applied: Dr. Vikram Singh, Department of Computer Engineering, National Institute of Technology, Kurukshetra, Haryana, India; email not provided; ORCID not provided; corresponding-author status not confirmed.
+- Funding statement applied: No funding was received for this study.
+- Competing-interest statement applied: The authors declare no competing interests.
+- Ethics wording applied with author-review note: secondary analysis of previously collected datasets; no new participants recruited; check institutional policy and dataset licence terms before submission.
+- Consent remains unresolved: `[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]`.
+- Acknowledgements remain unresolved: `[AUTHOR CONFIRMATION REQUIRED: acknowledgements]`.
+- AI-assisted writing/tool-use disclosure remains unresolved because ChatGPT/Codex was used in the workflow and final wording must follow BSPC/Elsevier policy.
+- Preprint decision remains undecided.
+- BSPC submission route remains undecided; subscription/no-publication-fee route is preferred but not finally confirmed.
 
 Do not mark `submission_ready` until author, journal, figure, ethics, consent, funding, conflict and formatting details are complete.

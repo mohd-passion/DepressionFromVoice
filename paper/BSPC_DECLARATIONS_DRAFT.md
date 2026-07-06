@@ -8,33 +8,25 @@ Use this file as a placeholder draft only. Do not submit any declaration until t
 
 ## Funding
 
-[AUTHOR CONFIRMATION REQUIRED]
-
-Do not write "no funding" unless the author explicitly confirms it.
+No funding was received for this study.
 
 ## Competing Interests
 
-[AUTHOR CONFIRMATION REQUIRED]
-
-Do not write "no competing interests" or "nothing to declare" unless the author explicitly confirms it.
+The authors declare no competing interests.
 
 ## Ethics Approval
 
-[AUTHOR CONFIRMATION REQUIRED]
+This study used previously collected datasets obtained under their original access terms. No new human participants were recruited. Ethics approval was not sought because the study involved secondary analysis of existing datasets.
 
-The final wording must address the use of DAIC-WOZ and Androids Corpus data and any institutional approval/exemption requirements.
+Author-review note: this wording must be checked against institutional policy and the dataset licence terms before submission.
 
 ## Consent To Participate
 
-[AUTHOR CONFIRMATION REQUIRED]
-
-The final wording must align with source-dataset documentation and author/institution confirmation.
+[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]
 
 ## Consent For Publication
 
-[AUTHOR CONFIRMATION REQUIRED]
-
-The final wording must align with source-dataset documentation and author/institution confirmation.
+[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]
 
 ## Data Availability
 
@@ -46,24 +38,22 @@ Code, compact configuration records, paper evidence maps and the experiment regi
 
 ## Author Contributions
 
-[AUTHOR CONFIRMATION REQUIRED]
+Mohammad Ilyas: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Writing - original draft, Visualization, Project administration.
 
-CRediT roles should be confirmed for all authors before submission.
+Dr. Vikram Singh: [AUTHOR CONFIRMATION REQUIRED: supervision, methodology review, writing - review and editing, or other CRediT roles]
 
 ## Acknowledgements
 
-[AUTHOR CONFIRMATION REQUIRED]
-
-Do not add acknowledgements unless the author supplies exact text.
+[AUTHOR CONFIRMATION REQUIRED: acknowledgements]
 
 ## Declaration Of Generative AI And AI-Assisted Technologies In The Writing Process
 
-[AUTHOR CONFIRMATION REQUIRED]
-
-Do not add a final AI-assisted writing statement until the author confirms exact wording and journal/institution expectations.
+[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used during drafting, code organization, manuscript preparation, or workflow assistance; final wording must follow BSPC/Elsevier policy.]
 
 ## Preprint Statement
 
-[AUTHOR CONFIRMATION REQUIRED]
+Preprint decision: undecided.
 
-The author must decide whether to post a preprint, including whether to use Elsevier/SSRN posting during submission.
+## BSPC Submission Route
+
+BSPC submission route: undecided; subscription/no-publication-fee route preferred but not yet finally confirmed.

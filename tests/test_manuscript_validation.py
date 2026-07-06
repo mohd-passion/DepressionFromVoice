@@ -6,7 +6,9 @@ import re
 import subprocess
 import sys
 import unittest
+import zipfile
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -108,6 +110,15 @@ STAGE3F_FILES = [
     PAPER / "BSPC_DOCX_CONVERSION_NOTES.md",
 ]
 
+STAGE3G_FILES = [
+    PAPER / "scripts" / "create_bspc_review_docx.py",
+    PAPER / "submission_review_package" / "README.md",
+    PAPER / "submission_review_package" / "AUTHOR_REVIEW_PACKET_CHECKLIST.md",
+    PAPER / "submission_review_package" / "logs" / "BSPC_DOCX_GENERATION_LOG.md",
+    PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx",
+    PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx",
+]
+
 REGISTRY = ROOT / "outputs" / "experiment_registry" / "experiment_registry.json"
 REGISTRY_VALIDATOR = ROOT / "outputs" / "experiment_registry" / "update_registry.py"
 MANUSCRIPT_SHA256 = "e0a89872e7244bf4aac47a055c055c590bd5394dea63f0516bf1e804d170d97c"
@@ -132,6 +143,14 @@ def first_markdown_table(path: Path) -> tuple[list[str], list[list[str]]]:
             continue
         rows.append(cells)
     return header, rows
+
+
+def docx_text_and_media_count(path: Path) -> tuple[str, int]:
+    with zipfile.ZipFile(path) as archive:
+        root = ET.fromstring(archive.read("word/document.xml"))
+        text = "".join(node.text or "" for node in root.iter() if node.tag.endswith("}t"))
+        media_count = sum(1 for name in archive.namelist() if name.startswith("word/media/"))
+    return text, media_count
 
 
 class ManuscriptValidationTests(unittest.TestCase):
@@ -345,6 +364,7 @@ class ManuscriptValidationTests(unittest.TestCase):
             "needs_figure",
             "needs_journal_selection",
             "figures_generated_awaiting_author_review",
+            "not_started",
             "not_applicable",
         }
         for line in text.splitlines():
@@ -573,9 +593,29 @@ class ManuscriptValidationTests(unittest.TestCase):
     def test_stage3c_author_final_questions_count(self) -> None:
         text = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
         questions = re.findall(r"^\d+\. ", text, flags=re.MULTILINE)
-        expected_count = 10 if all(path.exists() for path in STAGE3F_FILES) else 17
+        if all(path.exists() for path in STAGE3G_FILES):
+            expected_count = 10
+        elif all(path.exists() for path in STAGE3F_FILES):
+            expected_count = 10
+        else:
+            expected_count = 17
         self.assertEqual(len(questions), expected_count)
-        if expected_count == 10:
+        if all(path.exists() for path in STAGE3G_FILES):
+            for phrase in [
+                "Dr. Vikram Singh email?",
+                "Dr. Vikram Singh ORCID, or not available?",
+                "Dr. Vikram Singh CRediT roles?",
+                "Final consent statement?",
+                "Acknowledgement text?",
+                "AI/tool-use disclosure wording?",
+                "Preprint decision?",
+                "Confirm BSPC subscription/no-publication-fee route?",
+                "Approve all five figures, or list revisions?",
+                "Approve DOCX review copy, or list edits?",
+            ]:
+                with self.subTest(phrase=phrase):
+                    self.assertIn(phrase, text)
+        elif expected_count == 10:
             for phrase in [
                 "Confirm Dr. Vikram Singh's email.",
                 "Confirm Dr. Vikram Singh's ORCID, or state not available.",
@@ -785,6 +825,114 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertFalse(list(PAPER.glob("*.docx")))
         self.assertFalse(list(PAPER.glob("*.pdf")))
 
+    def test_stage3g_review_docx_package_is_generated_for_author_review(self) -> None:
+        for path in STAGE3G_FILES:
+            with self.subTest(path=path.name):
+                self.assertTrue(path.exists(), path)
+
+        readme = (PAPER / "submission_review_package" / "README.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Status: `bspc_review_docx_generated_needs_author_review`",
+            "for author review only",
+            "not final submission files",
+            "no upload to Elsevier or BSPC has been performed",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, readme)
+
+        packet = (
+            PAPER / "submission_review_package" / "AUTHOR_REVIEW_PACKET_CHECKLIST.md"
+        ).read_text(encoding="utf-8")
+        for phrase in [
+            "Generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`",
+            "Generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`",
+            "Submission upload | not_started",
+            "Dr. Vikram Singh email | needs_author_input",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, packet)
+
+        log = (
+            PAPER / "submission_review_package" / "logs" / "BSPC_DOCX_GENERATION_LOG.md"
+        ).read_text(encoding="utf-8")
+        for phrase in [
+            "Branch: `paper/bspc-review-docx-v1`",
+            "Design preset: `standard_business_brief`",
+            "python-docx available: yes",
+            "Figures inserted: yes",
+            "Main figures inserted: 5 of 5",
+            "Visual render QA status: not_completed_soffice_unavailable",
+            "Final PDF generated: no",
+            "Submission/upload performed: no",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, log)
+
+        manuscript_docx = PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx"
+        supplement_docx = PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx"
+        manuscript_text, manuscript_media = docx_text_and_media_count(manuscript_docx)
+        supplement_text, supplement_media = docx_text_and_media_count(supplement_docx)
+        self.assertGreater(manuscript_docx.stat().st_size, 100_000)
+        self.assertGreater(supplement_docx.stat().st_size, 20_000)
+        self.assertGreaterEqual(manuscript_media, 5)
+        self.assertEqual(supplement_media, 0)
+
+        for phrase in [
+            "AUTHOR REVIEW COPY - NOT FOR SUBMISSION",
+            "Authors: Mohammad Ilyas; Dr. Vikram Singh.",
+            "Corresponding author: Mohammad Ilyas",
+            "Abstract",
+            "Keywords",
+            "Highlights",
+            "[Figure 1 about here.]",
+            "[Figure 5 about here.]",
+            "[Table 1 about here.]",
+            "[Table 6 about here.]",
+            "Figure 1. Study design/protocol overview",
+            "Figure 5. Domain-shift and classifier-boundary summary",
+            "Declaration of Competing Interest",
+            "Data and Code Availability",
+            "BIBLIOGRAPHY PLACEHOLDER",
+            "ROC-AUC 0.6412",
+            "ROC-AUC 0.8675",
+            "ROC-AUC 0.8796",
+            "0.9058",
+            "0.9135",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, manuscript_text)
+        for placeholder in [
+            "[AUTHOR CONFIRMATION REQUIRED: consent statement]",
+            "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
+            "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email and ORCID]",
+            "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh CRediT roles]",
+            "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure]",
+            "[AUTHOR CONFIRMATION REQUIRED: final BSPC route]",
+        ]:
+            with self.subTest(placeholder=placeholder):
+                self.assertIn(placeholder, manuscript_text)
+                self.assertIn(f"yes: `{placeholder}`", log)
+
+        for phrase in [
+            "BSPC Supplementary Material Draft",
+            "Status: draft_prepared_awaiting_author_review",
+            "Supplementary Table S1",
+            "Supplementary Table S2",
+            "Supplementary Table S3",
+            "No supplementary figures were generated in Stage 3F",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, supplement_text)
+
+        self.assertFalse((PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_AUTHOR_REVIEW_FALLBACK.txt").exists())
+        self.assertFalse((PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW_FALLBACK.txt").exists())
+        combined = "\n".join([readme, packet, log, manuscript_text, supplement_text])
+        self.assertNotIn("Submission status: submitted", combined)
+        self.assertNotIn("ready_for_submission", combined)
+        self.assertNotIn("No AI", combined)
+        self.assertNotRegex(combined, r"orcid\.org/|\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b")
+        self.assertNotRegex(combined, r"Dr\. Vikram Singh[^@\n]{0,160}@[A-Za-z0-9._%+-]+")
+
     def test_stage3d_no_invented_author_or_submission_details(self) -> None:
         combined = "\n".join(path.read_text(encoding="utf-8") for path in STAGE3D_FILES)
         self.assertNotRegex(combined, r"orcid\.org/|\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b")
@@ -813,7 +961,7 @@ class ManuscriptValidationTests(unittest.TestCase):
             "Manuscript draft word count: 5309",
             "DOCX-ready manuscript markdown word count: 6438",
             "Experiment registry records: 42",
-            "`bspc_docx_ready_markdown_prepared`",
+            "`bspc_review_docx_generated_needs_author_review`",
             "Provisional first target: Biomedical Signal Processing and Control",
             "Final journal not selected",
             "Figures not generated",
@@ -823,6 +971,18 @@ class ManuscriptValidationTests(unittest.TestCase):
             "Generated BSPC supplement figures: 0",
             "Tables retained in DOCX-ready manuscript: 6",
             "DOCX generated: no; Pandoc was unavailable on PATH during Stage 3F.",
+            "Stage 3G status: BSPC author-review DOCX package generated without Pandoc; review copies need author review; no final PDF or submission.",
+            "BSPC review DOCX files generated: 2",
+            "Review DOCX manuscript generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.",
+            "Review DOCX supplement generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.",
+            "DOCX generation tool: `python-docx`; Pandoc was not used.",
+            "Five main BSPC figure PNG review copies were inserted into the manuscript DOCX.",
+            "Fallback text files generated: no.",
+            "Final PDF generated: no.",
+            "LibreOffice/soffice render QA: not completed because the renderer dependency was unavailable on PATH.",
+            "Manuscript validation status after Stage 3G: passed.",
+            "Unit-test status after Stage 3G: passed, 78 tests.",
+            "Registry validation status after Stage 3G: passed, 42 records.",
             "No submission was performed.",
         ]:
             with self.subTest(phrase=phrase):

@@ -288,6 +288,9 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Final PDF generated: no.
 - LibreOffice/soffice render QA: not completed because the renderer dependency was unavailable on PATH.
 - DOCX structural QA confirmed the manuscript DOCX contains five embedded images, visible unresolved author placeholders and no submitted/submission-ready marker.
+- Manuscript validation status after Stage 3G: passed.
+- Unit-test status after Stage 3G: passed, 78 tests.
+- Registry validation status after Stage 3G: passed, 42 records.
 - No submission was performed.
 - No author metadata, consent wording, acknowledgements, AI disclosure, BSPC route decision, frozen metrics or clinical claims were invented.
 

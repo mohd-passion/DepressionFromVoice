@@ -6,6 +6,7 @@ Status values: `included`, `needs_author_input`, `needs_visual_review`, `not_sta
 | --- | --- | --- |
 | Manuscript DOCX review file | included | Generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`. |
 | Supplementary DOCX review file | included | Generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`. |
+| DOCX tooling | included | DOCX generation succeeded with `python-docx`; Pandoc was not used. |
 | Fallback manuscript text file | not_applicable | Use only if DOCX generation fails. |
 | Fallback supplementary text file | not_applicable | Use only if DOCX generation fails. |
 | Five main BSPC figures | needs_visual_review | Figures 1-5 are generated and ready for author review. |

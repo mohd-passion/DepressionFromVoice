@@ -3,7 +3,9 @@ from __future__ import annotations
 import csv
 import re
 import sys
+import zipfile
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -111,6 +113,15 @@ STAGE3F_REQUIRED_FILES = [
     PAPER / "BSPC_DOCX_READY_MANUSCRIPT.md",
     PAPER / "BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md",
     PAPER / "BSPC_DOCX_CONVERSION_NOTES.md",
+]
+
+STAGE3G_REQUIRED_FILES = [
+    PAPER / "scripts" / "create_bspc_review_docx.py",
+    PAPER / "submission_review_package" / "README.md",
+    PAPER / "submission_review_package" / "AUTHOR_REVIEW_PACKET_CHECKLIST.md",
+    PAPER / "submission_review_package" / "logs" / "BSPC_DOCX_GENERATION_LOG.md",
+    PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx",
+    PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx",
 ]
 
 REQUIRED_MANUSCRIPT_SECTIONS = {
@@ -238,6 +249,7 @@ VALID_CHECKLIST_STATUSES = {
     "needs_figure",
     "needs_journal_selection",
     "figures_generated_awaiting_author_review",
+    "not_started",
     "not_applicable",
 }
 
@@ -675,6 +687,19 @@ REQUIRED_STAGE3F_AUTHOR_QUESTIONS = {
     "Confirm whether to convert/submit after DOCX review.",
 }
 
+REQUIRED_STAGE3G_AUTHOR_QUESTIONS = {
+    "Dr. Vikram Singh email?",
+    "Dr. Vikram Singh ORCID, or not available?",
+    "Dr. Vikram Singh CRediT roles?",
+    "Final consent statement?",
+    "Acknowledgement text?",
+    "AI/tool-use disclosure wording?",
+    "Preprint decision?",
+    "Confirm BSPC subscription/no-publication-fee route?",
+    "Approve all five figures, or list revisions?",
+    "Approve DOCX review copy, or list edits?",
+}
+
 FORBIDDEN_GENERATED_ARTIFACT_PATTERNS = {
     r"\bparticipant[_ -]?id\b",
     r"\bsubject[_ -]?id\b",
@@ -714,6 +739,24 @@ def csv_rows(path: Path, required_columns: set[str]) -> list[dict[str, str]]:
         if missing_columns:
             raise ValueError(f"{path.relative_to(ROOT)} missing columns: {sorted(missing_columns)}")
         return list(reader)
+
+
+def docx_text_and_media_count(path: Path) -> tuple[str, int, bool]:
+    try:
+        with zipfile.ZipFile(path) as archive:
+            names = archive.namelist()
+            if "word/document.xml" not in names:
+                return "", 0, False
+            root = ET.fromstring(archive.read("word/document.xml"))
+            text = "".join(
+                node.text or ""
+                for node in root.iter()
+                if node.tag == f"{{{root.tag.split('}')[0].strip('{')}}}t" or node.tag.endswith("}t")
+            )
+            media_count = sum(1 for name in names if name.startswith("word/media/"))
+    except (zipfile.BadZipFile, ET.ParseError, KeyError):
+        return "", 0, False
+    return text, media_count, True
 
 
 def citation_keys_from_audit(value: str) -> list[str]:
@@ -824,6 +867,10 @@ def validate() -> list[str]:
     for path in STAGE3F_REQUIRED_FILES:
         if not path.exists():
             errors.append(f"Missing Stage 3F package file: {path.relative_to(ROOT)}")
+
+    for path in STAGE3G_REQUIRED_FILES:
+        if not path.exists():
+            errors.append(f"Missing Stage 3G package file: {path.relative_to(ROOT)}")
 
     manuscript_placeholders = set(re.findall(r"\[REFERENCE NEEDED: [^\]]+\]", manuscript_text))
     rows = audit_rows()
@@ -1201,7 +1248,9 @@ def validate() -> list[str]:
                 errors.append(f"Journal adaptation plan missing safeguard: {phrase}")
 
         final_questions = re.findall(r"^\d+\. ", (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8"), flags=re.MULTILINE)
-        if all(path.exists() for path in STAGE3F_REQUIRED_FILES):
+        if all(path.exists() for path in STAGE3G_REQUIRED_FILES):
+            expected_question_count = 10
+        elif all(path.exists() for path in STAGE3F_REQUIRED_FILES):
             expected_question_count = 10
         elif any(path.exists() for path in STAGE3D_REQUIRED_FILES):
             expected_question_count = 17
@@ -1211,7 +1260,12 @@ def validate() -> list[str]:
             errors.append(
                 f"Author final questions must contain exactly {expected_question_count} numbered questions; found {len(final_questions)}"
             )
-        if expected_question_count == 10:
+        if all(path.exists() for path in STAGE3G_REQUIRED_FILES):
+            questions_text = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
+            for question in REQUIRED_STAGE3G_AUTHOR_QUESTIONS:
+                if question not in questions_text:
+                    errors.append(f"Stage 3G author questions missing: {question}")
+        elif expected_question_count == 10:
             questions_text = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
             for question in REQUIRED_STAGE3F_AUTHOR_QUESTIONS:
                 if question not in questions_text:
@@ -1479,6 +1533,161 @@ def validate() -> list[str]:
         if "Submission status: submitted" in docx_text or "ready_for_submission" in docx_text:
             errors.append("DOCX-ready manuscript must not mark the work as submitted or submission-ready.")
 
+    if all(path.exists() for path in STAGE3G_REQUIRED_FILES):
+        package_readme = (PAPER / "submission_review_package" / "README.md").read_text(encoding="utf-8")
+        packet_checklist = (
+            PAPER / "submission_review_package" / "AUTHOR_REVIEW_PACKET_CHECKLIST.md"
+        ).read_text(encoding="utf-8")
+        generation_log = (
+            PAPER / "submission_review_package" / "logs" / "BSPC_DOCX_GENERATION_LOG.md"
+        ).read_text(encoding="utf-8")
+        generator_text = (PAPER / "scripts" / "create_bspc_review_docx.py").read_text(encoding="utf-8")
+        manuscript_docx = PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx"
+        supplement_docx = PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx"
+        manuscript_docx_text, manuscript_media_count, manuscript_docx_valid = docx_text_and_media_count(manuscript_docx)
+        supplement_docx_text, supplement_media_count, supplement_docx_valid = docx_text_and_media_count(supplement_docx)
+        review_package_text = "\n".join([package_readme, packet_checklist, generation_log])
+        docx_combined_text = manuscript_docx_text + "\n" + supplement_docx_text
+        combined_stage3g_text = "\n".join([review_package_text, docx_combined_text, generator_text])
+
+        for phrase in [
+            "Status: `bspc_review_docx_generated_needs_author_review`",
+            "for author review only",
+            "not final submission files",
+            "no upload to Elsevier or BSPC has been performed",
+            "Unresolved author placeholders remain visible",
+        ]:
+            if phrase not in package_readme:
+                errors.append(f"Stage 3G README missing phrase: {phrase}")
+
+        allowed_review_statuses = {
+            "included",
+            "needs_author_input",
+            "needs_visual_review",
+            "not_started",
+            "not_applicable",
+        }
+        for line in packet_checklist.splitlines():
+            separator = line.replace("|", "").replace(" ", "").strip()
+            if not line.startswith("| ") or line.startswith("| Item ") or set(separator) <= {"-", ":"}:
+                continue
+            cells = [cell.strip(" `") for cell in line.strip().strip("|").split("|")]
+            if len(cells) >= 2 and cells[1] not in allowed_review_statuses:
+                errors.append(f"Author review packet checklist has invalid status: {cells[1]} in row {cells[0]}")
+        for phrase in [
+            "Generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`",
+            "Generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`",
+            "DOCX generation succeeded with `python-docx`",
+            "Submission upload | not_started",
+        ]:
+            if phrase not in packet_checklist:
+                errors.append(f"Author review packet checklist missing phrase: {phrase}")
+
+        for phrase in [
+            "Date generated:",
+            "Branch: `paper/bspc-review-docx-v1`",
+            "Design preset: `standard_business_brief`",
+            "paper/BSPC_DOCX_READY_MANUSCRIPT.md",
+            "paper/BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md",
+            "paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx",
+            "paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx",
+            "python-docx available: yes",
+            "Figures inserted: yes",
+            "Main figures inserted: 5 of 5",
+            "LibreOffice/soffice available for render QA: no",
+            "Visual render QA status: not_completed_soffice_unavailable",
+            "Final PDF generated: no",
+            "Submission/upload performed: no",
+        ]:
+            if phrase not in generation_log:
+                errors.append(f"Stage 3G generation log missing phrase: {phrase}")
+        for placeholder in REQUIRED_STAGE3F_DOCX_PLACEHOLDERS:
+            if f"yes: `{placeholder}`" not in generation_log:
+                errors.append(f"Stage 3G generation log missing retained placeholder: {placeholder}")
+
+        if not manuscript_docx_valid:
+            errors.append("Stage 3G manuscript review DOCX is not a readable DOCX package.")
+        if not supplement_docx_valid:
+            errors.append("Stage 3G supplementary review DOCX is not a readable DOCX package.")
+        if manuscript_docx.stat().st_size < 100_000:
+            errors.append("Stage 3G manuscript review DOCX is unexpectedly small.")
+        if supplement_docx.stat().st_size < 20_000:
+            errors.append("Stage 3G supplementary review DOCX is unexpectedly small.")
+        if manuscript_media_count < 5:
+            errors.append(f"Stage 3G manuscript DOCX should include five figure images; found {manuscript_media_count}.")
+        if supplement_media_count != 0:
+            errors.append(f"Stage 3G supplement DOCX should not include figure images; found {supplement_media_count}.")
+
+        for placeholder in REQUIRED_STAGE3F_DOCX_PLACEHOLDERS:
+            if placeholder not in manuscript_docx_text:
+                errors.append(f"Stage 3G manuscript DOCX missing unresolved placeholder: {placeholder}")
+        for phrase in [
+            "AUTHOR REVIEW COPY - NOT FOR SUBMISSION",
+            "Authors: Mohammad Ilyas; Dr. Vikram Singh.",
+            "Corresponding author: Mohammad Ilyas",
+            "Affiliations: Mohammad Ilyas",
+            "Abstract",
+            "Keywords",
+            "Highlights",
+            "[Figure 1 about here.]",
+            "[Figure 5 about here.]",
+            "[Table 1 about here.]",
+            "[Table 6 about here.]",
+            "Figure 1. Study design/protocol overview",
+            "Figure 5. Domain-shift and classifier-boundary summary",
+            "Declaration of Competing Interest",
+            "Data and Code Availability",
+            "Code Availability",
+            "BIBLIOGRAPHY PLACEHOLDER",
+        ]:
+            if phrase not in manuscript_docx_text:
+                errors.append(f"Stage 3G manuscript DOCX missing phrase: {phrase}")
+        for metric in REQUIRED_BSPC_METRICS:
+            if metric not in manuscript_docx_text:
+                errors.append(f"Stage 3G manuscript DOCX missing metric/text: {metric}")
+        for phrase in [
+            "BSPC Supplementary Material Draft",
+            "Status: draft_prepared_awaiting_author_review",
+            "Supplementary Table S1",
+            "Supplementary Table S2",
+            "Supplementary Table S3",
+            "No supplementary figures were generated in Stage 3F",
+            "raw participant-level predictions",
+            "fitted models",
+        ]:
+            if phrase not in supplement_docx_text:
+                errors.append(f"Stage 3G supplementary DOCX missing phrase: {phrase}")
+
+        for path in [
+            PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_AUTHOR_REVIEW_FALLBACK.txt",
+            PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW_FALLBACK.txt",
+        ]:
+            if path.exists():
+                errors.append(f"Stage 3G fallback file should not exist when DOCX generation succeeded: {path.relative_to(ROOT)}")
+
+        if "Document(" not in generator_text or "create_fallback" not in generator_text:
+            errors.append("Stage 3G DOCX generator must use python-docx with fallback support.")
+        if "pandoc" in generator_text.lower():
+            errors.append("Stage 3G DOCX generator must not use Pandoc.")
+        if "pip install" in generator_text.lower():
+            errors.append("Stage 3G DOCX generator must not install packages.")
+
+        if "Submission status: submitted" in combined_stage3g_text or "ready_for_submission" in combined_stage3g_text:
+            errors.append("Stage 3G review package must not mark the manuscript submitted or submission-ready.")
+        if "No AI" in combined_stage3g_text or "Use of AI-assisted writing tools | No" in combined_stage3g_text:
+            errors.append("Stage 3G review package must not finalize AI disclosure as No.")
+        if "orcid.org/" in combined_stage3g_text.lower() or re.search(
+            r"\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b", combined_stage3g_text
+        ):
+            errors.append("Stage 3G review package must not invent ORCID identifiers.")
+        if re.search(r"Dr\. Vikram Singh[^@\n]{0,160}@[A-Za-z0-9._%+-]+", combined_stage3g_text):
+            errors.append("Stage 3G review package must not invent Dr. Vikram Singh email.")
+        for sentence in sentences(docx_combined_text):
+            normalized = sentence.lower()
+            for phrase in PROHIBITED_CLINICAL_OVERCLAIM_PHRASES:
+                if phrase in normalized and not any(marker in normalized for marker in NEGATION_OR_LIMITING_MARKERS):
+                    errors.append(f"Stage 3G DOCX potential clinical overclaim without limitation: {sentence}")
+
     if (PAPER / "PAPER_WRITING_STATUS.md").exists():
         status_text = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
         for phrase in [
@@ -1508,12 +1717,32 @@ def validate() -> list[str]:
             "DOCX-ready manuscript markdown word count: 6438",
             "Generated BSPC supplement figures: 0",
             "Tables retained in DOCX-ready manuscript: 6",
-            "`bspc_docx_ready_markdown_prepared`",
             "DOCX generated: no; Pandoc was unavailable on PATH during Stage 3F.",
             "No submission was performed.",
         ]:
             if phrase not in status_text:
                 errors.append(f"Paper writing status missing Stage 3F phrase: {phrase}")
+        if all(path.exists() for path in STAGE3G_REQUIRED_FILES):
+            for phrase in [
+                "Current branch: `paper/bspc-review-docx-v1`",
+                "Stage 3G status: BSPC author-review DOCX package generated without Pandoc; review copies need author review; no final PDF or submission.",
+                "BSPC review DOCX files generated: 2",
+                "`bspc_review_docx_generated_needs_author_review`",
+                "Review DOCX manuscript generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.",
+                "Review DOCX supplement generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.",
+                "DOCX generation tool: `python-docx`; Pandoc was not used.",
+                "Five main BSPC figure PNG review copies were inserted into the manuscript DOCX.",
+                "Fallback text files generated: no.",
+                "Final PDF generated: no.",
+                "LibreOffice/soffice render QA: not completed because the renderer dependency was unavailable on PATH.",
+                "DOCX structural QA confirmed the manuscript DOCX contains five embedded images, visible unresolved author placeholders and no submitted/submission-ready marker.",
+                "Manuscript validation status after Stage 3G: passed.",
+                "Unit-test status after Stage 3G: passed, 78 tests.",
+                "Registry validation status after Stage 3G: passed, 42 records.",
+                "No author metadata, consent wording, acknowledgements, AI disclosure, BSPC route decision, frozen metrics or clinical claims were invented.",
+            ]:
+                if phrase not in status_text:
+                    errors.append(f"Paper writing status missing Stage 3G phrase: {phrase}")
 
     if (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").exists():
         terminology_text = (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").read_text(encoding="utf-8")

@@ -1,14 +1,14 @@
 # BSPC Remaining Author Questions
 
-Please answer these before DOCX conversion, final formatting or BSPC submission.
+Please answer these before final formatting or BSPC submission.
 
-1. Confirm Dr. Vikram Singh's email.
-2. Confirm Dr. Vikram Singh's ORCID, or state not available.
-3. Confirm Dr. Vikram Singh's CRediT roles.
-4. Confirm the consent statement for use of DAIC-WOZ and Androids Corpus data.
-5. Confirm acknowledgements, or state that no acknowledgements should be included.
-6. Confirm AI-assisted writing/tool-use disclosure wording according to BSPC/Elsevier policy.
-7. Confirm the preprint decision.
-8. Confirm the BSPC subscription/no-publication-fee route.
-9. Review and approve generated figures.
-10. Confirm whether to convert/submit after DOCX review.
+1. Dr. Vikram Singh email?
+2. Dr. Vikram Singh ORCID, or not available?
+3. Dr. Vikram Singh CRediT roles?
+4. Final consent statement?
+5. Acknowledgement text?
+6. AI/tool-use disclosure wording?
+7. Preprint decision?
+8. Confirm BSPC subscription/no-publication-fee route?
+9. Approve all five figures, or list revisions?
+10. Approve DOCX review copy, or list edits?

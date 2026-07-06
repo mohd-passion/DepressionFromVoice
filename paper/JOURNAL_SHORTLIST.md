@@ -83,3 +83,18 @@ No final journal is selected in Stage 3B. Recommendation status values: `primary
 ## Final Selection Status
 
 Final journal selection is deferred until the author team supplies APC limits, indexing requirements, open-access requirements and preferred audience. No candidate should be described as guaranteed acceptance.
+
+## Stage 3C Provisional Shortlist Update
+
+Preliminary author preferences are now available. They allow a provisional target, but not a final submission decision.
+
+| Order | Candidate | Stage 3C status | Reason |
+|---:|---|---|---|
+| 1 | Biomedical Signal Processing and Control | provisional_first_target | Best combined biomedical signal-processing fit and Stage 3B verified no-publication-fee subscription route. |
+| 2 | Computer Speech & Language | first_backup | Strongest speech/language-processing readership with compatible subscription route, but weaker biomedical/mental-health scope. |
+| 3 | Artificial Intelligence in Medicine | secondary_backup | Medical-AI audience and compatible subscription route, but may require stronger AI-method novelty than the frozen study supports. |
+| 4 | Speech Communication | backup | Strong speech-processing outlet with compatible subscription route, but weaker medical AI/digital-health fit. |
+| Deferred | PLOS Digital Health | deferred_apc_conflict | Strong digital-health fit, but fully open-access APC model conflicts with current no-APC/subscription-route preference unless support is confirmed. |
+| Deferred | Frontiers in Digital Health | deferred_apc_conflict | Strong digital-health fit, but fully open-access APC model conflicts with current no-APC/subscription-route preference unless support is confirmed. |
+
+Biomedical Signal Processing and Control remains `needs_reverification_before_submission` for current route, fee, article-type, format, data/code, ethics, preprint and AI-disclosure policies.

@@ -12,10 +12,13 @@ Status values: `complete`, `needs_author_input`, `needs_formatting`, `needs_figu
 | Results tables | complete | 6 tables audited. |
 | Figures | needs_figure | 7 specifications prepared; no figures generated. |
 | Supplementary material | needs_formatting | Plan prepared; files not generated. |
-| Author list | needs_author_input | Not invented. |
-| Affiliations | needs_author_input | Not invented. |
-| Corresponding author | needs_author_input | Not invented. |
-| ORCID | needs_author_input | Not invented. |
+| Author preferences | complete | Preliminary preferences recorded; final target approval still required. |
+| Provisional target decision | complete | Biomedical Signal Processing and Control selected as provisional first target only. |
+| Journal re-verification | needs_journal_selection | Current guide, route, fee, format, data/code, ethics, preprint and AI-disclosure policies must be rechecked before submission. |
+| Author list | needs_author_input | Mohammad Ilyas provided preliminarily; final list/order not confirmed. |
+| Affiliations | needs_author_input | Preliminary affiliation components provided; final wording not confirmed. |
+| Corresponding author | needs_author_input | Mohammad Ilyas indicated Yes; final confirmation required. |
+| ORCID | needs_author_input | Not provided. |
 | Ethics statement | needs_author_input | Dataset and institutional wording required. |
 | Consent statement | needs_author_input | Must be aligned with source dataset documentation. |
 | Funding | needs_author_input | Not invented. |
@@ -29,10 +32,12 @@ Status values: `complete`, `needs_author_input`, `needs_formatting`, `needs_figu
 | Citation count | complete | 99 citation markers; 28 unique manuscript citation keys. |
 | Figure count | needs_figure | 7 planned/specification entries; 5 main candidates plus 2 optional supplement figures. |
 | Table count | complete | 6 result tables. |
-| Journal selection | needs_journal_selection | Explicitly out of scope for Stage 3A. |
-| Journal-specific formatting | needs_journal_selection | Cannot complete before venue selection. |
-| DOCX/PDF generation | not_applicable | Explicitly out of scope for Stage 3A. |
+| Journal selection | needs_author_input | Provisional target selected; final journal requires author confirmation. |
+| Journal-specific formatting | needs_journal_selection | Adaptation plan prepared; formatting not applied before author confirmation and re-verification. |
+| DOCX/PDF generation | not_applicable | Explicitly out of scope for Stage 3C. |
 
 ## Readiness Category
 
-`ready_for_author_review`
+`awaiting_author_confirmation_for_target_journal`
+
+Prior Stage 3A/3B readiness category: `ready_for_author_review`.

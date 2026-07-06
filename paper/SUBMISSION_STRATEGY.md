@@ -1,6 +1,6 @@
 # Submission Strategy
 
-No final submission sequence is selected in Stage 3B. The sequence below is conditional and must be approved after the authors provide journal preferences, APC constraints and indexing requirements.
+Stage 3C selects a provisional sequence only. Biomedical Signal Processing and Control is the provisional first target, but the final submission sequence must still be approved after author confirmation and pre-submission re-verification.
 
 ## Conditional Sequence
 
@@ -12,6 +12,17 @@ No final submission sequence is selected in Stage 3B. The sequence below is cond
 | 4 | If speech-processing readership is preferred over medical readership | Computer Speech & Language |
 | 5 | If stronger medical-AI framing and AI-method novelty can be expanded | Artificial Intelligence in Medicine |
 | 6 | If a broader speech-communication venue is needed | Speech Communication |
+
+## Stage 3C Provisional Sequence
+
+| Step | Candidate | Current status |
+|---:|---|---|
+| 1 | Biomedical Signal Processing and Control | provisional first target; needs author confirmation and current re-verification |
+| 2 | Computer Speech & Language | first backup if speech/language readership is preferred or the first target becomes incompatible |
+| 3 | Artificial Intelligence in Medicine | secondary backup if medical-AI framing is preferred and no unsupported clinical claims are required |
+| 4 | Speech Communication | backup if the paper is reframed toward speech communication and signal processing |
+| Deferred | PLOS Digital Health | reconsider only if APC support, waiver eligibility or author willingness to pay is confirmed |
+| Deferred | Frontiers in Digital Health | reconsider only if APC support, fee support or author willingness to pay is confirmed |
 
 ## Criteria for Moving to the Next Journal
 

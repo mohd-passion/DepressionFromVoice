@@ -9,7 +9,7 @@ This form is for author completion only. Do not treat any blank or unverified va
 | Final working title | Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM Representations [AUTHOR CONFIRMATION REQUIRED] | Current working title from the manuscript package; confirm or revise before submission. |
 | Running title | [AUTHOR DECISION REQUIRED] | Required by many journals. |
 | Manuscript article type | [AUTHOR DECISION REQUIRED] | Examples: full paper, original research, research article. |
-| Target journal, once selected | [AUTHOR DECISION REQUIRED] | Stage 3C may select only a provisional target; final journal requires author approval. |
+| Target journal, once selected | Biomedical Signal Processing and Control (provisional first target only; [AUTHOR DECISION REQUIRED]) | Final journal is not selected until author approval and pre-submission re-verification are complete. |
 
 ## Unverified Author Context for Confirmation
 

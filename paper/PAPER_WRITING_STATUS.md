@@ -2,12 +2,13 @@
 
 ## Source Freeze
 
-- Current branch: `paper/author-review-journal-selection-v1`
+- Current branch: `paper/journal-targeting-v1`
 - Frozen source tag: `paper-experiment-freeze-v1`
 - Tag commit: `1bf9434f047c0b69b90c1d5264e665d6ccd941a0`
 - Remote: `https://github.com/mohd-passion/DepressionFromVoice.git`
 - Stage 3A status: full manuscript consistency audit and journal-neutral submission package prepared.
-- Stage 3B status: author-input preparation and verified journal-selection package prepared; awaiting author decisions.
+- Stage 3B status: author-input preparation and verified journal-selection package prepared.
+- Stage 3C status: preliminary author preferences applied; Biomedical Signal Processing and Control selected as provisional first target; awaiting author confirmation for target journal.
 
 ## Current Counts
 
@@ -73,6 +74,13 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 - `paper/MANUSCRIPT_AUTHOR_REVIEW_COPY.md`
 - `paper/JOURNAL_INFORMATION_VERIFICATION_LOG.md`
 
+## Completed Stage 3C Package Files
+
+- `paper/AUTHOR_PREFERENCES_PRELIMINARY.md`
+- `paper/PROVISIONAL_TARGET_JOURNAL_DECISION.md`
+- `paper/JOURNAL_ADAPTATION_PLAN.md`
+- `paper/AUTHOR_FINAL_QUESTIONS.md`
+
 ## Tables Prepared
 
 1. Dataset and task summary
@@ -124,11 +132,11 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 
 ## Journal Selection Status
 
-`awaiting_author_input_and_journal_selection`
+`awaiting_author_confirmation_for_target_journal`
 
 ## Current Readiness Category
 
-`awaiting_author_input_and_journal_selection`
+`awaiting_author_confirmation_for_target_journal`
 
 ## Stage 3B Completion Notes
 
@@ -137,9 +145,19 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Journal preferences missing: maximum APC, no-APC requirement, open-access preference, indexing requirements, preferred audience and preprint preference.
 - Candidate journals reviewed: Biomedical Signal Processing and Control; PLOS Digital Health; Frontiers in Digital Health; Computer Speech & Language; Artificial Intelligence in Medicine; Speech Communication.
 - Primary candidates: Biomedical Signal Processing and Control; PLOS Digital Health; Frontiers in Digital Health.
+- Provisional first target: Biomedical Signal Processing and Control.
 - Final journal not selected.
 - Figures not generated.
 - Journal formatting not applied.
 - Manuscript not submitted.
+
+## Stage 3C Completion Notes
+
+- Preliminary preferences recorded: no SCI/SCIE mandate, no Q1 mandate, Scopus acceptable if SCI/SCIE is unavailable, no-APC subscription route required, open access not mandatory and maximum APC not specified.
+- Preferred audiences recorded: biomedical signal processing, speech/language processing, medical AI/digital health and affective computing.
+- Biomedical Signal Processing and Control is provisional only because Stage 3B verified a subscription route with no publication fee and strong biomedical signal-processing fit.
+- PLOS Digital Health and Frontiers in Digital Health are deferred under current preferences because their fully open-access APC models conflict with the preliminary no-APC/subscription-route requirement unless support is confirmed.
+- Current journal guide, fee route, article limits, data/code, ethics, preprint, AI-disclosure and any indexing/ranking details must be reverified before final journal selection.
+- Author confirmation remains required for final target, title, article type, author list/order, affiliation wording, ORCID, corresponding author, CRediT roles, funding, competing interests, ethics/exemption, consent, acknowledgements, preprint and AI-assisted writing disclosure.
 
 Do not mark `submission_ready` until author, journal, figure, ethics, consent, funding, conflict and formatting details are complete.

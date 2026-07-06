@@ -20,3 +20,11 @@ Verification date: 2026-07-06. This log records current information checked from
 | Frontiers in Digital Health | Frontiers Media | Article types and Original Research word limit | https://www.frontiersin.org/journals/digital-health/for-authors/article-types | 2026-07-06 | verified | Abstract limit and Original Research figure/table limits were not verified | Recheck article-type details before formatting |
 | Frontiers in Digital Health | Frontiers Media | Journal-specific APC and fee support | https://www.frontiersin.org/journals/digital-health/for-authors/publishing-fees | 2026-07-06 | verified | Fee support depends on author and institution status | Confirm institutional partner coverage or fee-support eligibility |
 | Frontiers in Digital Health | Frontiers Media | Submission registration, article type compliance, author/affiliation format, keywords, scope statement and AI guidelines | https://www.frontiersin.org/journals/digital-health/for-authors/author-guidelines | 2026-07-06 | partially_verified | Formal data/code and preprint policy were not verified in checked pages | Recheck data/code, supplement, preprint and ethics policy details |
+
+## Stage 3C Reverification Note
+
+No new official-source checks were performed in Stage 3C. The provisional target decision relies on the Stage 3B verification package.
+
+Biomedical Signal Processing and Control is marked `needs_reverification_before_submission` for current author guide, article type, APC, subscription route, abstract limit, word guidance, figure/table constraints, supplementary-material handling, data/code policy, ethics/consent requirements, preprint policy, AI-disclosure policy and any indexing/ranking information the author wants considered in the final decision.
+
+No current impact factor, acceptance-rate, publication-speed, ranking or indexing claim is asserted in Stage 3C.

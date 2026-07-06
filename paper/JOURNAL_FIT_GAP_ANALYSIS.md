@@ -22,6 +22,18 @@ Primary candidates only. Final journal selection is deferred until author prefer
 | Likely required expansion | Low to moderate: emphasize biomedical signal-processing value. |
 | Required reference-style conversion | Yes, after final journal selection. |
 
+### Stage 3C Target-Specific Gaps
+
+| Gap | Planned response | Status |
+|---|---|---|
+| Provisional target only | Ask author to confirm Biomedical Signal Processing and Control before formatting. | pending_author_confirmation |
+| Abstract length | Reduce the 253-word abstract if the current guide still requires fewer than 250 words. | needs_reverification_before_submission |
+| Manuscript length | Trim approximately 300-600 words while preserving audited methods/results. | planned_after_author_confirmation |
+| Signal-processing framing | Strengthen the biomedical signal-processing contribution in the introduction and discussion. | planned_after_author_confirmation |
+| Figure/table limits | Decide whether to keep five main figures plus supplement after guide recheck. | needs_reverification_before_submission |
+| Declarations | Funding, competing interests, ethics/exemption, consent, acknowledgements, preprint and AI disclosure remain unavailable. | pending_author_input |
+| Data/code policy | Adapt journal-neutral wording to verified current policy after author confirms repository visibility/license wording. | pending_author_confirmation |
+
 ## PLOS Digital Health
 
 | Fit area | Assessment |

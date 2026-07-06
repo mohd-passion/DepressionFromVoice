@@ -1,6 +1,6 @@
 # BSPC Author Review Package
 
-Status: `author_review_package_in_preparation`
+Status: `bspc_review_docx_generated_needs_author_review`
 
 This directory contains Stage 3G review materials for the Biomedical Signal Processing and Control preparation branch.
 
@@ -10,8 +10,9 @@ The package is intended to preserve unresolved author and declaration fields vis
 
 ## Package Contents
 
-- `docx/`: generated author-review DOCX files, or fallback text review copies if DOCX generation fails.
-- `logs/`: DOCX generation log and tooling notes.
+- `docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`: manuscript author-review DOCX.
+- `docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`: supplementary author-review DOCX.
+- `logs/BSPC_DOCX_GENERATION_LOG.md`: DOCX generation log and tooling notes.
 - `AUTHOR_REVIEW_PACKET_CHECKLIST.md`: author-facing checklist for remaining review items.
 
 ## Current Safeguards

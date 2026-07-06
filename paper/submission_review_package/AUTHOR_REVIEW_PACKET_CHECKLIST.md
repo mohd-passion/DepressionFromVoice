@@ -4,8 +4,8 @@ Status values: `included`, `needs_author_input`, `needs_visual_review`, `not_sta
 
 | Item | Status | Notes |
 | --- | --- | --- |
-| Manuscript DOCX review file | not_started | To be generated from `paper/BSPC_DOCX_READY_MANUSCRIPT.md`. |
-| Supplementary DOCX review file | not_started | To be generated from `paper/BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md`. |
+| Manuscript DOCX review file | included | Generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`. |
+| Supplementary DOCX review file | included | Generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`. |
 | Fallback manuscript text file | not_applicable | Use only if DOCX generation fails. |
 | Fallback supplementary text file | not_applicable | Use only if DOCX generation fails. |
 | Five main BSPC figures | needs_visual_review | Figures 1-5 are generated and ready for author review. |
@@ -18,5 +18,5 @@ Status values: `included`, `needs_author_input`, `needs_visual_review`, `not_sta
 | AI/tool-use disclosure | needs_author_input | Final wording must follow BSPC/Elsevier policy. |
 | Preprint decision | needs_author_input | Still undecided. |
 | Final BSPC route decision | needs_author_input | Subscription/no-publication-fee route preferred but not finally confirmed. |
-| Cover letter | not_started | Draft exists, but it is not final. |
+| Cover letter | needs_author_input | Draft exists, but it is not final. |
 | Submission upload | not_started | No Elsevier/BSPC upload has been performed. |

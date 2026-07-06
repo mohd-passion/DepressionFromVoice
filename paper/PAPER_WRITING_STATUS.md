@@ -2,7 +2,7 @@
 
 ## Source Freeze
 
-- Current branch: `paper/bspc-docx-package-v1`
+- Current branch: `paper/bspc-review-docx-v1`
 - Frozen source tag: `paper-experiment-freeze-v1`
 - Tag commit: `1bf9434f047c0b69b90c1d5264e665d6ccd941a0`
 - Remote: `https://github.com/mohd-passion/DepressionFromVoice.git`
@@ -12,6 +12,7 @@
 - Stage 3D status: Biomedical Signal Processing and Control journal-specific preparation files drafted; awaiting author confirmations before figure generation, DOCX/PDF or submission.
 - Stage 3E status: confirmed author details and declarations applied; BSPC main figure package generated; awaiting author review; no DOCX/PDF or submission.
 - Stage 3F status: BSPC figure visual review completed; DOCX-ready markdown package prepared; supplementary draft and conversion notes prepared; DOCX not generated because Pandoc was unavailable; no PDF or submission.
+- Stage 3G status: BSPC author-review DOCX package generated without Pandoc; review copies need author review; no final PDF or submission.
 
 ## Current Counts
 
@@ -28,6 +29,7 @@
 - Generated BSPC main figures: 5
 - Generated BSPC supplement figures: 0
 - Tables retained in DOCX-ready manuscript: 6
+- BSPC review DOCX files generated: 2
 - Supplementary items planned: 11
 
 ## Working Title
@@ -131,6 +133,17 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 - Updated `paper/BSPC_TABLE_FORMATTING_PLAN.md`
 - Updated `paper/SUBMISSION_READINESS_CHECKLIST.md`
 
+## Completed Stage 3G Package Files
+
+- `paper/scripts/create_bspc_review_docx.py`
+- `paper/submission_review_package/README.md`
+- `paper/submission_review_package/AUTHOR_REVIEW_PACKET_CHECKLIST.md`
+- `paper/submission_review_package/logs/BSPC_DOCX_GENERATION_LOG.md`
+- `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`
+- `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`
+- Updated `paper/AUTHOR_FINAL_QUESTIONS.md`
+- Updated `paper/SUBMISSION_READINESS_CHECKLIST.md`
+
 ## Tables Prepared
 
 1. Dataset and task summary
@@ -176,6 +189,7 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Reference style conversion
 - Figure author review and final artwork-format conversion
 - DOCX conversion/manual Word formatting
+- Author review of Stage 3G DOCX review copies
 - Supplementary file formatting
 - Table formatting in Word
 - Any required reporting-guideline checklist
@@ -183,11 +197,11 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 
 ## Journal Selection Status
 
-`bspc_docx_ready_markdown_prepared`
+`bspc_review_docx_generated_needs_author_review`
 
 ## Current Readiness Category
 
-`bspc_docx_ready_markdown_prepared`
+`bspc_review_docx_generated_needs_author_review`
 
 ## Stage 3B Completion Notes
 
@@ -262,5 +276,19 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Registry validation status before Stage 3F branch creation: passed, 42 records.
 - No submission was performed.
 - No metrics, author details, consent wording, acknowledgements, AI disclosure or clinical claims were invented.
+
+## Stage 3G Review DOCX Package Notes
+
+- Review DOCX manuscript generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.
+- Review DOCX supplement generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.
+- DOCX generation tool: `python-docx`; Pandoc was not used.
+- Five main BSPC figure PNG review copies were inserted into the manuscript DOCX.
+- Supplementary figures generated: 0.
+- Fallback text files generated: no.
+- Final PDF generated: no.
+- LibreOffice/soffice render QA: not completed because the renderer dependency was unavailable on PATH.
+- DOCX structural QA confirmed the manuscript DOCX contains five embedded images, visible unresolved author placeholders and no submitted/submission-ready marker.
+- No submission was performed.
+- No author metadata, consent wording, acknowledgements, AI disclosure, BSPC route decision, frozen metrics or clinical claims were invented.
 
 Do not mark `submission_ready` until author, journal, figure, ethics, consent, funding, conflict and formatting details are complete.

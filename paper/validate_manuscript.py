@@ -62,6 +62,13 @@ STAGE3B_REQUIRED_FILES = [
     PAPER / "JOURNAL_INFORMATION_VERIFICATION_LOG.md",
 ]
 
+STAGE3C_REQUIRED_FILES = [
+    PAPER / "AUTHOR_PREFERENCES_PRELIMINARY.md",
+    PAPER / "PROVISIONAL_TARGET_JOURNAL_DECISION.md",
+    PAPER / "JOURNAL_ADAPTATION_PLAN.md",
+    PAPER / "AUTHOR_FINAL_QUESTIONS.md",
+]
+
 REQUIRED_MANUSCRIPT_SECTIONS = {
     "## Abstract",
     "## Keywords",
@@ -349,6 +356,45 @@ PROHIBITED_UNVERIFIED_JOURNAL_METRIC_TERMS = {
     "quartile",
 }
 
+REQUIRED_STAGE3C_PREFERENCE_PHRASES = {
+    "SCI/SCIE mandatory | No",
+    "Q1 mandatory | No",
+    "Scopus acceptable if SCI/SCIE unavailable | Yes",
+    "Maximum APC | not specified",
+    "Must have no-APC subscription route | Yes",
+    "Open access mandatory | No",
+    "biomedical signal processing",
+    "speech/language processing",
+    "medical AI/digital health",
+    "affective computing",
+    "highest quartile where possible",
+    "ORCID | not available/not provided",
+    "Additional authors | no additional authors provided at this stage",
+    "Treat `N/A` as not yet provided",
+}
+
+REQUIRED_UNRESOLVED_DECLARATION_MARKERS = {
+    "Funding | [NOT PROVIDED]",
+    "Competing interests | [NOT PROVIDED]",
+    "Ethics approval or exemption | [NOT PROVIDED]",
+    "Consent to participate | [NOT PROVIDED]",
+    "Consent for publication | [NOT PROVIDED]",
+    "Acknowledgements | [NOT PROVIDED]",
+    "Use of AI-assisted writing tools | [NOT PROVIDED]",
+    "Prior presentation or preprint status | [NOT PROVIDED]",
+}
+
+REQUIRED_STAGE3C_DECISION_PHRASES = {
+    "Decision status: `provisional_target_selected`",
+    "Final submission status: `not_selected`",
+    "This is not a final author decision",
+    "needs_reverification_before_submission",
+    "No current impact factor",
+    "No current",
+    "Until those items are confirmed",
+    "awaiting_author_confirmation_for_target_journal",
+}
+
 EXPECTED_AUTHORITATIVE_MANUSCRIPT_METRICS = {
     "citation_markers": 99,
     "unique_citation_keys": 28,
@@ -561,6 +607,10 @@ def validate() -> list[str]:
         if not path.exists():
             errors.append(f"Missing Stage 3B package file: {path.relative_to(ROOT)}")
 
+    for path in STAGE3C_REQUIRED_FILES:
+        if not path.exists():
+            errors.append(f"Missing Stage 3C package file: {path.relative_to(ROOT)}")
+
     manuscript_placeholders = set(re.findall(r"\[REFERENCE NEEDED: [^\]]+\]", manuscript_text))
     rows = audit_rows()
     audit_by_text = {row["placeholder_text"]: row for row in rows}
@@ -758,6 +808,13 @@ def validate() -> list[str]:
             errors.append("Known user name must remain inside an unverified author-context section.")
         if "Final affiliation wording | not_verified" not in author_input_text:
             errors.append("Author input form must mark final affiliation wording as not_verified.")
+        for marker in REQUIRED_UNRESOLVED_DECLARATION_MARKERS:
+            if marker not in author_input_text:
+                errors.append(f"Author input form must keep unresolved declaration marked: {marker}")
+        if "| ORCID | [NOT PROVIDED] |" not in author_input_text:
+            errors.append("Author input form must not invent ORCID values.")
+        if "No external funding" in author_input_text or "| Funding | N/A" in author_input_text:
+            errors.append("Author input form must not invent or finalize funding wording.")
 
     if (PAPER / "AUTHOR_DECISION_LOG.md").exists():
         decision_text = (PAPER / "AUTHOR_DECISION_LOG.md").read_text(encoding="utf-8")
@@ -766,6 +823,11 @@ def validate() -> list[str]:
                 errors.append(f"Author decision log missing topic: {topic}")
         if "Do not select final journal until author preferences are supplied" not in decision_text:
             errors.append("Author decision log must defer final journal selection.")
+        if (
+            "Biomedical Signal Processing and Control is provisional only" not in decision_text
+            or "[AUTHOR DECISION REQUIRED] before formatting/submission" not in decision_text
+        ):
+            errors.append("Author decision log must mark the Stage 3C journal target as provisional only.")
 
     if (PAPER / "MANUSCRIPT_AUTHOR_REVIEW_CHECKLIST.md").exists():
         checklist_text = (PAPER / "MANUSCRIPT_AUTHOR_REVIEW_CHECKLIST.md").read_text(encoding="utf-8")
@@ -848,22 +910,67 @@ def validate() -> list[str]:
     stage3b_text = "\n".join(
         path.read_text(encoding="utf-8") for path in STAGE3B_REQUIRED_FILES if path.exists()
     )
-    for term in PROHIBITED_UNVERIFIED_JOURNAL_METRIC_TERMS:
-        if term in stage3b_text.lower():
-            errors.append(f"Stage 3B journal package contains prohibited unverified metric term: {term}")
+    if re.search(
+        r"\b(?:impact factor|citescore|acceptance rate|acceptance-rate|quartile)\s*[:=]\s*\d",
+        stage3b_text,
+        flags=re.IGNORECASE,
+    ):
+        errors.append("Stage 3B journal package must not assert numeric journal metrics.")
     if (
         "guaranteed acceptance" in stage3b_text.lower()
         and "no candidate should be described as guaranteed acceptance" not in stage3b_text.lower()
     ):
         errors.append("Journal package must not suggest guaranteed acceptance.")
 
+    if all(path.exists() for path in STAGE3C_REQUIRED_FILES):
+        stage3c_text = "\n".join(path.read_text(encoding="utf-8") for path in STAGE3C_REQUIRED_FILES)
+        preference_text = (PAPER / "AUTHOR_PREFERENCES_PRELIMINARY.md").read_text(encoding="utf-8")
+        for phrase in REQUIRED_STAGE3C_PREFERENCE_PHRASES:
+            if phrase not in preference_text:
+                errors.append(f"Preliminary author preferences missing phrase: {phrase}")
+
+        decision_text = (PAPER / "PROVISIONAL_TARGET_JOURNAL_DECISION.md").read_text(encoding="utf-8")
+        for phrase in REQUIRED_STAGE3C_DECISION_PHRASES:
+            if phrase not in decision_text:
+                errors.append(f"Provisional target decision missing phrase: {phrase}")
+        if "Biomedical Signal Processing and Control" not in decision_text:
+            errors.append("Provisional target decision must name Biomedical Signal Processing and Control.")
+        if "Final submission status: `selected`" in decision_text:
+            errors.append("Stage 3C must not mark a final journal as selected.")
+
+        adaptation_text = (PAPER / "JOURNAL_ADAPTATION_PLAN.md").read_text(encoding="utf-8")
+        for phrase in [
+            "does not authorize submission",
+            "No final figures generated in Stage 3C",
+            "No reference-style conversion in Stage 3C",
+            "Do not add new experiments",
+        ]:
+            if phrase not in adaptation_text:
+                errors.append(f"Journal adaptation plan missing safeguard: {phrase}")
+
+        final_questions = re.findall(r"^\d+\. ", (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8"), flags=re.MULTILINE)
+        if len(final_questions) != 15:
+            errors.append(f"Author final questions must contain exactly 15 numbered questions; found {len(final_questions)}")
+
+        if re.search(
+            r"\b(?:impact factor|citescore|acceptance rate|acceptance-rate|quartile)\s*[:=]\s*\d",
+            stage3c_text,
+            flags=re.IGNORECASE,
+        ):
+            errors.append("Stage 3C package must not assert numeric journal metrics.")
+        if re.search(r"\b(?:USD|CHF|EUR|INR)\s*[\d,]+", stage3c_text):
+            errors.append("Stage 3C package must not add unreverified APC amounts.")
+        if "orcid.org/" in stage3c_text.lower() or re.search(r"\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b", stage3c_text):
+            errors.append("Stage 3C package must not invent ORCID identifiers.")
+
     if (PAPER / "PAPER_WRITING_STATUS.md").exists():
         status_text = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
         for phrase in [
-            "`awaiting_author_input_and_journal_selection`",
+            "`awaiting_author_confirmation_for_target_journal`",
             "Author details missing",
             "Declaration details missing",
             "Journal preferences missing",
+            "Provisional first target: Biomedical Signal Processing and Control",
             "Final journal not selected",
             "Figures not generated",
             "Journal formatting not applied",

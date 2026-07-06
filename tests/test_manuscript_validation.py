@@ -58,6 +58,13 @@ STAGE3B_FILES = [
     PAPER / "JOURNAL_INFORMATION_VERIFICATION_LOG.md",
 ]
 
+STAGE3C_FILES = [
+    PAPER / "AUTHOR_PREFERENCES_PRELIMINARY.md",
+    PAPER / "PROVISIONAL_TARGET_JOURNAL_DECISION.md",
+    PAPER / "JOURNAL_ADAPTATION_PLAN.md",
+    PAPER / "AUTHOR_FINAL_QUESTIONS.md",
+]
+
 REGISTRY = ROOT / "outputs" / "experiment_registry" / "experiment_registry.json"
 REGISTRY_VALIDATOR = ROOT / "outputs" / "experiment_registry" / "update_registry.py"
 MANUSCRIPT_SHA256 = "e0a89872e7244bf4aac47a055c055c590bd5394dea63f0516bf1e804d170d97c"
@@ -440,10 +447,85 @@ class ManuscriptValidationTests(unittest.TestCase):
 
     def test_stage3b_avoids_fabricated_journal_metrics(self) -> None:
         combined = "\n".join(path.read_text(encoding="utf-8") for path in STAGE3B_FILES)
-        for phrase in ["Impact Factor", "CiteScore", "acceptance rate", "quartile"]:
-            with self.subTest(phrase=phrase):
-                self.assertNotIn(phrase.lower(), combined.lower())
+        self.assertNotRegex(
+            combined,
+            r"\b(?:impact factor|citescore|acceptance rate|acceptance-rate|quartile)\s*[:=]\s*\d",
+        )
         self.assertIn("No candidate should be described as guaranteed acceptance", combined)
+
+    def test_stage3c_required_files_exist(self) -> None:
+        for path in STAGE3C_FILES:
+            with self.subTest(path=path.name):
+                self.assertTrue(path.exists(), path)
+
+    def test_stage3c_author_preferences_are_recorded_without_finalizing_declarations(self) -> None:
+        preferences = (PAPER / "AUTHOR_PREFERENCES_PRELIMINARY.md").read_text(encoding="utf-8")
+        for phrase in [
+            "SCI/SCIE mandatory | No",
+            "Q1 mandatory | No",
+            "Scopus acceptable if SCI/SCIE unavailable | Yes",
+            "Maximum APC | not specified",
+            "Must have no-APC subscription route | Yes",
+            "Open access mandatory | No",
+            "highest quartile where possible",
+            "ORCID | not available/not provided",
+            "Additional authors | no additional authors provided at this stage",
+            "Treat `N/A` as not yet provided",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, preferences)
+
+        author_input = (PAPER / "AUTHOR_INPUT_FORM.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Funding | [NOT PROVIDED]",
+            "Competing interests | [NOT PROVIDED]",
+            "Ethics approval or exemption | [NOT PROVIDED]",
+            "Consent to participate | [NOT PROVIDED]",
+            "Consent for publication | [NOT PROVIDED]",
+            "Acknowledgements | [NOT PROVIDED]",
+            "Use of AI-assisted writing tools | [NOT PROVIDED]",
+            "Prior presentation or preprint status | [NOT PROVIDED]",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, author_input)
+        self.assertIn("| ORCID | [NOT PROVIDED] |", author_input)
+        self.assertNotIn("No external funding", author_input)
+        self.assertNotRegex(author_input, r"orcid\.org/|\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b")
+
+    def test_stage3c_target_is_provisional_not_final(self) -> None:
+        decision = (PAPER / "PROVISIONAL_TARGET_JOURNAL_DECISION.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Decision status: `provisional_target_selected`",
+            "Final submission status: `not_selected`",
+            "Biomedical Signal Processing and Control",
+            "This is not a final author decision",
+            "needs_reverification_before_submission",
+            "awaiting_author_confirmation_for_target_journal",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, decision)
+        self.assertNotIn("Final submission status: `selected`", decision)
+
+        log = (PAPER / "AUTHOR_DECISION_LOG.md").read_text(encoding="utf-8")
+        self.assertIn("Biomedical Signal Processing and Control is provisional only", log)
+        self.assertIn("[AUTHOR DECISION REQUIRED] before formatting/submission", log)
+
+    def test_stage3c_no_unverified_journal_metric_or_apc_claims(self) -> None:
+        combined = "\n".join(path.read_text(encoding="utf-8") for path in STAGE3C_FILES)
+        self.assertNotRegex(
+            combined,
+            r"\b(?:impact factor|citescore|acceptance rate|acceptance-rate|quartile)\s*[:=]\s*\d",
+        )
+        self.assertNotRegex(combined, r"\b(?:USD|CHF|EUR|INR)\s*[\d,]+")
+        self.assertIn("No current impact factor", combined)
+
+    def test_stage3c_author_final_questions_count(self) -> None:
+        questions = re.findall(
+            r"^\d+\. ",
+            (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8"),
+            flags=re.MULTILINE,
+        )
+        self.assertEqual(len(questions), 15)
 
     def test_stage3b_manuscript_metrics_are_preserved(self) -> None:
         text = MANUSCRIPT.read_text(encoding="utf-8")
@@ -457,7 +539,8 @@ class ManuscriptValidationTests(unittest.TestCase):
         for phrase in [
             "Manuscript draft word count: 5309",
             "Experiment registry records: 42",
-            "`awaiting_author_input_and_journal_selection`",
+            "`awaiting_author_confirmation_for_target_journal`",
+            "Provisional first target: Biomedical Signal Processing and Control",
             "Final journal not selected",
             "Figures not generated",
             "Journal formatting not applied",

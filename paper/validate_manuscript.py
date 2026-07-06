@@ -106,6 +106,13 @@ STAGE3E_REQUIRED_FILES = [
     *STAGE3E_FIGURE_OUTPUTS,
 ]
 
+STAGE3F_REQUIRED_FILES = [
+    PAPER / "BSPC_FIGURE_VISUAL_REVIEW.md",
+    PAPER / "BSPC_DOCX_READY_MANUSCRIPT.md",
+    PAPER / "BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md",
+    PAPER / "BSPC_DOCX_CONVERSION_NOTES.md",
+]
+
 REQUIRED_MANUSCRIPT_SECTIONS = {
     "## Abstract",
     "## Keywords",
@@ -646,6 +653,28 @@ REQUIRED_FIGURE_AUDIT_VALUES = {
     ("Figure 5", "Cross-target corr.", "0.5555"),
 }
 
+REQUIRED_STAGE3F_DOCX_PLACEHOLDERS = {
+    "[AUTHOR CONFIRMATION REQUIRED: consent statement]",
+    "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
+    "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email and ORCID]",
+    "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh CRediT roles]",
+    "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure]",
+    "[AUTHOR CONFIRMATION REQUIRED: final BSPC route]",
+}
+
+REQUIRED_STAGE3F_AUTHOR_QUESTIONS = {
+    "Confirm Dr. Vikram Singh's email.",
+    "Confirm Dr. Vikram Singh's ORCID, or state not available.",
+    "Confirm Dr. Vikram Singh's CRediT roles.",
+    "Confirm the consent statement for use of DAIC-WOZ and Androids Corpus data.",
+    "Confirm acknowledgements, or state that no acknowledgements should be included.",
+    "Confirm AI-assisted writing/tool-use disclosure wording according to BSPC/Elsevier policy.",
+    "Confirm the preprint decision.",
+    "Confirm the BSPC subscription/no-publication-fee route.",
+    "Review and approve generated figures.",
+    "Confirm whether to convert/submit after DOCX review.",
+}
+
 FORBIDDEN_GENERATED_ARTIFACT_PATTERNS = {
     r"\bparticipant[_ -]?id\b",
     r"\bsubject[_ -]?id\b",
@@ -791,6 +820,10 @@ def validate() -> list[str]:
     for path in STAGE3E_REQUIRED_FILES:
         if not path.exists():
             errors.append(f"Missing Stage 3E package file: {path.relative_to(ROOT)}")
+
+    for path in STAGE3F_REQUIRED_FILES:
+        if not path.exists():
+            errors.append(f"Missing Stage 3F package file: {path.relative_to(ROOT)}")
 
     manuscript_placeholders = set(re.findall(r"\[REFERENCE NEEDED: [^\]]+\]", manuscript_text))
     rows = audit_rows()
@@ -1168,11 +1201,21 @@ def validate() -> list[str]:
                 errors.append(f"Journal adaptation plan missing safeguard: {phrase}")
 
         final_questions = re.findall(r"^\d+\. ", (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8"), flags=re.MULTILINE)
-        expected_question_count = 17 if any(path.exists() for path in STAGE3D_REQUIRED_FILES) else 15
+        if all(path.exists() for path in STAGE3F_REQUIRED_FILES):
+            expected_question_count = 10
+        elif any(path.exists() for path in STAGE3D_REQUIRED_FILES):
+            expected_question_count = 17
+        else:
+            expected_question_count = 15
         if len(final_questions) != expected_question_count:
             errors.append(
                 f"Author final questions must contain exactly {expected_question_count} numbered questions; found {len(final_questions)}"
             )
+        if expected_question_count == 10:
+            questions_text = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
+            for question in REQUIRED_STAGE3F_AUTHOR_QUESTIONS:
+                if question not in questions_text:
+                    errors.append(f"Stage 3F author questions missing: {question}")
 
         if re.search(
             r"\b(?:impact factor|citescore|acceptance rate|acceptance-rate|quartile)\s*[:=]\s*\d",
@@ -1350,10 +1393,95 @@ def validate() -> list[str]:
         if "No AI" in combined_author_text or "Use of AI-assisted writing tools | No" in combined_author_text:
             errors.append("Stage 3E author files must not finalize AI disclosure as No.")
 
+    if all(path.exists() for path in STAGE3F_REQUIRED_FILES):
+        docx_text = (PAPER / "BSPC_DOCX_READY_MANUSCRIPT.md").read_text(encoding="utf-8")
+        supplement_text = (PAPER / "BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md").read_text(encoding="utf-8")
+        conversion_text = (PAPER / "BSPC_DOCX_CONVERSION_NOTES.md").read_text(encoding="utf-8")
+        review_text = (PAPER / "BSPC_FIGURE_VISUAL_REVIEW.md").read_text(encoding="utf-8")
+        cover_text = (PAPER / "BSPC_COVER_LETTER_DRAFT.md").read_text(encoding="utf-8")
+        table_plan_text = (PAPER / "BSPC_TABLE_FORMATTING_PLAN.md").read_text(encoding="utf-8")
+
+        if "DOCX-ready package status: `bspc_docx_ready_markdown_prepared`" not in docx_text:
+            errors.append("DOCX-ready manuscript missing package status.")
+        for placeholder in REQUIRED_STAGE3F_DOCX_PLACEHOLDERS:
+            if placeholder not in docx_text:
+                errors.append(f"DOCX-ready manuscript missing unresolved placeholder: {placeholder}")
+        for phrase in [
+            "## Table Captions And Placement Notes",
+            "## Figure Captions",
+            "## References",
+            "[BIBLIOGRAPHY PLACEHOLDER: generate from `paper/references.bib`",
+            "## Supplementary Material Note",
+        ]:
+            if phrase not in docx_text:
+                errors.append(f"DOCX-ready manuscript missing section/phrase: {phrase}")
+        for label in ["[Figure 1 about here.]", "[Figure 2 about here.]", "[Figure 3 about here.]", "[Figure 4 about here.]", "[Figure 5 about here.]"]:
+            if label not in docx_text:
+                errors.append(f"DOCX-ready manuscript missing figure placeholder: {label}")
+        for label in ["[Table 1 about here.]", "[Table 2 about here.]", "[Table 3 about here.]", "[Table 4 about here.]", "[Table 5 about here.]", "[Table 6 about here.]"]:
+            if label not in docx_text:
+                errors.append(f"DOCX-ready manuscript missing table placeholder: {label}")
+        for metric in REQUIRED_BSPC_METRICS:
+            if metric not in docx_text:
+                errors.append(f"DOCX-ready manuscript missing metric/text: {metric}")
+
+        if review_text.count("ready_for_author_review") < 6:
+            errors.append("Figure visual review must mark all figures ready for author review.")
+        for label in ["Figure 1", "Figure 2", "Figure 3", "Figure 4", "Figure 5"]:
+            if label not in review_text:
+                errors.append(f"Figure visual review missing {label}")
+        if "No figure revisions were required in Stage 3F" not in review_text:
+            errors.append("Figure visual review must state whether revisions were required.")
+
+        for label in ["Figure 1", "Figure 2", "Figure 3", "Figure 4", "Figure 5"]:
+            if f"| {label}" not in review_text:
+                errors.append(f"Figure visual review summary missing row for {label}")
+        if "main manuscript" not in table_plan_text or table_plan_text.count("main manuscript") < 6:
+            errors.append("BSPC table plan must classify all six tables for the main manuscript.")
+
+        for phrase in [
+            "Status: `draft_prepared_awaiting_author_review`",
+            "Supplementary Table S1",
+            "Layer-wise and aggregation ablations",
+            "Calibration and threshold details",
+            "Domain-shift details",
+            "Cross-task and classifier-boundary details",
+            "No supplementary figures were generated in Stage 3F",
+        ]:
+            if phrase not in supplement_text:
+                errors.append(f"Supplementary draft missing phrase: {phrase}")
+        for prohibited in ["participant_id", "subject_id", "audio path:", "embeddings file", "fitted model file"]:
+            if prohibited in supplement_text.lower():
+                errors.append(f"Supplementary draft may contain prohibited artifact detail: {prohibited}")
+
+        for phrase in [
+            "Status: `docx_pending_tooling_or_manual_conversion`",
+            "pandoc",
+            "Result: unavailable on PATH",
+            "DOCX generated: no",
+            "PDF generated: no",
+        ]:
+            if phrase not in conversion_text:
+                errors.append(f"DOCX conversion notes missing phrase: {phrase}")
+
+        for phrase in [
+            "Status: `draft_only_author_confirmation_required`",
+            "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email and ORCID]",
+            "[AUTHOR CONFIRMATION REQUIRED: final BSPC route]",
+            "The work is research-only.",
+            "It does not claim clinical validation",
+            "BSPC submission route: undecided",
+        ]:
+            if phrase not in cover_text:
+                errors.append(f"Cover letter draft missing phrase: {phrase}")
+        if "No AI" in docx_text or "Use of AI-assisted writing tools | No" in docx_text:
+            errors.append("DOCX-ready manuscript must not finalize AI disclosure as No.")
+        if "Submission status: submitted" in docx_text or "ready_for_submission" in docx_text:
+            errors.append("DOCX-ready manuscript must not mark the work as submitted or submission-ready.")
+
     if (PAPER / "PAPER_WRITING_STATUS.md").exists():
         status_text = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
         for phrase in [
-            "`awaiting_author_confirmation_for_target_journal`",
             "Author details missing",
             "Declaration details missing",
             "Journal preferences missing",
@@ -1370,12 +1498,22 @@ def validate() -> list[str]:
         for phrase in [
             "Stage 3E status: confirmed author details and declarations applied; BSPC main figure package generated; awaiting author review; no DOCX/PDF or submission.",
             "Generated BSPC main figures: 5",
-            "`figures_generated_awaiting_author_review`",
             "Figure captions were created in `paper/BSPC_FIGURE_CAPTIONS.md`.",
             "No raw audio, participant identifiers, embeddings, fitted models, prediction files or participant-level outputs were read or committed.",
         ]:
             if phrase not in status_text:
                 errors.append(f"Paper writing status missing Stage 3E phrase: {phrase}")
+        for phrase in [
+            "Stage 3F status: BSPC figure visual review completed; DOCX-ready markdown package prepared; supplementary draft and conversion notes prepared; DOCX not generated because Pandoc was unavailable; no PDF or submission.",
+            "DOCX-ready manuscript markdown word count: 6438",
+            "Generated BSPC supplement figures: 0",
+            "Tables retained in DOCX-ready manuscript: 6",
+            "`bspc_docx_ready_markdown_prepared`",
+            "DOCX generated: no; Pandoc was unavailable on PATH during Stage 3F.",
+            "No submission was performed.",
+        ]:
+            if phrase not in status_text:
+                errors.append(f"Paper writing status missing Stage 3F phrase: {phrase}")
 
     if (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").exists():
         terminology_text = (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").read_text(encoding="utf-8")

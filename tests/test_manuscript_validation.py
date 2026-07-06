@@ -101,6 +101,13 @@ STAGE3E_FILES = [
     *STAGE3E_FIGURE_OUTPUTS,
 ]
 
+STAGE3F_FILES = [
+    PAPER / "BSPC_FIGURE_VISUAL_REVIEW.md",
+    PAPER / "BSPC_DOCX_READY_MANUSCRIPT.md",
+    PAPER / "BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md",
+    PAPER / "BSPC_DOCX_CONVERSION_NOTES.md",
+]
+
 REGISTRY = ROOT / "outputs" / "experiment_registry" / "experiment_registry.json"
 REGISTRY_VALIDATOR = ROOT / "outputs" / "experiment_registry" / "update_registry.py"
 MANUSCRIPT_SHA256 = "e0a89872e7244bf4aac47a055c055c590bd5394dea63f0516bf1e804d170d97c"
@@ -564,12 +571,25 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertIn("No current impact factor", combined)
 
     def test_stage3c_author_final_questions_count(self) -> None:
-        questions = re.findall(
-            r"^\d+\. ",
-            (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8"),
-            flags=re.MULTILINE,
-        )
-        self.assertEqual(len(questions), 17)
+        text = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
+        questions = re.findall(r"^\d+\. ", text, flags=re.MULTILINE)
+        expected_count = 10 if all(path.exists() for path in STAGE3F_FILES) else 17
+        self.assertEqual(len(questions), expected_count)
+        if expected_count == 10:
+            for phrase in [
+                "Confirm Dr. Vikram Singh's email.",
+                "Confirm Dr. Vikram Singh's ORCID, or state not available.",
+                "Confirm Dr. Vikram Singh's CRediT roles.",
+                "Confirm the consent statement for use of DAIC-WOZ and Androids Corpus data.",
+                "Confirm acknowledgements, or state that no acknowledgements should be included.",
+                "Confirm AI-assisted writing/tool-use disclosure wording according to BSPC/Elsevier policy.",
+                "Confirm the preprint decision.",
+                "Confirm the BSPC subscription/no-publication-fee route.",
+                "Review and approve generated figures.",
+                "Confirm whether to convert/submit after DOCX review.",
+            ]:
+                with self.subTest(phrase=phrase):
+                    self.assertIn(phrase, text)
 
     def test_stage3d_required_files_exist(self) -> None:
         for path in STAGE3D_FILES:
@@ -676,6 +696,95 @@ class ManuscriptValidationTests(unittest.TestCase):
                 self.assertIn("<svg", text)
                 self.assertIn("</svg>", text)
 
+    def test_stage3f_docx_ready_package_is_prepared_without_submission(self) -> None:
+        for path in STAGE3F_FILES:
+            with self.subTest(path=path.name):
+                self.assertTrue(path.exists(), path)
+
+        docx = (PAPER / "BSPC_DOCX_READY_MANUSCRIPT.md").read_text(encoding="utf-8")
+        for phrase in [
+            "DOCX-ready package status: `bspc_docx_ready_markdown_prepared`",
+            "[AUTHOR CONFIRMATION REQUIRED: consent statement]",
+            "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
+            "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email and ORCID]",
+            "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh CRediT roles]",
+            "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure]",
+            "[AUTHOR CONFIRMATION REQUIRED: final BSPC route]",
+            "## Table Captions And Placement Notes",
+            "## Figure Captions",
+            "[BIBLIOGRAPHY PLACEHOLDER: generate from `paper/references.bib`",
+            "## Supplementary Material Note",
+            "ROC-AUC 0.6412",
+            "ROC-AUC 0.8675",
+            "ROC-AUC 0.8796",
+            "0.9058",
+            "0.9135",
+            "550 shifted WavLM features",
+            "292 of 768 features",
+            "0.4752",
+            "0.6659",
+            "0.1216",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, docx)
+        for label in ["Figure 1", "Figure 2", "Figure 3", "Figure 4", "Figure 5"]:
+            self.assertIn(f"[{label} about here.]", docx)
+        for label in ["Table 1", "Table 2", "Table 3", "Table 4", "Table 5", "Table 6"]:
+            self.assertIn(f"[{label} about here.]", docx)
+        self.assertNotIn("No AI", docx)
+        self.assertNotIn("ready_for_submission", docx)
+        self.assertNotIn("Submission status: submitted", docx)
+
+        review = (PAPER / "BSPC_FIGURE_VISUAL_REVIEW.md").read_text(encoding="utf-8")
+        self.assertIn("Status: `ready_for_author_review`", review)
+        self.assertIn("No figure revisions were required in Stage 3F", review)
+        for label in ["Figure 1", "Figure 2", "Figure 3", "Figure 4", "Figure 5"]:
+            self.assertIn(f"| {label}", review)
+
+        supplement = (PAPER / "BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Status: `draft_prepared_awaiting_author_review`",
+            "Supplementary Table S1",
+            "Supplementary Table S2",
+            "Supplementary Table S3",
+            "Layer-wise and aggregation ablations",
+            "Calibration and threshold details",
+            "Domain-shift details",
+            "Cross-task and classifier-boundary details",
+            "No supplementary figures were generated in Stage 3F",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, supplement)
+        for prohibited in ["participant_id", "subject_id", "audio path:", "embeddings file", "fitted model file"]:
+            self.assertNotIn(prohibited, supplement.lower())
+
+        conversion = (PAPER / "BSPC_DOCX_CONVERSION_NOTES.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Status: `docx_pending_tooling_or_manual_conversion`",
+            "Result: unavailable on PATH",
+            "DOCX generated: no",
+            "PDF generated: no",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, conversion)
+
+        cover = (PAPER / "BSPC_COVER_LETTER_DRAFT.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Status: `draft_only_author_confirmation_required`",
+            "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email and ORCID]",
+            "[AUTHOR CONFIRMATION REQUIRED: final BSPC route]",
+            "The work is research-only.",
+            "It does not claim clinical validation",
+            "BSPC submission route: undecided",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, cover)
+
+        table_plan = (PAPER / "BSPC_TABLE_FORMATTING_PLAN.md").read_text(encoding="utf-8")
+        self.assertGreaterEqual(table_plan.count("main manuscript"), 6)
+        self.assertFalse(list(PAPER.glob("*.docx")))
+        self.assertFalse(list(PAPER.glob("*.pdf")))
+
     def test_stage3d_no_invented_author_or_submission_details(self) -> None:
         combined = "\n".join(path.read_text(encoding="utf-8") for path in STAGE3D_FILES)
         self.assertNotRegex(combined, r"orcid\.org/|\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b")
@@ -702,13 +811,19 @@ class ManuscriptValidationTests(unittest.TestCase):
         status = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
         for phrase in [
             "Manuscript draft word count: 5309",
+            "DOCX-ready manuscript markdown word count: 6438",
             "Experiment registry records: 42",
-            "`awaiting_author_confirmation_for_target_journal`",
+            "`bspc_docx_ready_markdown_prepared`",
             "Provisional first target: Biomedical Signal Processing and Control",
             "Final journal not selected",
             "Figures not generated",
             "Journal formatting not applied",
             "Manuscript not submitted",
+            "Generated BSPC main figures: 5",
+            "Generated BSPC supplement figures: 0",
+            "Tables retained in DOCX-ready manuscript: 6",
+            "DOCX generated: no; Pandoc was unavailable on PATH during Stage 3F.",
+            "No submission was performed.",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, status)

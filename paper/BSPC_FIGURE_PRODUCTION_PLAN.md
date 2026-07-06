@@ -1,20 +1,36 @@
 # BSPC Figure Production Plan
 
-No figures are generated in Stage 3D. This plan uses `paper/FIGURE_SPECIFICATIONS.md`.
+Stage 3E generated the five main BSPC figure candidates from compact, non-sensitive aggregate records. The figures are not final submitted artwork until the authors review content, captions and journal-format requirements.
 
-| Figure | Placement | Required source data | Script needed | Output format | Expected caption | Author review needed | Privacy risk | Status |
-|---|---|---|---|---|---|---|---|---|
-| Figure 1: End-to-End Experimental Pipeline | main | configs and manuscript Methods 3.1-3.9 | yes, diagram script | EPS/PDF plus editable source if possible | Frozen WavLM layer-9 pipeline used across DAIC-WOZ and Androids Corpus experiments. | yes | low; schematic only | needs_formatting |
-| Figure 2: Phase 1-2E Experimental Progression | main | experiment registry and evidence map | yes, timeline script | EPS/PDF plus editable source if possible | Sequential experiment governance from DAIC-WOZ representation development through Android cross-task transfer. | yes | low; no participant data | needs_formatting |
-| Figure 3: Zero-Shot Versus Adapted Android Interview Performance | main | `records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv` | yes, plotting script | EPS/PDF and source CSV | DAIC-to-Android interview domain-shift diagnosis. | yes | low; aggregate metrics only | needs_formatting |
-| Figure 4: Reading, Interview and Cross-Task ROC-AUC Comparison | main | `records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv`; transfer gaps | yes, plotting script | EPS/PDF and source CSV | Participant-coherent Android reading/interview transfer. | yes | low; aggregate metrics only | needs_formatting |
-| Figure 5: Domain-Shift Feature Summary | main | Phase 2C and 2D reports | yes, plotting script | EPS/PDF and source summaries | Feature-shift summaries for frozen WavLM layer-9 participant embeddings. | yes | low; aggregate shift statistics only | needs_formatting |
-| Figure S1: Classifier-Boundary Similarity Analysis | supplementary | `records/runs/phase2e_20260704_151323/phase2e_classifier_boundary_analysis.csv` | yes, plotting script | EPS/PDF and source CSV | Classifier-boundary similarity across participant-coherent folds. | yes | low; fold-level aggregate metrics only | needs_formatting |
-| Figure S2: Participant-Coherent Fold Design | supplementary | Phase 2E protocol/report | yes, schematic script | EPS/PDF plus editable source | Participant-coherent fold design for Android reading/interview transfer. | yes | low if schematic placeholders only | needs_formatting |
+Generated files:
+
+- `paper/figures/scripts/generate_bspc_figures.py`
+- `paper/figures/README.md`
+- `paper/figures/source/bspc_figure_source_values.csv`
+- `paper/figures/output/figure_generation_log.txt`
+- `paper/BSPC_FIGURE_CAPTIONS.md`
+- `paper/BSPC_FIGURE_DATA_AUDIT.csv`
+
+| Figure | Placement | Required source data | Output files | Caption source | Author review needed | Privacy risk | Status |
+|---|---|---|---|---|---|---|---|
+| Figure 1: Study design/protocol overview | main | `paper/FIGURE_SPECIFICATIONS.md`; `paper/BSPC_FIGURE_PRODUCTION_PLAN.md`; `paper/PAPER_RESULTS_TABLES.md`; `paper/PAPER_EVIDENCE_MAP.md` | `figure1_study_design_protocol_overview.svg`; `figure1_study_design_protocol_overview.png` | `paper/BSPC_FIGURE_CAPTIONS.md` | yes | low; schematic only | generated_awaiting_author_review |
+| Figure 2: DAIC Phase 1 key results | main | `outputs/experiment_registry/experiment_summary.csv`; `paper/PAPER_RESULTS_TABLES.md`; `paper/PAPER_EVIDENCE_MAP.md` | `figure2_daic_phase1_key_results.svg`; `figure2_daic_phase1_key_results.png` | `paper/BSPC_FIGURE_CAPTIONS.md` | yes | low; aggregate metrics only | generated_awaiting_author_review |
+| Figure 3: DAIC-to-Android transfer and adaptation | main | `records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv` | `figure3_daic_android_transfer_adaptation.svg`; `figure3_daic_android_transfer_adaptation.png` | `paper/BSPC_FIGURE_CAPTIONS.md` | yes | low; aggregate metrics only | generated_awaiting_author_review |
+| Figure 4: Android reading, interview and cross-task results | main | `records/runs/phase2d_20260704_125931/phase2d_task_comparison.csv`; `records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv`; `records/runs/phase2e_20260704_151323/phase2e_transfer_gap_analysis.csv` | `figure4_android_cross_task_results.svg`; `figure4_android_cross_task_results.png` | `paper/BSPC_FIGURE_CAPTIONS.md` | yes | low; aggregate metrics only | generated_awaiting_author_review |
+| Figure 5: Domain-shift and classifier-boundary summary | main | `records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json`; `records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json`; `records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json` | `figure5_domain_shift_boundary_summary.svg`; `figure5_domain_shift_boundary_summary.png` | `paper/BSPC_FIGURE_CAPTIONS.md` | yes | low; aggregate shift and boundary metrics only | generated_awaiting_author_review |
+| Figure S1: Classifier-boundary fold metrics | supplementary optional | `records/runs/phase2e_20260704_151323/phase2e_classifier_boundary_analysis.csv` | not generated | not generated | yes | low; fold-level aggregate metrics only | optional_not_generated |
+| Figure S2: Participant-coherent fold design | supplementary optional | Phase 2E protocol/report schematic only | not generated | not generated | yes | low if schematic placeholders only | optional_not_generated |
+
+## Source And Audit Controls
+
+- Every plotted numeric value is listed in `paper/BSPC_FIGURE_DATA_AUDIT.csv`.
+- The source-value manifest is `paper/figures/source/bspc_figure_source_values.csv`.
+- Figure outputs are SVG and PNG only. EPS, PDF and final journal production artwork remain deferred.
+- No raw audio, participant identifiers, embeddings, fitted models, prediction files or participant-level outputs were read or written.
+- Figure 5 includes the official DAIC-to-Android MMD^2 value. Android reading/interview MMD^2 was not available in compact records and was marked explicitly as not available rather than fabricated.
 
 ## BSPC Suitability Notes
 
-- Keep five main figures unless current final formatting checks show stricter limits.
-- Move optional classifier-boundary and fold-design details to supplement.
-- Do not include raw audio, embeddings, participant predictions, fitted models or real participant identifiers.
-- Do not use generative AI to create final submitted artwork.
+- Keep the five generated main figures unless the final BSPC formatting check requires consolidation.
+- Optional supplementary figures remain possible but were not generated in Stage 3E.
+- Do not use these images as final submitted artwork until author review, journal artwork-format checks and any required resolution/vector-format conversion are complete.

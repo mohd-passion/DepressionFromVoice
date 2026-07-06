@@ -1,0 +1,35 @@
+BSPC figure package generated successfully.
+Status: figures_generated_awaiting_author_review
+
+Input files:
+- paper/FIGURE_SPECIFICATIONS.md
+- paper/BSPC_FIGURE_PRODUCTION_PLAN.md
+- paper/PAPER_RESULTS_TABLES.md
+- paper/PAPER_EVIDENCE_MAP.md
+- outputs/experiment_registry/experiment_summary.csv
+- records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv
+- records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json
+- records/runs/phase2d_20260704_125931/phase2d_task_comparison.csv
+- records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json
+- records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv
+- records/runs/phase2e_20260704_151323/phase2e_transfer_gap_analysis.csv
+- records/runs/phase2e_20260704_151323/phase2e_classifier_boundary_analysis.csv
+- records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json
+
+Output files:
+- paper/figures/output/figure1_study_design_protocol_overview.svg
+- paper/figures/output/figure1_study_design_protocol_overview.png
+- paper/figures/output/figure2_daic_phase1_key_results.svg
+- paper/figures/output/figure2_daic_phase1_key_results.png
+- paper/figures/output/figure3_daic_android_transfer_adaptation.svg
+- paper/figures/output/figure3_daic_android_transfer_adaptation.png
+- paper/figures/output/figure4_android_cross_task_results.svg
+- paper/figures/output/figure4_android_cross_task_results.png
+- paper/figures/output/figure5_domain_shift_boundary_summary.svg
+- paper/figures/output/figure5_domain_shift_boundary_summary.png
+- paper/BSPC_FIGURE_CAPTIONS.md
+- paper/BSPC_FIGURE_DATA_AUDIT.csv
+- paper/figures/source/bspc_figure_source_values.csv
+- paper/figures/output/figure_generation_log.txt
+
+Privacy scope: aggregate compact records only; no raw audio, participant identifiers, embeddings, fitted models or prediction files read.

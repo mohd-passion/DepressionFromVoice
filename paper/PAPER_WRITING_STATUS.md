@@ -2,7 +2,7 @@
 
 ## Source Freeze
 
-- Current branch: `paper/bspc-formatting-v1`
+- Current branch: `paper/bspc-figures-author-v1`
 - Frozen source tag: `paper-experiment-freeze-v1`
 - Tag commit: `1bf9434f047c0b69b90c1d5264e665d6ccd941a0`
 - Remote: `https://github.com/mohd-passion/DepressionFromVoice.git`
@@ -10,7 +10,7 @@
 - Stage 3B status: author-input preparation and verified journal-selection package prepared.
 - Stage 3C status: preliminary author preferences applied; Biomedical Signal Processing and Control selected as provisional first target; awaiting author confirmation for target journal.
 - Stage 3D status: Biomedical Signal Processing and Control journal-specific preparation files drafted; awaiting author confirmations before figure generation, DOCX/PDF or submission.
-- Stage 3E status: confirmed author details and declarations applied; figures in preparation; no DOCX/PDF or submission.
+- Stage 3E status: confirmed author details and declarations applied; BSPC main figure package generated; awaiting author review; no DOCX/PDF or submission.
 
 ## Current Counts
 
@@ -23,6 +23,7 @@
 - Evidence-map entries: 99
 - Result tables prepared: 6
 - Planned/specification figure entries: 7
+- Generated BSPC main figures: 5
 - Supplementary items planned: 11
 
 ## Working Title
@@ -96,6 +97,25 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 - `paper/BSPC_REFERENCE_FORMATTING_PLAN.md`
 - `paper/BSPC_COVER_LETTER_DRAFT.md`
 
+## Completed Stage 3E Package Files
+
+- `paper/BSPC_FIGURE_CAPTIONS.md`
+- `paper/BSPC_FIGURE_DATA_AUDIT.csv`
+- `paper/figures/README.md`
+- `paper/figures/scripts/generate_bspc_figures.py`
+- `paper/figures/source/bspc_figure_source_values.csv`
+- `paper/figures/output/figure_generation_log.txt`
+- `paper/figures/output/figure1_study_design_protocol_overview.svg`
+- `paper/figures/output/figure1_study_design_protocol_overview.png`
+- `paper/figures/output/figure2_daic_phase1_key_results.svg`
+- `paper/figures/output/figure2_daic_phase1_key_results.png`
+- `paper/figures/output/figure3_daic_android_transfer_adaptation.svg`
+- `paper/figures/output/figure3_daic_android_transfer_adaptation.png`
+- `paper/figures/output/figure4_android_cross_task_results.svg`
+- `paper/figures/output/figure4_android_cross_task_results.png`
+- `paper/figures/output/figure5_domain_shift_boundary_summary.svg`
+- `paper/figures/output/figure5_domain_shift_boundary_summary.png`
+
 ## Tables Prepared
 
 1. Dataset and task summary
@@ -107,13 +127,13 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 
 ## Planned Figures
 
-1. End-to-end experimental pipeline
-2. Phase 1-2E experimental progression
-3. Zero-shot versus adapted Android interview performance
-4. Reading, interview and cross-task ROC-AUC comparison
-5. Domain-shift feature summary
-6. Optional supplement: classifier-boundary similarity analysis
-7. Optional supplement: participant-coherent fold design
+1. Study design/protocol overview - generated, awaiting author review
+2. DAIC Phase 1 key results - generated, awaiting author review
+3. DAIC-to-Android transfer and adaptation - generated, awaiting author review
+4. Android reading, interview and cross-task results - generated, awaiting author review
+5. Domain-shift and classifier-boundary summary - generated, awaiting author review
+6. Optional supplement: classifier-boundary fold metrics - not generated
+7. Optional supplement: participant-coherent fold design - not generated
 
 ## Supplement Plan
 
@@ -140,7 +160,7 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Journal selection
 - Journal-specific word count and section order
 - Reference style conversion
-- Final figure generation
+- Figure author review and final artwork-format conversion
 - Supplementary file formatting
 - Table caption formatting
 - Any required reporting-guideline checklist
@@ -148,7 +168,7 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 
 ## Journal Selection Status
 
-`awaiting_author_confirmation_for_target_journal`
+`figures_generated_awaiting_author_review`
 
 ## Current Readiness Category
 
@@ -201,5 +221,14 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - AI-assisted writing/tool-use disclosure remains unresolved because ChatGPT/Codex was used in the workflow and final wording must follow BSPC/Elsevier policy.
 - Preprint decision remains undecided.
 - BSPC submission route remains undecided; subscription/no-publication-fee route is preferred but not finally confirmed.
+
+## Stage 3E Figure Package Notes
+
+- Five main BSPC figure candidates were generated as SVG and PNG files under `paper/figures/output/`.
+- Figure captions were created in `paper/BSPC_FIGURE_CAPTIONS.md`.
+- Every plotted value was audited in `paper/BSPC_FIGURE_DATA_AUDIT.csv`; the audit uses compact aggregate records only.
+- Manuscript figure callouts were inserted for Figures 1-5 and table callouts for Tables 1-6.
+- Optional supplementary figures were not generated in Stage 3E.
+- No raw audio, participant identifiers, embeddings, fitted models, prediction files or participant-level outputs were read or committed.
 
 Do not mark `submission_ready` until author, journal, figure, ethics, consent, funding, conflict and formatting details are complete.

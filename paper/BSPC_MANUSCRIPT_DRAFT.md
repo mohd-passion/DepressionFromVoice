@@ -95,6 +95,8 @@ The study followed a sequential Phase 1-2E design. Phase 1 developed and froze D
 
 Phase 2 moved to Androids Corpus preparation and external-compatibility testing. Phase 2A audited the Android data and established that WavLM preprocessing for Candidate A could be reproduced, while the DAIC timing model could not be directly transferred because only 17 of 28 timing features were exactly compatible. Phase 2B applied the frozen DAIC WavLM classifier zero-shot to Android interview speech. Phase 2C diagnosed whether failure came from threshold shift, calibration shift or classifier-boundary shift. Phase 2D evaluated Android reading speech. Phase 2E used participant-coherent folds across paired reading and interview tasks to evaluate cross-task transfer and pooled-task training.
 
+[Figure 1 about here.]
+
 ### 3.2 Datasets
 
 #### DAIC-WOZ
@@ -104,6 +106,8 @@ The DAIC-WOZ Phase 1 clean dataset contained 187 usable participants after exclu
 #### Androids Corpus
 
 The Androids Corpus audit identified 118 unique participants, with 54 healthy controls and 64 depression patients [@tao2023androids]. The corpus contained 116 full interview recordings, 112 read-speech recordings and 874 interview clips. Reading recordings included 54 HC and 58 PT participants; interview recordings included 52 HC and 64 PT participants. A total of 110 participants had both reading and interview recordings, with 52 HC and 58 PT participants in the paired Phase 2E subset. Android labels were treated as clinical group status labels, not PHQ-8 labels: HC was encoded as 0 and PT as 1. The Android speech was Italian [@tao2023androids], and Android evaluation used task-specific folds for Phase 2C and Phase 2D, then participant-coherent reading/interview folds for Phase 2E.
+
+[Table 1 about here.]
 
 ### 3.3 Speech preprocessing
 
@@ -169,6 +173,8 @@ The repository preserved frozen protocols, source-code configurations, compact r
 
 ## 4. Results
 
+Tables 2-6 summarize the numerical results and result-scope caveats. Figures 2-5 visualize the main DAIC development, DAIC-to-Android adaptation, Android task-transfer and domain-shift findings.
+
 ### 4.1 DAIC representation development
 
 Phase 1A established initial participant-level baselines. The metadata-only sanity baseline achieved train-CV ROC-AUC 0.5510 and provisional local test ROC-AUC 0.4437. The final-layer WavLM participant baseline achieved train-CV ROC-AUC 0.5115, development ROC-AUC 0.5692 and provisional local test ROC-AUC 0.5195. These early results motivated a frozen layer-wise representation analysis.
@@ -181,11 +187,17 @@ Phase 1D examined whether compact speech-timing features captured information lo
 
 Phase 1F froze two DAIC research candidates. Candidate A was the free-speech-compatible WavLM layer-9 mean representation with C=0.001 and frozen threshold 0.5558; it achieved provisional local test ROC-AUC 0.5065. Candidate B was the guided-interview timing model with C=100.0 and frozen threshold 0.2927; it achieved provisional local test ROC-AUC 0.6775. Candidate B was not directly portable to Android because Android timing features were not fully compatible with the Phase 1 timing definitions.
 
+[Figure 2 about here.]
+
+[Table 2 about here.]
+
 ### 4.2 Zero-shot DAIC-to-Android interview transfer
 
 Phase 2B applied the frozen DAIC WavLM Candidate A to 116 Android interview participants, including 52 HC and 64 PT participants. The Android interview preprocessing produced 4,249 valid 10-second windows and the embedding quality checks passed. The frozen DAIC classifier achieved zero-shot ROC-AUC 0.6412 and PR-AUC 0.6809. However, predicted probabilities were compressed below both the default 0.5 threshold and the frozen DAIC threshold of 0.5558: the maximum predicted probability was 0.3938, and every participant was predicted negative at both thresholds. Thresholded balanced accuracy was 0.5000, macro F1 was 0.3095, sensitivity was 0.0000 and specificity was 1.0000. The Brier score was 0.4056.
 
 This result indicates limited cross-corpus ranking transfer, not successful thresholded classification.
+
+[Table 3 about here.]
 
 ### 4.3 Domain-shift diagnosis
 
@@ -193,15 +205,21 @@ Phase 2C separated threshold shift, calibration shift and classifier-boundary sh
 
 The Android-trained interview classifier improved ROC-AUC over the frozen DAIC reference by 0.2263. Feature-distribution analysis showed a centroid cosine distance of 0.1767, mean absolute standardized shift of 2.3116 and 550 of 768 features shifted by more than one DAIC standard deviation. Together, these findings indicate that classifier-boundary shift was the dominant failure source, while threshold and calibration shifts were secondary.
 
+[Figure 3 about here.]
+
 ### 4.4 Android reading-speech evaluation
 
 Phase 2D evaluated 112 Android reading participants, including 54 HC and 58 PT participants. Reading preprocessing produced 955 valid 10-second windows with zero extraction failures, and participant aggregation used all 955 windows.
 
 The frozen DAIC WavLM classifier transferred less strongly to reading speech than to Android interview speech, with zero-shot ROC-AUC 0.5795 and PR-AUC 0.5997. As in interview transfer, all participants were predicted negative at both the 0.5 threshold and the frozen DAIC threshold. In contrast, the Android-trained reading classifier achieved ROC-AUC 0.8796 with 95% CI [0.8113, 0.9377], PR-AUC 0.8929, balanced accuracy 0.7768, macro F1 0.7766 and Brier score 0.1438. This was a within-Android nested cross-validation estimate, not external validation.
 
+[Table 4 about here.]
+
 ### 4.5 Reading-versus-interview comparison
 
 The Phase 2D descriptive task comparison contrasted Android-trained reading and interview classifiers. The reading classifier achieved ROC-AUC 0.8796, while the interview classifier from Phase 2C achieved ROC-AUC 0.8675. The task centroid cosine distance was 0.0442, and within-participant reading/interview cosine similarity averaged 0.9273 across 110 participants with both tasks. Nevertheless, 292 of 768 features shifted by more than one interview standard deviation. Because the original reading and interview task folds differed, this comparison was descriptive rather than a controlled cross-task transfer test.
+
+[Figure 4 about here.]
 
 ### 4.6 Participant-coherent cross-task transfer
 
@@ -209,9 +227,15 @@ Phase 2E used participant-coherent folds over 110 paired Android participants, w
 
 Pooled reading-and-interview training achieved ROC-AUC 0.9058 for reading and 0.9135 for interview. Pooled-to-reading improved over interview-to-reading by 0.0557, and pooled-to-interview improved over reading-to-interview by 0.0660. However, the paired bootstrap intervals for these pooled gains included zero, so the pooled advantage should be interpreted as suggestive rather than conclusive.
 
+[Table 5 about here.]
+
 ### 4.7 Classifier-boundary analysis
 
 Phase 2E classifier-boundary analysis found only moderate similarity between reading-trained and interview-trained logistic-regression boundaries. Across folds, coefficient cosine similarity averaged 0.4752, coefficient sign agreement averaged 0.6659 and top-50 absolute-weight feature Jaccard overlap averaged 0.1216. Matched-task score correlation averaged 0.7123, while cross-target score correlation averaged 0.5555. These results support a distinction between shared representation information and partly task-specific classifier boundaries.
+
+[Figure 5 about here.]
+
+[Table 6 about here.]
 
 ## 5. Discussion
 

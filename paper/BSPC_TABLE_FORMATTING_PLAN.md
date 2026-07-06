@@ -4,6 +4,8 @@ Source tables: `paper/PAPER_RESULTS_TABLES.md`
 
 Guideline basis: BSPC/Elsevier tables should be editable text, cited in text, numbered sequentially, captioned, and use notes below the body. Vertical rules and shading should be avoided.
 
+Stage 3E update: table callouts were inserted into `paper/BSPC_MANUSCRIPT_DRAFT.md` for Tables 1-6. Table content remains in `paper/PAPER_RESULTS_TABLES.md`; final editable table layout is still deferred until DOCX/PDF preparation.
+
 | Table | Placement | Required formatting | Rounding | Footnotes | Abbreviations | Result-scope caveats | BSPC suitability |
 |---|---|---|---|---|---|---|---|
 | Table 1: Dataset and task summary | main | Editable text; concise caption; avoid vertical rules. | Counts as integers. | DAIC test labels provisional; Android labels HC/PT group labels. | Define DAIC-WOZ, HC, PT. | Dataset/task differences limit direct clinical interpretation. | suitable_main |
@@ -14,3 +16,14 @@ Guideline basis: BSPC/Elsevier tables should be editable text, cited in text, nu
 | Table 6: Result-scope and claim matrix | supplementary_preferred | Editable text; may be moved to supplement to reduce main-table density. | Not metric-heavy. | Validation scope is methodological, not clinical. | Define external validation and target-domain training. | Prevents overclaiming; keep somewhere in submission package. | suitable_supplement_preferred |
 
 Do not remove caveats that distinguish zero-shot external evaluation, target-domain adaptation, within-corpus validation and clinical validation.
+
+## Stage 3E Table Callout Map
+
+| Callout | Manuscript placement | Status |
+|---|---|---|
+| Table 1 | Materials and Methods, Datasets | callout_inserted |
+| Table 2 | Results 4.1, DAIC representation development | callout_inserted |
+| Table 3 | Results 4.2-4.3, DAIC-to-Android transfer and adaptation | callout_inserted |
+| Table 4 | Results 4.4, Android reading-speech evaluation | callout_inserted |
+| Table 5 | Results 4.6, participant-coherent cross-task transfer | callout_inserted |
+| Table 6 | Results 4.7, classifier-boundary analysis/result-scope caveats | callout_inserted |

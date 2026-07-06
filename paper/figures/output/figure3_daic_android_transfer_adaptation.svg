@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="960" viewBox="0 0 1500 960" role="img" aria-label="Figure 3 DAIC to Android transfer and adaptation">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="60" y="38" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#1f2a33" text-anchor="start">
+<tspan x="60" dy="0">Figure 3. DAIC-to-Android transfer and adaptation</tspan>
+</text>
+<text x="60" y="82" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#46525c" text-anchor="start">
+<tspan x="60" dy="0">Zero-shot frozen scores versus target-label-used threshold, calibration and classifier-boundary protocols</tspan>
+</text>
+<text x="140" y="157" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#1f2a33" text-anchor="start">
+<tspan x="140" dy="0">Android interview performance by protocol</tspan>
+</text>
+<line x1="140" y1="185" x2="140" y2="685" stroke="#52616b" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="140" y1="685" x2="1300" y2="685" stroke="#52616b" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="134" y1="685.0" x2="1300" y2="685.0" stroke="#d6dde2" stroke-width="1" stroke-linecap="round"/>
+<text x="126" y="676.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52616b" text-anchor="end">
+<tspan x="126" dy="0">0.00</tspan>
+</text>
+<line x1="134" y1="560.0" x2="1300" y2="560.0" stroke="#d6dde2" stroke-width="1" stroke-linecap="round"/>
+<text x="126" y="551.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52616b" text-anchor="end">
+<tspan x="126" dy="0">0.25</tspan>
+</text>
+<line x1="134" y1="435.0" x2="1300" y2="435.0" stroke="#d6dde2" stroke-width="1" stroke-linecap="round"/>
+<text x="126" y="426.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52616b" text-anchor="end">
+<tspan x="126" dy="0">0.50</tspan>
+</text>
+<line x1="134" y1="310.0" x2="1300" y2="310.0" stroke="#d6dde2" stroke-width="1" stroke-linecap="round"/>
+<text x="126" y="301.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52616b" text-anchor="end">
+<tspan x="126" dy="0">0.75</tspan>
+</text>
+<line x1="134" y1="185.0" x2="1300" y2="185.0" stroke="#d6dde2" stroke-width="1" stroke-linecap="round"/>
+<text x="126" y="176.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#52616b" text-anchor="end">
+<tspan x="126" dy="0">1.00</tspan>
+</text>
+<rect x="239.0" y="364.3870192307692" width="42" height="320.6129807692308" rx="4" fill="#315f9a" stroke="#34434d" stroke-width="1.5"/>
+<text x="260.0" y="340.3870192307692" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#1f2a33" text-anchor="middle">
+<tspan x="260.0" dy="0">0.6412</tspan>
+</text>
+<rect x="289.0" y="530.2380952380952" width="42" height="154.76190476190476" rx="4" fill="#2b8a83" stroke="#34434d" stroke-width="1.5"/>
+<text x="310.0" y="506.2380952380952" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#1f2a33" text-anchor="middle">
+<tspan x="310.0" dy="0">0.3095</tspan>
+</text>
+<text x="285.0" y="709" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#1f2a33" text-anchor="middle">
+<tspan x="285.0" dy="0">Frozen DAIC</tspan>
+<tspan x="285.0" dy="1.22em">0.5 threshold</tspan>
+</text>
+<text x="285.0" y="759" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5f6f78" text-anchor="middle">
+<tspan x="285.0" dy="0">Zero-shot</tspan>
+</text>
+<rect x="529.0" y="364.3870192307692" width="42" height="320.6129807692308" rx="4" fill="#315f9a" stroke="#34434d" stroke-width="1.5"/>
+<text x="550.0" y="340.3870192307692" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#1f2a33" text-anchor="middle">
+<tspan x="550.0" dy="0">0.6412</tspan>
+</text>
+<rect x="579.0" y="400.5813261968481" width="42" height="284.4186738031519" rx="4" fill="#2b8a83" stroke="#34434d" stroke-width="1.5"/>
+<text x="600.0" y="376.5813261968481" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#1f2a33" text-anchor="middle">
+<tspan x="600.0" dy="0">0.5688</tspan>
+</text>
+<text x="575.0" y="709" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#1f2a33" text-anchor="middle">
+<tspan x="575.0" dy="0">Threshold-only</tspan>
+<tspan x="575.0" dy="1.22em">adaptation</tspan>
+</text>
+<text x="575.0" y="759" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5f6f78" text-anchor="middle">
+<tspan x="575.0" dy="0">Target labels for threshold</tspan>
+</text>
+<rect x="819.0" y="400.29447115384613" width="42" height="284.70552884615387" rx="4" fill="#315f9a" stroke="#34434d" stroke-width="1.5"/>
+<text x="840.0" y="376.29447115384613" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#1f2a33" text-anchor="middle">
+<tspan x="840.0" dy="0">0.5694</tspan>
+</text>
+<rect x="869.0" y="392.1428571428571" width="42" height="292.8571428571429" rx="4" fill="#2b8a83" stroke="#34434d" stroke-width="1.5"/>
+<text x="890.0" y="368.1428571428571" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#1f2a33" text-anchor="middle">
+<tspan x="890.0" dy="0">0.5857</tspan>
+</text>
+<text x="865.0" y="709" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#1f2a33" text-anchor="middle">
+<tspan x="865.0" dy="0">Frozen-score</tspan>
+<tspan x="865.0" dy="1.22em">calibration</tspan>
+</text>
+<text x="865.0" y="759" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5f6f78" text-anchor="middle">
+<tspan x="865.0" dy="0">Target labels for calibration</tspan>
+</text>
+<rect x="1109.0" y="251.25600961538458" width="42" height="433.7439903846154" rx="4" fill="#315f9a" stroke="#34434d" stroke-width="1.5"/>
+<text x="1130.0" y="227.25600961538458" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#1f2a33" text-anchor="middle">
+<tspan x="1130.0" dy="0">0.8675</tspan>
+</text>
+<rect x="1159.0" y="271.8523510032945" width="42" height="413.1476489967055" rx="4" fill="#2b8a83" stroke="#34434d" stroke-width="1.5"/>
+<text x="1180.0" y="247.85235100329447" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#1f2a33" text-anchor="middle">
+<tspan x="1180.0" dy="0">0.8263</tspan>
+</text>
+<text x="1155.0" y="709" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#1f2a33" text-anchor="middle">
+<tspan x="1155.0" dy="0">Android-trained</tspan>
+<tspan x="1155.0" dy="1.22em">interview LR</tspan>
+</text>
+<text x="1155.0" y="759" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5f6f78" text-anchor="middle">
+<tspan x="1155.0" dy="0">Target labels and refit</tspan>
+</text>
+<rect x="1080" y="163" width="22" height="16" rx="3" fill="#315f9a" stroke="#34434d" stroke-width="1.5"/>
+<text x="1112" y="161" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#1f2a33" text-anchor="start">
+<tspan x="1112" dy="0">ROC-AUC</tspan>
+</text>
+<rect x="1080" y="193" width="22" height="16" rx="3" fill="#2b8a83" stroke="#34434d" stroke-width="1.5"/>
+<text x="1112" y="191" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#1f2a33" text-anchor="start">
+<tspan x="1112" dy="0">Macro F1</tspan>
+</text>
+<rect x="150" y="760" width="540" height="140" rx="8" fill="#f3e6bf" stroke="#51606c" stroke-width="1.3"/>
+<text x="168" y="785" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#1f2a33" text-anchor="start">
+<tspan x="168" dy="0">Protocol boundary</tspan>
+</text>
+<text x="168" y="818" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#34434d" text-anchor="start">
+<tspan x="168" dy="0">Protocols B and C use target-domain labels for adaptation.</tspan>
+<tspan x="168" dy="1.22em">Protocol D refits a target-domain classifier.</tspan>
+</text>
+<rect x="770" y="760" width="540" height="140" rx="8" fill="#dbe8f6" stroke="#51606c" stroke-width="1.3"/>
+<text x="788" y="785" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#1f2a33" text-anchor="start">
+<tspan x="788" dy="0">Allowed interpretation</tspan>
+</text>
+<text x="788" y="818" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#34434d" text-anchor="start">
+<tspan x="788" dy="0">The frozen DAIC model retained limited ranking transfer;</tspan>
+<tspan x="788" dy="1.22em">Android-trained boundaries improved within-corpus</tspan>
+<tspan x="788" dy="1.22em">discrimination.</tspan>
+</text>
+</svg>

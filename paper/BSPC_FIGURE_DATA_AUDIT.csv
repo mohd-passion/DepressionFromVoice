@@ -1,0 +1,39 @@
+figure,panel,metric,plotted value,source file,official value,match status,notes
+Figure 1,schematic,study design schematic,not_applicable,paper/FIGURE_SPECIFICATIONS.md,not_applicable,not_applicable,Schematic uses protocol labels only; no numeric participant-level record is plotted.
+Figure 2,A,ROC-AUC,0.5065,outputs/experiment_registry/experiment_summary.csv,0.5065,match,Phase 1F provisional local labeled DAIC test; not an official hidden test estimate.
+Figure 2,A,ROC-AUC,0.6775,outputs/experiment_registry/experiment_summary.csv,0.6775,match,Phase 1F provisional local labeled DAIC test; not an official hidden test estimate.
+Figure 3,A,ROC-AUC,0.6412,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,0.6412,match,DAIC-to-Android interview protocol comparison; aggregate participant-level metric.
+Figure 3,A,Macro F1,0.3095,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,0.3095,match,DAIC-to-Android interview protocol comparison; aggregate participant-level metric.
+Figure 3,A,ROC-AUC,0.6412,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,0.6412,match,DAIC-to-Android interview protocol comparison; aggregate participant-level metric.
+Figure 3,A,Macro F1,0.5688,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,0.5688,match,DAIC-to-Android interview protocol comparison; aggregate participant-level metric.
+Figure 3,A,ROC-AUC,0.5694,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,0.5694,match,DAIC-to-Android interview protocol comparison; aggregate participant-level metric.
+Figure 3,A,Macro F1,0.5857,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,0.5857,match,DAIC-to-Android interview protocol comparison; aggregate participant-level metric.
+Figure 3,A,ROC-AUC,0.8675,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,0.8675,match,DAIC-to-Android interview protocol comparison; aggregate participant-level metric.
+Figure 3,A,Macro F1,0.8263,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,0.8263,match,DAIC-to-Android interview protocol comparison; aggregate participant-level metric.
+Figure 4,A,ROC-AUC,0.8796,records/runs/phase2d_20260704_125931/phase2d_task_comparison.csv,0.8796,match,Phase 2D descriptive task comparison.
+Figure 4,A,ROC-AUC,0.8675,records/runs/phase2d_20260704_125931/phase2d_task_comparison.csv,0.8675,match,Phase 2D descriptive task comparison.
+Figure 4,B,ROC-AUC,0.9048,records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv,0.9048,match,Phase 2E participant-coherent cross-task protocol comparison.
+Figure 4,B,ROC-AUC,0.9065,records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv,0.9065,match,Phase 2E participant-coherent cross-task protocol comparison.
+Figure 4,B,ROC-AUC,0.8475,records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv,0.8475,match,Phase 2E participant-coherent cross-task protocol comparison.
+Figure 4,B,ROC-AUC,0.8501,records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv,0.8501,match,Phase 2E participant-coherent cross-task protocol comparison.
+Figure 4,B,ROC-AUC,0.9058,records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv,0.9058,match,Phase 2E participant-coherent cross-task protocol comparison.
+Figure 4,B,ROC-AUC,0.9135,records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv,0.9135,match,Phase 2E participant-coherent cross-task protocol comparison.
+Figure 4,C,ROC-AUC difference,-0.0590,records/runs/phase2e_20260704_151323/phase2e_transfer_gap_analysis.csv,-0.0590,match,Displayed as interpretation text only; intervals are not drawn from this compact record.
+Figure 4,C,ROC-AUC difference,-0.0547,records/runs/phase2e_20260704_151323/phase2e_transfer_gap_analysis.csv,-0.0547,match,Displayed as interpretation text only; intervals are not drawn from this compact record.
+Figure 4,C,ROC-AUC difference,0.0660,records/runs/phase2e_20260704_151323/phase2e_transfer_gap_analysis.csv,0.0660,match,Displayed as interpretation text only; intervals are not drawn from this compact record.
+Figure 4,C,ROC-AUC difference,0.0557,records/runs/phase2e_20260704_151323/phase2e_transfer_gap_analysis.csv,0.0557,match,Displayed as interpretation text only; intervals are not drawn from this compact record.
+Figure 5,A,DAIC-to-Android centroid cosine distance,0.1767,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,0.1767,match,Domain-shift summary statistic.
+Figure 5,A,Android reading/interview centroid cosine distance,0.0442,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,0.0442,match,Task-shift summary statistic.
+Figure 5,A,DAIC-to-Android mean absolute standardized shift,2.3116,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,2.3116,match,Domain-shift summary statistic.
+Figure 5,A,Android reading/interview mean absolute standardized shift,0.8831,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,0.8831,match,Task-shift summary statistic.
+Figure 5,A,DAIC-to-Android shifted features,550/768,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,550/768,match,Converted to share for plotting; count label retained.
+Figure 5,A,Android reading/interview shifted features,292/768,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,292/768,match,Converted to share for plotting; count label retained.
+Figure 5,A,DAIC-to-Android shifted feature share,0.7161,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,0.7161,match,Computed as shifted features divided by 768 WavLM layer-9 dimensions.
+Figure 5,A,Android reading/interview shifted feature share,0.3802,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,0.3802,match,Computed as shifted features divided by 768 WavLM layer-9 dimensions.
+Figure 5,A,DAIC-to-Android MMD^2,0.6091,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,0.6091,match,MMD^2 is available for DAIC-to-Android only in compact official records.
+Figure 5,A,Android reading/interview MMD^2,not_available_in_compact_records,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,not_available_in_compact_records,match,Not plotted as a numeric bar because no compact official Android reading/interview MMD^2 record is present.
+Figure 5,B,Coeff cosine,0.4752,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,0.4752,match,Mean across Phase 2E participant-coherent folds.
+Figure 5,B,Sign agreement,0.6659,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,0.6659,match,Mean across Phase 2E participant-coherent folds.
+Figure 5,B,Top-50 Jaccard,0.1216,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,0.1216,match,Mean across Phase 2E participant-coherent folds.
+Figure 5,B,Matched score corr.,0.7123,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,0.7123,match,Mean across Phase 2E participant-coherent folds.
+Figure 5,B,Cross-target corr.,0.5555,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,0.5555,match,Mean across Phase 2E participant-coherent folds.

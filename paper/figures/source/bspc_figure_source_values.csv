@@ -1,0 +1,39 @@
+figure,panel,label,metric,value,source file,source record
+Figure 1,schematic,study design schematic,study design schematic,not_applicable,paper/FIGURE_SPECIFICATIONS.md,Figure 1 specification
+Figure 2,A,WavLM free-speech candidate,ROC-AUC,0.5065,outputs/experiment_registry/experiment_summary.csv,phase1f_frozen_wavlm
+Figure 2,A,Guided-interview timing candidate,ROC-AUC,0.6775,outputs/experiment_registry/experiment_summary.csv,phase1f_frozen_timing
+Figure 3,A,Frozen DAIC 0.5 threshold,ROC-AUC,0.6412,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,A_frozen_daic_at_0_5
+Figure 3,A,Frozen DAIC 0.5 threshold,Macro F1,0.3095,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,A_frozen_daic_at_0_5
+Figure 3,A,Threshold-only adaptation,ROC-AUC,0.6412,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,B_threshold_only
+Figure 3,A,Threshold-only adaptation,Macro F1,0.5688,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,B_threshold_only
+Figure 3,A,Frozen-score calibration,ROC-AUC,0.5694,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,C_frozen_score_calibration
+Figure 3,A,Frozen-score calibration,Macro F1,0.5857,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,C_frozen_score_calibration
+Figure 3,A,Android-trained interview LR,ROC-AUC,0.8675,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,D_android_lr_threshold_adapted
+Figure 3,A,Android-trained interview LR,Macro F1,0.8263,records/runs/phase2c_20260703_125614/phase2c_protocol_comparison.csv,D_android_lr_threshold_adapted
+Figure 4,A,Android reading,ROC-AUC,0.8796,records/runs/phase2d_20260704_125931/phase2d_task_comparison.csv,Android reading
+Figure 4,A,Android interview,ROC-AUC,0.8675,records/runs/phase2d_20260704_125931/phase2d_task_comparison.csv,Android interview
+Figure 4,B,Matched reading,ROC-AUC,0.9048,records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv,matched_reading_within_task; threshold_0_5
+Figure 4,B,Matched interview,ROC-AUC,0.9065,records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv,matched_interview_within_task; threshold_0_5
+Figure 4,B,Reading to interview,ROC-AUC,0.8475,records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv,reading_to_interview; threshold_0_5
+Figure 4,B,Interview to reading,ROC-AUC,0.8501,records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv,interview_to_reading; threshold_0_5
+Figure 4,B,Pooled to reading,ROC-AUC,0.9058,records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv,pooled_to_reading; threshold_0_5
+Figure 4,B,Pooled to interview,ROC-AUC,0.9135,records/runs/phase2e_20260704_151323/phase2e_protocol_comparison.csv,pooled_to_interview; threshold_0_5
+Figure 4,C,reading_to_interview_gap,ROC-AUC difference,-0.0590,records/runs/phase2e_20260704_151323/phase2e_transfer_gap_analysis.csv,reading_to_interview_gap
+Figure 4,C,interview_to_reading_gap,ROC-AUC difference,-0.0547,records/runs/phase2e_20260704_151323/phase2e_transfer_gap_analysis.csv,interview_to_reading_gap
+Figure 4,C,pooled_to_interview_gain,ROC-AUC difference,0.0660,records/runs/phase2e_20260704_151323/phase2e_transfer_gap_analysis.csv,pooled_to_interview_gain
+Figure 4,C,pooled_to_reading_gain,ROC-AUC difference,0.0557,records/runs/phase2e_20260704_151323/phase2e_transfer_gap_analysis.csv,pooled_to_reading_gain
+Figure 5,A,DAIC-to-Android,DAIC-to-Android centroid cosine distance,0.1767,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,domain_shift_summary.centroid_cosine_distance
+Figure 5,A,Android reading versus interview,Android reading/interview centroid cosine distance,0.0442,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,task_shift.task_centroid_cosine_distance
+Figure 5,A,DAIC-to-Android,DAIC-to-Android mean absolute standardized shift,2.3116,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,domain_shift_summary.mean_absolute_standardized_shift
+Figure 5,A,Android reading versus interview,Android reading/interview mean absolute standardized shift,0.8831,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,task_shift.standardized_feature_shift_using_interview_std.mean_absolute_shift
+Figure 5,A,DAIC-to-Android,DAIC-to-Android shifted features,550/768,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,domain_shift_summary.features_shifted_more_than_one_daic_std
+Figure 5,A,Android reading versus interview,Android reading/interview shifted features,292/768,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,task_shift.standardized_feature_shift_using_interview_std.features_shifted_more_than_one_interview_std
+Figure 5,A,DAIC-to-Android,DAIC-to-Android shifted feature share,0.7161,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,550/768
+Figure 5,A,Android reading versus interview,Android reading/interview shifted feature share,0.3802,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,292/768
+Figure 5,A,DAIC-to-Android,DAIC-to-Android MMD^2,0.6091,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,domain_shift_summary.mmd2
+Figure 5,A,Android reading versus interview,Android reading/interview MMD^2,not_available_in_compact_records,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,task_shift
+Figure 5,B,Coeff cosine,Coeff cosine,0.4752,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,classifier_boundary_summary.coefficient_cosine_similarity_standardized_space.mean
+Figure 5,B,Sign agreement,Sign agreement,0.6659,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,classifier_boundary_summary.coefficient_sign_agreement.mean
+Figure 5,B,Top-50 Jaccard,Top-50 Jaccard,0.1216,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,classifier_boundary_summary.top_abs_weight_feature_jaccard_at_50.mean
+Figure 5,B,Matched score corr.,Matched score corr.,0.7123,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,classifier_boundary_summary.score_correlation_matched_source_tasks.mean
+Figure 5,B,Cross-target corr.,Cross-target corr.,0.5555,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,classifier_boundary_summary.score_correlation_cross_targets.mean

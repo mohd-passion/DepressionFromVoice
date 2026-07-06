@@ -65,6 +65,19 @@ STAGE3C_FILES = [
     PAPER / "AUTHOR_FINAL_QUESTIONS.md",
 ]
 
+STAGE3D_FILES = [
+    PAPER / "BSPC_GUIDELINES_VERIFICATION.md",
+    PAPER / "BSPC_ADAPTATION_PLAN.md",
+    PAPER / "BSPC_MANUSCRIPT_DRAFT.md",
+    PAPER / "BSPC_HIGHLIGHTS.md",
+    PAPER / "BSPC_GRAPHICAL_ABSTRACT_PLAN.md",
+    PAPER / "BSPC_DECLARATIONS_DRAFT.md",
+    PAPER / "BSPC_FIGURE_PRODUCTION_PLAN.md",
+    PAPER / "BSPC_TABLE_FORMATTING_PLAN.md",
+    PAPER / "BSPC_REFERENCE_FORMATTING_PLAN.md",
+    PAPER / "BSPC_COVER_LETTER_DRAFT.md",
+]
+
 REGISTRY = ROOT / "outputs" / "experiment_registry" / "experiment_registry.json"
 REGISTRY_VALIDATOR = ROOT / "outputs" / "experiment_registry" / "update_registry.py"
 MANUSCRIPT_SHA256 = "e0a89872e7244bf4aac47a055c055c590bd5394dea63f0516bf1e804d170d97c"
@@ -525,7 +538,82 @@ class ManuscriptValidationTests(unittest.TestCase):
             (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8"),
             flags=re.MULTILINE,
         )
-        self.assertEqual(len(questions), 15)
+        self.assertEqual(len(questions), 17)
+
+    def test_stage3d_required_files_exist(self) -> None:
+        for path in STAGE3D_FILES:
+            with self.subTest(path=path.name):
+                self.assertTrue(path.exists(), path)
+
+    def test_stage3d_bspc_manuscript_preserves_metrics_and_limits(self) -> None:
+        text = (PAPER / "BSPC_MANUSCRIPT_DRAFT.md").read_text(encoding="utf-8")
+        self.assertIn("Submission status: journal-specific preparation only; not submitted.", text)
+        self.assertIn("Article type: Full paper [AUTHOR CONFIRMATION REQUIRED]", text)
+        self.assertNotIn("[REFERENCE NEEDED:", text)
+
+        abstract = re.search(r"## Abstract\s+(.*?)\s+## Keywords", text, flags=re.DOTALL)
+        self.assertIsNotNone(abstract)
+        self.assertLessEqual(len(re.findall(r"\b\S+\b", abstract.group(1))), 250)
+
+        keywords = re.search(r"## Keywords\s+(.*?)\s+## 1\. Introduction", text, flags=re.DOTALL)
+        self.assertIsNotNone(keywords)
+        self.assertLessEqual(len([item for item in keywords.group(1).split(";") if item.strip()]), 7)
+
+        for phrase in [
+            "ROC-AUC 0.6412",
+            "ROC-AUC 0.8675",
+            "ROC-AUC 0.8796",
+            "0.8475",
+            "0.8501",
+            "0.9058",
+            "0.9135",
+            "550 shifted WavLM features",
+            "292 of 768 features",
+            "0.4752",
+            "0.6659",
+            "0.1216",
+            "not clinical validation",
+            "not diagnostic tools",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, text)
+
+    def test_stage3d_declarations_are_placeholders(self) -> None:
+        text = (PAPER / "BSPC_DECLARATIONS_DRAFT.md").read_text(encoding="utf-8")
+        for section in [
+            "## Funding",
+            "## Competing Interests",
+            "## Ethics Approval",
+            "## Consent To Participate",
+            "## Consent For Publication",
+            "## Data Availability",
+            "## Code Availability",
+            "## Author Contributions",
+            "## Acknowledgements",
+            "## Declaration Of Generative AI And AI-Assisted Technologies In The Writing Process",
+            "## Preprint Statement",
+        ]:
+            with self.subTest(section=section):
+                self.assertIn(section, text)
+        self.assertGreaterEqual(text.count("[AUTHOR CONFIRMATION REQUIRED]"), 10)
+        self.assertNotRegex(text, r"## Funding\s+\n\s*(?:No|None|N/A)\b")
+        self.assertNotRegex(text, r"## Competing Interests\s+\n\s*(?:No|None|Nothing|N/A)\b")
+        self.assertNotRegex(text, r"## Ethics Approval\s+\n\s*(?:No|None|Not required|N/A)\b")
+
+    def test_stage3d_no_invented_author_or_submission_details(self) -> None:
+        combined = "\n".join(path.read_text(encoding="utf-8") for path in STAGE3D_FILES)
+        self.assertNotRegex(combined, r"orcid\.org/|\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b")
+        self.assertNotIn("Submission status: submitted", combined)
+        self.assertNotIn("ready_for_submission", combined)
+        self.assertIn("DOCX/PDF or submission", (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8"))
+
+    def test_stage3d_bspc_guideline_verification_is_official_source_only(self) -> None:
+        text = (PAPER / "BSPC_GUIDELINES_VERIFICATION.md").read_text(encoding="utf-8")
+        self.assertIn("No non-official source was used", text)
+        self.assertIn("https://www.sciencedirect.com/journal/biomedical-signal-processing-and-control", text)
+        self.assertIn("https://www.sciencedirect.com/journal/biomedical-signal-processing-and-control/publish/guide-for-authors", text)
+        self.assertIn("Subscription route", text)
+        self.assertIn("not_verified", text)
 
     def test_stage3b_manuscript_metrics_are_preserved(self) -> None:
         text = MANUSCRIPT.read_text(encoding="utf-8")

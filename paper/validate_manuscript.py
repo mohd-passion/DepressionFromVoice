@@ -15,6 +15,7 @@ AUDIT_PATH = PAPER / "CITATION_PLACEHOLDER_AUDIT.csv"
 
 DOCS_WITH_CITATIONS = [
     MANUSCRIPT_PATH,
+    PAPER / "BSPC_MANUSCRIPT_DRAFT.md",
     PAPER / "CLAIM_REFERENCE_MAP_STAGE2A.md",
     PAPER / "CLAIM_REFERENCE_MAP_STAGE2B.md",
     PAPER / "CLAIM_REFERENCE_MAP_STAGE2C.md",
@@ -67,6 +68,19 @@ STAGE3C_REQUIRED_FILES = [
     PAPER / "PROVISIONAL_TARGET_JOURNAL_DECISION.md",
     PAPER / "JOURNAL_ADAPTATION_PLAN.md",
     PAPER / "AUTHOR_FINAL_QUESTIONS.md",
+]
+
+STAGE3D_REQUIRED_FILES = [
+    PAPER / "BSPC_GUIDELINES_VERIFICATION.md",
+    PAPER / "BSPC_ADAPTATION_PLAN.md",
+    PAPER / "BSPC_MANUSCRIPT_DRAFT.md",
+    PAPER / "BSPC_HIGHLIGHTS.md",
+    PAPER / "BSPC_GRAPHICAL_ABSTRACT_PLAN.md",
+    PAPER / "BSPC_DECLARATIONS_DRAFT.md",
+    PAPER / "BSPC_FIGURE_PRODUCTION_PLAN.md",
+    PAPER / "BSPC_TABLE_FORMATTING_PLAN.md",
+    PAPER / "BSPC_REFERENCE_FORMATTING_PLAN.md",
+    PAPER / "BSPC_COVER_LETTER_DRAFT.md",
 ]
 
 REQUIRED_MANUSCRIPT_SECTIONS = {
@@ -395,6 +409,52 @@ REQUIRED_STAGE3C_DECISION_PHRASES = {
     "awaiting_author_confirmation_for_target_journal",
 }
 
+BSPC_DECLARATION_SECTIONS = {
+    "## Funding",
+    "## Competing Interests",
+    "## Ethics Approval",
+    "## Consent To Participate",
+    "## Consent For Publication",
+    "## Data Availability",
+    "## Code Availability",
+    "## Author Contributions",
+    "## Acknowledgements",
+    "## Declaration Of Generative AI And AI-Assisted Technologies In The Writing Process",
+    "## Preprint Statement",
+}
+
+REQUIRED_BSPC_PHRASES = {
+    "Target journal: Biomedical Signal Processing and Control",
+    "Submission status: journal-specific preparation only; not submitted.",
+    "Article type: Full paper [AUTHOR CONFIRMATION REQUIRED]",
+    "## Highlights",
+    "## Graphical Abstract",
+    "## Declaration of Competing Interest",
+    "## Funding",
+    "## Ethics Approval",
+    "## Consent to Participate",
+    "## Consent for Publication",
+    "## CRediT Authorship Contribution Statement",
+    "## Acknowledgements",
+    "## Declaration of Generative AI and AI-Assisted Technologies in the Writing Process",
+    "## Preprint Statement",
+}
+
+REQUIRED_BSPC_METRICS = {
+    "ROC-AUC 0.6412",
+    "ROC-AUC 0.8675",
+    "ROC-AUC 0.8796",
+    "0.8475",
+    "0.8501",
+    "0.9058",
+    "0.9135",
+    "550 shifted WavLM features",
+    "292 of 768 features",
+    "0.4752",
+    "0.6659",
+    "0.1216",
+}
+
 EXPECTED_AUTHORITATIVE_MANUSCRIPT_METRICS = {
     "citation_markers": 99,
     "unique_citation_keys": 28,
@@ -610,6 +670,10 @@ def validate() -> list[str]:
     for path in STAGE3C_REQUIRED_FILES:
         if not path.exists():
             errors.append(f"Missing Stage 3C package file: {path.relative_to(ROOT)}")
+
+    for path in STAGE3D_REQUIRED_FILES:
+        if not path.exists():
+            errors.append(f"Missing Stage 3D package file: {path.relative_to(ROOT)}")
 
     manuscript_placeholders = set(re.findall(r"\[REFERENCE NEEDED: [^\]]+\]", manuscript_text))
     rows = audit_rows()
@@ -949,8 +1013,11 @@ def validate() -> list[str]:
                 errors.append(f"Journal adaptation plan missing safeguard: {phrase}")
 
         final_questions = re.findall(r"^\d+\. ", (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8"), flags=re.MULTILINE)
-        if len(final_questions) != 15:
-            errors.append(f"Author final questions must contain exactly 15 numbered questions; found {len(final_questions)}")
+        expected_question_count = 17 if any(path.exists() for path in STAGE3D_REQUIRED_FILES) else 15
+        if len(final_questions) != expected_question_count:
+            errors.append(
+                f"Author final questions must contain exactly {expected_question_count} numbered questions; found {len(final_questions)}"
+            )
 
         if re.search(
             r"\b(?:impact factor|citescore|acceptance rate|acceptance-rate|quartile)\s*[:=]\s*\d",
@@ -962,6 +1029,65 @@ def validate() -> list[str]:
             errors.append("Stage 3C package must not add unreverified APC amounts.")
         if "orcid.org/" in stage3c_text.lower() or re.search(r"\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b", stage3c_text):
             errors.append("Stage 3C package must not invent ORCID identifiers.")
+
+    if all(path.exists() for path in STAGE3D_REQUIRED_FILES):
+        stage3d_text = "\n".join(path.read_text(encoding="utf-8") for path in STAGE3D_REQUIRED_FILES)
+        bspc_text = (PAPER / "BSPC_MANUSCRIPT_DRAFT.md").read_text(encoding="utf-8")
+        for phrase in REQUIRED_BSPC_PHRASES:
+            if phrase not in bspc_text:
+                errors.append(f"BSPC manuscript draft missing phrase: {phrase}")
+        if "[REFERENCE NEEDED:" in bspc_text:
+            errors.append("BSPC manuscript draft must not contain unresolved reference-needed markers.")
+        for metric in REQUIRED_BSPC_METRICS:
+            if metric not in bspc_text:
+                errors.append(f"BSPC manuscript draft appears to have lost required metric/text: {metric}")
+
+        abstract_match = re.search(r"## Abstract\s+(.*?)\s+## Keywords", bspc_text, flags=re.DOTALL)
+        if not abstract_match:
+            errors.append("BSPC manuscript draft missing abstract/keywords boundary.")
+        else:
+            abstract_words = re.findall(r"\b\S+\b", abstract_match.group(1))
+            if len(abstract_words) > 250:
+                errors.append(f"BSPC abstract exceeds 250 words: {len(abstract_words)}")
+
+        keywords_match = re.search(r"## Keywords\s+(.*?)\s+## 1\. Introduction", bspc_text, flags=re.DOTALL)
+        if not keywords_match:
+            errors.append("BSPC manuscript draft missing keywords/introduction boundary.")
+        else:
+            keywords = [item.strip() for item in keywords_match.group(1).split(";") if item.strip()]
+            if not 1 <= len(keywords) <= 7:
+                errors.append(f"BSPC keywords must contain 1-7 entries; found {len(keywords)}")
+
+        declarations_text = (PAPER / "BSPC_DECLARATIONS_DRAFT.md").read_text(encoding="utf-8")
+        for section in BSPC_DECLARATION_SECTIONS:
+            if section not in declarations_text:
+                errors.append(f"BSPC declarations draft missing section: {section}")
+        if declarations_text.count("[AUTHOR CONFIRMATION REQUIRED]") < 10:
+            errors.append("BSPC declarations draft must keep author-confirmation markers explicit.")
+        for pattern, label in [
+            (r"## Funding\s+\n\s*(?:No|None|N/A)\b", "funding"),
+            (r"## Competing Interests\s+\n\s*(?:No|None|Nothing|N/A)\b", "competing interests"),
+            (r"## Ethics Approval\s+\n\s*(?:No|None|Not required|N/A)\b", "ethics"),
+        ]:
+            if re.search(pattern, declarations_text, flags=re.IGNORECASE):
+                errors.append(f"BSPC declarations draft must not finalize {label} wording.")
+
+        if "orcid.org/" in stage3d_text.lower() or re.search(r"\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b", stage3d_text):
+            errors.append("Stage 3D package must not invent ORCID identifiers.")
+        if "Submission status: submitted" in stage3d_text or "ready_for_submission" in stage3d_text:
+            errors.append("Stage 3D package must not mark manuscript as submitted or submission-ready.")
+        if re.search(
+            r"\b(?:impact factor|citescore|acceptance rate|acceptance-rate|quartile)\s*[:=]\s*\d",
+            stage3d_text,
+            flags=re.IGNORECASE,
+        ):
+            errors.append("Stage 3D package must not assert journal metrics.")
+
+        for sentence in sentences(bspc_text):
+            normalized = sentence.lower()
+            for phrase in PROHIBITED_CLINICAL_OVERCLAIM_PHRASES:
+                if phrase in normalized and not any(marker in normalized for marker in NEGATION_OR_LIMITING_MARKERS):
+                    errors.append(f"BSPC draft potential clinical overclaim without limitation: {sentence}")
 
     if (PAPER / "PAPER_WRITING_STATUS.md").exists():
         status_text = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")

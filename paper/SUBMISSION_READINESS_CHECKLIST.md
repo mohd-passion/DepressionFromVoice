@@ -12,6 +12,15 @@ Status values: `complete`, `needs_author_input`, `needs_formatting`, `needs_figu
 | Results tables | complete | 6 tables audited. |
 | Figures | needs_figure | 7 specifications prepared; no figures generated. |
 | Supplementary material | needs_formatting | Plan prepared; files not generated. |
+| BSPC guideline verification | complete | Official ScienceDirect/Elsevier sources checked on 2026-07-06. |
+| BSPC manuscript draft | complete | Journal-specific preparation copy created; not final submission file. |
+| BSPC highlights | complete | Five evidence-based highlights prepared. |
+| BSPC graphical abstract plan | needs_figure | Optional plan prepared; no image generated. |
+| BSPC declarations draft | needs_author_input | Placeholder-only declaration draft prepared. |
+| BSPC figure production plan | needs_figure | Figure plan prepared; no figures generated. |
+| BSPC table formatting plan | needs_formatting | Six tables reviewed for main/supplement placement. |
+| BSPC reference formatting plan | needs_formatting | Numeric-style conversion deferred. |
+| BSPC cover letter skeleton | needs_author_input | Skeleton prepared with placeholders only. |
 | Author preferences | complete | Preliminary preferences recorded; final target approval still required. |
 | Provisional target decision | complete | Biomedical Signal Processing and Control selected as provisional first target only. |
 | Journal re-verification | needs_journal_selection | Current guide, route, fee, format, data/code, ethics, preprint and AI-disclosure policies must be rechecked before submission. |
@@ -33,11 +42,11 @@ Status values: `complete`, `needs_author_input`, `needs_formatting`, `needs_figu
 | Figure count | needs_figure | 7 planned/specification entries; 5 main candidates plus 2 optional supplement figures. |
 | Table count | complete | 6 result tables. |
 | Journal selection | needs_author_input | Provisional target selected; final journal requires author confirmation. |
-| Journal-specific formatting | needs_journal_selection | Adaptation plan prepared; formatting not applied before author confirmation and re-verification. |
-| DOCX/PDF generation | not_applicable | Explicitly out of scope for Stage 3C. |
+| Journal-specific formatting | needs_author_input | BSPC preparation files drafted; final formatting requires author confirmations. |
+| DOCX/PDF generation | not_applicable | Explicitly out of scope for Stage 3D. |
 
 ## Readiness Category
 
-`awaiting_author_confirmation_for_target_journal`
+`bspc_preparation_complete_awaiting_author_inputs`
 
 Prior Stage 3A/3B readiness category: `ready_for_author_review`.

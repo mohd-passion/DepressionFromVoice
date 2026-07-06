@@ -2,13 +2,14 @@
 
 ## Source Freeze
 
-- Current branch: `paper/journal-targeting-v1`
+- Current branch: `paper/bspc-formatting-v1`
 - Frozen source tag: `paper-experiment-freeze-v1`
 - Tag commit: `1bf9434f047c0b69b90c1d5264e665d6ccd941a0`
 - Remote: `https://github.com/mohd-passion/DepressionFromVoice.git`
 - Stage 3A status: full manuscript consistency audit and journal-neutral submission package prepared.
 - Stage 3B status: author-input preparation and verified journal-selection package prepared.
 - Stage 3C status: preliminary author preferences applied; Biomedical Signal Processing and Control selected as provisional first target; awaiting author confirmation for target journal.
+- Stage 3D status: Biomedical Signal Processing and Control journal-specific preparation files drafted; awaiting author confirmations before figure generation, DOCX/PDF or submission.
 
 ## Current Counts
 
@@ -80,6 +81,19 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 - `paper/PROVISIONAL_TARGET_JOURNAL_DECISION.md`
 - `paper/JOURNAL_ADAPTATION_PLAN.md`
 - `paper/AUTHOR_FINAL_QUESTIONS.md`
+
+## Completed Stage 3D Package Files
+
+- `paper/BSPC_GUIDELINES_VERIFICATION.md`
+- `paper/BSPC_ADAPTATION_PLAN.md`
+- `paper/BSPC_MANUSCRIPT_DRAFT.md`
+- `paper/BSPC_HIGHLIGHTS.md`
+- `paper/BSPC_GRAPHICAL_ABSTRACT_PLAN.md`
+- `paper/BSPC_DECLARATIONS_DRAFT.md`
+- `paper/BSPC_FIGURE_PRODUCTION_PLAN.md`
+- `paper/BSPC_TABLE_FORMATTING_PLAN.md`
+- `paper/BSPC_REFERENCE_FORMATTING_PLAN.md`
+- `paper/BSPC_COVER_LETTER_DRAFT.md`
 
 ## Tables Prepared
 
@@ -159,5 +173,17 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - PLOS Digital Health and Frontiers in Digital Health are deferred under current preferences because their fully open-access APC models conflict with the preliminary no-APC/subscription-route requirement unless support is confirmed.
 - Current journal guide, fee route, article limits, data/code, ethics, preprint, AI-disclosure and any indexing/ranking details must be reverified before final journal selection.
 - Author confirmation remains required for final target, title, article type, author list/order, affiliation wording, ORCID, corresponding author, CRediT roles, funding, competing interests, ethics/exemption, consent, acknowledgements, preprint and AI-assisted writing disclosure.
+
+## Stage 3D Completion Notes
+
+- Official BSPC/Elsevier/ScienceDirect guidelines were checked on 2026-07-06 and recorded in `paper/BSPC_GUIDELINES_VERIFICATION.md`.
+- BSPC manuscript preparation copy created at `paper/BSPC_MANUSCRIPT_DRAFT.md`.
+- Abstract tightened below the 250-word BSPC cap and keywords reduced to seven.
+- Separate BSPC highlights file prepared with five evidence-based highlights.
+- Graphical abstract, figure, table and reference plans prepared; no final figures generated.
+- Declaration and cover-letter drafts contain placeholders only and require author confirmation.
+- Current official BSPC page verifies open-access APC and subscription/no-publication-fee routes, but final route preference remains author-confirmed.
+- No author declarations, ORCID, funding, ethics, consent, conflicts or acknowledgements were invented.
+- Manuscript not submitted, DOCX/PDF not generated and experiment registry records not modified.
 
 Do not mark `submission_ready` until author, journal, figure, ethics, consent, funding, conflict and formatting details are complete.

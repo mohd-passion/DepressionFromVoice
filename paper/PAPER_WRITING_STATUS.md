@@ -2,7 +2,7 @@
 
 ## Source Freeze
 
-- Current branch: `paper/bspc-figures-author-v1`
+- Current branch: `paper/bspc-docx-package-v1`
 - Frozen source tag: `paper-experiment-freeze-v1`
 - Tag commit: `1bf9434f047c0b69b90c1d5264e665d6ccd941a0`
 - Remote: `https://github.com/mohd-passion/DepressionFromVoice.git`
@@ -11,10 +11,12 @@
 - Stage 3C status: preliminary author preferences applied; Biomedical Signal Processing and Control selected as provisional first target; awaiting author confirmation for target journal.
 - Stage 3D status: Biomedical Signal Processing and Control journal-specific preparation files drafted; awaiting author confirmations before figure generation, DOCX/PDF or submission.
 - Stage 3E status: confirmed author details and declarations applied; BSPC main figure package generated; awaiting author review; no DOCX/PDF or submission.
+- Stage 3F status: BSPC figure visual review completed; DOCX-ready markdown package prepared; supplementary draft and conversion notes prepared; DOCX not generated because Pandoc was unavailable; no PDF or submission.
 
 ## Current Counts
 
 - Manuscript draft word count: 5309
+- DOCX-ready manuscript markdown word count: 6438
 - Reference count: 31
 - Citation markers in manuscript: 99
 - Unique manuscript citation keys: 28
@@ -24,6 +26,8 @@
 - Result tables prepared: 6
 - Planned/specification figure entries: 7
 - Generated BSPC main figures: 5
+- Generated BSPC supplement figures: 0
+- Tables retained in DOCX-ready manuscript: 6
 - Supplementary items planned: 11
 
 ## Working Title
@@ -116,6 +120,17 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 - `paper/figures/output/figure5_domain_shift_boundary_summary.svg`
 - `paper/figures/output/figure5_domain_shift_boundary_summary.png`
 
+## Completed Stage 3F Package Files
+
+- `paper/BSPC_FIGURE_VISUAL_REVIEW.md`
+- `paper/BSPC_DOCX_READY_MANUSCRIPT.md`
+- `paper/BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md`
+- `paper/BSPC_DOCX_CONVERSION_NOTES.md`
+- Updated `paper/BSPC_COVER_LETTER_DRAFT.md`
+- Updated `paper/AUTHOR_FINAL_QUESTIONS.md`
+- Updated `paper/BSPC_TABLE_FORMATTING_PLAN.md`
+- Updated `paper/SUBMISSION_READINESS_CHECKLIST.md`
+
 ## Tables Prepared
 
 1. Dataset and task summary
@@ -144,8 +159,7 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Final target journal confirmation
 - Dr. Vikram Singh email
 - Dr. Vikram Singh ORCID
-- Dr. Vikram Singh corresponding-author status
-- Author contributions
+- Dr. Vikram Singh CRediT roles
 - Acknowledgements
 - Institutional/dataset-policy check of ethics wording
 - Consent statement
@@ -161,18 +175,19 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Journal-specific word count and section order
 - Reference style conversion
 - Figure author review and final artwork-format conversion
+- DOCX conversion/manual Word formatting
 - Supplementary file formatting
-- Table caption formatting
+- Table formatting in Word
 - Any required reporting-guideline checklist
-- DOCX/PDF generation after venue selection
+- DOCX generation after author review/tooling availability
 
 ## Journal Selection Status
 
-`figures_generated_awaiting_author_review`
+`bspc_docx_ready_markdown_prepared`
 
 ## Current Readiness Category
 
-`awaiting_author_confirmation_for_target_journal`
+`bspc_docx_ready_markdown_prepared`
 
 ## Stage 3B Completion Notes
 
@@ -230,5 +245,22 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Manuscript figure callouts were inserted for Figures 1-5 and table callouts for Tables 1-6.
 - Optional supplementary figures were not generated in Stage 3E.
 - No raw audio, participant identifiers, embeddings, fitted models, prediction files or participant-level outputs were read or committed.
+
+## Stage 3F DOCX Package Notes
+
+- Figure visual review completed in `paper/BSPC_FIGURE_VISUAL_REVIEW.md`; all five generated figures are `ready_for_author_review`.
+- Main figure count: 5.
+- Supplement figure count: 0.
+- Table count retained in DOCX-ready manuscript: 6.
+- DOCX-ready manuscript markdown prepared at `paper/BSPC_DOCX_READY_MANUSCRIPT.md`.
+- Supplementary material draft prepared at `paper/BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md`.
+- DOCX conversion notes prepared at `paper/BSPC_DOCX_CONVERSION_NOTES.md`.
+- DOCX generated: no; Pandoc was unavailable on PATH during Stage 3F.
+- PDF generated: no.
+- Manuscript validation status before Stage 3F branch creation: passed.
+- Unit-test status before Stage 3F branch creation: passed, 76 tests.
+- Registry validation status before Stage 3F branch creation: passed, 42 records.
+- No submission was performed.
+- No metrics, author details, consent wording, acknowledgements, AI disclosure or clinical claims were invented.
 
 Do not mark `submission_ready` until author, journal, figure, ethics, consent, funding, conflict and formatting details are complete.

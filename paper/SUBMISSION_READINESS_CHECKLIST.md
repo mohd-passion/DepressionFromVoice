@@ -21,6 +21,10 @@ Status values: `complete`, `needs_author_input`, `needs_formatting`, `needs_figu
 | BSPC table formatting plan | needs_formatting | Six tables reviewed for main/supplement placement; manuscript callouts inserted. |
 | BSPC reference formatting plan | needs_formatting | Numeric-style conversion deferred. |
 | BSPC cover letter skeleton | needs_author_input | Skeleton prepared with placeholders only. |
+| BSPC figure visual review | complete | Five generated figures reviewed; no Stage 3F figure revisions required; all five main figures are ready for author review. |
+| BSPC DOCX-ready manuscript markdown | complete | `paper/BSPC_DOCX_READY_MANUSCRIPT.md` prepared as the clean source for later DOCX conversion. |
+| BSPC supplementary material draft | complete | `paper/BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md` prepared using compact non-sensitive artifacts only. |
+| BSPC DOCX conversion notes | complete | `paper/BSPC_DOCX_CONVERSION_NOTES.md` prepared; Pandoc was unavailable on PATH during Stage 3F. |
 | Author preferences | complete | Preliminary preferences recorded; final target approval still required. |
 | Provisional target decision | complete | Biomedical Signal Processing and Control selected as provisional first target only. |
 | Journal re-verification | needs_journal_selection | Current guide, route, fee, format, data/code, ethics, preprint and AI-disclosure policies must be rechecked before submission. |
@@ -43,10 +47,12 @@ Status values: `complete`, `needs_author_input`, `needs_formatting`, `needs_figu
 | Table count | complete | 6 result tables. |
 | Journal selection | needs_author_input | Provisional target selected; final journal requires author confirmation. |
 | Journal-specific formatting | needs_author_input | BSPC preparation files drafted; final formatting requires author confirmations. |
-| DOCX/PDF generation | not_applicable | Explicitly out of scope for Stage 3E. |
+| DOCX generation | needs_formatting | DOCX not generated in Stage 3F because Pandoc was unavailable on PATH; manual Word/Pandoc conversion remains pending. |
+| PDF generation | not_applicable | Explicitly out of scope for Stage 3F. |
+| Submission | needs_author_input | Not started; do not submit until author review and unresolved declarations are complete. |
 
 ## Readiness Category
 
-`figures_generated_awaiting_author_review`
+`bspc_docx_ready_markdown_prepared`
 
 Prior Stage 3A/3B readiness category: `ready_for_author_review`.

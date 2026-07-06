@@ -78,6 +78,29 @@ STAGE3D_FILES = [
     PAPER / "BSPC_COVER_LETTER_DRAFT.md",
 ]
 
+STAGE3E_FIGURE_OUTPUTS = [
+    PAPER / "figures" / "output" / "figure1_study_design_protocol_overview.svg",
+    PAPER / "figures" / "output" / "figure1_study_design_protocol_overview.png",
+    PAPER / "figures" / "output" / "figure2_daic_phase1_key_results.svg",
+    PAPER / "figures" / "output" / "figure2_daic_phase1_key_results.png",
+    PAPER / "figures" / "output" / "figure3_daic_android_transfer_adaptation.svg",
+    PAPER / "figures" / "output" / "figure3_daic_android_transfer_adaptation.png",
+    PAPER / "figures" / "output" / "figure4_android_cross_task_results.svg",
+    PAPER / "figures" / "output" / "figure4_android_cross_task_results.png",
+    PAPER / "figures" / "output" / "figure5_domain_shift_boundary_summary.svg",
+    PAPER / "figures" / "output" / "figure5_domain_shift_boundary_summary.png",
+]
+
+STAGE3E_FILES = [
+    PAPER / "BSPC_FIGURE_CAPTIONS.md",
+    PAPER / "BSPC_FIGURE_DATA_AUDIT.csv",
+    PAPER / "figures" / "README.md",
+    PAPER / "figures" / "scripts" / "generate_bspc_figures.py",
+    PAPER / "figures" / "source" / "bspc_figure_source_values.csv",
+    PAPER / "figures" / "output" / "figure_generation_log.txt",
+    *STAGE3E_FIGURE_OUTPUTS,
+]
+
 REGISTRY = ROOT / "outputs" / "experiment_registry" / "experiment_registry.json"
 REGISTRY_VALIDATOR = ROOT / "outputs" / "experiment_registry" / "update_registry.py"
 MANUSCRIPT_SHA256 = "e0a89872e7244bf4aac47a055c055c590bd5394dea63f0516bf1e804d170d97c"
@@ -314,6 +337,7 @@ class ManuscriptValidationTests(unittest.TestCase):
             "needs_formatting",
             "needs_figure",
             "needs_journal_selection",
+            "figures_generated_awaiting_author_review",
             "not_applicable",
         }
         for line in text.splitlines():
@@ -353,7 +377,10 @@ class ManuscriptValidationTests(unittest.TestCase):
                 self.assertIn(field, text)
         self.assertIn("Unverified Author Context", text)
         self.assertIn("Mohammad Ilyas", text)
-        self.assertIn("Final affiliation wording | not_verified", text)
+        self.assertIn(
+            "Final affiliation wording | Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India | confirmed for Stage 3E draft |",
+            text,
+        )
         for role in [
             "Conceptualization",
             "Methodology",
@@ -471,7 +498,7 @@ class ManuscriptValidationTests(unittest.TestCase):
             with self.subTest(path=path.name):
                 self.assertTrue(path.exists(), path)
 
-    def test_stage3c_author_preferences_are_recorded_without_finalizing_declarations(self) -> None:
+    def test_stage3c_author_preferences_and_stage3e_author_inputs_are_recorded(self) -> None:
         preferences = (PAPER / "AUTHOR_PREFERENCES_PRELIMINARY.md").read_text(encoding="utf-8")
         for phrase in [
             "SCI/SCIE mandatory | No",
@@ -490,18 +517,22 @@ class ManuscriptValidationTests(unittest.TestCase):
 
         author_input = (PAPER / "AUTHOR_INPUT_FORM.md").read_text(encoding="utf-8")
         for phrase in [
-            "Funding | [NOT PROVIDED]",
-            "Competing interests | [NOT PROVIDED]",
-            "Ethics approval or exemption | [NOT PROVIDED]",
-            "Consent to participate | [NOT PROVIDED]",
-            "Consent for publication | [NOT PROVIDED]",
-            "Acknowledgements | [NOT PROVIDED]",
-            "Use of AI-assisted writing tools | [NOT PROVIDED]",
-            "Prior presentation or preprint status | [NOT PROVIDED]",
+            "Funding | No funding was received for this study.",
+            "Competing interests | The authors declare no competing interests.",
+            "Ethics approval or exemption | This study used previously collected datasets obtained under their original access terms.",
+            "Consent to participate | [AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
+            "Consent for publication | [AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
+            "Acknowledgements | [AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
+            "Use of AI-assisted writing tools | [AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used",
+            "Prior presentation or preprint status | Preprint decision: undecided.",
+            "Institutional email | mohd.passion.cse@mitmoradabad.edu.in",
+            "Institutional email | [AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email not provided]",
+            "ORCID | not available",
+            "ORCID | [AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh ORCID not provided]",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, author_input)
-        self.assertIn("| ORCID | [NOT PROVIDED] |", author_input)
+        self.assertNotIn("Use of AI-assisted writing tools | No", author_input)
         self.assertNotIn("No external funding", author_input)
         self.assertNotRegex(author_input, r"orcid\.org/|\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b")
 
@@ -578,7 +609,7 @@ class ManuscriptValidationTests(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, text)
 
-    def test_stage3d_declarations_are_placeholders(self) -> None:
+    def test_stage3e_declarations_apply_confirmed_items_and_keep_unresolved_markers(self) -> None:
         text = (PAPER / "BSPC_DECLARATIONS_DRAFT.md").read_text(encoding="utf-8")
         for section in [
             "## Funding",
@@ -595,10 +626,55 @@ class ManuscriptValidationTests(unittest.TestCase):
         ]:
             with self.subTest(section=section):
                 self.assertIn(section, text)
-        self.assertGreaterEqual(text.count("[AUTHOR CONFIRMATION REQUIRED]"), 10)
-        self.assertNotRegex(text, r"## Funding\s+\n\s*(?:No|None|N/A)\b")
-        self.assertNotRegex(text, r"## Competing Interests\s+\n\s*(?:No|None|Nothing|N/A)\b")
-        self.assertNotRegex(text, r"## Ethics Approval\s+\n\s*(?:No|None|Not required|N/A)\b")
+        for phrase in [
+            "No funding was received for this study.",
+            "The authors declare no competing interests.",
+            "This study used previously collected datasets obtained under their original access terms.",
+            "Author-review note: this wording must be checked against institutional policy and the dataset licence terms before submission.",
+            "[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
+            "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
+            "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used",
+            "[AUTHOR CONFIRMATION REQUIRED: supervision, methodology review, writing - review and editing, or other CRediT roles]",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, text)
+        self.assertNotIn("No AI", text)
+
+    def test_stage3e_figure_package_outputs_and_audit_are_present(self) -> None:
+        for path in STAGE3E_FILES:
+            with self.subTest(path=path.name):
+                self.assertTrue(path.exists(), path)
+
+        captions = (PAPER / "BSPC_FIGURE_CAPTIONS.md").read_text(encoding="utf-8")
+        self.assertIn("figures_generated_awaiting_author_review", captions)
+        self.assertEqual(captions.count("Prohibited interpretation"), 5)
+        for label in ["Figure 1", "Figure 2", "Figure 3", "Figure 4", "Figure 5"]:
+            self.assertIn(label, captions)
+
+        with (PAPER / "BSPC_FIGURE_DATA_AUDIT.csv").open(newline="", encoding="utf-8-sig") as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertGreaterEqual(len(rows), 30)
+        self.assertEqual({row["figure"] for row in rows}, {"Figure 1", "Figure 2", "Figure 3", "Figure 4", "Figure 5"})
+        self.assertLessEqual({row["match status"] for row in rows}, {"match", "not_applicable"})
+        values = {(row["figure"], row["metric"], row["plotted value"]) for row in rows}
+        for required in [
+            ("Figure 2", "ROC-AUC", "0.5065"),
+            ("Figure 3", "ROC-AUC", "0.8675"),
+            ("Figure 4", "ROC-AUC", "0.9135"),
+            ("Figure 5", "DAIC-to-Android MMD^2", "0.6091"),
+            ("Figure 5", "Cross-target corr.", "0.5555"),
+        ]:
+            with self.subTest(required=required):
+                self.assertIn(required, values)
+
+        for path in STAGE3E_FIGURE_OUTPUTS:
+            if path.suffix == ".png":
+                self.assertTrue(path.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"))
+                self.assertGreater(path.stat().st_size, 10_000)
+            else:
+                text = path.read_text(encoding="utf-8")
+                self.assertIn("<svg", text)
+                self.assertIn("</svg>", text)
 
     def test_stage3d_no_invented_author_or_submission_details(self) -> None:
         combined = "\n".join(path.read_text(encoding="utf-8") for path in STAGE3D_FILES)

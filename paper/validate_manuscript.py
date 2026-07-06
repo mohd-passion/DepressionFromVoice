@@ -83,6 +83,29 @@ STAGE3D_REQUIRED_FILES = [
     PAPER / "BSPC_COVER_LETTER_DRAFT.md",
 ]
 
+STAGE3E_FIGURE_OUTPUTS = [
+    PAPER / "figures" / "output" / "figure1_study_design_protocol_overview.svg",
+    PAPER / "figures" / "output" / "figure1_study_design_protocol_overview.png",
+    PAPER / "figures" / "output" / "figure2_daic_phase1_key_results.svg",
+    PAPER / "figures" / "output" / "figure2_daic_phase1_key_results.png",
+    PAPER / "figures" / "output" / "figure3_daic_android_transfer_adaptation.svg",
+    PAPER / "figures" / "output" / "figure3_daic_android_transfer_adaptation.png",
+    PAPER / "figures" / "output" / "figure4_android_cross_task_results.svg",
+    PAPER / "figures" / "output" / "figure4_android_cross_task_results.png",
+    PAPER / "figures" / "output" / "figure5_domain_shift_boundary_summary.svg",
+    PAPER / "figures" / "output" / "figure5_domain_shift_boundary_summary.png",
+]
+
+STAGE3E_REQUIRED_FILES = [
+    PAPER / "BSPC_FIGURE_CAPTIONS.md",
+    PAPER / "BSPC_FIGURE_DATA_AUDIT.csv",
+    PAPER / "figures" / "README.md",
+    PAPER / "figures" / "scripts" / "generate_bspc_figures.py",
+    PAPER / "figures" / "source" / "bspc_figure_source_values.csv",
+    PAPER / "figures" / "output" / "figure_generation_log.txt",
+    *STAGE3E_FIGURE_OUTPUTS,
+]
+
 REQUIRED_MANUSCRIPT_SECTIONS = {
     "## Abstract",
     "## Keywords",
@@ -207,6 +230,7 @@ VALID_CHECKLIST_STATUSES = {
     "needs_formatting",
     "needs_figure",
     "needs_journal_selection",
+    "figures_generated_awaiting_author_review",
     "not_applicable",
 }
 
@@ -398,6 +422,44 @@ REQUIRED_UNRESOLVED_DECLARATION_MARKERS = {
     "Prior presentation or preprint status | [NOT PROVIDED]",
 }
 
+REQUIRED_STAGE3E_AUTHOR_PHRASES = {
+    "Full name | Mohammad Ilyas",
+    "Institutional email | mohd.passion.cse@mitmoradabad.edu.in",
+    "ORCID | not available",
+    "Corresponding-author status | Yes",
+    "Full name | Dr. Vikram Singh",
+    "Institutional email | [AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email not provided]",
+    "ORCID | [AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh ORCID not provided]",
+    "Corresponding-author status | [AUTHOR CONFIRMATION REQUIRED: not confirmed]",
+}
+
+REQUIRED_STAGE3E_DECLARATION_PHRASES = {
+    "Funding | No funding was received for this study.",
+    "Competing interests | The authors declare no competing interests.",
+    "Consent to participate | [AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
+    "Consent for publication | [AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
+    "Acknowledgements | [AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
+    "Use of AI-assisted writing tools | [AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used",
+    "Prior presentation or preprint status | Preprint decision: undecided.",
+    "BSPC submission route | BSPC submission route: undecided; subscription/no-publication-fee route preferred but not yet finally confirmed.",
+}
+
+REQUIRED_STAGE3E_UNRESOLVED_TEXT = {
+    "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email not provided]",
+    "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh ORCID not provided]",
+    "[AUTHOR CONFIRMATION REQUIRED: not confirmed]",
+    "[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
+    "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
+    "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used during drafting, code organization, manuscript preparation, or workflow assistance; final wording must follow BSPC/Elsevier policy.]",
+}
+
+REQUIRED_STAGE3E_CONFIRMED_DECLARATIONS = {
+    "No funding was received for this study.",
+    "The authors declare no competing interests.",
+    "This study used previously collected datasets obtained under their original access terms. No new human participants were recruited. Ethics approval was not sought because the study involved secondary analysis of existing datasets.",
+    "Author-review note: this wording must be checked against institutional policy and the dataset licence terms before submission.",
+}
+
 REQUIRED_STAGE3C_DECISION_PHRASES = {
     "Decision status: `provisional_target_selected`",
     "Final submission status: `not_selected`",
@@ -542,6 +604,56 @@ REQUIRED_CITATION_AUDIT_COLUMNS = {
     "notes",
 }
 
+REQUIRED_FIGURE_AUDIT_COLUMNS = {
+    "figure",
+    "panel",
+    "metric",
+    "plotted value",
+    "source file",
+    "official value",
+    "match status",
+    "notes",
+}
+
+REQUIRED_FIGURE_AUDIT_VALUES = {
+    ("Figure 2", "ROC-AUC", "0.5065"),
+    ("Figure 2", "ROC-AUC", "0.6775"),
+    ("Figure 3", "ROC-AUC", "0.6412"),
+    ("Figure 3", "Macro F1", "0.3095"),
+    ("Figure 3", "Macro F1", "0.5688"),
+    ("Figure 3", "ROC-AUC", "0.5694"),
+    ("Figure 3", "ROC-AUC", "0.8675"),
+    ("Figure 3", "Macro F1", "0.8263"),
+    ("Figure 4", "ROC-AUC", "0.8796"),
+    ("Figure 4", "ROC-AUC", "0.8675"),
+    ("Figure 4", "ROC-AUC", "0.9048"),
+    ("Figure 4", "ROC-AUC", "0.9065"),
+    ("Figure 4", "ROC-AUC", "0.8475"),
+    ("Figure 4", "ROC-AUC", "0.8501"),
+    ("Figure 4", "ROC-AUC", "0.9058"),
+    ("Figure 4", "ROC-AUC", "0.9135"),
+    ("Figure 5", "DAIC-to-Android centroid cosine distance", "0.1767"),
+    ("Figure 5", "Android reading/interview centroid cosine distance", "0.0442"),
+    ("Figure 5", "DAIC-to-Android mean absolute standardized shift", "2.3116"),
+    ("Figure 5", "Android reading/interview mean absolute standardized shift", "0.8831"),
+    ("Figure 5", "DAIC-to-Android shifted features", "550/768"),
+    ("Figure 5", "Android reading/interview shifted features", "292/768"),
+    ("Figure 5", "DAIC-to-Android MMD^2", "0.6091"),
+    ("Figure 5", "Coeff cosine", "0.4752"),
+    ("Figure 5", "Sign agreement", "0.6659"),
+    ("Figure 5", "Top-50 Jaccard", "0.1216"),
+    ("Figure 5", "Matched score corr.", "0.7123"),
+    ("Figure 5", "Cross-target corr.", "0.5555"),
+}
+
+FORBIDDEN_GENERATED_ARTIFACT_PATTERNS = {
+    r"\bparticipant[_ -]?id\b",
+    r"\bsubject[_ -]?id\b",
+    r"\brecording[_ -]?id\b",
+    r"\baudio[_ -]?path\b",
+    r"\bfile[_ -]?path\b",
+}
+
 
 def bib_keys_and_dois() -> tuple[set[str], list[str], list[str]]:
     text = BIB_PATH.read_text(encoding="utf-8")
@@ -553,7 +665,8 @@ def bib_keys_and_dois() -> tuple[set[str], list[str], list[str]]:
 
 
 def citations_in_text(text: str) -> set[str]:
-    return set(re.findall(r"@([A-Za-z][A-Za-z0-9_:-]*)", text))
+    # Avoid treating email domains as citation keys.
+    return set(re.findall(r"(?<![A-Za-z0-9._%+-])@([A-Za-z][A-Za-z0-9_:-]*)", text))
 
 
 def audit_rows() -> list[dict[str, str]]:
@@ -674,6 +787,10 @@ def validate() -> list[str]:
     for path in STAGE3D_REQUIRED_FILES:
         if not path.exists():
             errors.append(f"Missing Stage 3D package file: {path.relative_to(ROOT)}")
+
+    for path in STAGE3E_REQUIRED_FILES:
+        if not path.exists():
+            errors.append(f"Missing Stage 3E package file: {path.relative_to(ROOT)}")
 
     manuscript_placeholders = set(re.findall(r"\[REFERENCE NEEDED: [^\]]+\]", manuscript_text))
     rows = audit_rows()
@@ -856,9 +973,33 @@ def validate() -> list[str]:
 
     if (PAPER / "JOURNAL_NEUTRAL_FRONT_MATTER.md").exists():
         front_matter_text = (PAPER / "JOURNAL_NEUTRAL_FRONT_MATTER.md").read_text(encoding="utf-8")
-        for placeholder in REQUIRED_FRONT_MATTER_PLACEHOLDERS:
-            if placeholder not in front_matter_text:
-                errors.append(f"Front matter missing explicit placeholder: {placeholder}")
+        if "Mohammad Ilyas" in front_matter_text and "No funding was received for this study." in front_matter_text:
+            for phrase in [
+                "1. Mohammad Ilyas",
+                "2. Dr. Vikram Singh",
+                "mohd.passion.cse@mitmoradabad.edu.in",
+                "Dr. Vikram Singh corresponding-author status: [AUTHOR CONFIRMATION REQUIRED: not confirmed].",
+                "Mohammad Ilyas: not available.",
+                "Dr. Vikram Singh: [AUTHOR CONFIRMATION REQUIRED: ORCID not provided].",
+                "[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
+                "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
+                "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used",
+            ]:
+                if phrase not in front_matter_text:
+                    errors.append(f"Stage 3E front matter missing phrase: {phrase}")
+            for phrase in [
+                "No funding was received for this study.",
+                "The authors declare no competing interests.",
+                "This study used previously collected datasets obtained under their original access terms. No new human participants were recruited. Ethics approval was not sought because the study involved secondary analysis of existing datasets.",
+            ]:
+                if phrase not in front_matter_text:
+                    errors.append(f"Stage 3E front matter missing confirmed declaration: {phrase}")
+            if "institutional policy" not in front_matter_text or "dataset licence terms" not in front_matter_text:
+                errors.append("Stage 3E front matter missing ethics author-review note.")
+        else:
+            for placeholder in REQUIRED_FRONT_MATTER_PLACEHOLDERS:
+                if placeholder not in front_matter_text:
+                    errors.append(f"Front matter missing explicit placeholder: {placeholder}")
 
     if (PAPER / "AUTHOR_INPUT_FORM.md").exists():
         author_input_text = (PAPER / "AUTHOR_INPUT_FORM.md").read_text(encoding="utf-8")
@@ -870,13 +1011,27 @@ def validate() -> list[str]:
                 errors.append(f"Author input form missing CRediT role: {role}")
         if "Mohammad Ilyas" in author_input_text and "Unverified Author Context" not in author_input_text:
             errors.append("Known user name must remain inside an unverified author-context section.")
-        if "Final affiliation wording | not_verified" not in author_input_text:
-            errors.append("Author input form must mark final affiliation wording as not_verified.")
-        for marker in REQUIRED_UNRESOLVED_DECLARATION_MARKERS:
-            if marker not in author_input_text:
-                errors.append(f"Author input form must keep unresolved declaration marked: {marker}")
-        if "| ORCID | [NOT PROVIDED] |" not in author_input_text:
-            errors.append("Author input form must not invent ORCID values.")
+        if "No funding was received for this study." in author_input_text:
+            if "Final affiliation wording | Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India | confirmed for Stage 3E draft |" not in author_input_text:
+                errors.append("Author input form must retain Stage 3E confirmed affiliation wording.")
+            for phrase in REQUIRED_STAGE3E_AUTHOR_PHRASES:
+                if phrase not in author_input_text:
+                    errors.append(f"Author input form missing Stage 3E author phrase: {phrase}")
+            for phrase in REQUIRED_STAGE3E_DECLARATION_PHRASES:
+                if phrase not in author_input_text:
+                    errors.append(f"Author input form missing Stage 3E declaration phrase: {phrase}")
+            if "Use of AI-assisted writing tools | No" in author_input_text:
+                errors.append("Author input form must not finalize AI-assisted writing disclosure as No.")
+        else:
+            if "Final affiliation wording | not_verified" not in author_input_text:
+                errors.append("Author input form must mark final affiliation wording as not_verified.")
+            for marker in REQUIRED_UNRESOLVED_DECLARATION_MARKERS:
+                if marker not in author_input_text:
+                    errors.append(f"Author input form must keep unresolved declaration marked: {marker}")
+            if "| ORCID | [NOT PROVIDED] |" not in author_input_text:
+                errors.append("Author input form must not invent ORCID values.")
+        if "orcid.org/" in author_input_text.lower() or re.search(r"\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b", author_input_text):
+            errors.append("Author input form must not invent ORCID identifiers.")
         if "No external funding" in author_input_text or "| Funding | N/A" in author_input_text:
             errors.append("Author input form must not invent or finalize funding wording.")
 
@@ -1062,15 +1217,31 @@ def validate() -> list[str]:
         for section in BSPC_DECLARATION_SECTIONS:
             if section not in declarations_text:
                 errors.append(f"BSPC declarations draft missing section: {section}")
-        if declarations_text.count("[AUTHOR CONFIRMATION REQUIRED]") < 10:
-            errors.append("BSPC declarations draft must keep author-confirmation markers explicit.")
-        for pattern, label in [
-            (r"## Funding\s+\n\s*(?:No|None|N/A)\b", "funding"),
-            (r"## Competing Interests\s+\n\s*(?:No|None|Nothing|N/A)\b", "competing interests"),
-            (r"## Ethics Approval\s+\n\s*(?:No|None|Not required|N/A)\b", "ethics"),
-        ]:
-            if re.search(pattern, declarations_text, flags=re.IGNORECASE):
-                errors.append(f"BSPC declarations draft must not finalize {label} wording.")
+        if "No funding was received for this study." in declarations_text:
+            for phrase in REQUIRED_STAGE3E_CONFIRMED_DECLARATIONS:
+                if phrase not in declarations_text:
+                    errors.append(f"BSPC declarations draft missing Stage 3E declaration: {phrase}")
+            for phrase in [
+                "[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
+                "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
+                "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used",
+                "[AUTHOR CONFIRMATION REQUIRED: repository visibility, license and exact URL]",
+                "[AUTHOR CONFIRMATION REQUIRED: supervision, methodology review, writing - review and editing, or other CRediT roles]",
+            ]:
+                if phrase not in declarations_text:
+                    errors.append(f"BSPC declarations draft missing unresolved Stage 3E marker: {phrase}")
+            if "No AI" in declarations_text or "Use of AI-assisted writing tools | No" in declarations_text:
+                errors.append("BSPC declarations draft must not finalize AI-assisted writing disclosure as No.")
+        else:
+            if declarations_text.count("[AUTHOR CONFIRMATION REQUIRED]") < 10:
+                errors.append("BSPC declarations draft must keep author-confirmation markers explicit.")
+            for pattern, label in [
+                (r"## Funding\s+\n\s*(?:No|None|N/A)\b", "funding"),
+                (r"## Competing Interests\s+\n\s*(?:No|None|Nothing|N/A)\b", "competing interests"),
+                (r"## Ethics Approval\s+\n\s*(?:No|None|Not required|N/A)\b", "ethics"),
+            ]:
+                if re.search(pattern, declarations_text, flags=re.IGNORECASE):
+                    errors.append(f"BSPC declarations draft must not finalize {label} wording.")
 
         if "orcid.org/" in stage3d_text.lower() or re.search(r"\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b", stage3d_text):
             errors.append("Stage 3D package must not invent ORCID identifiers.")
@@ -1089,6 +1260,96 @@ def validate() -> list[str]:
                 if phrase in normalized and not any(marker in normalized for marker in NEGATION_OR_LIMITING_MARKERS):
                     errors.append(f"BSPC draft potential clinical overclaim without limitation: {sentence}")
 
+    if all(path.exists() for path in STAGE3E_REQUIRED_FILES):
+        stage3e_text = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in STAGE3E_REQUIRED_FILES
+            if path.suffix.lower() not in {".png"}
+        )
+        bspc_text = (PAPER / "BSPC_MANUSCRIPT_DRAFT.md").read_text(encoding="utf-8")
+        captions_text = (PAPER / "BSPC_FIGURE_CAPTIONS.md").read_text(encoding="utf-8")
+
+        if "figures_generated_awaiting_author_review" not in stage3e_text:
+            errors.append("Stage 3E figure package must mark figures as awaiting author review.")
+        for label in ["Figure 1", "Figure 2", "Figure 3", "Figure 4", "Figure 5"]:
+            if label not in captions_text:
+                errors.append(f"BSPC figure captions missing {label}")
+            if f"[{label} about here.]" not in bspc_text:
+                errors.append(f"BSPC manuscript missing callout for {label}")
+        for label in ["Table 1", "Table 2", "Table 3", "Table 4", "Table 5", "Table 6"]:
+            if f"[{label} about here.]" not in bspc_text:
+                errors.append(f"BSPC manuscript missing callout for {label}")
+        if captions_text.count("Prohibited interpretation") < 5:
+            errors.append("BSPC figure captions must include prohibited-interpretation cautions for all five figures.")
+        if "not fabricated" not in captions_text:
+            errors.append("BSPC figure captions must explicitly avoid fabricating unavailable MMD^2.")
+
+        figure_rows = csv_rows(PAPER / "BSPC_FIGURE_DATA_AUDIT.csv", REQUIRED_FIGURE_AUDIT_COLUMNS)
+        if len(figure_rows) < 30:
+            errors.append(f"BSPC figure audit has too few rows: {len(figure_rows)}")
+        figures_in_audit = {row["figure"] for row in figure_rows}
+        if figures_in_audit != {"Figure 1", "Figure 2", "Figure 3", "Figure 4", "Figure 5"}:
+            errors.append(f"BSPC figure audit has unexpected figure set: {sorted(figures_in_audit)}")
+        invalid_statuses = sorted(
+            {row["match status"] for row in figure_rows}.difference({"match", "not_applicable"})
+        )
+        if invalid_statuses:
+            errors.append(f"BSPC figure audit has invalid match statuses: {invalid_statuses}")
+        mismatches = [
+            row
+            for row in figure_rows
+            if row["match status"] == "match" and row["plotted value"] != row["official value"]
+        ]
+        if mismatches:
+            errors.append(f"BSPC figure audit contains mismatched plotted values: {mismatches[:3]}")
+        audit_values = {(row["figure"], row["metric"], row["plotted value"]) for row in figure_rows}
+        missing_audit_values = sorted(REQUIRED_FIGURE_AUDIT_VALUES.difference(audit_values))
+        if missing_audit_values:
+            errors.append(f"BSPC figure audit missing required values: {missing_audit_values[:5]}")
+        for row in figure_rows:
+            source_path = ROOT / row["source file"]
+            if not source_path.exists():
+                errors.append(f"BSPC figure audit source file does not exist: {row['source file']}")
+
+        for path in STAGE3E_FIGURE_OUTPUTS:
+            if path.suffix.lower() == ".png":
+                data = path.read_bytes()
+                if not data.startswith(b"\x89PNG\r\n\x1a\n") or len(data) < 10_000:
+                    errors.append(f"Generated PNG appears invalid or too small: {path.relative_to(ROOT)}")
+            else:
+                text = path.read_text(encoding="utf-8")
+                if "<svg" not in text or "</svg>" not in text:
+                    errors.append(f"Generated SVG appears invalid: {path.relative_to(ROOT)}")
+
+        for pattern in FORBIDDEN_GENERATED_ARTIFACT_PATTERNS:
+            if re.search(pattern, stage3e_text, flags=re.IGNORECASE):
+                errors.append(f"Stage 3E generated text contains forbidden identifier pattern: {pattern}")
+
+        for phrase in REQUIRED_STAGE3E_UNRESOLVED_TEXT:
+            if phrase not in "\n".join(
+                [
+                    (PAPER / "BSPC_MANUSCRIPT_DRAFT.md").read_text(encoding="utf-8"),
+                    (PAPER / "BSPC_DECLARATIONS_DRAFT.md").read_text(encoding="utf-8"),
+                    (PAPER / "JOURNAL_NEUTRAL_FRONT_MATTER.md").read_text(encoding="utf-8"),
+                    (PAPER / "AUTHOR_INPUT_FORM.md").read_text(encoding="utf-8"),
+                ]
+            ):
+                errors.append(f"Stage 3E unresolved author marker missing: {phrase}")
+        combined_author_text = "\n".join(
+            [
+                (PAPER / "BSPC_MANUSCRIPT_DRAFT.md").read_text(encoding="utf-8"),
+                (PAPER / "BSPC_DECLARATIONS_DRAFT.md").read_text(encoding="utf-8"),
+                (PAPER / "JOURNAL_NEUTRAL_FRONT_MATTER.md").read_text(encoding="utf-8"),
+                (PAPER / "AUTHOR_INPUT_FORM.md").read_text(encoding="utf-8"),
+            ]
+        )
+        if "orcid.org/" in combined_author_text.lower() or re.search(
+            r"\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b", combined_author_text
+        ):
+            errors.append("Stage 3E author files must not invent ORCID identifiers.")
+        if "No AI" in combined_author_text or "Use of AI-assisted writing tools | No" in combined_author_text:
+            errors.append("Stage 3E author files must not finalize AI disclosure as No.")
+
     if (PAPER / "PAPER_WRITING_STATUS.md").exists():
         status_text = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
         for phrase in [
@@ -1106,6 +1367,15 @@ def validate() -> list[str]:
         ]:
             if phrase not in status_text:
                 errors.append(f"Paper writing status missing Stage 3B phrase: {phrase}")
+        for phrase in [
+            "Stage 3E status: confirmed author details and declarations applied; BSPC main figure package generated; awaiting author review; no DOCX/PDF or submission.",
+            "Generated BSPC main figures: 5",
+            "`figures_generated_awaiting_author_review`",
+            "Figure captions were created in `paper/BSPC_FIGURE_CAPTIONS.md`.",
+            "No raw audio, participant identifiers, embeddings, fitted models, prediction files or participant-level outputs were read or committed.",
+        ]:
+            if phrase not in status_text:
+                errors.append(f"Paper writing status missing Stage 3E phrase: {phrase}")
 
     if (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").exists():
         terminology_text = (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").read_text(encoding="utf-8")

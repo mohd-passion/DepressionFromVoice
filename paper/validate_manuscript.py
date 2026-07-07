@@ -124,6 +124,16 @@ STAGE3G_REQUIRED_FILES = [
     PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx",
 ]
 
+EXPERIMENT_RATIONALE_REQUIRED_FILES = [
+    PAPER / "STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md",
+    PAPER / "STUDY_EXPERIMENTS_RATIONALE_TABLE.csv",
+    PAPER / "EXPERIMENTAL_DESIGN_REVIEWER_EXPLANATION.md",
+    PAPER / "EXPERIMENTAL_RATIONALE_MANUSCRIPT_INSERT.md",
+    PAPER / "EXPERIMENTAL_RATIONALE_PRESENTATION_NOTES.md",
+    PAPER / "EXPERIMENT_DEPENDENCY_FLOW.md",
+    PAPER / "EXPERIMENT_SCOPE_BOUNDARIES.md",
+]
+
 REQUIRED_MANUSCRIPT_SECTIONS = {
     "## Abstract",
     "## Keywords",
@@ -634,6 +644,54 @@ REQUIRED_FIGURE_AUDIT_COLUMNS = {
     "notes",
 }
 
+REQUIRED_RATIONALE_TABLE_COLUMNS = {
+    "phase",
+    "experiment_name",
+    "experiment_id_or_run_id",
+    "dataset",
+    "speech_task",
+    "training_domain",
+    "evaluation_domain",
+    "model_or_feature_set",
+    "classifier_or_protocol",
+    "main_question",
+    "rationale",
+    "key_result",
+    "significance",
+    "main_limitation",
+    "next_step_motivated",
+    "manuscript_section_supported",
+    "official_source_file",
+}
+
+REQUIRED_RATIONALE_EXPERIMENT_IDS = {
+    "phase1a_metadata_baseline",
+    "phase1a_wavlm_final_layer",
+    "phase1b_wavlm_layer_09",
+    "phase1c_aggregation_mean",
+    "phase1d_timing_only",
+    "phase1e_timing_only",
+    "phase1f_frozen_wavlm",
+    "phase1f_frozen_timing",
+    "phase2a_android_audit",
+    "phase2b_daic_to_android_zero_shot_wavlm",
+    "phase2c_protocol_a_frozen_daic_reference",
+    "phase2c_protocol_b_threshold_only",
+    "phase2c_protocol_c_score_calibration",
+    "phase2c_protocol_d_android_lr",
+    "phase2c_domain_shift_summary",
+    "phase2d_android_reading_zero_shot_daic",
+    "phase2d_android_reading_logistic_regression",
+    "phase2d_android_interview_vs_reading_comparison",
+    "phase2e_matched_reading_within_task",
+    "phase2e_matched_interview_within_task",
+    "phase2e_reading_to_interview_transfer",
+    "phase2e_interview_to_reading_transfer",
+    "phase2e_pooled_to_reading",
+    "phase2e_pooled_to_interview",
+    "phase2e_cross_task_transfer_conclusion",
+}
+
 REQUIRED_FIGURE_AUDIT_VALUES = {
     ("Figure 2", "ROC-AUC", "0.5065"),
     ("Figure 2", "ROC-AUC", "0.6775"),
@@ -823,6 +881,12 @@ def sentences(text: str) -> list[str]:
     return [item.strip() for item in re.split(r"(?<=[.!?])\s+", text) if item.strip()]
 
 
+def contains_prohibited_wording(text: str, phrase: str) -> bool:
+    if " " in phrase or "-" in phrase:
+        return phrase in text
+    return re.search(rf"\b{re.escape(phrase)}\b", text) is not None
+
+
 def validate() -> list[str]:
     errors: list[str] = []
     bib_keys, duplicate_keys, duplicate_dois = bib_keys_and_dois()
@@ -871,6 +935,10 @@ def validate() -> list[str]:
     for path in STAGE3G_REQUIRED_FILES:
         if not path.exists():
             errors.append(f"Missing Stage 3G package file: {path.relative_to(ROOT)}")
+
+    for path in EXPERIMENT_RATIONALE_REQUIRED_FILES:
+        if not path.exists():
+            errors.append(f"Missing experiment-rationale package file: {path.relative_to(ROOT)}")
 
     manuscript_placeholders = set(re.findall(r"\[REFERENCE NEEDED: [^\]]+\]", manuscript_text))
     rows = audit_rows()
@@ -1688,6 +1756,162 @@ def validate() -> list[str]:
                 if phrase in normalized and not any(marker in normalized for marker in NEGATION_OR_LIMITING_MARKERS):
                     errors.append(f"Stage 3G DOCX potential clinical overclaim without limitation: {sentence}")
 
+    if all(path.exists() for path in EXPERIMENT_RATIONALE_REQUIRED_FILES):
+        rationale_summary = (PAPER / "STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md").read_text(encoding="utf-8")
+        reviewer_explanation = (PAPER / "EXPERIMENTAL_DESIGN_REVIEWER_EXPLANATION.md").read_text(encoding="utf-8")
+        manuscript_insert = (PAPER / "EXPERIMENTAL_RATIONALE_MANUSCRIPT_INSERT.md").read_text(encoding="utf-8")
+        presentation_notes = (PAPER / "EXPERIMENTAL_RATIONALE_PRESENTATION_NOTES.md").read_text(encoding="utf-8")
+        dependency_flow = (PAPER / "EXPERIMENT_DEPENDENCY_FLOW.md").read_text(encoding="utf-8")
+        scope_boundaries = (PAPER / "EXPERIMENT_SCOPE_BOUNDARIES.md").read_text(encoding="utf-8")
+        rationale_package_text = "\n".join(
+            [
+                rationale_summary,
+                reviewer_explanation,
+                manuscript_insert,
+                presentation_notes,
+                dependency_flow,
+                scope_boundaries,
+            ]
+        )
+        rationale_rows = csv_rows(PAPER / "STUDY_EXPERIMENTS_RATIONALE_TABLE.csv", REQUIRED_RATIONALE_TABLE_COLUMNS)
+        if len(rationale_rows) != 25:
+            errors.append(f"Experiment-rationale table must contain 25 rows; found {len(rationale_rows)}")
+        row_ids = {row["experiment_id_or_run_id"] for row in rationale_rows}
+        missing_ids = sorted(REQUIRED_RATIONALE_EXPERIMENT_IDS.difference(row_ids))
+        if missing_ids:
+            errors.append(f"Experiment-rationale table missing required IDs: {missing_ids}")
+        for row in rationale_rows:
+            if not row["rationale"] or not row["key_result"] or not row["main_limitation"]:
+                errors.append(f"Experiment-rationale table row lacks required narrative fields: {row['experiment_id_or_run_id']}")
+            for source in [item.strip() for item in row["official_source_file"].split(";") if item.strip()]:
+                if not source.startswith(("outputs/", "records/runs/", "paper/", "docs/")):
+                    errors.append(f"Experiment-rationale table source not in approved project source set: {source}")
+
+        for phrase in [
+            "# Study Experiments and Rationale Summary",
+            "## Purpose of This Document",
+            "## Overall Experimental Logic",
+            "## Phase 1: DAIC-WOZ Methodological Development",
+            "### Phase 1A: Baseline Participant-Level Depression Classification",
+            "### Phase 1B: WavLM Layer-Wise Analysis",
+            "### Phase 1C: Aggregation Strategy Analysis",
+            "### Phase 1D: Timing and Interaction Feature Analysis",
+            "### Phase 1E: Late Fusion Analysis",
+            "### Phase 1F: Final Frozen DAIC Evaluation",
+            "## Phase 2: Androids Corpus Transfer and Task Analysis",
+            "### Phase 2A: Androids Corpus Audit and Preparation",
+            "### Phase 2B: DAIC-to-Android Zero-Shot Interview Transfer",
+            "### Phase 2C: Domain Shift, Calibration, and Android-Trained Interview Models",
+            "### Phase 2D: Android Reading-Speech Evaluation",
+            "### Phase 2E: Reading-Interview Cross-Task Transfer",
+            "## Final Experimental Interpretation",
+            "## What the Experiments Demonstrate",
+            "## What the Experiments Do Not Demonstrate",
+            "## Clinical and Deployment Boundaries",
+            "## How These Experiments Support the BSPC Manuscript",
+        ]:
+            if phrase not in rationale_summary:
+                errors.append(f"Experiment-rationale summary missing required section: {phrase}")
+        for metric in [
+            "0.4437",
+            "0.5195",
+            "0.6412",
+            "0.8675",
+            "0.8796",
+            "0.8475",
+            "0.8501",
+            "0.9058",
+            "0.9135",
+            "550 of 768",
+            "0.1216",
+        ]:
+            if metric not in rationale_package_text:
+                errors.append(f"Experiment-rationale package missing audited metric/text: {metric}")
+
+        for phrase in [
+            "## Why the Study Was Designed in Stages",
+            "## Why DAIC-WOZ Was Used for Initial Method Development",
+            "## Why Androids Corpus Was Used for External Task and Corpus Analysis",
+            "## Why Zero-Shot Transfer Was Tested Before Adaptation",
+            "## Why Calibration and Threshold Adaptation Were Separated",
+            "## Why Android-Trained Models Were Reported Separately",
+            "## Why Reading and Interview Speech Were Compared",
+            "## Why Cross-Task Transfer Was Evaluated",
+            "## Why Timing Features Were Treated Carefully",
+            "## Why the Study Remains Research-Only",
+        ]:
+            if phrase not in reviewer_explanation:
+                errors.append(f"Reviewer explanation missing section: {phrase}")
+
+        insert_word_count = len(re.findall(r"\b\S+\b", manuscript_insert))
+        if not 500 <= insert_word_count <= 900:
+            errors.append(f"Manuscript rationale insert must be 500-900 words; found {insert_word_count}")
+        for phrase in [
+            "Phase 1 established the DAIC-WOZ methodology",
+            "Phase 2A audited Androids Corpus before modeling",
+            "Phase 2C separated these explanations",
+            "Phase 2E then tested reading-interview transfer",
+            "They do not establish clinical validation",
+        ]:
+            if phrase not in manuscript_insert:
+                errors.append(f"Manuscript rationale insert missing phrase: {phrase}")
+
+        for phrase in [
+            "# Why Each Experiment Was Conducted",
+            "## Step 1: Build a DAIC-WOZ Baseline",
+            "## Step 7: Test Zero-Shot Transfer to Androids Corpus",
+            "## Step 8: Diagnose Domain Shift",
+            "## Step 11: Test Cross-Task Transfer",
+            "## Final Takeaway",
+        ]:
+            if phrase not in presentation_notes:
+                errors.append(f"Presentation notes missing phrase: {phrase}")
+        if "```mermaid" not in dependency_flow or "Phase 2E pooled-task training and boundary summary" not in dependency_flow:
+            errors.append("Experiment dependency flow must include Mermaid diagram through Phase 2E.")
+
+        for column in [
+            "experiment",
+            "cross_corpus",
+            "zero_shot",
+            "target_labels_used",
+            "classifier_refit",
+            "threshold_adapted",
+            "calibration_used",
+            "within_corpus",
+            "clinical_validation",
+            "permitted_claim",
+            "prohibited_claim",
+        ]:
+            if column not in scope_boundaries:
+                errors.append(f"Experiment scope boundaries missing column: {column}")
+        for phrase in [
+            "Phase 2B DAIC-to-Android interview zero-shot",
+            "Phase 2C Protocol B threshold-only adaptation",
+            "Phase 2C Protocol C frozen-score calibration",
+            "Phase 2E reading-to-interview",
+            "None of these experiments is clinical validation.",
+        ]:
+            if phrase not in scope_boundaries:
+                errors.append(f"Experiment scope boundaries missing phrase: {phrase}")
+
+        rationale_package_lower = rationale_package_text.lower()
+        for prohibited in ["proved", "diagnosed", "clinically validated", "deployment-ready", "generalizes universally", "state-of-the-art"]:
+            if contains_prohibited_wording(rationale_package_lower, prohibited):
+                errors.append(f"Experiment-rationale package contains prohibited wording: {prohibited}")
+        for sentence in sentences(rationale_package_text):
+            normalized = sentence.lower()
+            for phrase in PROHIBITED_CLINICAL_OVERCLAIM_PHRASES:
+                if phrase in normalized and not any(marker in normalized for marker in NEGATION_OR_LIMITING_MARKERS):
+                    errors.append(f"Experiment-rationale potential clinical overclaim without limitation: {sentence}")
+        if "complete experiment-rationale support package" not in (
+            PAPER / "BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md"
+        ).read_text(encoding="utf-8"):
+            errors.append("BSPC supplementary draft missing experiment-rationale support package note.")
+        if "Experiment rationale summary prepared" not in (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").read_text(
+            encoding="utf-8"
+        ):
+            errors.append("Submission checklist missing experiment-rationale item.")
+
     if (PAPER / "PAPER_WRITING_STATUS.md").exists():
         status_text = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
         for phrase in [
@@ -1724,7 +1948,6 @@ def validate() -> list[str]:
                 errors.append(f"Paper writing status missing Stage 3F phrase: {phrase}")
         if all(path.exists() for path in STAGE3G_REQUIRED_FILES):
             for phrase in [
-                "Current branch: `paper/bspc-review-docx-v1`",
                 "Stage 3G status: BSPC author-review DOCX package generated without Pandoc; review copies need author review; no final PDF or submission.",
                 "BSPC review DOCX files generated: 2",
                 "`bspc_review_docx_generated_needs_author_review`",
@@ -1743,6 +1966,31 @@ def validate() -> list[str]:
             ]:
                 if phrase not in status_text:
                     errors.append(f"Paper writing status missing Stage 3G phrase: {phrase}")
+            expected_branch = (
+                "Current branch: `paper/experiment-rationale-summary-v1`"
+                if all(path.exists() for path in EXPERIMENT_RATIONALE_REQUIRED_FILES)
+                else "Current branch: `paper/bspc-review-docx-v1`"
+            )
+            if expected_branch not in status_text:
+                errors.append(f"Paper writing status missing current branch phrase: {expected_branch}")
+        if all(path.exists() for path in EXPERIMENT_RATIONALE_REQUIRED_FILES):
+            for phrase in [
+                "Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.",
+                "Experiment-rationale table rows: 25",
+                "## Completed Experiment-Rationale Package Files",
+                "`paper/STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md`",
+                "`paper/STUDY_EXPERIMENTS_RATIONALE_TABLE.csv`",
+                "`paper/EXPERIMENTAL_DESIGN_REVIEWER_EXPLANATION.md`",
+                "`paper/EXPERIMENTAL_RATIONALE_MANUSCRIPT_INSERT.md`",
+                "`paper/EXPERIMENTAL_RATIONALE_PRESENTATION_NOTES.md`",
+                "`paper/EXPERIMENT_DEPENDENCY_FLOW.md`",
+                "`paper/EXPERIMENT_SCOPE_BOUNDARIES.md`",
+                "No experiments were run.",
+                "No experiment registry records, raw outputs, participant counts, metrics, confidence intervals or interpretation categories were changed.",
+                "No new scientific claims were introduced beyond the existing audited evidence.",
+            ]:
+                if phrase not in status_text:
+                    errors.append(f"Paper writing status missing experiment-rationale phrase: {phrase}")
 
     if (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").exists():
         terminology_text = (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").read_text(encoding="utf-8")

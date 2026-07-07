@@ -119,6 +119,44 @@ STAGE3G_FILES = [
     PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx",
 ]
 
+EXPERIMENT_RATIONALE_FILES = [
+    PAPER / "STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md",
+    PAPER / "STUDY_EXPERIMENTS_RATIONALE_TABLE.csv",
+    PAPER / "EXPERIMENTAL_DESIGN_REVIEWER_EXPLANATION.md",
+    PAPER / "EXPERIMENTAL_RATIONALE_MANUSCRIPT_INSERT.md",
+    PAPER / "EXPERIMENTAL_RATIONALE_PRESENTATION_NOTES.md",
+    PAPER / "EXPERIMENT_DEPENDENCY_FLOW.md",
+    PAPER / "EXPERIMENT_SCOPE_BOUNDARIES.md",
+]
+
+REQUIRED_RATIONALE_IDS = {
+    "phase1a_metadata_baseline",
+    "phase1a_wavlm_final_layer",
+    "phase1b_wavlm_layer_09",
+    "phase1c_aggregation_mean",
+    "phase1d_timing_only",
+    "phase1e_timing_only",
+    "phase1f_frozen_wavlm",
+    "phase1f_frozen_timing",
+    "phase2a_android_audit",
+    "phase2b_daic_to_android_zero_shot_wavlm",
+    "phase2c_protocol_a_frozen_daic_reference",
+    "phase2c_protocol_b_threshold_only",
+    "phase2c_protocol_c_score_calibration",
+    "phase2c_protocol_d_android_lr",
+    "phase2c_domain_shift_summary",
+    "phase2d_android_reading_zero_shot_daic",
+    "phase2d_android_reading_logistic_regression",
+    "phase2d_android_interview_vs_reading_comparison",
+    "phase2e_matched_reading_within_task",
+    "phase2e_matched_interview_within_task",
+    "phase2e_reading_to_interview_transfer",
+    "phase2e_interview_to_reading_transfer",
+    "phase2e_pooled_to_reading",
+    "phase2e_pooled_to_interview",
+    "phase2e_cross_task_transfer_conclusion",
+}
+
 REGISTRY = ROOT / "outputs" / "experiment_registry" / "experiment_registry.json"
 REGISTRY_VALIDATOR = ROOT / "outputs" / "experiment_registry" / "update_registry.py"
 MANUSCRIPT_SHA256 = "e0a89872e7244bf4aac47a055c055c590bd5394dea63f0516bf1e804d170d97c"
@@ -151,6 +189,12 @@ def docx_text_and_media_count(path: Path) -> tuple[str, int]:
         text = "".join(node.text or "" for node in root.iter() if node.tag.endswith("}t"))
         media_count = sum(1 for name in archive.namelist() if name.startswith("word/media/"))
     return text, media_count
+
+
+def contains_prohibited_wording(text: str, phrase: str) -> bool:
+    if " " in phrase or "-" in phrase:
+        return phrase in text
+    return re.search(rf"\b{re.escape(phrase)}\b", text) is not None
 
 
 class ManuscriptValidationTests(unittest.TestCase):
@@ -933,6 +977,108 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertNotRegex(combined, r"orcid\.org/|\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b")
         self.assertNotRegex(combined, r"Dr\. Vikram Singh[^@\n]{0,160}@[A-Za-z0-9._%+-]+")
 
+    def test_experiment_rationale_package_covers_all_major_protocols(self) -> None:
+        for path in EXPERIMENT_RATIONALE_FILES:
+            with self.subTest(path=path.name):
+                self.assertTrue(path.exists(), path)
+
+        with (PAPER / "STUDY_EXPERIMENTS_RATIONALE_TABLE.csv").open(newline="", encoding="utf-8") as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), 25)
+        self.assertLessEqual(REQUIRED_RATIONALE_IDS, {row["experiment_id_or_run_id"] for row in rows})
+        for row in rows:
+            self.assertTrue(row["rationale"], row["experiment_id_or_run_id"])
+            self.assertTrue(row["key_result"], row["experiment_id_or_run_id"])
+            self.assertTrue(row["main_limitation"], row["experiment_id_or_run_id"])
+            for source in [item.strip() for item in row["official_source_file"].split(";") if item.strip()]:
+                self.assertTrue(source.startswith(("outputs/", "records/runs/", "paper/", "docs/")), source)
+
+        summary = (PAPER / "STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md").read_text(encoding="utf-8")
+        for phrase in [
+            "# Study Experiments and Rationale Summary",
+            "## Overall Experimental Logic",
+            "### Phase 1A: Baseline Participant-Level Depression Classification",
+            "### Phase 1F: Final Frozen DAIC Evaluation",
+            "### Phase 2B: DAIC-to-Android Zero-Shot Interview Transfer",
+            "### Phase 2C: Domain Shift, Calibration, and Android-Trained Interview Models",
+            "### Phase 2E: Reading-Interview Cross-Task Transfer",
+            "## What the Experiments Do Not Demonstrate",
+            "## Clinical and Deployment Boundaries",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, summary)
+
+        reviewer = (PAPER / "EXPERIMENTAL_DESIGN_REVIEWER_EXPLANATION.md").read_text(encoding="utf-8")
+        for phrase in [
+            "## Why Zero-Shot Transfer Was Tested Before Adaptation",
+            "## Why Calibration and Threshold Adaptation Were Separated",
+            "## Why Android-Trained Models Were Reported Separately",
+            "## Why Reading and Interview Speech Were Compared",
+            "## Why Timing Features Were Treated Carefully",
+            "## Why the Study Remains Research-Only",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, reviewer)
+
+        insert = (PAPER / "EXPERIMENTAL_RATIONALE_MANUSCRIPT_INSERT.md").read_text(encoding="utf-8")
+        insert_words = len(re.findall(r"\b\S+\b", insert))
+        self.assertGreaterEqual(insert_words, 500)
+        self.assertLessEqual(insert_words, 900)
+        for phrase in [
+            "Phase 1 established the DAIC-WOZ methodology",
+            "Phase 2A audited Androids Corpus before modeling",
+            "Phase 2C separated these explanations",
+            "Phase 2E then tested reading-interview transfer",
+            "They do not establish clinical validation",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, insert)
+
+        presentation = (PAPER / "EXPERIMENTAL_RATIONALE_PRESENTATION_NOTES.md").read_text(encoding="utf-8")
+        for phrase in [
+            "## Step 1: Build a DAIC-WOZ Baseline",
+            "## Step 7: Test Zero-Shot Transfer to Androids Corpus",
+            "## Step 8: Diagnose Domain Shift",
+            "## Step 11: Test Cross-Task Transfer",
+            "## Final Takeaway",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, presentation)
+
+        flow = (PAPER / "EXPERIMENT_DEPENDENCY_FLOW.md").read_text(encoding="utf-8")
+        self.assertIn("```mermaid", flow)
+        self.assertIn("Phase 2E pooled-task training and boundary summary", flow)
+
+        scope = (PAPER / "EXPERIMENT_SCOPE_BOUNDARIES.md").read_text(encoding="utf-8")
+        for phrase in [
+            "cross_corpus",
+            "zero_shot",
+            "target_labels_used",
+            "classifier_refit",
+            "calibration_used",
+            "clinical_validation",
+            "Phase 2C Protocol B threshold-only adaptation",
+            "Phase 2C Protocol C frozen-score calibration",
+            "Phase 2E reading-to-interview",
+            "None of these experiments is clinical validation.",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, scope)
+
+        package = "\n".join(path.read_text(encoding="utf-8") for path in EXPERIMENT_RATIONALE_FILES if path.suffix != ".csv")
+        for metric in ["0.6412", "0.8675", "0.8796", "0.8475", "0.8501", "0.9058", "0.9135", "550 of 768"]:
+            self.assertIn(metric, package)
+        for prohibited in ["proved", "diagnosed", "clinically validated", "deployment-ready", "generalizes universally", "state-of-the-art"]:
+            self.assertFalse(contains_prohibited_wording(package.lower(), prohibited), prohibited)
+        self.assertIn(
+            "complete experiment-rationale support package",
+            (PAPER / "BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md").read_text(encoding="utf-8"),
+        )
+        self.assertIn(
+            "Experiment rationale summary prepared",
+            (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").read_text(encoding="utf-8"),
+        )
+
     def test_stage3d_no_invented_author_or_submission_details(self) -> None:
         combined = "\n".join(path.read_text(encoding="utf-8") for path in STAGE3D_FILES)
         self.assertNotRegex(combined, r"orcid\.org/|\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b")
@@ -983,6 +1129,20 @@ class ManuscriptValidationTests(unittest.TestCase):
             "Manuscript validation status after Stage 3G: passed.",
             "Unit-test status after Stage 3G: passed, 78 tests.",
             "Registry validation status after Stage 3G: passed, 42 records.",
+            "Current branch: `paper/experiment-rationale-summary-v1`",
+            "Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.",
+            "Experiment-rationale table rows: 25",
+            "## Completed Experiment-Rationale Package Files",
+            "`paper/STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md`",
+            "`paper/STUDY_EXPERIMENTS_RATIONALE_TABLE.csv`",
+            "`paper/EXPERIMENTAL_DESIGN_REVIEWER_EXPLANATION.md`",
+            "`paper/EXPERIMENTAL_RATIONALE_MANUSCRIPT_INSERT.md`",
+            "`paper/EXPERIMENTAL_RATIONALE_PRESENTATION_NOTES.md`",
+            "`paper/EXPERIMENT_DEPENDENCY_FLOW.md`",
+            "`paper/EXPERIMENT_SCOPE_BOUNDARIES.md`",
+            "No experiments were run.",
+            "No experiment registry records, raw outputs, participant counts, metrics, confidence intervals or interpretation categories were changed.",
+            "No new scientific claims were introduced beyond the existing audited evidence.",
             "No submission was performed.",
         ]:
             with self.subTest(phrase=phrase):

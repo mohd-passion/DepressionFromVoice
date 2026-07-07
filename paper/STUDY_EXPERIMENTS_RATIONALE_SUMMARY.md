@@ -111,7 +111,7 @@ The final interpretation is deliberately limited: frozen WavLM features retained
 - What was tested: Protocol A frozen DAIC reference, Protocol B threshold-only adaptation, Protocol C frozen-score calibration, Protocol D Android-trained logistic regression, and aggregate domain-shift diagnostics.
 - Why it was necessary: the Phase 2B result could reflect threshold shift, calibration shift, representation limits, or classifier-boundary shift.
 - Method: fixed frozen DAIC scores were compared with Android train-fold threshold adaptation, Android train-fold score calibration, and Android-trained logistic regression using the same frozen WavLM representation.
-- Main result: Protocol A retained ROC-AUC 0.6412; Protocol B retained ROC-AUC 0.6412 but improved thresholded metrics; Protocol C improved Brier score to 0.2474 but reduced ROC-AUC to 0.5694; Protocol D achieved ROC-AUC 0.8675, PR-AUC 0.8892, balanced accuracy 0.8275, and macro F1 0.8263.
+- Main result: Protocol A retained ROC-AUC 0.6412; Protocol B retained ROC-AUC 0.6412 but improved thresholded metrics; Protocol C improved Brier score to 0.2474 but reduced ROC-AUC to 0.5694; Protocol D achieved ROC-AUC 0.8675, PR-AUC 0.8892, balanced accuracy 0.8275, and macro F1 0.8263. The aggregate domain-shift audit recorded 550 of 768 shifted WavLM dimensions.
 - Significance: results indicated that the frozen representation was useful when an Android-specific classifier boundary was learned, while direct DAIC decision rules did not transfer.
 - Limitation: Protocols B and C used Android labels and were not pure zero-shot; Protocol D was within-Android cross-validation, not external validation.
 - How it motivated the next phase: Phase 2D tested whether the same pattern held for Android reading speech.

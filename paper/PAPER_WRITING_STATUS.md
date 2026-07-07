@@ -2,7 +2,7 @@
 
 ## Source Freeze
 
-- Current branch: `paper/bspc-review-docx-v1`
+- Current branch: `paper/experiment-rationale-summary-v1`
 - Frozen source tag: `paper-experiment-freeze-v1`
 - Tag commit: `1bf9434f047c0b69b90c1d5264e665d6ccd941a0`
 - Remote: `https://github.com/mohd-passion/DepressionFromVoice.git`
@@ -13,6 +13,7 @@
 - Stage 3E status: confirmed author details and declarations applied; BSPC main figure package generated; awaiting author review; no DOCX/PDF or submission.
 - Stage 3F status: BSPC figure visual review completed; DOCX-ready markdown package prepared; supplementary draft and conversion notes prepared; DOCX not generated because Pandoc was unavailable; no PDF or submission.
 - Stage 3G status: BSPC author-review DOCX package generated without Pandoc; review copies need author review; no final PDF or submission.
+- Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.
 
 ## Current Counts
 
@@ -30,6 +31,7 @@
 - Generated BSPC supplement figures: 0
 - Tables retained in DOCX-ready manuscript: 6
 - BSPC review DOCX files generated: 2
+- Experiment-rationale table rows: 25
 - Supplementary items planned: 11
 
 ## Working Title
@@ -142,6 +144,18 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 - `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`
 - `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`
 - Updated `paper/AUTHOR_FINAL_QUESTIONS.md`
+- Updated `paper/SUBMISSION_READINESS_CHECKLIST.md`
+
+## Completed Experiment-Rationale Package Files
+
+- `paper/STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md`
+- `paper/STUDY_EXPERIMENTS_RATIONALE_TABLE.csv`
+- `paper/EXPERIMENTAL_DESIGN_REVIEWER_EXPLANATION.md`
+- `paper/EXPERIMENTAL_RATIONALE_MANUSCRIPT_INSERT.md`
+- `paper/EXPERIMENTAL_RATIONALE_PRESENTATION_NOTES.md`
+- `paper/EXPERIMENT_DEPENDENCY_FLOW.md`
+- `paper/EXPERIMENT_SCOPE_BOUNDARIES.md`
+- Updated `paper/BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md`
 - Updated `paper/SUBMISSION_READINESS_CHECKLIST.md`
 
 ## Tables Prepared
@@ -293,5 +307,19 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Registry validation status after Stage 3G: passed, 42 records.
 - No submission was performed.
 - No author metadata, consent wording, acknowledgements, AI disclosure, BSPC route decision, frozen metrics or clinical claims were invented.
+
+## Experiment-Rationale Documentation Notes
+
+- Experiment-rationale summary prepared at `paper/STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md`.
+- Experiment-rationale table prepared at `paper/STUDY_EXPERIMENTS_RATIONALE_TABLE.csv` with 25 rows.
+- Reviewer explanation prepared at `paper/EXPERIMENTAL_DESIGN_REVIEWER_EXPLANATION.md`.
+- Manuscript-ready insert prepared at `paper/EXPERIMENTAL_RATIONALE_MANUSCRIPT_INSERT.md`; it was not inserted into the main manuscript.
+- Presentation notes prepared at `paper/EXPERIMENTAL_RATIONALE_PRESENTATION_NOTES.md`.
+- Experiment dependency flow prepared at `paper/EXPERIMENT_DEPENDENCY_FLOW.md`.
+- Experiment-scope boundaries prepared at `paper/EXPERIMENT_SCOPE_BOUNDARIES.md`.
+- `paper/BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md` was updated only with a short pointer to these support files.
+- No experiments were run.
+- No experiment registry records, raw outputs, participant counts, metrics, confidence intervals or interpretation categories were changed.
+- No new scientific claims were introduced beyond the existing audited evidence.
 
 Do not mark `submission_ready` until author, journal, figure, ethics, consent, funding, conflict and formatting details are complete.

@@ -10,6 +10,8 @@ This supplementary draft references compact, non-sensitive paper artifacts only.
 
 The supplement should support reproducibility, result-scope clarity and interpretation safeguards without duplicating the full main manuscript. The final supplement can be shortened or reorganized after BSPC formatting review.
 
+The complete experiment-rationale support package is available in `paper/STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md`, `paper/STUDY_EXPERIMENTS_RATIONALE_TABLE.csv`, `paper/EXPERIMENTAL_DESIGN_REVIEWER_EXPLANATION.md`, `paper/EXPERIMENTAL_RATIONALE_MANUSCRIPT_INSERT.md`, `paper/EXPERIMENTAL_RATIONALE_PRESENTATION_NOTES.md`, `paper/EXPERIMENT_DEPENDENCY_FLOW.md` and `paper/EXPERIMENT_SCOPE_BOUNDARIES.md`. These files are documentation support only and do not add experiments or modify results.
+
 ## Supplementary Tables
 
 ### Supplementary Table S1. Result-scope and claim matrix

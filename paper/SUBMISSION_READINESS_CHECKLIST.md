@@ -31,6 +31,7 @@ Status values: `complete`, `needs_author_input`, `needs_formatting`, `needs_figu
 | BSPC supplementary DOCX review file | complete | Generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`; author review only, not final submission. |
 | BSPC DOCX fallback text files | not_applicable | DOCX generation succeeded with `python-docx`; fallback text files were not generated. |
 | BSPC DOCX generation log | complete | `paper/submission_review_package/logs/BSPC_DOCX_GENERATION_LOG.md` records tooling, outputs, inserted figures and limitations. |
+| Experiment rationale summary prepared | complete | Experiment rationale summary, table, reviewer explanation, manuscript insert, presentation notes, dependency flow and scope boundaries prepared from official project sources only. |
 | Author preferences | complete | Preliminary preferences recorded; final target approval still required. |
 | Provisional target decision | complete | Biomedical Signal Processing and Control selected as provisional first target only. |
 | Journal re-verification | needs_journal_selection | Current guide, route, fee, format, data/code, ethics, preprint and AI-disclosure policies must be rechecked before submission. |

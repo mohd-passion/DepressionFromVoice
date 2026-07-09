@@ -2,7 +2,7 @@
 
 ## Source Freeze
 
-- Current branch: `paper/experiment-rationale-summary-v1`
+- Current branch: `paper/voice-physiology-motivation-v1`
 - Frozen source tag: `paper-experiment-freeze-v1`
 - Tag commit: `1bf9434f047c0b69b90c1d5264e665d6ccd941a0`
 - Remote: `https://github.com/mohd-passion/DepressionFromVoice.git`
@@ -14,11 +14,12 @@
 - Stage 3F status: BSPC figure visual review completed; DOCX-ready markdown package prepared; supplementary draft and conversion notes prepared; DOCX not generated because Pandoc was unavailable; no PDF or submission.
 - Stage 3G status: BSPC author-review DOCX package generated without Pandoc; review copies need author review; no final PDF or submission.
 - Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.
+- Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.
 
 ## Current Counts
 
 - Manuscript draft word count: 5309
-- DOCX-ready manuscript markdown word count: 6438
+- DOCX-ready manuscript markdown word count: 6789
 - Reference count: 31
 - Citation markers in manuscript: 99
 - Unique manuscript citation keys: 28
@@ -32,6 +33,7 @@
 - Tables retained in DOCX-ready manuscript: 6
 - BSPC review DOCX files generated: 2
 - Experiment-rationale table rows: 25
+- Voice physiology insert word count: 261
 - Supplementary items planned: 11
 
 ## Working Title
@@ -321,5 +323,12 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - No experiments were run.
 - No experiment registry records, raw outputs, participant counts, metrics, confidence intervals or interpretation categories were changed.
 - No new scientific claims were introduced beyond the existing audited evidence.
+
+## Voice Physiology Motivation Notes
+
+- Concise physiology motivation subsection inserted at `paper/BSPC_MANUSCRIPT_DRAFT.md`, Related Work Section 2.2.
+- Matching DOCX-ready subsection inserted at `paper/BSPC_DOCX_READY_MANUSCRIPT.md`, Related Work Section 2.2.
+- Voice physiology insert audit prepared at `paper/VOICE_PHYSIOLOGY_INSERT_AUDIT.md`.
+- No clinical diagnostic, deployment, privacy-preserving, old DAIC count or PHQ-8 severity-scoring claims were introduced.
 
 Do not mark `submission_ready` until author, journal, figure, ethics, consent, funding, conflict and formatting details are complete.

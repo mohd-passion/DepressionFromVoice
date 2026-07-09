@@ -134,6 +134,8 @@ EXPERIMENT_RATIONALE_REQUIRED_FILES = [
     PAPER / "EXPERIMENT_SCOPE_BOUNDARIES.md",
 ]
 
+VOICE_PHYSIOLOGY_AUDIT_FILE = PAPER / "VOICE_PHYSIOLOGY_INSERT_AUDIT.md"
+
 REQUIRED_MANUSCRIPT_SECTIONS = {
     "## Abstract",
     "## Keywords",
@@ -692,6 +694,42 @@ REQUIRED_RATIONALE_EXPERIMENT_IDS = {
     "phase2e_cross_task_transfer_conclusion",
 }
 
+VOICE_PHYSIOLOGY_REQUIRED_CITATIONS = {
+    "leal2025survey",
+    "valstar2016avec",
+    "tao2023featureCorrelation",
+    "chen2022wavlm",
+    "yang2021superb",
+}
+
+VOICE_PHYSIOLOGY_REQUIRED_PHRASES = {
+    "respiratory, phonatory, resonatory and articulatory processes",
+    "source-filter terms",
+    "vocal-fold vibration",
+    "subglottal pressure",
+    "reduced pitch variability",
+    "lower energy",
+    "slower articulation",
+    "longer pauses",
+    "breathier voice quality",
+    "should not be treated as diagnostic markers by themselves",
+    "not as a standalone clinical model",
+}
+
+VOICE_PHYSIOLOGY_FORBIDDEN_PHRASES = {
+    "DSM-5",
+    "PHQ-8 severity",
+    "DAIC-WOZ",
+    "real-time monitoring",
+    "privacy-preserving",
+    "decision-support tool",
+    "clinically validated",
+    "deployment-ready",
+    "diagnoses depression",
+    "diagnostic system",
+    "fairness was addressed",
+}
+
 REQUIRED_FIGURE_AUDIT_VALUES = {
     ("Figure 2", "ROC-AUC", "0.5065"),
     ("Figure 2", "ROC-AUC", "0.6775"),
@@ -887,6 +925,15 @@ def contains_prohibited_wording(text: str, phrase: str) -> bool:
     return re.search(rf"\b{re.escape(phrase)}\b", text) is not None
 
 
+def voice_physiology_section(text: str) -> str:
+    match = re.search(
+        r"### 2\.2 Physiological motivation for speech-based depression analysis\s+(.*?)\s+### 2\.3 Handcrafted acoustic and timing features",
+        text,
+        flags=re.DOTALL,
+    )
+    return match.group(1).strip() if match else ""
+
+
 def validate() -> list[str]:
     errors: list[str] = []
     bib_keys, duplicate_keys, duplicate_dois = bib_keys_and_dois()
@@ -939,6 +986,9 @@ def validate() -> list[str]:
     for path in EXPERIMENT_RATIONALE_REQUIRED_FILES:
         if not path.exists():
             errors.append(f"Missing experiment-rationale package file: {path.relative_to(ROOT)}")
+
+    if not VOICE_PHYSIOLOGY_AUDIT_FILE.exists():
+        errors.append(f"Missing voice physiology insert audit: {VOICE_PHYSIOLOGY_AUDIT_FILE.relative_to(ROOT)}")
 
     manuscript_placeholders = set(re.findall(r"\[REFERENCE NEEDED: [^\]]+\]", manuscript_text))
     rows = audit_rows()
@@ -1601,6 +1651,50 @@ def validate() -> list[str]:
         if "Submission status: submitted" in docx_text or "ready_for_submission" in docx_text:
             errors.append("DOCX-ready manuscript must not mark the work as submitted or submission-ready.")
 
+    if VOICE_PHYSIOLOGY_AUDIT_FILE.exists():
+        for path in [PAPER / "BSPC_MANUSCRIPT_DRAFT.md", PAPER / "BSPC_DOCX_READY_MANUSCRIPT.md"]:
+            text = path.read_text(encoding="utf-8")
+            section = voice_physiology_section(text)
+            if not section:
+                errors.append(f"{path.relative_to(ROOT)} missing voice physiology subsection.")
+                continue
+            word_count = len(re.findall(r"\b\S+\b", section))
+            if not 250 <= word_count <= 400:
+                errors.append(f"{path.relative_to(ROOT)} voice physiology subsection must be 250-400 words; found {word_count}")
+            for phrase in VOICE_PHYSIOLOGY_REQUIRED_PHRASES:
+                if phrase not in section:
+                    errors.append(f"{path.relative_to(ROOT)} voice physiology subsection missing phrase: {phrase}")
+            section_citations = citations_in_text(section)
+            missing_citations = sorted(VOICE_PHYSIOLOGY_REQUIRED_CITATIONS.difference(section_citations))
+            if missing_citations:
+                errors.append(f"{path.relative_to(ROOT)} voice physiology subsection missing citations: {missing_citations}")
+            unknown_citations = sorted(section_citations.difference(bib_keys))
+            if unknown_citations:
+                errors.append(f"{path.relative_to(ROOT)} voice physiology subsection has unknown citations: {unknown_citations}")
+            section_lower = section.lower()
+            for phrase in VOICE_PHYSIOLOGY_FORBIDDEN_PHRASES:
+                if phrase.lower() in section_lower:
+                    errors.append(f"{path.relative_to(ROOT)} voice physiology subsection contains forbidden phrase: {phrase}")
+            for sentence in sentences(section):
+                normalized = sentence.lower()
+                for phrase in PROHIBITED_CLINICAL_OVERCLAIM_PHRASES:
+                    if phrase in normalized and not any(marker in normalized for marker in NEGATION_OR_LIMITING_MARKERS):
+                        errors.append(f"{path.relative_to(ROOT)} voice physiology potential clinical overclaim: {sentence}")
+
+        audit_text = VOICE_PHYSIOLOGY_AUDIT_FILE.read_text(encoding="utf-8")
+        for phrase in [
+            "Source Material Used",
+            "Manuscript Location",
+            "Inserted subsection word count: 261 words.",
+            "No new bibliography entries were added.",
+            "Claims Deliberately Excluded",
+            "No new experiment result, participant count, confidence interval, registry record or frozen metric was added.",
+            "No claim that speech can diagnose depression was introduced.",
+            "No claim that the system is clinically validated was introduced.",
+        ]:
+            if phrase not in audit_text:
+                errors.append(f"Voice physiology insert audit missing phrase: {phrase}")
+
     if all(path.exists() for path in STAGE3G_REQUIRED_FILES):
         package_readme = (PAPER / "submission_review_package" / "README.md").read_text(encoding="utf-8")
         packet_checklist = (
@@ -1938,7 +2032,7 @@ def validate() -> list[str]:
                 errors.append(f"Paper writing status missing Stage 3E phrase: {phrase}")
         for phrase in [
             "Stage 3F status: BSPC figure visual review completed; DOCX-ready markdown package prepared; supplementary draft and conversion notes prepared; DOCX not generated because Pandoc was unavailable; no PDF or submission.",
-            "DOCX-ready manuscript markdown word count: 6438",
+            "DOCX-ready manuscript markdown word count: 6789",
             "Generated BSPC supplement figures: 0",
             "Tables retained in DOCX-ready manuscript: 6",
             "DOCX generated: no; Pandoc was unavailable on PATH during Stage 3F.",
@@ -1967,9 +2061,13 @@ def validate() -> list[str]:
                 if phrase not in status_text:
                     errors.append(f"Paper writing status missing Stage 3G phrase: {phrase}")
             expected_branch = (
-                "Current branch: `paper/experiment-rationale-summary-v1`"
-                if all(path.exists() for path in EXPERIMENT_RATIONALE_REQUIRED_FILES)
-                else "Current branch: `paper/bspc-review-docx-v1`"
+                "Current branch: `paper/voice-physiology-motivation-v1`"
+                if VOICE_PHYSIOLOGY_AUDIT_FILE.exists()
+                else (
+                    "Current branch: `paper/experiment-rationale-summary-v1`"
+                    if all(path.exists() for path in EXPERIMENT_RATIONALE_REQUIRED_FILES)
+                    else "Current branch: `paper/bspc-review-docx-v1`"
+                )
             )
             if expected_branch not in status_text:
                 errors.append(f"Paper writing status missing current branch phrase: {expected_branch}")
@@ -1991,6 +2089,15 @@ def validate() -> list[str]:
             ]:
                 if phrase not in status_text:
                     errors.append(f"Paper writing status missing experiment-rationale phrase: {phrase}")
+        if VOICE_PHYSIOLOGY_AUDIT_FILE.exists():
+            for phrase in [
+                "Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.",
+                "Voice physiology insert word count: 261",
+                "`paper/VOICE_PHYSIOLOGY_INSERT_AUDIT.md`",
+                "No clinical diagnostic, deployment, privacy-preserving, old DAIC count or PHQ-8 severity-scoring claims were introduced.",
+            ]:
+                if phrase not in status_text:
+                    errors.append(f"Paper writing status missing voice physiology phrase: {phrase}")
 
     if (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").exists():
         terminology_text = (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").read_text(encoding="utf-8")

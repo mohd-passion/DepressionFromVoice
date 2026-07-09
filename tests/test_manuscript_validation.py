@@ -129,6 +129,8 @@ EXPERIMENT_RATIONALE_FILES = [
     PAPER / "EXPERIMENT_SCOPE_BOUNDARIES.md",
 ]
 
+VOICE_PHYSIOLOGY_AUDIT = PAPER / "VOICE_PHYSIOLOGY_INSERT_AUDIT.md"
+
 REQUIRED_RATIONALE_IDS = {
     "phase1a_metadata_baseline",
     "phase1a_wavlm_final_layer",
@@ -155,6 +157,42 @@ REQUIRED_RATIONALE_IDS = {
     "phase2e_pooled_to_reading",
     "phase2e_pooled_to_interview",
     "phase2e_cross_task_transfer_conclusion",
+}
+
+VOICE_PHYSIOLOGY_REQUIRED_CITATIONS = {
+    "leal2025survey",
+    "valstar2016avec",
+    "tao2023featureCorrelation",
+    "chen2022wavlm",
+    "yang2021superb",
+}
+
+VOICE_PHYSIOLOGY_REQUIRED_PHRASES = {
+    "respiratory, phonatory, resonatory and articulatory processes",
+    "source-filter terms",
+    "vocal-fold vibration",
+    "subglottal pressure",
+    "reduced pitch variability",
+    "lower energy",
+    "slower articulation",
+    "longer pauses",
+    "breathier voice quality",
+    "should not be treated as diagnostic markers by themselves",
+    "not as a standalone clinical model",
+}
+
+VOICE_PHYSIOLOGY_FORBIDDEN_PHRASES = {
+    "DSM-5",
+    "PHQ-8 severity",
+    "DAIC-WOZ",
+    "real-time monitoring",
+    "privacy-preserving",
+    "decision-support tool",
+    "clinically validated",
+    "deployment-ready",
+    "diagnoses depression",
+    "diagnostic system",
+    "fairness was addressed",
 }
 
 REGISTRY = ROOT / "outputs" / "experiment_registry" / "experiment_registry.json"
@@ -195,6 +233,15 @@ def contains_prohibited_wording(text: str, phrase: str) -> bool:
     if " " in phrase or "-" in phrase:
         return phrase in text
     return re.search(rf"\b{re.escape(phrase)}\b", text) is not None
+
+
+def voice_physiology_section(text: str) -> str:
+    match = re.search(
+        r"### 2\.2 Physiological motivation for speech-based depression analysis\s+(.*?)\s+### 2\.3 Handcrafted acoustic and timing features",
+        text,
+        flags=re.DOTALL,
+    )
+    return match.group(1).strip() if match else ""
 
 
 class ManuscriptValidationTests(unittest.TestCase):
@@ -869,6 +916,38 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertFalse(list(PAPER.glob("*.docx")))
         self.assertFalse(list(PAPER.glob("*.pdf")))
 
+    def test_voice_physiology_insert_is_concise_verified_and_claim_safe(self) -> None:
+        self.assertTrue(VOICE_PHYSIOLOGY_AUDIT.exists(), VOICE_PHYSIOLOGY_AUDIT)
+        bib_keys = set(re.findall(r"@\w+\s*\{\s*([^,\s]+)\s*,", (PAPER / "references.bib").read_text(encoding="utf-8")))
+
+        for path in [PAPER / "BSPC_MANUSCRIPT_DRAFT.md", PAPER / "BSPC_DOCX_READY_MANUSCRIPT.md"]:
+            with self.subTest(path=path.name):
+                section = voice_physiology_section(path.read_text(encoding="utf-8"))
+                self.assertTrue(section)
+                word_count = len(re.findall(r"\b\S+\b", section))
+                self.assertGreaterEqual(word_count, 250)
+                self.assertLessEqual(word_count, 400)
+                for phrase in VOICE_PHYSIOLOGY_REQUIRED_PHRASES:
+                    self.assertIn(phrase, section)
+                citations = set(re.findall(r"(?<![A-Za-z0-9._%+-])@([A-Za-z][A-Za-z0-9_:-]*)", section))
+                self.assertLessEqual(VOICE_PHYSIOLOGY_REQUIRED_CITATIONS, citations)
+                self.assertLessEqual(citations, bib_keys)
+                lower_section = section.lower()
+                for forbidden in VOICE_PHYSIOLOGY_FORBIDDEN_PHRASES:
+                    self.assertNotIn(forbidden.lower(), lower_section)
+
+        audit = VOICE_PHYSIOLOGY_AUDIT.read_text(encoding="utf-8")
+        for phrase in [
+            "Papers/Paper-Voice(1).docx",
+            "Inserted subsection word count: 261 words.",
+            "No new bibliography entries were added.",
+            "Claims Deliberately Excluded",
+            "No new experiment result, participant count, confidence interval, registry record or frozen metric was added.",
+            "No claim that speech can diagnose depression was introduced.",
+            "No claim that the system is clinically validated was introduced.",
+        ]:
+            self.assertIn(phrase, audit)
+
     def test_stage3g_review_docx_package_is_generated_for_author_review(self) -> None:
         for path in STAGE3G_FILES:
             with self.subTest(path=path.name):
@@ -1105,7 +1184,7 @@ class ManuscriptValidationTests(unittest.TestCase):
         status = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
         for phrase in [
             "Manuscript draft word count: 5309",
-            "DOCX-ready manuscript markdown word count: 6438",
+            "DOCX-ready manuscript markdown word count: 6789",
             "Experiment registry records: 42",
             "`bspc_review_docx_generated_needs_author_review`",
             "Provisional first target: Biomedical Signal Processing and Control",
@@ -1129,9 +1208,13 @@ class ManuscriptValidationTests(unittest.TestCase):
             "Manuscript validation status after Stage 3G: passed.",
             "Unit-test status after Stage 3G: passed, 78 tests.",
             "Registry validation status after Stage 3G: passed, 42 records.",
-            "Current branch: `paper/experiment-rationale-summary-v1`",
+            "Current branch: `paper/voice-physiology-motivation-v1`",
             "Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.",
             "Experiment-rationale table rows: 25",
+            "Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.",
+            "Voice physiology insert word count: 261",
+            "`paper/VOICE_PHYSIOLOGY_INSERT_AUDIT.md`",
+            "No clinical diagnostic, deployment, privacy-preserving, old DAIC count or PHQ-8 severity-scoring claims were introduced.",
             "## Completed Experiment-Rationale Package Files",
             "`paper/STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md`",
             "`paper/STUDY_EXPERIMENTS_RATIONALE_TABLE.csv`",

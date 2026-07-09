@@ -7,6 +7,10 @@ Status values: `included`, `needs_author_input`, `needs_visual_review`, `not_sta
 | Manuscript DOCX review file | included | Generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`. |
 | Supplementary DOCX review file | included | Generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`. |
 | DOCX tooling | included | DOCX generation succeeded with `python-docx`; Pandoc was not used. |
+| Final branch consolidation | included | `paper/bspc-review-docx-v1`, `paper/experiment-rationale-summary-v1` and `paper/voice-physiology-motivation-v1` are consolidated on `paper/bspc-final-review-package-v1`. |
+| Final review DOCX regeneration | included | Review DOCX files were regenerated after branch consolidation. |
+| Physiology subsection in manuscript DOCX | needs_author_input | Included in the regenerated manuscript DOCX; author should review Section 2.2. |
+| Experiment-rationale documentation | included | Available in `paper/STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md` and related rationale support files. |
 | Fallback manuscript text file | not_applicable | Use only if DOCX generation fails. |
 | Fallback supplementary text file | not_applicable | Use only if DOCX generation fails. |
 | Five main BSPC figures | needs_visual_review | Figures 1-5 are generated and ready for author review. |

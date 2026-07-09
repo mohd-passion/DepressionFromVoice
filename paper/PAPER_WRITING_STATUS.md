@@ -2,7 +2,7 @@
 
 ## Source Freeze
 
-- Current branch: `paper/voice-physiology-motivation-v1`
+- Current branch: `paper/bspc-final-review-package-v1`
 - Frozen source tag: `paper-experiment-freeze-v1`
 - Tag commit: `1bf9434f047c0b69b90c1d5264e665d6ccd941a0`
 - Remote: `https://github.com/mohd-passion/DepressionFromVoice.git`
@@ -15,6 +15,7 @@
 - Stage 3G status: BSPC author-review DOCX package generated without Pandoc; review copies need author review; no final PDF or submission.
 - Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.
 - Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.
+- Final BSPC review package status: `bspc_final_review_package_generated_needs_author_review`; consolidated branches and regenerated review DOCX files need author review.
 
 ## Current Counts
 
@@ -213,11 +214,11 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 
 ## Journal Selection Status
 
-`bspc_review_docx_generated_needs_author_review`
+`bspc_final_review_package_generated_needs_author_review`
 
 ## Current Readiness Category
 
-`bspc_review_docx_generated_needs_author_review`
+`bspc_final_review_package_generated_needs_author_review`
 
 ## Stage 3B Completion Notes
 
@@ -295,6 +296,7 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 
 ## Stage 3G Review DOCX Package Notes
 
+- Stage 3G review package status: `bspc_review_docx_generated_needs_author_review`.
 - Review DOCX manuscript generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.
 - Review DOCX supplement generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.
 - DOCX generation tool: `python-docx`; Pandoc was not used.
@@ -330,5 +332,23 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Matching DOCX-ready subsection inserted at `paper/BSPC_DOCX_READY_MANUSCRIPT.md`, Related Work Section 2.2.
 - Voice physiology insert audit prepared at `paper/VOICE_PHYSIOLOGY_INSERT_AUDIT.md`.
 - No clinical diagnostic, deployment, privacy-preserving, old DAIC count or PHQ-8 severity-scoring claims were introduced.
+
+## Final BSPC Review Package Consolidation Notes
+
+- Consolidation branch: `paper/bspc-final-review-package-v1`.
+- Source branches consolidated: `paper/bspc-review-docx-v1`, `paper/experiment-rationale-summary-v1` and `paper/voice-physiology-motivation-v1`.
+- Merge conflicts: none; `paper/bspc-review-docx-v1` was already an ancestor of the physiology branch.
+- Final review package readiness category: `bspc_final_review_package_generated_needs_author_review`.
+- Review DOCX manuscript regenerated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.
+- Review DOCX supplement regenerated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.
+- The regenerated manuscript DOCX includes the physiology motivation subsection and five main figure PNG review copies.
+- Experiment-rationale documentation remains available in the paper support files.
+- Remaining unresolved author fields: Dr. Vikram Singh email, ORCID, CRediT roles, consent wording, acknowledgements, AI/tool-use disclosure, preprint decision and final BSPC route decision.
+- LibreOffice/soffice render QA: attempted with `render_docx.py` but not completed because the renderer dependency was unavailable on PATH.
+- Final consolidation validation status: passed.
+- Final consolidation unit-test status: passed, 80 tests.
+- Final consolidation registry validation status: passed, 42 records.
+- No submission was performed.
+- No metrics, references, author details, declarations or clinical claims were invented.
 
 Do not mark `submission_ready` until author, journal, figure, ethics, consent, funding, conflict and formatting details are complete.

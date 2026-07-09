@@ -1,8 +1,8 @@
 # BSPC Author Review Package
 
-Status: `bspc_review_docx_generated_needs_author_review`
+Status: `bspc_final_review_package_generated_needs_author_review`
 
-This directory contains Stage 3G review materials for the Biomedical Signal Processing and Control preparation branch.
+This directory contains the consolidated BSPC author-review package generated after combining the Stage 3G review package, experiment-rationale documentation branch and voice-physiology motivation branch.
 
 These files are for author review only. They are not final submission files, and no upload to Elsevier or BSPC has been performed.
 
@@ -17,6 +17,8 @@ The package is intended to preserve unresolved author and declaration fields vis
 
 ## Current Safeguards
 
+- The regenerated manuscript DOCX includes the physiology motivation subsection.
+- The experiment-rationale documentation package remains available in `paper/`.
 - Unresolved author placeholders remain visible.
 - Missing author details, consent wording, acknowledgements, AI/tool-use disclosure and final BSPC route decision are not invented.
 - Frozen experiment metrics are not changed.

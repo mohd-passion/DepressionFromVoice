@@ -1,6 +1,6 @@
 # Journal-Neutral Front Matter
 
-This file is an editable submission-package scaffold. Placeholder values are explicit and require author input where noted.
+This file is an editable submission-package scaffold. Stage 3H author and declaration details have been applied; portal-only submission checks remain pending.
 
 ## Title
 
@@ -25,13 +25,13 @@ Dr. Vikram Singh, Department of Computer Engineering, National Institute of Tech
 
 Mohammad Ilyas, Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India. Email: mohd.passion.cse@mitmoradabad.edu.in.
 
-Dr. Vikram Singh corresponding-author status: [AUTHOR CONFIRMATION REQUIRED: not confirmed].
+Dr. Vikram Singh is not the corresponding author.
 
 ## ORCID
 
 Mohammad Ilyas: not available.
 
-Dr. Vikram Singh: [AUTHOR CONFIRMATION REQUIRED: ORCID not provided].
+Dr. Vikram Singh: not available.
 
 ## Abstract
 
@@ -55,11 +55,11 @@ The authors declare no competing interests.
 
 Mohammad Ilyas: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Writing - original draft, Visualization, Project administration.
 
-Dr. Vikram Singh: [AUTHOR CONFIRMATION REQUIRED: supervision, methodology review, writing - review and editing, or other CRediT roles]
+Dr. Vikram Singh: Supervision.
 
 ## Acknowledgements
 
-[AUTHOR CONFIRMATION REQUIRED: acknowledgements]
+The authors thank the creators and maintainers of the DAIC-WOZ and Androids Corpus datasets. Mohammad Ilyas acknowledges the academic guidance received during his Ph.D. research work.
 
 ## Ethics Statement
 
@@ -77,16 +77,16 @@ Code, compact configuration records, evidence maps and the experiment registry a
 
 ## Consent Statement
 
-[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]
+This study used secondary datasets obtained under their original access terms. Consent for the original data collection was managed by the respective dataset providers. No new human participants were recruited in this study.
 
 ## AI-Assistance Disclosure
 
-[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used during drafting, code organization, manuscript preparation, or workflow assistance; final wording must follow BSPC/Elsevier policy.]
+ChatGPT and Codex were used to assist with code organization, manuscript drafting support, editing, and workflow planning. The authors reviewed and verified the manuscript content, results, references, and final scientific claims.
 
 ## Preprint Statement
 
-Preprint decision: undecided.
+A preprint is planned.
 
 ## BSPC Submission Route
 
-BSPC submission route: undecided; subscription/no-publication-fee route preferred but not yet finally confirmed.
+The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.

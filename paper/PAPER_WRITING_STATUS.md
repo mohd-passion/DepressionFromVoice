@@ -2,7 +2,7 @@
 
 ## Source Freeze
 
-- Current branch: `paper/bspc-final-review-package-v1`
+- Current branch: `paper/bspc-final-declarations-v1`
 - Frozen source tag: `paper-experiment-freeze-v1`
 - Tag commit: `1bf9434f047c0b69b90c1d5264e665d6ccd941a0`
 - Remote: `https://github.com/mohd-passion/DepressionFromVoice.git`
@@ -13,14 +13,15 @@
 - Stage 3E status: confirmed author details and declarations applied; BSPC main figure package generated; awaiting author review; no DOCX/PDF or submission.
 - Stage 3F status: BSPC figure visual review completed; DOCX-ready markdown package prepared; supplementary draft and conversion notes prepared; DOCX not generated because Pandoc was unavailable; no PDF or submission.
 - Stage 3G status: BSPC author-review DOCX package generated without Pandoc; review copies need author review; no final PDF or submission.
+- Stage 3H status: BSPC author declarations finalized, author approvals applied, final-review DOCX files regenerated without Pandoc; portal metadata/upload/system checks, cover letter final review, journal-generated PDF proof review and submission confirmation remain pending; no submission.
 - Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.
 - Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.
-- Final BSPC review package status: `bspc_final_review_package_generated_needs_author_review`; consolidated branches and regenerated review DOCX files need author review.
+- Final BSPC review package status: `bspc_final_review_package_ready_for_submission_portal_checks`; final author/declaration inputs and DOCX approvals applied, with portal-only checks pending.
 
 ## Current Counts
 
-- Manuscript draft word count: 5309
-- DOCX-ready manuscript markdown word count: 6789
+- Manuscript draft word count: 6111
+- DOCX-ready manuscript markdown word count: 6840
 - Reference count: 31
 - Citation markers in manuscript: 99
 - Unique manuscript citation keys: 28
@@ -32,7 +33,7 @@
 - Generated BSPC main figures: 5
 - Generated BSPC supplement figures: 0
 - Tables retained in DOCX-ready manuscript: 6
-- BSPC review DOCX files generated: 2
+- BSPC review DOCX files generated: 4
 - Experiment-rationale table rows: 25
 - Voice physiology insert word count: 261
 - Supplementary items planned: 11
@@ -149,6 +150,25 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 - Updated `paper/AUTHOR_FINAL_QUESTIONS.md`
 - Updated `paper/SUBMISSION_READINESS_CHECKLIST.md`
 
+## Completed Stage 3H Package Files
+
+- Updated `paper/AUTHOR_INPUT_FORM.md`
+- Updated `paper/AUTHOR_DECISION_LOG.md`
+- Updated `paper/AUTHOR_FINAL_QUESTIONS.md`
+- Updated `paper/JOURNAL_NEUTRAL_FRONT_MATTER.md`
+- Updated `paper/BSPC_DECLARATIONS_DRAFT.md`
+- Updated `paper/BSPC_MANUSCRIPT_DRAFT.md`
+- Updated `paper/BSPC_DOCX_READY_MANUSCRIPT.md`
+- Updated `paper/BSPC_COVER_LETTER_DRAFT.md`
+- Updated `paper/SUBMISSION_READINESS_CHECKLIST.md`
+- Updated `paper/submission_review_package/README.md`
+- Updated `paper/submission_review_package/AUTHOR_REVIEW_PACKET_CHECKLIST.md`
+- Updated `paper/submission_review_package/logs/BSPC_DOCX_GENERATION_LOG.md`
+- Regenerated `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`
+- Regenerated `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`
+- Generated `paper/submission_review_package/docx/BSPC_MANUSCRIPT_FINAL_REVIEW.docx`
+- Generated `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx`
+
 ## Completed Experiment-Rationale Package Files
 
 - `paper/STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md`
@@ -184,41 +204,31 @@ Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM 
 
 Supplementary candidates include Phase 1 layer-wise results, aggregation ablation, timing/fusion ablations, selected C values, thresholds, calibration diagnostics, bootstrap intervals, domain-shift summaries, classifier-boundary fold metrics, claim/evidence governance and reproducibility workflow. Participant-level data, raw audio, embeddings, predictions and fitted models remain excluded.
 
-## Remaining Author Inputs
+## Remaining Portal-Only Work
 
-- Final target journal confirmation
-- Dr. Vikram Singh email
-- Dr. Vikram Singh ORCID
-- Dr. Vikram Singh CRediT roles
-- Acknowledgements
-- Institutional/dataset-policy check of ethics wording
-- Consent statement
-- Repository visibility and license wording
-- Confirmation of dataset-license language
-- AI-assisted writing/tool-use disclosure wording
-- Preprint decision beyond "undecided"
-- BSPC submission route final confirmation
+- Confirm the cover-letter statement: `[AUTHOR FINAL CONFIRMATION REQUIRED: the manuscript is not under consideration elsewhere.]`
+- Complete final BSPC/Elsevier portal metadata entry.
+- Upload the manuscript, supplementary DOCX and required figure/source files in the BSPC portal.
+- Complete final BSPC submission-system technical checks.
+- Complete final author review of the cover letter.
+- Review the journal-generated PDF proof.
+- Confirm the final submission action.
 
-## Remaining Formatting Work
+## Remaining Formatting And Portal Work
 
-- Journal selection
-- Journal-specific word count and section order
-- Reference style conversion
-- Figure author review and final artwork-format conversion
-- DOCX conversion/manual Word formatting
-- Author review of Stage 3G DOCX review copies
-- Supplementary file formatting
-- Table formatting in Word
-- Any required reporting-guideline checklist
-- DOCX generation after author review/tooling availability
+- Final journal portal metadata entry.
+- Final reference style and Word checks required by the portal.
+- Final artwork-format checks required by the portal.
+- Any required reporting-guideline checklist requested by the portal.
+- Journal-generated PDF proof review after upload.
 
 ## Journal Selection Status
 
-`bspc_final_review_package_generated_needs_author_review`
+`bspc_final_review_package_ready_for_submission_portal_checks`
 
 ## Current Readiness Category
 
-`bspc_final_review_package_generated_needs_author_review`
+`bspc_final_review_package_ready_for_submission_portal_checks`
 
 ## Stage 3B Completion Notes
 
@@ -258,15 +268,11 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 
 - Final title decision applied: keep current title.
 - Author 1 applied: Mohammad Ilyas, Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India; email `mohd.passion.cse@mitmoradabad.edu.in`; ORCID not available; corresponding author Yes.
-- Author 2 applied: Dr. Vikram Singh, Department of Computer Engineering, National Institute of Technology, Kurukshetra, Haryana, India; email not provided; ORCID not provided; corresponding-author status not confirmed.
+- Author 2 applied: Dr. Vikram Singh, Department of Computer Engineering, National Institute of Technology, Kurukshetra, Haryana, India; Stage 3H later finalized email `viks@nitkkr.ac.in`, ORCID not available and corresponding-author status No.
 - Funding statement applied: No funding was received for this study.
 - Competing-interest statement applied: The authors declare no competing interests.
-- Ethics wording applied with author-review note: secondary analysis of previously collected datasets; no new participants recruited; check institutional policy and dataset licence terms before submission.
-- Consent remains unresolved: `[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]`.
-- Acknowledgements remain unresolved: `[AUTHOR CONFIRMATION REQUIRED: acknowledgements]`.
-- AI-assisted writing/tool-use disclosure remains unresolved because ChatGPT/Codex was used in the workflow and final wording must follow BSPC/Elsevier policy.
-- Preprint decision remains undecided.
-- BSPC submission route remains undecided; subscription/no-publication-fee route is preferred but not finally confirmed.
+- Ethics wording applied: secondary analysis of previously collected datasets; no new participants recruited.
+- Stage 3H later finalized consent, acknowledgements, AI-assisted writing/tool-use disclosure, preprint status and BSPC subscription-route wording.
 
 ## Stage 3E Figure Package Notes
 
@@ -338,12 +344,12 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Consolidation branch: `paper/bspc-final-review-package-v1`.
 - Source branches consolidated: `paper/bspc-review-docx-v1`, `paper/experiment-rationale-summary-v1` and `paper/voice-physiology-motivation-v1`.
 - Merge conflicts: none; `paper/bspc-review-docx-v1` was already an ancestor of the physiology branch.
-- Final review package readiness category: `bspc_final_review_package_generated_needs_author_review`.
+- Final review package readiness category after Stage 3G consolidation: `bspc_final_review_package_generated_needs_author_review`.
 - Review DOCX manuscript regenerated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.
 - Review DOCX supplement regenerated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.
 - The regenerated manuscript DOCX includes the physiology motivation subsection and five main figure PNG review copies.
 - Experiment-rationale documentation remains available in the paper support files.
-- Remaining unresolved author fields: Dr. Vikram Singh email, ORCID, CRediT roles, consent wording, acknowledgements, AI/tool-use disclosure, preprint decision and final BSPC route decision.
+- Stage 3H later resolved Dr. Vikram Singh email, ORCID availability, CRediT role, consent wording, acknowledgements, AI/tool-use disclosure, preprint decision and final BSPC route decision.
 - LibreOffice/soffice render QA: attempted with `render_docx.py` but not completed because the renderer dependency was unavailable on PATH.
 - Final consolidation validation status: passed.
 - Final consolidation unit-test status: passed, 80 tests.
@@ -351,4 +357,34 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - No submission was performed.
 - No metrics, references, author details, declarations or clinical claims were invented.
 
-Do not mark `submission_ready` until author, journal, figure, ethics, consent, funding, conflict and formatting details are complete.
+## Stage 3H Final Declaration Package Notes
+
+- Stage 3H branch: `paper/bspc-final-declarations-v1`.
+- Readiness category: `bspc_final_review_package_ready_for_submission_portal_checks`.
+- Biomedical Signal Processing and Control selected for the Stage 3H final review package.
+- Author details finalized: Mohammad Ilyas, Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India; email `mohd.passion.cse@mitmoradabad.edu.in`; ORCID not available; corresponding author Yes.
+- Author details finalized: Dr. Vikram Singh, Department of Computer Engineering, National Institute of Technology, Kurukshetra, Haryana, India; email `viks@nitkkr.ac.in`; ORCID not available; corresponding author No.
+- CRediT statement finalized: Mohammad Ilyas: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Writing - original draft, Visualization, Project administration.
+- CRediT statement finalized: Dr. Vikram Singh: Supervision.
+- Funding finalized: No funding was received for this study.
+- Competing interests finalized: The authors declare no competing interests.
+- Ethics finalized: This study used previously collected datasets obtained under their original access terms. No new human participants were recruited. Ethics approval was not sought because the study involved secondary analysis of existing datasets.
+- Consent finalized: This study used secondary datasets obtained under their original access terms. Consent for the original data collection was managed by the respective dataset providers. No new human participants were recruited in this study.
+- Acknowledgements finalized: The authors thank the creators and maintainers of the DAIC-WOZ and Androids Corpus datasets. Mohammad Ilyas acknowledges the academic guidance received during his Ph.D. research work.
+- AI disclosure finalized: ChatGPT and Codex were used to assist with code organization, manuscript drafting support, editing, and workflow planning. The authors reviewed and verified the manuscript content, results, references, and final scientific claims.
+- Preprint status finalized: A preprint is planned.
+- BSPC route finalized: The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.
+- Figures approved: all five main BSPC figures.
+- Manuscript DOCX approved for final review package: yes.
+- Supplementary DOCX approved for final review package: yes.
+- Stage 3H DOCX generation tool: `python-docx`; Pandoc was not used.
+- Stage 3H manuscript final-review DOCX generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_FINAL_REVIEW.docx`.
+- Stage 3H supplementary final-review DOCX generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx`.
+- No Elsevier/BSPC upload, journal-generated PDF proof approval or submission confirmation was performed.
+- Remaining portal-only tasks: final portal metadata entry, final portal upload, final BSPC submission-system checks, final cover letter author review, journal-generated PDF proof review and submission confirmation.
+- Manuscript validation status after Stage 3H: passed.
+- Unit-test status after Stage 3H: passed, 80 tests.
+- Registry validation status after Stage 3H: passed, 42 records.
+- No clinical claims, dataset counts, PHQ scoring details, frozen metrics or unverified references were introduced.
+
+Do not mark `submitted` until portal upload, system checks, journal-generated PDF proof review and final submission confirmation are complete.

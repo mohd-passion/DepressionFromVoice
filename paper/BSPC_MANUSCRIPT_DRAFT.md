@@ -2,7 +2,7 @@
 
 Target journal: Biomedical Signal Processing and Control
 
-Article type: Full paper [AUTHOR CONFIRMATION REQUIRED]
+Article type: Full paper; final portal article-type mapping remains pending.
 
 Submission status: journal-specific preparation only; not submitted.
 
@@ -12,9 +12,11 @@ Corresponding author: Mohammad Ilyas, Department of Computer Science and Enginee
 
 Affiliations: Mohammad Ilyas, Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India; Dr. Vikram Singh, Department of Computer Engineering, National Institute of Technology, Kurukshetra, Haryana, India.
 
-ORCID: Mohammad Ilyas, not available; Dr. Vikram Singh, [AUTHOR CONFIRMATION REQUIRED: ORCID not provided].
+Author emails: Mohammad Ilyas, mohd.passion.cse@mitmoradabad.edu.in; Dr. Vikram Singh, viks@nitkkr.ac.in.
 
-Author metadata still unresolved: Dr. Vikram Singh email and corresponding-author status.
+ORCID: Mohammad Ilyas, not available; Dr. Vikram Singh, not available.
+
+Author metadata finalized for the Stage 3H BSPC final review package; final submission-portal metadata entry remains pending.
 
 ## Highlights
 
@@ -309,34 +311,32 @@ No funding was received for this study.
 
 This study used previously collected datasets obtained under their original access terms. No new human participants were recruited. Ethics approval was not sought because the study involved secondary analysis of existing datasets.
 
-Author-review note: this wording must be checked against institutional policy and the dataset licence terms before submission.
-
 ## Consent to Participate
 
-[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]
+This study used secondary datasets obtained under their original access terms. Consent for the original data collection was managed by the respective dataset providers. No new human participants were recruited in this study.
 
 ## Consent for Publication
 
-[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]
+This study used secondary datasets obtained under their original access terms. Consent for the original data collection was managed by the respective dataset providers. No new human participants were recruited in this study.
 
 ## CRediT Authorship Contribution Statement
 
 Mohammad Ilyas: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Writing - original draft, Visualization, Project administration.
 
-Dr. Vikram Singh: [AUTHOR CONFIRMATION REQUIRED: supervision, methodology review, writing - review and editing, or other CRediT roles]
+Dr. Vikram Singh: Supervision.
 
 ## Acknowledgements
 
-[AUTHOR CONFIRMATION REQUIRED: acknowledgements]
+The authors thank the creators and maintainers of the DAIC-WOZ and Androids Corpus datasets. Mohammad Ilyas acknowledges the academic guidance received during his Ph.D. research work.
 
 ## Declaration of Generative AI and AI-Assisted Technologies in the Writing Process
 
-[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used during drafting, code organization, manuscript preparation, or workflow assistance; final wording must follow BSPC/Elsevier policy.]
+ChatGPT and Codex were used to assist with code organization, manuscript drafting support, editing, and workflow planning. The authors reviewed and verified the manuscript content, results, references, and final scientific claims.
 
 ## Preprint Statement
 
-Preprint decision: undecided.
+A preprint is planned.
 
 ## BSPC Submission Route
 
-BSPC submission route: undecided; subscription/no-publication-fee route preferred but not yet finally confirmed.
+The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.

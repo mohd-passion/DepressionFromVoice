@@ -117,6 +117,8 @@ STAGE3G_FILES = [
     PAPER / "submission_review_package" / "logs" / "BSPC_DOCX_GENERATION_LOG.md",
     PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx",
     PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx",
+    PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_FINAL_REVIEW.docx",
+    PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx",
 ]
 
 EXPERIMENT_RATIONALE_FILES = [
@@ -447,7 +449,7 @@ class ManuscriptValidationTests(unittest.TestCase):
 
     def test_stage3_submission_checklist_uses_allowed_statuses(self) -> None:
         text = (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").read_text(encoding="utf-8")
-        self.assertIn("`ready_for_author_review`", text)
+        self.assertIn("`bspc_final_review_package_ready_for_submission_portal_checks`", text)
         allowed = {
             "complete",
             "needs_author_input",
@@ -455,6 +457,7 @@ class ManuscriptValidationTests(unittest.TestCase):
             "needs_figure",
             "needs_journal_selection",
             "figures_generated_awaiting_author_review",
+            "pending_portal",
             "not_started",
             "not_applicable",
         }
@@ -496,7 +499,7 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertIn("Unverified Author Context", text)
         self.assertIn("Mohammad Ilyas", text)
         self.assertIn(
-            "Final affiliation wording | Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India | confirmed for Stage 3E draft |",
+            "Final affiliation wording | Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India | confirmed for Stage 3H final-review package |",
             text,
         )
         for role in [
@@ -536,7 +539,8 @@ class ManuscriptValidationTests(unittest.TestCase):
         ]:
             with self.subTest(topic=topic):
                 self.assertIn(topic, text)
-        self.assertIn("Do not select final journal until author preferences are supplied", text)
+        self.assertIn("Biomedical Signal Processing and Control selected for the BSPC final review package", text)
+        self.assertIn("The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.", text)
 
     def test_stage3b_journal_matrix_structure_and_sources(self) -> None:
         header, rows = first_markdown_table(PAPER / "JOURNAL_CANDIDATE_MATRIX.md")
@@ -638,15 +642,16 @@ class ManuscriptValidationTests(unittest.TestCase):
             "Funding | No funding was received for this study.",
             "Competing interests | The authors declare no competing interests.",
             "Ethics approval or exemption | This study used previously collected datasets obtained under their original access terms.",
-            "Consent to participate | [AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
-            "Consent for publication | [AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
-            "Acknowledgements | [AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
-            "Use of AI-assisted writing tools | [AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used",
-            "Prior presentation or preprint status | Preprint decision: undecided.",
+            "Consent to participate | This study used secondary datasets obtained under their original access terms.",
+            "Consent for publication | This study used secondary datasets obtained under their original access terms.",
+            "Acknowledgements | The authors thank the creators and maintainers of the DAIC-WOZ and Androids Corpus datasets.",
+            "Use of AI-assisted writing tools | ChatGPT and Codex were used to assist with code organization",
+            "Prior presentation or preprint status | A preprint is planned.",
+            "BSPC submission route | The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.",
             "Institutional email | mohd.passion.cse@mitmoradabad.edu.in",
-            "Institutional email | [AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email not provided]",
+            "Institutional email | viks@nitkkr.ac.in",
             "ORCID | not available",
-            "ORCID | [AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh ORCID not provided]",
+            "Corresponding-author status | No",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, author_input)
@@ -669,8 +674,8 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertNotIn("Final submission status: `selected`", decision)
 
         log = (PAPER / "AUTHOR_DECISION_LOG.md").read_text(encoding="utf-8")
-        self.assertIn("Biomedical Signal Processing and Control is provisional only", log)
-        self.assertIn("[AUTHOR DECISION REQUIRED] before formatting/submission", log)
+        self.assertIn("Biomedical Signal Processing and Control selected for the BSPC final review package", log)
+        self.assertIn("The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.", log)
 
     def test_stage3c_no_unverified_journal_metric_or_apc_claims(self) -> None:
         combined = "\n".join(path.read_text(encoding="utf-8") for path in STAGE3C_FILES)
@@ -685,7 +690,7 @@ class ManuscriptValidationTests(unittest.TestCase):
         text = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
         questions = re.findall(r"^\d+\. ", text, flags=re.MULTILINE)
         if all(path.exists() for path in STAGE3G_FILES):
-            expected_count = 10
+            expected_count = 6
         elif all(path.exists() for path in STAGE3F_FILES):
             expected_count = 10
         else:
@@ -693,16 +698,12 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertEqual(len(questions), expected_count)
         if all(path.exists() for path in STAGE3G_FILES):
             for phrase in [
-                "Dr. Vikram Singh email?",
-                "Dr. Vikram Singh ORCID, or not available?",
-                "Dr. Vikram Singh CRediT roles?",
-                "Final consent statement?",
-                "Acknowledgement text?",
-                "AI/tool-use disclosure wording?",
-                "Preprint decision?",
-                "Confirm BSPC subscription/no-publication-fee route?",
-                "Approve all five figures, or list revisions?",
-                "Approve DOCX review copy, or list edits?",
+                "Confirm the cover-letter statement: the manuscript is not under consideration elsewhere.",
+                "Complete final BSPC/Elsevier portal metadata entry.",
+                "Upload the manuscript, supplementary DOCX and required figure/source files in the BSPC portal.",
+                "Complete final BSPC submission-system technical checks.",
+                "Review the journal-generated PDF proof before approval.",
+                "Confirm whether to submit after proof and portal checks are complete.",
             ]:
                 with self.subTest(phrase=phrase):
                     self.assertIn(phrase, text)
@@ -730,7 +731,7 @@ class ManuscriptValidationTests(unittest.TestCase):
     def test_stage3d_bspc_manuscript_preserves_metrics_and_limits(self) -> None:
         text = (PAPER / "BSPC_MANUSCRIPT_DRAFT.md").read_text(encoding="utf-8")
         self.assertIn("Submission status: journal-specific preparation only; not submitted.", text)
-        self.assertIn("Article type: Full paper [AUTHOR CONFIRMATION REQUIRED]", text)
+        self.assertIn("Article type: Full paper; final portal article-type mapping remains pending.", text)
         self.assertNotIn("[REFERENCE NEEDED:", text)
 
         abstract = re.search(r"## Abstract\s+(.*?)\s+## Keywords", text, flags=re.DOTALL)
@@ -760,7 +761,7 @@ class ManuscriptValidationTests(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, text)
 
-    def test_stage3e_declarations_apply_confirmed_items_and_keep_unresolved_markers(self) -> None:
+    def test_stage3e_declarations_apply_confirmed_items_and_stage3h_final_wording(self) -> None:
         text = (PAPER / "BSPC_DECLARATIONS_DRAFT.md").read_text(encoding="utf-8")
         for section in [
             "## Funding",
@@ -781,11 +782,13 @@ class ManuscriptValidationTests(unittest.TestCase):
             "No funding was received for this study.",
             "The authors declare no competing interests.",
             "This study used previously collected datasets obtained under their original access terms.",
-            "Author-review note: this wording must be checked against institutional policy and the dataset licence terms before submission.",
-            "[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
-            "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
-            "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used",
-            "[AUTHOR CONFIRMATION REQUIRED: supervision, methodology review, writing - review and editing, or other CRediT roles]",
+            "This study used secondary datasets obtained under their original access terms.",
+            "The authors thank the creators and maintainers of the DAIC-WOZ and Androids Corpus datasets.",
+            "ChatGPT and Codex were used to assist with code organization",
+            "Dr. Vikram Singh: Supervision.",
+            "A preprint is planned.",
+            "The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.",
+            "Final portal metadata checks for repository visibility, license and exact URL remain pending.",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, text)
@@ -834,13 +837,15 @@ class ManuscriptValidationTests(unittest.TestCase):
 
         docx = (PAPER / "BSPC_DOCX_READY_MANUSCRIPT.md").read_text(encoding="utf-8")
         for phrase in [
-            "DOCX-ready package status: `bspc_docx_ready_markdown_prepared`",
-            "[AUTHOR CONFIRMATION REQUIRED: consent statement]",
-            "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
-            "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email and ORCID]",
-            "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh CRediT roles]",
-            "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure]",
-            "[AUTHOR CONFIRMATION REQUIRED: final BSPC route]",
+            "DOCX-ready package status: `bspc_final_review_docx_ready_portal_checks_pending`",
+            "[AUTHOR FINAL CONFIRMATION REQUIRED: the manuscript is not under consideration elsewhere.]",
+            "[AUTHOR FINAL ACTION REQUIRED: final BSPC/Elsevier portal metadata entry and upload.]",
+            "[AUTHOR FINAL ACTION REQUIRED: final BSPC submission-system technical checks.]",
+            "[AUTHOR FINAL REVIEW REQUIRED: final cover letter review and journal-generated PDF proof check.]",
+            "Author emails: Mohammad Ilyas, mohd.passion.cse@mitmoradabad.edu.in; Dr. Vikram Singh, viks@nitkkr.ac.in.",
+            "Dr. Vikram Singh: Supervision.",
+            "A preprint is planned.",
+            "The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.",
             "## Table Captions And Placement Notes",
             "## Figure Captions",
             "[BIBLIOGRAPHY PLACEHOLDER: generate from `paper/references.bib`",
@@ -901,12 +906,13 @@ class ManuscriptValidationTests(unittest.TestCase):
 
         cover = (PAPER / "BSPC_COVER_LETTER_DRAFT.md").read_text(encoding="utf-8")
         for phrase in [
-            "Status: `draft_only_author_confirmation_required`",
-            "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email and ORCID]",
-            "[AUTHOR CONFIRMATION REQUIRED: final BSPC route]",
+            "Status: `draft_final_details_applied_author_final_review_required`",
+            "Email: viks@nitkkr.ac.in. ORCID: not available.",
+            "[AUTHOR FINAL CONFIRMATION REQUIRED: the manuscript is not under consideration elsewhere.]",
+            "The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.",
+            "A preprint is planned.",
             "The work is research-only.",
             "It does not claim clinical validation",
-            "BSPC submission route: undecided",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, cover)
@@ -955,11 +961,14 @@ class ManuscriptValidationTests(unittest.TestCase):
 
         readme = (PAPER / "submission_review_package" / "README.md").read_text(encoding="utf-8")
         for phrase in [
-            "Status: `bspc_final_review_package_generated_needs_author_review`",
-            "for author review only",
-            "not final submission files",
+            "Status: `bspc_final_review_package_ready_for_submission_portal_checks`",
+            "for final author and portal checks only",
+            "not submitted files",
             "no upload to Elsevier or BSPC has been performed",
-            "The regenerated manuscript DOCX includes the physiology motivation subsection.",
+            "final portal metadata entry, final portal upload, final BSPC submission-system checks",
+            "Final CRediT statement is applied",
+            "Funding, competing interests, ethics, consent, acknowledgements, AI disclosure, preprint status and BSPC subscription route wording are applied.",
+            "The regenerated manuscript DOCX includes the physiology motivation subsection and five approved main figure PNG review copies.",
             "The experiment-rationale documentation package remains available in `paper/`.",
         ]:
             with self.subTest(phrase=phrase):
@@ -971,12 +980,17 @@ class ManuscriptValidationTests(unittest.TestCase):
         for phrase in [
             "Generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`",
             "Generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`",
-            "Submission upload | not_started",
-            "Dr. Vikram Singh email | needs_author_input",
-            "Final branch consolidation | included",
-            "Final review DOCX regeneration | included",
-            "Physiology subsection in manuscript DOCX | needs_author_input",
+            "Generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_FINAL_REVIEW.docx`",
+            "Generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx`",
+            "Submission upload | pending_portal",
+            "Author emails | complete",
+            "Stage 3H final declaration application | complete",
+            "Physiology subsection in manuscript DOCX | complete",
             "Experiment-rationale documentation | included",
+            "Consent wording | complete",
+            "AI/tool-use disclosure | complete",
+            "BSPC route decision | complete",
+            "Submission confirmation | not_started",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, packet)
@@ -985,15 +999,26 @@ class ManuscriptValidationTests(unittest.TestCase):
             PAPER / "submission_review_package" / "logs" / "BSPC_DOCX_GENERATION_LOG.md"
         ).read_text(encoding="utf-8")
         for phrase in [
-            "Branch: `paper/bspc-final-review-package-v1`",
-            "Consolidation branch: `paper/bspc-final-review-package-v1`",
+            "Branch: `paper/bspc-final-declarations-v1`",
+            "Stage 3H branch: `paper/bspc-final-declarations-v1`",
+            "Source branch: `paper/bspc-final-review-package-v1`.",
+            "Final author/declaration details applied: yes.",
+            "Author approvals applied: figures approved, manuscript DOCX approved and supplementary DOCX approved.",
+            "Dr. Vikram Singh email applied: `viks@nitkkr.ac.in`.",
+            "ORCID status applied: not available for both authors; no ORCID identifier was invented.",
+            "CRediT statement applied: Mohammad Ilyas full supplied role list; Dr. Vikram Singh: Supervision.",
+            "Consent, acknowledgements and AI disclosure applied from Stage 3H author input.",
+            "Preprint status applied: a preprint is planned.",
+            "BSPC route applied: subscription route.",
+            "Consolidation branch retained in history: `paper/bspc-final-review-package-v1`",
             "Source branch confirmed: `paper/bspc-review-docx-v1`",
             "Source branch confirmed: `paper/experiment-rationale-summary-v1`",
             "Source branch confirmed: `paper/voice-physiology-motivation-v1`",
             "Merge status: `paper/bspc-review-docx-v1` was already an ancestor of the consolidation branch; no merge conflicts occurred.",
             "Physiology subsection included: yes, `2.2 Physiological motivation for speech-based depression analysis`.",
             "Experiment-rationale documentation included: yes.",
-            "Review DOCX files regenerated after branch consolidation: yes.",
+            "Review DOCX files regenerated after Stage 3H declarations: yes.",
+            "Final-review DOCX copies generated: yes.",
             "Design preset: `standard_business_brief`",
             "python-docx available: yes",
             "Figures inserted: yes",
@@ -1008,17 +1033,29 @@ class ManuscriptValidationTests(unittest.TestCase):
 
         manuscript_docx = PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx"
         supplement_docx = PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx"
+        manuscript_final_docx = PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_FINAL_REVIEW.docx"
+        supplement_final_docx = PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx"
         manuscript_text, manuscript_media = docx_text_and_media_count(manuscript_docx)
         supplement_text, supplement_media = docx_text_and_media_count(supplement_docx)
+        manuscript_final_text, manuscript_final_media = docx_text_and_media_count(manuscript_final_docx)
+        supplement_final_text, supplement_final_media = docx_text_and_media_count(supplement_final_docx)
         self.assertGreater(manuscript_docx.stat().st_size, 100_000)
         self.assertGreater(supplement_docx.stat().st_size, 20_000)
+        self.assertGreater(manuscript_final_docx.stat().st_size, 100_000)
+        self.assertGreater(supplement_final_docx.stat().st_size, 20_000)
         self.assertGreaterEqual(manuscript_media, 5)
         self.assertEqual(supplement_media, 0)
+        self.assertGreaterEqual(manuscript_final_media, 5)
+        self.assertEqual(supplement_final_media, 0)
 
         for phrase in [
-            "AUTHOR REVIEW COPY - NOT FOR SUBMISSION",
+            "FINAL REVIEW COPY - NOT SUBMITTED",
             "Authors: Mohammad Ilyas; Dr. Vikram Singh.",
             "Corresponding author: Mohammad Ilyas",
+            "Author emails: Mohammad Ilyas, mohd.passion.cse@mitmoradabad.edu.in; Dr. Vikram Singh, viks@nitkkr.ac.in.",
+            "Dr. Vikram Singh: Supervision.",
+            "A preprint is planned.",
+            "The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.",
             "Abstract",
             "Keywords",
             "Highlights",
@@ -1040,16 +1077,16 @@ class ManuscriptValidationTests(unittest.TestCase):
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, manuscript_text)
+                self.assertIn(phrase, manuscript_final_text)
         for placeholder in [
-            "[AUTHOR CONFIRMATION REQUIRED: consent statement]",
-            "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
-            "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email and ORCID]",
-            "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh CRediT roles]",
-            "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure]",
-            "[AUTHOR CONFIRMATION REQUIRED: final BSPC route]",
+            "[AUTHOR FINAL CONFIRMATION REQUIRED: the manuscript is not under consideration elsewhere.]",
+            "[AUTHOR FINAL ACTION REQUIRED: final BSPC/Elsevier portal metadata entry and upload.]",
+            "[AUTHOR FINAL ACTION REQUIRED: final BSPC submission-system technical checks.]",
+            "[AUTHOR FINAL REVIEW REQUIRED: final cover letter review and journal-generated PDF proof check.]",
         ]:
             with self.subTest(placeholder=placeholder):
                 self.assertIn(placeholder, manuscript_text)
+                self.assertIn(placeholder, manuscript_final_text)
                 self.assertIn(f"yes: `{placeholder}`", log)
 
         for phrase in [
@@ -1065,12 +1102,14 @@ class ManuscriptValidationTests(unittest.TestCase):
 
         self.assertFalse((PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_AUTHOR_REVIEW_FALLBACK.txt").exists())
         self.assertFalse((PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW_FALLBACK.txt").exists())
-        combined = "\n".join([readme, packet, log, manuscript_text, supplement_text])
+        combined = "\n".join([readme, packet, log, manuscript_text, supplement_text, manuscript_final_text, supplement_final_text])
         self.assertNotIn("Submission status: submitted", combined)
-        self.assertNotIn("ready_for_submission", combined)
         self.assertNotIn("No AI", combined)
         self.assertNotRegex(combined, r"orcid\.org/|\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b")
-        self.assertNotRegex(combined, r"Dr\. Vikram Singh[^@\n]{0,160}@[A-Za-z0-9._%+-]+")
+        email_scan_text = combined
+        for email in {"mohd.passion.cse@mitmoradabad.edu.in", "viks@nitkkr.ac.in"}:
+            email_scan_text = email_scan_text.replace(email, "")
+        self.assertFalse(re.findall(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", email_scan_text))
 
     def test_experiment_rationale_package_covers_all_major_protocols(self) -> None:
         for path in EXPERIMENT_RATIONALE_FILES:
@@ -1178,7 +1217,10 @@ class ManuscriptValidationTests(unittest.TestCase):
         combined = "\n".join(path.read_text(encoding="utf-8") for path in STAGE3D_FILES)
         self.assertNotRegex(combined, r"orcid\.org/|\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b")
         self.assertNotIn("Submission status: submitted", combined)
-        self.assertNotIn("ready_for_submission", combined)
+        email_scan_text = combined
+        for email in {"mohd.passion.cse@mitmoradabad.edu.in", "viks@nitkkr.ac.in"}:
+            email_scan_text = email_scan_text.replace(email, "")
+        self.assertFalse(re.findall(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", email_scan_text))
         self.assertIn("DOCX/PDF or submission", (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8"))
 
     def test_stage3d_bspc_guideline_verification_is_official_source_only(self) -> None:
@@ -1199,22 +1241,20 @@ class ManuscriptValidationTests(unittest.TestCase):
 
         status = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
         for phrase in [
-            "Manuscript draft word count: 5309",
-            "DOCX-ready manuscript markdown word count: 6789",
+            "Manuscript draft word count: 6111",
+            "DOCX-ready manuscript markdown word count: 6840",
             "Experiment registry records: 42",
-            "`bspc_review_docx_generated_needs_author_review`",
-            "`bspc_final_review_package_generated_needs_author_review`",
+            "`bspc_final_review_package_ready_for_submission_portal_checks`",
             "Provisional first target: Biomedical Signal Processing and Control",
-            "Final journal not selected",
-            "Figures not generated",
-            "Journal formatting not applied",
+            "Biomedical Signal Processing and Control selected for the Stage 3H final review package.",
             "Manuscript not submitted",
             "Generated BSPC main figures: 5",
             "Generated BSPC supplement figures: 0",
             "Tables retained in DOCX-ready manuscript: 6",
             "DOCX generated: no; Pandoc was unavailable on PATH during Stage 3F.",
             "Stage 3G status: BSPC author-review DOCX package generated without Pandoc; review copies need author review; no final PDF or submission.",
-            "BSPC review DOCX files generated: 2",
+            "Stage 3H status: BSPC author declarations finalized, author approvals applied, final-review DOCX files regenerated without Pandoc; portal metadata/upload/system checks, cover letter final review, journal-generated PDF proof review and submission confirmation remain pending; no submission.",
+            "BSPC review DOCX files generated: 4",
             "Review DOCX manuscript generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.",
             "Review DOCX supplement generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.",
             "DOCX generation tool: `python-docx`; Pandoc was not used.",
@@ -1225,21 +1265,30 @@ class ManuscriptValidationTests(unittest.TestCase):
             "Manuscript validation status after Stage 3G: passed.",
             "Unit-test status after Stage 3G: passed, 78 tests.",
             "Registry validation status after Stage 3G: passed, 42 records.",
-            "Current branch: `paper/bspc-final-review-package-v1`",
+            "Current branch: `paper/bspc-final-declarations-v1`",
             "Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.",
             "Experiment-rationale table rows: 25",
             "Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.",
             "Voice physiology insert word count: 261",
             "`paper/VOICE_PHYSIOLOGY_INSERT_AUDIT.md`",
             "No clinical diagnostic, deployment, privacy-preserving, old DAIC count or PHQ-8 severity-scoring claims were introduced.",
-            "Final review package readiness category: `bspc_final_review_package_generated_needs_author_review`.",
+            "Final review package readiness category after Stage 3G consolidation: `bspc_final_review_package_generated_needs_author_review`.",
+            "Readiness category: `bspc_final_review_package_ready_for_submission_portal_checks`.",
             "Review DOCX manuscript regenerated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.",
             "Review DOCX supplement regenerated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.",
+            "Stage 3H manuscript final-review DOCX generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_FINAL_REVIEW.docx`.",
+            "Stage 3H supplementary final-review DOCX generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx`.",
+            "Author details finalized: Dr. Vikram Singh, Department of Computer Engineering, National Institute of Technology, Kurukshetra, Haryana, India; email `viks@nitkkr.ac.in`; ORCID not available; corresponding author No.",
+            "CRediT statement finalized: Dr. Vikram Singh: Supervision.",
+            "AI disclosure finalized: ChatGPT and Codex were used to assist with code organization",
             "The regenerated manuscript DOCX includes the physiology motivation subsection and five main figure PNG review copies.",
             "Final consolidation validation status: passed.",
             "Final consolidation unit-test status: passed, 80 tests.",
             "Final consolidation registry validation status: passed, 42 records.",
-            "No metrics, references, author details, declarations or clinical claims were invented.",
+            "Manuscript validation status after Stage 3H: passed.",
+            "Unit-test status after Stage 3H: passed, 80 tests.",
+            "Registry validation status after Stage 3H: passed, 42 records.",
+            "No clinical claims, dataset counts, PHQ scoring details, frozen metrics or unverified references were introduced.",
             "## Completed Experiment-Rationale Package Files",
             "`paper/STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md`",
             "`paper/STUDY_EXPERIMENTS_RATIONALE_TABLE.csv`",

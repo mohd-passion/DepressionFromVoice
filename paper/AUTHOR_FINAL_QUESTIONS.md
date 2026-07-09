@@ -1,14 +1,10 @@
-# BSPC Remaining Author Questions
+# BSPC Remaining Portal-Only Questions
 
-Please answer these before final formatting or BSPC submission.
+The Stage 3H author details, declarations, figure approval and DOCX review approvals have been applied. These items remain before any BSPC submission.
 
-1. Dr. Vikram Singh email?
-2. Dr. Vikram Singh ORCID, or not available?
-3. Dr. Vikram Singh CRediT roles?
-4. Final consent statement?
-5. Acknowledgement text?
-6. AI/tool-use disclosure wording?
-7. Preprint decision?
-8. Confirm BSPC subscription/no-publication-fee route?
-9. Approve all five figures, or list revisions?
-10. Approve DOCX review copy, or list edits?
+1. Confirm the cover-letter statement: the manuscript is not under consideration elsewhere.
+2. Complete final BSPC/Elsevier portal metadata entry.
+3. Upload the manuscript, supplementary DOCX and required figure/source files in the BSPC portal.
+4. Complete final BSPC submission-system technical checks.
+5. Review the journal-generated PDF proof before approval.
+6. Confirm whether to submit after proof and portal checks are complete.

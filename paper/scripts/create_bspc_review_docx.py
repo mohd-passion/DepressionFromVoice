@@ -43,6 +43,8 @@ CAPTIONS_MD = PAPER / "BSPC_FIGURE_CAPTIONS.md"
 
 MANUSCRIPT_DOCX = DOCX_DIR / "BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx"
 SUPPLEMENT_DOCX = DOCX_DIR / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx"
+MANUSCRIPT_FINAL_DOCX = DOCX_DIR / "BSPC_MANUSCRIPT_FINAL_REVIEW.docx"
+SUPPLEMENT_FINAL_DOCX = DOCX_DIR / "BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx"
 MANUSCRIPT_FALLBACK = DOCX_DIR / "BSPC_MANUSCRIPT_AUTHOR_REVIEW_FALLBACK.txt"
 SUPPLEMENT_FALLBACK = DOCX_DIR / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW_FALLBACK.txt"
 GENERATION_LOG = LOG_DIR / "BSPC_DOCX_GENERATION_LOG.md"
@@ -55,13 +57,11 @@ FIGURE_FILES = {
     "Figure 5": PAPER / "figures" / "output" / "figure5_domain_shift_boundary_summary.png",
 }
 
-REQUIRED_PLACEHOLDERS = [
-    "[AUTHOR CONFIRMATION REQUIRED: consent statement]",
-    "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
-    "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email and ORCID]",
-    "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh CRediT roles]",
-    "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure]",
-    "[AUTHOR CONFIRMATION REQUIRED: final BSPC route]",
+PORTAL_REVIEW_MARKERS = [
+    "[AUTHOR FINAL CONFIRMATION REQUIRED: the manuscript is not under consideration elsewhere.]",
+    "[AUTHOR FINAL ACTION REQUIRED: final BSPC/Elsevier portal metadata entry and upload.]",
+    "[AUTHOR FINAL ACTION REQUIRED: final BSPC submission-system technical checks.]",
+    "[AUTHOR FINAL REVIEW REQUIRED: final cover letter review and journal-generated PDF proof check.]",
 ]
 
 PRESET_NAME = "standard_business_brief"
@@ -162,7 +162,7 @@ def configure_document(document) -> None:
     caption.paragraph_format.space_after = Pt(9)
 
     footer = section.footer.paragraphs[0]
-    footer.text = "Author review copy - not for submission"
+    footer.text = "Final review copy - not submitted"
     footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
     for run in footer.runs:
         set_run_font(run, "Calibri", 9)
@@ -188,8 +188,8 @@ def add_title_block(document, title: str, subtitle: str) -> None:
     notice = document.add_paragraph()
     notice.paragraph_format.space_after = Pt(12)
     notice_run = notice.add_run(
-        "AUTHOR REVIEW COPY - NOT FOR SUBMISSION. "
-        "Unresolved author/declaration placeholders are intentionally preserved."
+        "FINAL REVIEW COPY - NOT SUBMITTED. "
+        "Stage 3H author declarations are applied; portal-only checks remain pending."
     )
     set_run_font(notice_run, "Calibri", 10)
     notice_run.bold = True
@@ -205,7 +205,7 @@ def add_body_paragraph(document, text: str) -> None:
     paragraph.paragraph_format.space_after = Pt(6)
     run = paragraph.add_run(clean_inline(text))
     set_run_font(run, "Calibri", 11)
-    if "[AUTHOR CONFIRMATION REQUIRED:" in text or "[BIBLIOGRAPHY PLACEHOLDER:" in text:
+    if "[AUTHOR FINAL" in text or "[BIBLIOGRAPHY PLACEHOLDER:" in text:
         run.bold = True
         run.font.color.rgb = rgb("9B1C1C")
 
@@ -495,7 +495,7 @@ def create_fallback(source: Path, output: Path, title: str) -> None:
 
 def placeholder_status(paths: list[Path]) -> dict[str, bool]:
     combined = "\n".join(path.read_text(encoding="utf-8", errors="ignore") for path in paths if path.exists())
-    return {placeholder: placeholder in combined for placeholder in REQUIRED_PLACEHOLDERS}
+    return {placeholder: placeholder in combined for placeholder in PORTAL_REVIEW_MARKERS}
 
 
 def write_generation_log(
@@ -520,16 +520,31 @@ def write_generation_log(
         f"Commit at generation: `{commit}`",
         f"Design preset: `{PRESET_NAME}`",
         "",
+        "## Stage 3H Final Declaration Metadata",
+        "",
+        "- Stage 3H branch: `paper/bspc-final-declarations-v1`",
+        "- Source branch: `paper/bspc-final-review-package-v1`.",
+        "- Final author/declaration details applied: yes.",
+        "- Author approvals applied: figures approved, manuscript DOCX approved and supplementary DOCX approved.",
+        "- Dr. Vikram Singh email applied: `viks@nitkkr.ac.in`.",
+        "- ORCID status applied: not available for both authors; no ORCID identifier was invented.",
+        "- CRediT statement applied: Mohammad Ilyas full supplied role list; Dr. Vikram Singh: Supervision.",
+        "- Consent, acknowledgements and AI disclosure applied from Stage 3H author input.",
+        "- Preprint status applied: a preprint is planned.",
+        "- BSPC route applied: subscription route.",
+        "- No Elsevier/BSPC upload, journal-generated PDF proof approval or submission confirmation was performed.",
+        "",
         "## Consolidation Metadata",
         "",
-        "- Consolidation branch: `paper/bspc-final-review-package-v1`",
+        "- Consolidation branch retained in history: `paper/bspc-final-review-package-v1`",
         "- Source branch confirmed: `paper/bspc-review-docx-v1` for Stage 3G review package scripts, figures and DOCX package structure.",
         "- Source branch confirmed: `paper/experiment-rationale-summary-v1` for experiment-rationale documentation.",
         "- Source branch confirmed: `paper/voice-physiology-motivation-v1` for the physiology motivation subsection.",
         "- Merge status: `paper/bspc-review-docx-v1` was already an ancestor of the consolidation branch; no merge conflicts occurred.",
         "- Physiology subsection included: yes, `2.2 Physiological motivation for speech-based depression analysis`.",
         "- Experiment-rationale documentation included: yes.",
-        "- Review DOCX files regenerated after branch consolidation: yes.",
+        "- Review DOCX files regenerated after Stage 3H declarations: yes.",
+        "- Final-review DOCX copies generated: yes.",
         "- No Elsevier/BSPC submission or final PDF generation was performed.",
         "",
         "## Source Markdown Files",
@@ -561,7 +576,7 @@ def write_generation_log(
             "- Final PDF generated: no",
             "- Submission/upload performed: no",
             "",
-            "## Unresolved Placeholders Retained",
+            "## Portal-Only Markers Retained",
             "",
         ]
     )
@@ -573,12 +588,12 @@ def write_generation_log(
             "",
             "## Next Manual Checks Needed",
             "",
-            "- Author review of every unresolved placeholder.",
-            "- Author visual approval of Figures 1-5.",
-            "- Final BSPC route confirmation.",
-            "- Final Word formatting check before any submission.",
+            "- Final cover letter author review, including the not-under-consideration confirmation.",
+            "- Final BSPC/Elsevier portal metadata entry.",
+            "- Final portal upload of manuscript, supplement and required figure/source files.",
+            "- Final BSPC submission-system technical checks.",
+            "- Journal-generated PDF proof review before any submission confirmation.",
             "- Final references formatting from `paper/references.bib`.",
-            "- Final cover letter review; the existing cover letter remains draft-only.",
         ]
     )
     GENERATION_LOG.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
@@ -590,11 +605,12 @@ def main() -> int:
     fallback_outputs: list[Path] = []
     figures_inserted = 0
     known_limitations = [
-        "Review DOCX files are generated from Markdown and are not final BSPC submission files.",
+        "Review DOCX files are generated from Markdown and are not submitted BSPC files.",
         "References remain a bibliography placeholder and must be generated from `paper/references.bib` later.",
-        "Unresolved author/declaration placeholders are intentionally visible.",
-        "LibreOffice/soffice was not available on PATH during final consolidation, so page-image render QA via `render_docx.py` could not be completed in this environment.",
-        "Final Word pagination and BSPC artwork compliance still require author/manual review.",
+        "Stage 3H author/declaration fields are applied; portal-only review markers remain visible.",
+        "LibreOffice/soffice availability is recorded below; page-image render QA depends on that local renderer.",
+        "page-image render QA via `render_docx.py` could not be completed in this environment because LibreOffice/soffice was unavailable on PATH.",
+        "Final Word pagination and BSPC artwork compliance still require portal/manual review.",
     ]
 
     if Document is None:
@@ -627,7 +643,9 @@ def main() -> int:
         "Biomedical Signal Processing and Control supplementary material review copy",
         include_figures=False,
     )
-    outputs = [MANUSCRIPT_DOCX, SUPPLEMENT_DOCX]
+    shutil.copy2(MANUSCRIPT_DOCX, MANUSCRIPT_FINAL_DOCX)
+    shutil.copy2(SUPPLEMENT_DOCX, SUPPLEMENT_FINAL_DOCX)
+    outputs = [MANUSCRIPT_DOCX, SUPPLEMENT_DOCX, MANUSCRIPT_FINAL_DOCX, SUPPLEMENT_FINAL_DOCX]
     write_generation_log(
         docx_available=True,
         figures_inserted=figures_inserted,
@@ -637,6 +655,8 @@ def main() -> int:
     )
     print(f"generated={MANUSCRIPT_DOCX.relative_to(ROOT).as_posix()}")
     print(f"generated={SUPPLEMENT_DOCX.relative_to(ROOT).as_posix()}")
+    print(f"generated={MANUSCRIPT_FINAL_DOCX.relative_to(ROOT).as_posix()}")
+    print(f"generated={SUPPLEMENT_FINAL_DOCX.relative_to(ROOT).as_posix()}")
     print(f"figures_inserted={figures_inserted}")
     print(f"log={GENERATION_LOG.relative_to(ROOT).as_posix()}")
     return 0

@@ -9,7 +9,7 @@ This form is for author completion only. Do not treat any blank or unverified va
 | Final working title | Cross-Corpus and Cross-Task Depression Detection from Speech Using Frozen WavLM Representations | Confirmed final title decision: keep current title. |
 | Running title | [AUTHOR DECISION REQUIRED] | Required by many journals. |
 | Manuscript article type | Full paper [AUTHOR CONFIRMATION REQUIRED] | BSPC full-paper route prepared; confirm before submission. |
-| Target journal, once selected | Biomedical Signal Processing and Control [AUTHOR CONFIRMATION REQUIRED BEFORE SUBMISSION] | Stage 3E preparation target; do not submit until author confirms all submission details. |
+| Target journal, once selected | Biomedical Signal Processing and Control | Confirmed Stage 3H BSPC final-review target; no submission has been performed. |
 
 ## Unverified Author Context for Confirmation
 
@@ -20,7 +20,7 @@ The following information is known only as user-provided context and must be con
 | Name | Mohammad Ilyas | confirmed |
 | Role context | Department of Computer Science and Engineering | confirmed |
 | PhD context | NIT Kurukshetra | [AUTHOR CONFIRMATION REQUIRED; not used in affiliation unless author approves] |
-| Final affiliation wording | Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India | confirmed for Stage 3E draft |
+| Final affiliation wording | Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India | confirmed for Stage 3H final-review package |
 
 ## Authors
 
@@ -56,9 +56,9 @@ Duplicate this block for each author. Leave unknown values blank until confirmed
 | City | Kurukshetra |
 | State or region | Haryana |
 | Country | India |
-| Institutional email | [AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email not provided] |
-| ORCID | [AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh ORCID not provided] |
-| Corresponding-author status | [AUTHOR CONFIRMATION REQUIRED: not confirmed] |
+| Institutional email | viks@nitkkr.ac.in |
+| ORCID | not available |
+| Corresponding-author status | No |
 
 ### Additional Authors
 
@@ -70,20 +70,20 @@ Provide author initials for each CRediT role. Do not assign a role unless all au
 
 | CRediT role | Author initials | Notes |
 |---|---|---|
-| Conceptualization | Mohammad Ilyas; Dr. Vikram Singh [AUTHOR CONFIRMATION REQUIRED] | Mohammad Ilyas confirmed draft role; Dr. Vikram Singh role not final. |
-| Methodology | Mohammad Ilyas; Dr. Vikram Singh [AUTHOR CONFIRMATION REQUIRED] | Mohammad Ilyas confirmed draft role; Dr. Vikram Singh role not final. |
-| Software | Mohammad Ilyas | Draft role from author input. |
-| Validation | Mohammad Ilyas | Draft role from author input. |
-| Formal analysis | Mohammad Ilyas | Draft role from author input. |
-| Investigation | Mohammad Ilyas | Draft role from author input. |
-| Resources | [AUTHOR CONFIRMATION REQUIRED] | Do not assign until all authors confirm. |
-| Data curation | Mohammad Ilyas | Draft role from author input. |
-| Writing - original draft | Mohammad Ilyas | Draft role from author input. |
-| Writing - review and editing | Dr. Vikram Singh [AUTHOR CONFIRMATION REQUIRED] | Suggested role only; not final without confirmation. |
-| Visualization | Mohammad Ilyas | Draft role from author input. |
-| Supervision | Dr. Vikram Singh [AUTHOR CONFIRMATION REQUIRED] | Suggested role only; not final without confirmation. |
-| Project administration | Mohammad Ilyas | Draft role from author input. |
-| Funding acquisition | not applicable [AUTHOR CONFIRMATION REQUIRED] | No funding was received; final CRediT role still requires confirmation. |
+| Conceptualization | Mohammad Ilyas | Confirmed Stage 3H CRediT role. |
+| Methodology | Mohammad Ilyas | Confirmed Stage 3H CRediT role. |
+| Software | Mohammad Ilyas | Confirmed Stage 3H CRediT role. |
+| Validation | Mohammad Ilyas | Confirmed Stage 3H CRediT role. |
+| Formal analysis | Mohammad Ilyas | Confirmed Stage 3H CRediT role. |
+| Investigation | Mohammad Ilyas | Confirmed Stage 3H CRediT role. |
+| Resources | not applicable | No Resources role was assigned in the confirmed CRediT statement. |
+| Data curation | Mohammad Ilyas | Confirmed Stage 3H CRediT role. |
+| Writing - original draft | Mohammad Ilyas | Confirmed Stage 3H CRediT role. |
+| Writing - review and editing | not assigned | No Writing - review and editing role was assigned in the confirmed CRediT statement. |
+| Visualization | Mohammad Ilyas | Confirmed Stage 3H CRediT role. |
+| Supervision | Dr. Vikram Singh | Confirmed Stage 3H CRediT role. |
+| Project administration | Mohammad Ilyas | Confirmed Stage 3H CRediT role. |
+| Funding acquisition | not applicable | No funding was received for this study. |
 
 ## Declarations
 
@@ -94,14 +94,14 @@ Complete these statements only with author confirmation. Do not draft affirmativ
 | Funding | No funding was received for this study. | Confirmed author wording. |
 | Competing interests | The authors declare no competing interests. | Confirmed author wording. |
 | Ethics approval or exemption | This study used previously collected datasets obtained under their original access terms. No new human participants were recruited. Ethics approval was not sought because the study involved secondary analysis of existing datasets. | Author-review note: check against institutional policy and dataset licence terms before submission. |
-| Consent to participate | [AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data] | Must align with source dataset documentation and author/institution confirmation. |
-| Consent for publication | [AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data] | Must align with source dataset documentation and author/institution confirmation. |
-| Data availability | Journal-neutral wording exists; [AUTHOR CONFIRMATION REQUIRED] | Confirm dataset-license wording and whether repository metadata can be cited. |
-| Code availability | Journal-neutral wording exists; [AUTHOR CONFIRMATION REQUIRED] | Confirm public repository visibility, license and frozen tag wording. |
-| Acknowledgements | [AUTHOR CONFIRMATION REQUIRED: acknowledgements] | Author must provide exact final wording or confirm none. |
-| Use of AI-assisted writing tools | [AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used during drafting, code organization, manuscript preparation, or workflow assistance; final wording must follow BSPC/Elsevier policy.] | Do not finalize "No" automatically. |
-| Prior presentation or preprint status | Preprint decision: undecided. | Author must decide before submission. |
-| BSPC submission route | BSPC submission route: undecided; subscription/no-publication-fee route preferred but not yet finally confirmed. | Confirm route before submission. |
+| Consent to participate | This study used secondary datasets obtained under their original access terms. Consent for the original data collection was managed by the respective dataset providers. No new human participants were recruited in this study. | Confirmed Stage 3H author wording. |
+| Consent for publication | This study used secondary datasets obtained under their original access terms. Consent for the original data collection was managed by the respective dataset providers. No new human participants were recruited in this study. | Confirmed Stage 3H author wording. |
+| Data availability | Journal-neutral wording exists; final portal metadata check pending. | Confirm dataset-license wording and whether repository metadata can be cited during portal entry. |
+| Code availability | Journal-neutral wording exists; final portal metadata check pending. | Confirm public repository visibility, license and frozen tag wording during portal entry. |
+| Acknowledgements | The authors thank the creators and maintainers of the DAIC-WOZ and Androids Corpus datasets. Mohammad Ilyas acknowledges the academic guidance received during his Ph.D. research work. | Confirmed Stage 3H author wording. |
+| Use of AI-assisted writing tools | ChatGPT and Codex were used to assist with code organization, manuscript drafting support, editing, and workflow planning. The authors reviewed and verified the manuscript content, results, references, and final scientific claims. | Confirmed Stage 3H author wording. |
+| Prior presentation or preprint status | A preprint is planned. | Confirmed Stage 3H author wording. |
+| BSPC submission route | The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route. | Confirmed Stage 3H author wording. |
 
 ## Author Sign-Off Before Submission
 

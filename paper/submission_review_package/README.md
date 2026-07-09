@@ -1,27 +1,30 @@
-# BSPC Author Review Package
+# BSPC Final Review Package
 
-Status: `bspc_final_review_package_generated_needs_author_review`
+Status: `bspc_final_review_package_ready_for_submission_portal_checks`
 
-This directory contains the consolidated BSPC author-review package generated after combining the Stage 3G review package, experiment-rationale documentation branch and voice-physiology motivation branch.
+This directory contains the Stage 3H BSPC final-review package after author details, declarations, figure approval, manuscript DOCX approval and supplementary DOCX approval were applied.
 
-These files are for author review only. They are not final submission files, and no upload to Elsevier or BSPC has been performed.
+These files are for final author and portal checks only. They are not submitted files, and no upload to Elsevier or BSPC has been performed.
 
-The package is intended to preserve unresolved author and declaration fields visibly so they can be checked before any final formatting or submission step. The review DOCX files must not be treated as submission-ready until the remaining author inputs, declaration wording, journal-route decision, figure approval and final formatting checks are complete.
+The package preserves the remaining portal-only tasks visibly: final portal metadata entry, final portal upload, final BSPC submission-system checks, final cover letter author review, journal-generated PDF proof review and submission confirmation.
 
 ## Package Contents
 
-- `docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`: manuscript author-review DOCX.
-- `docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`: supplementary author-review DOCX.
-- `logs/BSPC_DOCX_GENERATION_LOG.md`: DOCX generation log and tooling notes.
-- `AUTHOR_REVIEW_PACKET_CHECKLIST.md`: author-facing checklist for remaining review items.
+- `docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`: regenerated manuscript review DOCX.
+- `docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`: regenerated supplementary review DOCX.
+- `docx/BSPC_MANUSCRIPT_FINAL_REVIEW.docx`: Stage 3H final-review manuscript DOCX copy.
+- `docx/BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx`: Stage 3H final-review supplementary DOCX copy.
+- `logs/BSPC_DOCX_GENERATION_LOG.md`: Stage 3H DOCX generation log and tooling notes.
+- `AUTHOR_REVIEW_PACKET_CHECKLIST.md`: checklist for remaining portal-only review items.
 
 ## Current Safeguards
 
-- The regenerated manuscript DOCX includes the physiology motivation subsection.
+- Final author names, emails, affiliations, corresponding-author status and ORCID availability are applied.
+- Final CRediT statement is applied: Mohammad Ilyas roles as supplied; Dr. Vikram Singh: Supervision.
+- Funding, competing interests, ethics, consent, acknowledgements, AI disclosure, preprint status and BSPC subscription route wording are applied.
+- The regenerated manuscript DOCX includes the physiology motivation subsection and five approved main figure PNG review copies.
 - The experiment-rationale documentation package remains available in `paper/`.
-- Unresolved author placeholders remain visible.
-- Missing author details, consent wording, acknowledgements, AI/tool-use disclosure and final BSPC route decision are not invented.
 - Frozen experiment metrics are not changed.
 - Raw datasets, audio, embeddings, predictions and fitted models are not included.
-- Review DOCX files are not final submission DOCX files.
-- No journal upload, submission or final PDF generation has been performed.
+- Review DOCX files are not final submitted files.
+- No journal upload, submission confirmation or final PDF proof approval has been performed.

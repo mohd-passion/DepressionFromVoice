@@ -122,6 +122,8 @@ STAGE3G_REQUIRED_FILES = [
     PAPER / "submission_review_package" / "logs" / "BSPC_DOCX_GENERATION_LOG.md",
     PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx",
     PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx",
+    PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_FINAL_REVIEW.docx",
+    PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx",
 ]
 
 EXPERIMENT_RATIONALE_REQUIRED_FILES = [
@@ -261,6 +263,7 @@ VALID_CHECKLIST_STATUSES = {
     "needs_figure",
     "needs_journal_selection",
     "figures_generated_awaiting_author_review",
+    "pending_portal",
     "not_started",
     "not_applicable",
 }
@@ -459,36 +462,28 @@ REQUIRED_STAGE3E_AUTHOR_PHRASES = {
     "ORCID | not available",
     "Corresponding-author status | Yes",
     "Full name | Dr. Vikram Singh",
-    "Institutional email | [AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email not provided]",
-    "ORCID | [AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh ORCID not provided]",
-    "Corresponding-author status | [AUTHOR CONFIRMATION REQUIRED: not confirmed]",
+    "Institutional email | viks@nitkkr.ac.in",
+    "ORCID | not available",
+    "Corresponding-author status | No",
 }
 
 REQUIRED_STAGE3E_DECLARATION_PHRASES = {
     "Funding | No funding was received for this study.",
     "Competing interests | The authors declare no competing interests.",
-    "Consent to participate | [AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
-    "Consent for publication | [AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
-    "Acknowledgements | [AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
-    "Use of AI-assisted writing tools | [AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used",
-    "Prior presentation or preprint status | Preprint decision: undecided.",
-    "BSPC submission route | BSPC submission route: undecided; subscription/no-publication-fee route preferred but not yet finally confirmed.",
+    "Consent to participate | This study used secondary datasets obtained under their original access terms.",
+    "Consent for publication | This study used secondary datasets obtained under their original access terms.",
+    "Acknowledgements | The authors thank the creators and maintainers of the DAIC-WOZ and Androids Corpus datasets.",
+    "Use of AI-assisted writing tools | ChatGPT and Codex were used to assist with code organization",
+    "Prior presentation or preprint status | A preprint is planned.",
+    "BSPC submission route | The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.",
 }
 
-REQUIRED_STAGE3E_UNRESOLVED_TEXT = {
-    "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email not provided]",
-    "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh ORCID not provided]",
-    "[AUTHOR CONFIRMATION REQUIRED: not confirmed]",
-    "[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
-    "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
-    "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used during drafting, code organization, manuscript preparation, or workflow assistance; final wording must follow BSPC/Elsevier policy.]",
-}
+REQUIRED_STAGE3E_UNRESOLVED_TEXT: set[str] = set()
 
 REQUIRED_STAGE3E_CONFIRMED_DECLARATIONS = {
     "No funding was received for this study.",
     "The authors declare no competing interests.",
     "This study used previously collected datasets obtained under their original access terms. No new human participants were recruited. Ethics approval was not sought because the study involved secondary analysis of existing datasets.",
-    "Author-review note: this wording must be checked against institutional policy and the dataset licence terms before submission.",
 }
 
 REQUIRED_STAGE3C_DECISION_PHRASES = {
@@ -519,7 +514,7 @@ BSPC_DECLARATION_SECTIONS = {
 REQUIRED_BSPC_PHRASES = {
     "Target journal: Biomedical Signal Processing and Control",
     "Submission status: journal-specific preparation only; not submitted.",
-    "Article type: Full paper [AUTHOR CONFIRMATION REQUIRED]",
+    "Article type: Full paper; final portal article-type mapping remains pending.",
     "## Highlights",
     "## Graphical Abstract",
     "## Declaration of Competing Interest",
@@ -762,12 +757,10 @@ REQUIRED_FIGURE_AUDIT_VALUES = {
 }
 
 REQUIRED_STAGE3F_DOCX_PLACEHOLDERS = {
-    "[AUTHOR CONFIRMATION REQUIRED: consent statement]",
-    "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
-    "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email and ORCID]",
-    "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh CRediT roles]",
-    "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure]",
-    "[AUTHOR CONFIRMATION REQUIRED: final BSPC route]",
+    "[AUTHOR FINAL CONFIRMATION REQUIRED: the manuscript is not under consideration elsewhere.]",
+    "[AUTHOR FINAL ACTION REQUIRED: final BSPC/Elsevier portal metadata entry and upload.]",
+    "[AUTHOR FINAL ACTION REQUIRED: final BSPC submission-system technical checks.]",
+    "[AUTHOR FINAL REVIEW REQUIRED: final cover letter review and journal-generated PDF proof check.]",
 }
 
 REQUIRED_STAGE3F_AUTHOR_QUESTIONS = {
@@ -784,16 +777,12 @@ REQUIRED_STAGE3F_AUTHOR_QUESTIONS = {
 }
 
 REQUIRED_STAGE3G_AUTHOR_QUESTIONS = {
-    "Dr. Vikram Singh email?",
-    "Dr. Vikram Singh ORCID, or not available?",
-    "Dr. Vikram Singh CRediT roles?",
-    "Final consent statement?",
-    "Acknowledgement text?",
-    "AI/tool-use disclosure wording?",
-    "Preprint decision?",
-    "Confirm BSPC subscription/no-publication-fee route?",
-    "Approve all five figures, or list revisions?",
-    "Approve DOCX review copy, or list edits?",
+    "Confirm the cover-letter statement: the manuscript is not under consideration elsewhere.",
+    "Complete final BSPC/Elsevier portal metadata entry.",
+    "Upload the manuscript, supplementary DOCX and required figure/source files in the BSPC portal.",
+    "Complete final BSPC submission-system technical checks.",
+    "Review the journal-generated PDF proof before approval.",
+    "Confirm whether to submit after proof and portal checks are complete.",
 }
 
 FORBIDDEN_GENERATED_ARTIFACT_PATTERNS = {
@@ -1159,8 +1148,8 @@ def validate() -> list[str]:
 
     if (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").exists():
         checklist_text = (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").read_text(encoding="utf-8")
-        if "`ready_for_author_review`" not in checklist_text:
-            errors.append("Submission checklist missing ready_for_author_review readiness category.")
+        if "`bspc_final_review_package_ready_for_submission_portal_checks`" not in checklist_text:
+            errors.append("Submission checklist missing Stage 3H readiness category.")
         for line in checklist_text.splitlines():
             separator = line.replace("|", "").replace(" ", "").strip()
             if not line.startswith("| ") or line.startswith("| Item ") or set(separator) <= {"-", ":"}:
@@ -1176,12 +1165,14 @@ def validate() -> list[str]:
                 "1. Mohammad Ilyas",
                 "2. Dr. Vikram Singh",
                 "mohd.passion.cse@mitmoradabad.edu.in",
-                "Dr. Vikram Singh corresponding-author status: [AUTHOR CONFIRMATION REQUIRED: not confirmed].",
+                "Dr. Vikram Singh is not the corresponding author.",
                 "Mohammad Ilyas: not available.",
-                "Dr. Vikram Singh: [AUTHOR CONFIRMATION REQUIRED: ORCID not provided].",
-                "[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
-                "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
-                "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used",
+                "Dr. Vikram Singh: not available.",
+                "This study used secondary datasets obtained under their original access terms.",
+                "The authors thank the creators and maintainers of the DAIC-WOZ and Androids Corpus datasets.",
+                "ChatGPT and Codex were used to assist with code organization",
+                "A preprint is planned.",
+                "The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.",
             ]:
                 if phrase not in front_matter_text:
                     errors.append(f"Stage 3E front matter missing phrase: {phrase}")
@@ -1192,8 +1183,6 @@ def validate() -> list[str]:
             ]:
                 if phrase not in front_matter_text:
                     errors.append(f"Stage 3E front matter missing confirmed declaration: {phrase}")
-            if "institutional policy" not in front_matter_text or "dataset licence terms" not in front_matter_text:
-                errors.append("Stage 3E front matter missing ethics author-review note.")
         else:
             for placeholder in REQUIRED_FRONT_MATTER_PLACEHOLDERS:
                 if placeholder not in front_matter_text:
@@ -1210,8 +1199,8 @@ def validate() -> list[str]:
         if "Mohammad Ilyas" in author_input_text and "Unverified Author Context" not in author_input_text:
             errors.append("Known user name must remain inside an unverified author-context section.")
         if "No funding was received for this study." in author_input_text:
-            if "Final affiliation wording | Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India | confirmed for Stage 3E draft |" not in author_input_text:
-                errors.append("Author input form must retain Stage 3E confirmed affiliation wording.")
+            if "Final affiliation wording | Department of Computer Science and Engineering, Moradabad Institute of Technology, Moradabad, Uttar Pradesh, India | confirmed for Stage 3H final-review package |" not in author_input_text:
+                errors.append("Author input form must retain Stage 3H confirmed affiliation wording.")
             for phrase in REQUIRED_STAGE3E_AUTHOR_PHRASES:
                 if phrase not in author_input_text:
                     errors.append(f"Author input form missing Stage 3E author phrase: {phrase}")
@@ -1238,13 +1227,10 @@ def validate() -> list[str]:
         for topic in REQUIRED_DECISION_TOPICS:
             if topic not in decision_text:
                 errors.append(f"Author decision log missing topic: {topic}")
-        if "Do not select final journal until author preferences are supplied" not in decision_text:
-            errors.append("Author decision log must defer final journal selection.")
-        if (
-            "Biomedical Signal Processing and Control is provisional only" not in decision_text
-            or "[AUTHOR DECISION REQUIRED] before formatting/submission" not in decision_text
-        ):
-            errors.append("Author decision log must mark the Stage 3C journal target as provisional only.")
+        if "Biomedical Signal Processing and Control selected for the BSPC final review package" not in decision_text:
+            errors.append("Author decision log must record the Stage 3H BSPC target decision.")
+        if "The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route." not in decision_text:
+            errors.append("Author decision log must record the Stage 3H subscription-route decision.")
 
     if (PAPER / "MANUSCRIPT_AUTHOR_REVIEW_CHECKLIST.md").exists():
         checklist_text = (PAPER / "MANUSCRIPT_AUTHOR_REVIEW_CHECKLIST.md").read_text(encoding="utf-8")
@@ -1367,7 +1353,7 @@ def validate() -> list[str]:
 
         final_questions = re.findall(r"^\d+\. ", (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8"), flags=re.MULTILINE)
         if all(path.exists() for path in STAGE3G_REQUIRED_FILES):
-            expected_question_count = 10
+            expected_question_count = 6
         elif all(path.exists() for path in STAGE3F_REQUIRED_FILES):
             expected_question_count = 10
         elif any(path.exists() for path in STAGE3D_REQUIRED_FILES):
@@ -1437,14 +1423,16 @@ def validate() -> list[str]:
                 if phrase not in declarations_text:
                     errors.append(f"BSPC declarations draft missing Stage 3E declaration: {phrase}")
             for phrase in [
-                "[AUTHOR CONFIRMATION REQUIRED: consent statement for use of DAIC-WOZ and Androids Corpus data]",
-                "[AUTHOR CONFIRMATION REQUIRED: acknowledgements]",
-                "[AUTHOR CONFIRMATION REQUIRED: AI-assisted writing/tool-use disclosure. ChatGPT/Codex was used",
-                "[AUTHOR CONFIRMATION REQUIRED: repository visibility, license and exact URL]",
-                "[AUTHOR CONFIRMATION REQUIRED: supervision, methodology review, writing - review and editing, or other CRediT roles]",
+                "This study used secondary datasets obtained under their original access terms.",
+                "The authors thank the creators and maintainers of the DAIC-WOZ and Androids Corpus datasets.",
+                "ChatGPT and Codex were used to assist with code organization",
+                "Final portal metadata checks for repository visibility, license and exact URL remain pending.",
+                "Dr. Vikram Singh: Supervision.",
+                "A preprint is planned.",
+                "The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.",
             ]:
                 if phrase not in declarations_text:
-                    errors.append(f"BSPC declarations draft missing unresolved Stage 3E marker: {phrase}")
+                    errors.append(f"BSPC declarations draft missing Stage 3H declaration phrase: {phrase}")
             if "No AI" in declarations_text or "Use of AI-assisted writing tools | No" in declarations_text:
                 errors.append("BSPC declarations draft must not finalize AI-assisted writing disclosure as No.")
         else:
@@ -1573,8 +1561,8 @@ def validate() -> list[str]:
         cover_text = (PAPER / "BSPC_COVER_LETTER_DRAFT.md").read_text(encoding="utf-8")
         table_plan_text = (PAPER / "BSPC_TABLE_FORMATTING_PLAN.md").read_text(encoding="utf-8")
 
-        if "DOCX-ready package status: `bspc_docx_ready_markdown_prepared`" not in docx_text:
-            errors.append("DOCX-ready manuscript missing package status.")
+        if "DOCX-ready package status: `bspc_final_review_docx_ready_portal_checks_pending`" not in docx_text:
+            errors.append("DOCX-ready manuscript missing Stage 3H package status.")
         for placeholder in REQUIRED_STAGE3F_DOCX_PLACEHOLDERS:
             if placeholder not in docx_text:
                 errors.append(f"DOCX-ready manuscript missing unresolved placeholder: {placeholder}")
@@ -1637,12 +1625,13 @@ def validate() -> list[str]:
                 errors.append(f"DOCX conversion notes missing phrase: {phrase}")
 
         for phrase in [
-            "Status: `draft_only_author_confirmation_required`",
-            "[AUTHOR CONFIRMATION REQUIRED: Dr. Vikram Singh email and ORCID]",
-            "[AUTHOR CONFIRMATION REQUIRED: final BSPC route]",
+            "Status: `draft_final_details_applied_author_final_review_required`",
+            "Email: viks@nitkkr.ac.in. ORCID: not available.",
+            "[AUTHOR FINAL CONFIRMATION REQUIRED: the manuscript is not under consideration elsewhere.]",
+            "The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.",
+            "A preprint is planned.",
             "The work is research-only.",
             "It does not claim clinical validation",
-            "BSPC submission route: undecided",
         ]:
             if phrase not in cover_text:
                 errors.append(f"Cover letter draft missing phrase: {phrase}")
@@ -1706,28 +1695,36 @@ def validate() -> list[str]:
         generator_text = (PAPER / "scripts" / "create_bspc_review_docx.py").read_text(encoding="utf-8")
         manuscript_docx = PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx"
         supplement_docx = PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx"
+        manuscript_final_docx = PAPER / "submission_review_package" / "docx" / "BSPC_MANUSCRIPT_FINAL_REVIEW.docx"
+        supplement_final_docx = PAPER / "submission_review_package" / "docx" / "BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx"
         manuscript_docx_text, manuscript_media_count, manuscript_docx_valid = docx_text_and_media_count(manuscript_docx)
         supplement_docx_text, supplement_media_count, supplement_docx_valid = docx_text_and_media_count(supplement_docx)
+        manuscript_final_text, manuscript_final_media_count, manuscript_final_valid = docx_text_and_media_count(manuscript_final_docx)
+        supplement_final_text, supplement_final_media_count, supplement_final_valid = docx_text_and_media_count(supplement_final_docx)
         review_package_text = "\n".join([package_readme, packet_checklist, generation_log])
-        docx_combined_text = manuscript_docx_text + "\n" + supplement_docx_text
+        docx_combined_text = "\n".join([manuscript_docx_text, supplement_docx_text, manuscript_final_text, supplement_final_text])
         combined_stage3g_text = "\n".join([review_package_text, docx_combined_text, generator_text])
 
         for phrase in [
-            "Status: `bspc_final_review_package_generated_needs_author_review`",
-            "for author review only",
-            "not final submission files",
+            "Status: `bspc_final_review_package_ready_for_submission_portal_checks`",
+            "for final author and portal checks only",
+            "not submitted files",
             "no upload to Elsevier or BSPC has been performed",
-            "The regenerated manuscript DOCX includes the physiology motivation subsection.",
+            "final portal metadata entry, final portal upload, final BSPC submission-system checks",
+            "Final CRediT statement is applied",
+            "Funding, competing interests, ethics, consent, acknowledgements, AI disclosure, preprint status and BSPC subscription route wording are applied.",
+            "The regenerated manuscript DOCX includes the physiology motivation subsection and five approved main figure PNG review copies.",
             "The experiment-rationale documentation package remains available in `paper/`.",
-            "Unresolved author placeholders remain visible",
         ]:
             if phrase not in package_readme:
                 errors.append(f"Stage 3G README missing phrase: {phrase}")
 
         allowed_review_statuses = {
             "included",
+            "complete",
             "needs_author_input",
             "needs_visual_review",
+            "pending_portal",
             "not_started",
             "not_applicable",
         }
@@ -1741,32 +1738,51 @@ def validate() -> list[str]:
         for phrase in [
             "Generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`",
             "Generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`",
+            "Generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_FINAL_REVIEW.docx`",
+            "Generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx`",
             "DOCX generation succeeded with `python-docx`",
-            "Final branch consolidation | included",
-            "Final review DOCX regeneration | included",
-            "Physiology subsection in manuscript DOCX | needs_author_input",
+            "Stage 3H final declaration application | complete",
+            "Physiology subsection in manuscript DOCX | complete",
             "Experiment-rationale documentation | included",
-            "Submission upload | not_started",
+            "Author emails | complete",
+            "CRediT statement | complete",
+            "Consent wording | complete",
+            "BSPC route decision | complete",
+            "Submission upload | pending_portal",
+            "Submission confirmation | not_started",
         ]:
             if phrase not in packet_checklist:
                 errors.append(f"Author review packet checklist missing phrase: {phrase}")
 
         for phrase in [
             "Date generated:",
-            "Branch: `paper/bspc-final-review-package-v1`",
-            "Consolidation branch: `paper/bspc-final-review-package-v1`",
+            "Branch: `paper/bspc-final-declarations-v1`",
+            "Stage 3H branch: `paper/bspc-final-declarations-v1`",
+            "Source branch: `paper/bspc-final-review-package-v1`.",
+            "Final author/declaration details applied: yes.",
+            "Author approvals applied: figures approved, manuscript DOCX approved and supplementary DOCX approved.",
+            "Dr. Vikram Singh email applied: `viks@nitkkr.ac.in`.",
+            "ORCID status applied: not available for both authors; no ORCID identifier was invented.",
+            "CRediT statement applied: Mohammad Ilyas full supplied role list; Dr. Vikram Singh: Supervision.",
+            "Consent, acknowledgements and AI disclosure applied from Stage 3H author input.",
+            "Preprint status applied: a preprint is planned.",
+            "BSPC route applied: subscription route.",
+            "Consolidation branch retained in history: `paper/bspc-final-review-package-v1`",
             "Source branch confirmed: `paper/bspc-review-docx-v1`",
             "Source branch confirmed: `paper/experiment-rationale-summary-v1`",
             "Source branch confirmed: `paper/voice-physiology-motivation-v1`",
             "Merge status: `paper/bspc-review-docx-v1` was already an ancestor of the consolidation branch; no merge conflicts occurred.",
             "Physiology subsection included: yes, `2.2 Physiological motivation for speech-based depression analysis`.",
             "Experiment-rationale documentation included: yes.",
-            "Review DOCX files regenerated after branch consolidation: yes.",
+            "Review DOCX files regenerated after Stage 3H declarations: yes.",
+            "Final-review DOCX copies generated: yes.",
             "Design preset: `standard_business_brief`",
             "paper/BSPC_DOCX_READY_MANUSCRIPT.md",
             "paper/BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md",
             "paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx",
             "paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx",
+            "paper/submission_review_package/docx/BSPC_MANUSCRIPT_FINAL_REVIEW.docx",
+            "paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx",
             "python-docx available: yes",
             "Figures inserted: yes",
             "Main figures inserted: 5 of 5",
@@ -1780,28 +1796,46 @@ def validate() -> list[str]:
                 errors.append(f"Stage 3G generation log missing phrase: {phrase}")
         for placeholder in REQUIRED_STAGE3F_DOCX_PLACEHOLDERS:
             if f"yes: `{placeholder}`" not in generation_log:
-                errors.append(f"Stage 3G generation log missing retained placeholder: {placeholder}")
+                errors.append(f"Stage 3H generation log missing retained portal marker: {placeholder}")
 
         if not manuscript_docx_valid:
             errors.append("Stage 3G manuscript review DOCX is not a readable DOCX package.")
         if not supplement_docx_valid:
             errors.append("Stage 3G supplementary review DOCX is not a readable DOCX package.")
+        if not manuscript_final_valid:
+            errors.append("Stage 3H manuscript final-review DOCX is not a readable DOCX package.")
+        if not supplement_final_valid:
+            errors.append("Stage 3H supplementary final-review DOCX is not a readable DOCX package.")
         if manuscript_docx.stat().st_size < 100_000:
             errors.append("Stage 3G manuscript review DOCX is unexpectedly small.")
         if supplement_docx.stat().st_size < 20_000:
             errors.append("Stage 3G supplementary review DOCX is unexpectedly small.")
+        if manuscript_final_docx.stat().st_size < 100_000:
+            errors.append("Stage 3H manuscript final-review DOCX is unexpectedly small.")
+        if supplement_final_docx.stat().st_size < 20_000:
+            errors.append("Stage 3H supplementary final-review DOCX is unexpectedly small.")
         if manuscript_media_count < 5:
             errors.append(f"Stage 3G manuscript DOCX should include five figure images; found {manuscript_media_count}.")
         if supplement_media_count != 0:
             errors.append(f"Stage 3G supplement DOCX should not include figure images; found {supplement_media_count}.")
+        if manuscript_final_media_count < 5:
+            errors.append(f"Stage 3H manuscript final-review DOCX should include five figure images; found {manuscript_final_media_count}.")
+        if supplement_final_media_count != 0:
+            errors.append(f"Stage 3H supplementary final-review DOCX should not include figure images; found {supplement_final_media_count}.")
 
         for placeholder in REQUIRED_STAGE3F_DOCX_PLACEHOLDERS:
             if placeholder not in manuscript_docx_text:
-                errors.append(f"Stage 3G manuscript DOCX missing unresolved placeholder: {placeholder}")
+                errors.append(f"Stage 3G manuscript DOCX missing portal marker: {placeholder}")
+            if placeholder not in manuscript_final_text:
+                errors.append(f"Stage 3H manuscript final-review DOCX missing portal marker: {placeholder}")
         for phrase in [
-            "AUTHOR REVIEW COPY - NOT FOR SUBMISSION",
+            "FINAL REVIEW COPY - NOT SUBMITTED",
             "Authors: Mohammad Ilyas; Dr. Vikram Singh.",
             "Corresponding author: Mohammad Ilyas",
+            "Author emails: Mohammad Ilyas, mohd.passion.cse@mitmoradabad.edu.in; Dr. Vikram Singh, viks@nitkkr.ac.in.",
+            "Dr. Vikram Singh: Supervision.",
+            "A preprint is planned.",
+            "The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.",
             "Affiliations: Mohammad Ilyas",
             "Abstract",
             "Keywords",
@@ -1850,7 +1884,7 @@ def validate() -> list[str]:
         if "pip install" in generator_text.lower():
             errors.append("Stage 3G DOCX generator must not install packages.")
 
-        if "Submission status: submitted" in combined_stage3g_text or "ready_for_submission" in combined_stage3g_text:
+        if "Submission status: submitted" in combined_stage3g_text:
             errors.append("Stage 3G review package must not mark the manuscript submitted or submission-ready.")
         if "No AI" in combined_stage3g_text or "Use of AI-assisted writing tools | No" in combined_stage3g_text:
             errors.append("Stage 3G review package must not finalize AI disclosure as No.")
@@ -1858,8 +1892,13 @@ def validate() -> list[str]:
             r"\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b", combined_stage3g_text
         ):
             errors.append("Stage 3G review package must not invent ORCID identifiers.")
-        if re.search(r"Dr\. Vikram Singh[^@\n]{0,160}@[A-Za-z0-9._%+-]+", combined_stage3g_text):
-            errors.append("Stage 3G review package must not invent Dr. Vikram Singh email.")
+        allowed_emails = {"mohd.passion.cse@mitmoradabad.edu.in", "viks@nitkkr.ac.in"}
+        email_scan_text = combined_stage3g_text
+        for email in allowed_emails:
+            email_scan_text = email_scan_text.replace(email, "")
+        unexpected_emails = set(re.findall(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", email_scan_text))
+        if unexpected_emails:
+            errors.append(f"Stage 3H review package contains unexpected email address(es): {sorted(unexpected_emails)}")
         for sentence in sentences(docx_combined_text):
             normalized = sentence.lower()
             for phrase in PROHIBITED_CLINICAL_OVERCLAIM_PHRASES:
@@ -2033,7 +2072,7 @@ def validate() -> list[str]:
             "Figures not generated",
             "Journal formatting not applied",
             "Manuscript not submitted",
-            "Manuscript draft word count: 5309",
+            "Manuscript draft word count: 6111",
             "Experiment registry records: 42",
         ]:
             if phrase not in status_text:
@@ -2048,7 +2087,7 @@ def validate() -> list[str]:
                 errors.append(f"Paper writing status missing Stage 3E phrase: {phrase}")
         for phrase in [
             "Stage 3F status: BSPC figure visual review completed; DOCX-ready markdown package prepared; supplementary draft and conversion notes prepared; DOCX not generated because Pandoc was unavailable; no PDF or submission.",
-            "DOCX-ready manuscript markdown word count: 6789",
+            "DOCX-ready manuscript markdown word count: 6840",
             "Generated BSPC supplement figures: 0",
             "Tables retained in DOCX-ready manuscript: 6",
             "DOCX generated: no; Pandoc was unavailable on PATH during Stage 3F.",
@@ -2059,9 +2098,10 @@ def validate() -> list[str]:
         if all(path.exists() for path in STAGE3G_REQUIRED_FILES):
             for phrase in [
                 "Stage 3G status: BSPC author-review DOCX package generated without Pandoc; review copies need author review; no final PDF or submission.",
-                "BSPC review DOCX files generated: 2",
-                "`bspc_review_docx_generated_needs_author_review`",
-                "Final BSPC review package status: `bspc_final_review_package_generated_needs_author_review`; consolidated branches and regenerated review DOCX files need author review.",
+                "Stage 3H status: BSPC author declarations finalized, author approvals applied, final-review DOCX files regenerated without Pandoc; portal metadata/upload/system checks, cover letter final review, journal-generated PDF proof review and submission confirmation remain pending; no submission.",
+                "BSPC review DOCX files generated: 4",
+                "`bspc_final_review_package_ready_for_submission_portal_checks`",
+                "Final BSPC review package status: `bspc_final_review_package_ready_for_submission_portal_checks`; final author/declaration inputs and DOCX approvals applied, with portal-only checks pending.",
                 "Review DOCX manuscript generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.",
                 "Review DOCX supplement generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.",
                 "DOCX generation tool: `python-docx`; Pandoc was not used.",
@@ -2073,19 +2113,27 @@ def validate() -> list[str]:
                 "Manuscript validation status after Stage 3G: passed.",
                 "Unit-test status after Stage 3G: passed, 78 tests.",
                 "Registry validation status after Stage 3G: passed, 42 records.",
-                "No author metadata, consent wording, acknowledgements, AI disclosure, BSPC route decision, frozen metrics or clinical claims were invented.",
+                "## Completed Stage 3H Package Files",
+                "Generated `paper/submission_review_package/docx/BSPC_MANUSCRIPT_FINAL_REVIEW.docx`",
+                "Generated `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_FINAL_REVIEW.docx`",
+                "## Remaining Portal-Only Work",
+                "final BSPC/Elsevier portal metadata entry",
+                "journal-generated PDF proof",
+                "## Stage 3H Final Declaration Package Notes",
+                "Stage 3H branch: `paper/bspc-final-declarations-v1`.",
+                "Author details finalized: Dr. Vikram Singh, Department of Computer Engineering, National Institute of Technology, Kurukshetra, Haryana, India; email `viks@nitkkr.ac.in`; ORCID not available; corresponding author No.",
+                "CRediT statement finalized: Dr. Vikram Singh: Supervision.",
+                "Preprint status finalized: A preprint is planned.",
+                "BSPC route finalized: The manuscript is being prepared for the Biomedical Signal Processing and Control subscription route.",
+                "No Elsevier/BSPC upload, journal-generated PDF proof approval or submission confirmation was performed.",
+                "Manuscript validation status after Stage 3H: passed.",
+                "Unit-test status after Stage 3H: passed, 80 tests.",
+                "Registry validation status after Stage 3H: passed, 42 records.",
+                "No clinical claims, dataset counts, PHQ scoring details, frozen metrics or unverified references were introduced.",
             ]:
                 if phrase not in status_text:
                     errors.append(f"Paper writing status missing Stage 3G phrase: {phrase}")
-            expected_branch = (
-                "Current branch: `paper/bspc-final-review-package-v1`"
-                if VOICE_PHYSIOLOGY_AUDIT_FILE.exists()
-                else (
-                    "Current branch: `paper/experiment-rationale-summary-v1`"
-                    if all(path.exists() for path in EXPERIMENT_RATIONALE_REQUIRED_FILES)
-                    else "Current branch: `paper/bspc-review-docx-v1`"
-                )
-            )
+            expected_branch = "Current branch: `paper/bspc-final-declarations-v1`"
             if expected_branch not in status_text:
                 errors.append(f"Paper writing status missing current branch phrase: {expected_branch}")
         if all(path.exists() for path in EXPERIMENT_RATIONALE_REQUIRED_FILES):
@@ -2116,7 +2164,8 @@ def validate() -> list[str]:
                 if phrase not in status_text:
                     errors.append(f"Paper writing status missing voice physiology phrase: {phrase}")
             for phrase in [
-                "Final review package readiness category: `bspc_final_review_package_generated_needs_author_review`.",
+                "Final review package readiness category after Stage 3G consolidation: `bspc_final_review_package_generated_needs_author_review`.",
+                "Readiness category: `bspc_final_review_package_ready_for_submission_portal_checks`.",
                 "Review DOCX manuscript regenerated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.",
                 "Review DOCX supplement regenerated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.",
                 "The regenerated manuscript DOCX includes the physiology motivation subsection and five main figure PNG review copies.",

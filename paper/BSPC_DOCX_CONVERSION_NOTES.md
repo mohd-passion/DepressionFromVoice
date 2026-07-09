@@ -4,6 +4,8 @@ Status: `docx_pending_tooling_or_manual_conversion`
 
 Stage 3F prepared the DOCX-ready markdown source at `paper/BSPC_DOCX_READY_MANUSCRIPT.md`. No PDF was generated. DOCX generation was not performed because `pandoc` was not available on the local PATH during Stage 3F verification.
 
+Stage 3H regenerated the BSPC review DOCX package with `python-docx` and applied final author/declaration details. These notes remain as a record of the Stage 3F Pandoc check and as manual Word/portal guidance.
+
 ## Recommended Conversion Tool
 
 Preferred command if Pandoc is installed later:
@@ -31,9 +33,9 @@ pandoc paper/BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md `
 
 ## Manual Word Checks
 
-- Confirm title, author list, affiliations and corresponding-author details.
-- Resolve Dr. Vikram Singh email, ORCID, corresponding-author status and CRediT roles before submission.
-- Confirm consent, acknowledgements, AI-assisted writing/tool-use disclosure, preprint decision and BSPC route.
+- Confirm title, author list, affiliations and corresponding-author details during portal entry.
+- Confirm that Dr. Vikram Singh email, ORCID availability, corresponding-author status and Supervision-only CRediT role match the Stage 3H final-review package.
+- Confirm consent, acknowledgements, AI-assisted writing/tool-use disclosure, preprint decision and BSPC subscription route during portal entry.
 - Insert figures from SVG where accepted by Word/BSPC, otherwise use high-resolution PNG review copies or journal-required converted artwork.
 - Ensure all figures and tables are cited in order.
 - Check that captions remain directly below figures/tables or in the journal-required caption list.
@@ -42,7 +44,7 @@ pandoc paper/BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md `
 - Confirm reference style and citation numbering against BSPC/Elsevier requirements.
 - Add line numbering if requested by the submission system.
 - Add page numbering if requested by the submission system.
-- Check that no unresolved author-confirmation placeholder is accidentally removed.
+- Check that no portal-only reminder is accidentally removed before the corresponding portal action is complete.
 
 ## Figure Insertion Instructions
 
@@ -75,4 +77,4 @@ Suggested files after author review:
 - `BSPC_Figure4_AndroidCrossTask.svg`
 - `BSPC_Figure5_DomainShiftBoundary.svg`
 
-Do not create or submit final files until author declarations and final BSPC route are confirmed.
+Do not submit until final portal metadata entry, upload, BSPC submission-system checks, cover letter author review, journal-generated PDF proof review and submission confirmation are complete.

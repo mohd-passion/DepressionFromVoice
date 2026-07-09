@@ -1713,10 +1713,12 @@ def validate() -> list[str]:
         combined_stage3g_text = "\n".join([review_package_text, docx_combined_text, generator_text])
 
         for phrase in [
-            "Status: `bspc_review_docx_generated_needs_author_review`",
+            "Status: `bspc_final_review_package_generated_needs_author_review`",
             "for author review only",
             "not final submission files",
             "no upload to Elsevier or BSPC has been performed",
+            "The regenerated manuscript DOCX includes the physiology motivation subsection.",
+            "The experiment-rationale documentation package remains available in `paper/`.",
             "Unresolved author placeholders remain visible",
         ]:
             if phrase not in package_readme:
@@ -1740,6 +1742,10 @@ def validate() -> list[str]:
             "Generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`",
             "Generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`",
             "DOCX generation succeeded with `python-docx`",
+            "Final branch consolidation | included",
+            "Final review DOCX regeneration | included",
+            "Physiology subsection in manuscript DOCX | needs_author_input",
+            "Experiment-rationale documentation | included",
             "Submission upload | not_started",
         ]:
             if phrase not in packet_checklist:
@@ -1747,7 +1753,15 @@ def validate() -> list[str]:
 
         for phrase in [
             "Date generated:",
-            "Branch: `paper/bspc-review-docx-v1`",
+            "Branch: `paper/bspc-final-review-package-v1`",
+            "Consolidation branch: `paper/bspc-final-review-package-v1`",
+            "Source branch confirmed: `paper/bspc-review-docx-v1`",
+            "Source branch confirmed: `paper/experiment-rationale-summary-v1`",
+            "Source branch confirmed: `paper/voice-physiology-motivation-v1`",
+            "Merge status: `paper/bspc-review-docx-v1` was already an ancestor of the consolidation branch; no merge conflicts occurred.",
+            "Physiology subsection included: yes, `2.2 Physiological motivation for speech-based depression analysis`.",
+            "Experiment-rationale documentation included: yes.",
+            "Review DOCX files regenerated after branch consolidation: yes.",
             "Design preset: `standard_business_brief`",
             "paper/BSPC_DOCX_READY_MANUSCRIPT.md",
             "paper/BSPC_SUPPLEMENTARY_MATERIAL_DRAFT.md",
@@ -1758,6 +1772,7 @@ def validate() -> list[str]:
             "Main figures inserted: 5 of 5",
             "LibreOffice/soffice available for render QA: no",
             "Visual render QA status: not_completed_soffice_unavailable",
+            "page-image render QA via `render_docx.py` could not be completed",
             "Final PDF generated: no",
             "Submission/upload performed: no",
         ]:
@@ -1801,6 +1816,7 @@ def validate() -> list[str]:
             "Data and Code Availability",
             "Code Availability",
             "BIBLIOGRAPHY PLACEHOLDER",
+            "Physiological motivation for speech-based depression analysis",
         ]:
             if phrase not in manuscript_docx_text:
                 errors.append(f"Stage 3G manuscript DOCX missing phrase: {phrase}")
@@ -2045,6 +2061,7 @@ def validate() -> list[str]:
                 "Stage 3G status: BSPC author-review DOCX package generated without Pandoc; review copies need author review; no final PDF or submission.",
                 "BSPC review DOCX files generated: 2",
                 "`bspc_review_docx_generated_needs_author_review`",
+                "Final BSPC review package status: `bspc_final_review_package_generated_needs_author_review`; consolidated branches and regenerated review DOCX files need author review.",
                 "Review DOCX manuscript generated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.",
                 "Review DOCX supplement generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.",
                 "DOCX generation tool: `python-docx`; Pandoc was not used.",
@@ -2061,7 +2078,7 @@ def validate() -> list[str]:
                 if phrase not in status_text:
                     errors.append(f"Paper writing status missing Stage 3G phrase: {phrase}")
             expected_branch = (
-                "Current branch: `paper/voice-physiology-motivation-v1`"
+                "Current branch: `paper/bspc-final-review-package-v1`"
                 if VOICE_PHYSIOLOGY_AUDIT_FILE.exists()
                 else (
                     "Current branch: `paper/experiment-rationale-summary-v1`"
@@ -2098,6 +2115,18 @@ def validate() -> list[str]:
             ]:
                 if phrase not in status_text:
                     errors.append(f"Paper writing status missing voice physiology phrase: {phrase}")
+            for phrase in [
+                "Final review package readiness category: `bspc_final_review_package_generated_needs_author_review`.",
+                "Review DOCX manuscript regenerated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.",
+                "Review DOCX supplement regenerated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.",
+                "The regenerated manuscript DOCX includes the physiology motivation subsection and five main figure PNG review copies.",
+                "Final consolidation validation status: passed.",
+                "Final consolidation unit-test status: passed, 80 tests.",
+                "Final consolidation registry validation status: passed, 42 records.",
+                "No metrics, references, author details, declarations or clinical claims were invented.",
+            ]:
+                if phrase not in status_text:
+                    errors.append(f"Paper writing status missing final review package phrase: {phrase}")
 
     if (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").exists():
         terminology_text = (PAPER / "TERMINOLOGY_STYLE_GUIDE.md").read_text(encoding="utf-8")

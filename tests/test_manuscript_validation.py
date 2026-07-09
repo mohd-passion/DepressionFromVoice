@@ -955,10 +955,12 @@ class ManuscriptValidationTests(unittest.TestCase):
 
         readme = (PAPER / "submission_review_package" / "README.md").read_text(encoding="utf-8")
         for phrase in [
-            "Status: `bspc_review_docx_generated_needs_author_review`",
+            "Status: `bspc_final_review_package_generated_needs_author_review`",
             "for author review only",
             "not final submission files",
             "no upload to Elsevier or BSPC has been performed",
+            "The regenerated manuscript DOCX includes the physiology motivation subsection.",
+            "The experiment-rationale documentation package remains available in `paper/`.",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, readme)
@@ -971,6 +973,10 @@ class ManuscriptValidationTests(unittest.TestCase):
             "Generated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`",
             "Submission upload | not_started",
             "Dr. Vikram Singh email | needs_author_input",
+            "Final branch consolidation | included",
+            "Final review DOCX regeneration | included",
+            "Physiology subsection in manuscript DOCX | needs_author_input",
+            "Experiment-rationale documentation | included",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, packet)
@@ -979,12 +985,21 @@ class ManuscriptValidationTests(unittest.TestCase):
             PAPER / "submission_review_package" / "logs" / "BSPC_DOCX_GENERATION_LOG.md"
         ).read_text(encoding="utf-8")
         for phrase in [
-            "Branch: `paper/bspc-review-docx-v1`",
+            "Branch: `paper/bspc-final-review-package-v1`",
+            "Consolidation branch: `paper/bspc-final-review-package-v1`",
+            "Source branch confirmed: `paper/bspc-review-docx-v1`",
+            "Source branch confirmed: `paper/experiment-rationale-summary-v1`",
+            "Source branch confirmed: `paper/voice-physiology-motivation-v1`",
+            "Merge status: `paper/bspc-review-docx-v1` was already an ancestor of the consolidation branch; no merge conflicts occurred.",
+            "Physiology subsection included: yes, `2.2 Physiological motivation for speech-based depression analysis`.",
+            "Experiment-rationale documentation included: yes.",
+            "Review DOCX files regenerated after branch consolidation: yes.",
             "Design preset: `standard_business_brief`",
             "python-docx available: yes",
             "Figures inserted: yes",
             "Main figures inserted: 5 of 5",
             "Visual render QA status: not_completed_soffice_unavailable",
+            "page-image render QA via `render_docx.py` could not be completed",
             "Final PDF generated: no",
             "Submission/upload performed: no",
         ]:
@@ -1016,6 +1031,7 @@ class ManuscriptValidationTests(unittest.TestCase):
             "Declaration of Competing Interest",
             "Data and Code Availability",
             "BIBLIOGRAPHY PLACEHOLDER",
+            "Physiological motivation for speech-based depression analysis",
             "ROC-AUC 0.6412",
             "ROC-AUC 0.8675",
             "ROC-AUC 0.8796",
@@ -1187,6 +1203,7 @@ class ManuscriptValidationTests(unittest.TestCase):
             "DOCX-ready manuscript markdown word count: 6789",
             "Experiment registry records: 42",
             "`bspc_review_docx_generated_needs_author_review`",
+            "`bspc_final_review_package_generated_needs_author_review`",
             "Provisional first target: Biomedical Signal Processing and Control",
             "Final journal not selected",
             "Figures not generated",
@@ -1208,13 +1225,21 @@ class ManuscriptValidationTests(unittest.TestCase):
             "Manuscript validation status after Stage 3G: passed.",
             "Unit-test status after Stage 3G: passed, 78 tests.",
             "Registry validation status after Stage 3G: passed, 42 records.",
-            "Current branch: `paper/voice-physiology-motivation-v1`",
+            "Current branch: `paper/bspc-final-review-package-v1`",
             "Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.",
             "Experiment-rationale table rows: 25",
             "Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.",
             "Voice physiology insert word count: 261",
             "`paper/VOICE_PHYSIOLOGY_INSERT_AUDIT.md`",
             "No clinical diagnostic, deployment, privacy-preserving, old DAIC count or PHQ-8 severity-scoring claims were introduced.",
+            "Final review package readiness category: `bspc_final_review_package_generated_needs_author_review`.",
+            "Review DOCX manuscript regenerated at `paper/submission_review_package/docx/BSPC_MANUSCRIPT_AUTHOR_REVIEW.docx`.",
+            "Review DOCX supplement regenerated at `paper/submission_review_package/docx/BSPC_SUPPLEMENTARY_AUTHOR_REVIEW.docx`.",
+            "The regenerated manuscript DOCX includes the physiology motivation subsection and five main figure PNG review copies.",
+            "Final consolidation validation status: passed.",
+            "Final consolidation unit-test status: passed, 80 tests.",
+            "Final consolidation registry validation status: passed, 42 records.",
+            "No metrics, references, author details, declarations or clinical claims were invented.",
             "## Completed Experiment-Rationale Package Files",
             "`paper/STUDY_EXPERIMENTS_RATIONALE_SUMMARY.md`",
             "`paper/STUDY_EXPERIMENTS_RATIONALE_TABLE.csv`",

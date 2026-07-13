@@ -1,0 +1,26 @@
+\begin{table*}[!t]
+\caption{Participant-coherent cross-task results}
+\label{tab:cross-task}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllllllllll}
+\toprule
+Protocol & Source task & Target task & Participants & ROC-AUC & 95\% CI / comparison interval & PR-AUC & Brier & Balanced accuracy at 0.5 & Macro F1 at 0.5 & Interpretation \\
+\midrule
+Matched reading & Reading & Reading & 110 & 0.9048 & [0.8435, 0.9562] & 0.9281 & 0.1274 & 0.8273 & 0.8269 & Within-task reference \\
+Matched interview & Interview & Interview & 110 & 0.9065 & [0.8452, 0.9589] & 0.9305 & 0.1214 & 0.8561 & 0.8545 & Within-task reference \\
+Reading-to-interview & Reading & Interview & 110 & 0.8475 & AUC CI [0.7699, 0.9158]; gap [-0.1316, 0.0116] & 0.8877 & 0.2825 & 0.6867 & 0.6741 & Strong but below matched interview \\
+Interview-to-reading & Interview & Reading & 110 & 0.8501 & AUC CI [0.7699, 0.9204]; gap [-0.1436, 0.0325] & 0.8602 & 0.1571 & 0.8176 & 0.8176 & Strong but below matched reading \\
+Pooled-to-reading & Reading plus interview & Reading & 110 & 0.9058 & AUC CI [0.8442, 0.9539]; gain [-0.0172, 0.1340] & 0.9226 & 0.1232 & 0.8004 & 0.7997 & Suggestive gain; CI includes zero \\
+Pooled-to-interview & Reading plus interview & Interview & 110 & 0.9135 & AUC CI [0.8515, 0.9635]; gain [-0.0013, 0.1346] & 0.9250 & 0.1122 & 0.8561 & 0.8545 & Suggestive gain; CI includes zero \\
+\bottomrule
+\end{tabular}%
+}
+\begin{minipage}{0.96\textwidth}
+\vspace{2pt}
+\footnotesize All rows are within the Androids Corpus. Pooled gains are suggestive because uncertainty intervals include zero.
+\end{minipage}
+\end{table*}

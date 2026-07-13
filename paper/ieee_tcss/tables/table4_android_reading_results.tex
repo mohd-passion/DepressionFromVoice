@@ -1,0 +1,22 @@
+\begin{table*}[!t]
+\caption{Android reading results}
+\label{tab:android-reading}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllllllllll}
+\toprule
+Protocol & Training data & Participants & Windows & ROC-AUC & 95\% CI & PR-AUC & Brier & Balanced accuracy & Macro F1 & Interpretation \\
+\midrule
+Frozen DAIC zero-shot reading & DAIC-WOZ & 112 & 955 & 0.5795 & Not reported & 0.5997 & 0.3351 & 0.5000 & 0.3253 & All participants predicted negative \\
+Android-trained reading LR & Android reading folds & 112 & 955 & 0.8796 & [0.8113, 0.9377] & 0.8929 & 0.1438 & 0.7768 & 0.7766 & Within-Android reading benchmark \\
+\bottomrule
+\end{tabular}%
+}
+\begin{minipage}{0.96\textwidth}
+\vspace{2pt}
+\footnotesize The Android-trained row is within-corpus validation and not independent external validation.
+\end{minipage}
+\end{table*}

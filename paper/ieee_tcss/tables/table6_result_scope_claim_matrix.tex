@@ -1,0 +1,30 @@
+\begin{table*}[!t]
+\caption{Result-scope and claim matrix}
+\label{tab:result-scope}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllll}
+\toprule
+Result & Validation scope & Target-domain training? & External validation? & Allowed interpretation \\
+\midrule
+DAIC layer and aggregation development & Methodological ablation & No external target domain & No & Selects layer 9 and mean aggregation for later frozen representation use \\
+DAIC Phase 1F WavLM Candidate A & Provisional local labeled DAIC test & No Android training & No & DAIC local labeled research estimate only \\
+DAIC Phase 1F timing Candidate B & Provisional local labeled DAIC test & No Android training & No & Timing model works only under compatible guided-interview timing definitions \\
+Phase 2B frozen DAIC-to-Android interview & Cross-corpus zero-shot external evaluation & No & Yes & Limited cross-corpus ranking transfer; thresholded classifier failed \\
+Phase 2C threshold-only adaptation & Cross-corpus target adaptation & Threshold only & Yes, adapted & Threshold shift contributed to failure; not pure zero-shot \\
+Phase 2C score calibration & Cross-corpus target adaptation & Calibration only & Yes, adapted & Calibration improved probability scale but not ranking \\
+Phase 2C Android-trained interview & Within-corpus cross-validation & Yes & No & Strong within-Android interview discrimination with frozen WavLM features \\
+Phase 2D Android-trained reading & Within-corpus cross-validation & Yes & No & Strong within-Android reading discrimination with frozen WavLM features \\
+Phase 2E cross-task transfer & Cross-task transfer within Android & Yes, source task & No & Reading and interview share useful representation information, with task-specific boundaries \\
+Phase 2E pooled-task training & Pooled-task within Android & Yes & No & Highest point estimates; pooled gains suggestive because intervals included zero \\
+\bottomrule
+\end{tabular}%
+}
+\begin{minipage}{0.96\textwidth}
+\vspace{2pt}
+\footnotesize This matrix preserves the distinction between methodological ablations, provisional local testing, zero-shot external evaluation, target-domain adaptation and within-corpus validation.
+\end{minipage}
+\end{table*}

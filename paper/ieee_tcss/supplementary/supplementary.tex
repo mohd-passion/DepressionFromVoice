@@ -1,0 +1,151 @@
+\documentclass[lettersize,journal]{IEEEtran}
+\usepackage{url}
+\usepackage{booktabs}
+\begin{document}
+\section*{BSPC Supplementary Material Draft}
+
+Status: \texttt{draft\_prepared\_awaiting\_author\_review}
+
+Target journal: Biomedical Signal Processing and Control
+
+This supplementary draft references compact, non-sensitive paper artifacts only. It does not include raw participant-level predictions, participant identifiers, restricted dataset files, raw audio paths, embeddings, fitted models or model files.
+
+\section{Supplementary Overview}
+
+The supplement should support reproducibility, result-scope clarity and interpretation safeguards without duplicating the full main manuscript. The final supplement can be shortened or reorganized after BSPC formatting review.
+
+The complete experiment-rationale support package is available in \texttt{paper/STUDY\_EXPERIMENTS\_RATIONALE\_SUMMARY.md}, \texttt{paper/STUDY\_EXPERIMENTS\_RATIONALE\_TABLE.csv}, \texttt{paper/EXPERIMENTAL\_DESIGN\_REVIEWER\_EXPLANATION.md}, \texttt{paper/EXPERIMENTAL\_RATIONALE\_MANUSCRIPT\_INSERT.md}, \texttt{paper/EXPERIMENTAL\_RATIONALE\_PRESENTATION\_NOTES.md}, \texttt{paper/EXPERIMENT\_DEPENDENCY\_FLOW.md} and \texttt{paper/EXPERIMENT\_SCOPE\_BOUNDARIES.md}. These files are documentation support only and do not add experiments or modify results.
+
+\section{Supplementary Tables}
+
+\subsection{Supplementary Table S1. Result-scope and claim matrix}
+
+Source: \texttt{paper/PAPER\_RESULTS\_TABLES.md}, Table 6.
+
+Purpose: preserve the distinction between DAIC methodological development, provisional local DAIC testing, zero-shot external evaluation, target-domain adaptation, within-Android validation and cross-task transfer. This table may remain in the main manuscript if page limits allow; otherwise it should move here.
+
+\subsection{Supplementary Table S2. Numerical audit and evidence-map traceability}
+
+Sources:
+
+\begin{itemize}
+\item \texttt{paper/FINAL\_NUMERICAL\_AUDIT.csv}
+\item \texttt{paper/PAPER\_EVIDENCE\_MAP.md}
+\item \texttt{paper/BSPC\_FIGURE\_DATA\_AUDIT.csv}
+\end{itemize}
+
+Purpose: document that reported manuscript and figure values trace to frozen compact records and that metric values were not altered during Stage 3F.
+
+\subsection{Supplementary Table S3. Clinical-readiness and claim-scope safeguards}
+
+Sources:
+
+\begin{itemize}
+\item \texttt{paper/CLINICAL\_READINESS\_MATRIX.md}
+\item \texttt{paper/FINAL\_CLINICAL\_CLAIM\_AUDIT.md}
+\item \texttt{paper/CONTRIBUTION\_CLAIM\_AUDIT.md}
+\end{itemize}
+
+Purpose: keep research-only framing visible and prevent diagnostic, screening, fairness or deployment overclaims.
+
+\section{Extended Method And Result Details}
+
+\subsection{Layer-wise and aggregation ablations}
+
+Sources:
+
+\begin{itemize}
+\item \texttt{paper/PAPER\_RESULTS\_TABLES.md}, Table 2.
+\item \texttt{outputs/experiment\_registry/experiment\_summary.csv}.
+\item Compact Phase 1 run records under \texttt{records/runs/phase1b\_20260622\_123725/} and \texttt{records/runs/phase1c\_20260622\_135800/}.
+\end{itemize}
+
+Include only aggregate layer and aggregation summaries. Do not include raw embeddings, predictions or fitted models.
+
+\subsection{Timing, fusion and DAIC candidate selection}
+
+Sources:
+
+\begin{itemize}
+\item \texttt{paper/PAPER\_RESULTS\_TABLES.md}, Table 2.
+\item \texttt{records/runs/phase1d\_20260622\_142132/}.
+\item \texttt{records/runs/phase1e\_20260622\_145240/}.
+\item \texttt{records/runs/phase1f\_20260622\_151118/}.
+\end{itemize}
+
+Use this section to explain why the timing candidate was not used for Android transfer even though it had stronger provisional local DAIC ROC-AUC.
+
+\subsection{Calibration and threshold details}
+
+Sources:
+
+\begin{itemize}
+\item \texttt{paper/CALIBRATION\_METHODS\_TABLE.md}.
+\item \texttt{records/runs/phase2c\_20260703\_125614/phase2c\_protocol\_comparison.csv}.
+\item \texttt{records/runs/phase2c\_20260703\_125614/PHASE2C\_WITHIN\_ANDROID\_REPORT.json}.
+\end{itemize}
+
+Use this section to distinguish zero-shot scoring, threshold-only adaptation and frozen-score calibration. Do not describe target-label-used protocols as pure zero-shot.
+
+\subsection{Domain-shift details}
+
+Sources:
+
+\begin{itemize}
+\item \texttt{records/runs/phase2c\_20260703\_125614/PHASE2C\_WITHIN\_ANDROID\_REPORT.json}.
+\item \texttt{records/runs/phase2d\_20260704\_125931/PHASE2D\_ANDROID\_READING\_REPORT.json}.
+\item \texttt{paper/BSPC\_FIGURE\_DATA\_AUDIT.csv}.
+\end{itemize}
+
+Report only aggregate feature-shift statistics such as centroid cosine distance, mean absolute standardized shift, shifted feature count/share and available MMD\textsuperscript{2}. Do not include participant-level feature vectors.
+
+\subsection{Cross-task and classifier-boundary details}
+
+Sources:
+
+\begin{itemize}
+\item \texttt{records/runs/phase2e\_20260704\_151323/phase2e\_protocol\_comparison.csv}.
+\item \texttt{records/runs/phase2e\_20260704\_151323/phase2e\_transfer\_gap\_analysis.csv}.
+\item \texttt{records/runs/phase2e\_20260704\_151323/phase2e\_classifier\_boundary\_analysis.csv}.
+\item \texttt{records/runs/phase2e\_20260704\_151323/PHASE2E\_CROSS\_TASK\_REPORT.json}.
+\end{itemize}
+
+Use fold-level classifier-boundary metrics only if needed. Do not treat logistic-regression coefficients as causal feature importance.
+
+\section{Optional Supplementary Figures}
+
+No supplementary figures were generated in Stage 3F. Optional future figures:
+
+\begin{itemize}
+\item Figure S1: classifier-boundary fold metrics from \texttt{phase2e\_classifier\_boundary\_analysis.csv}.
+\item Figure S2: participant-coherent fold-design schematic using placeholders only.
+\end{itemize}
+
+If generated later, use only compact aggregate records and schematic placeholders.
+
+\section{Reproducibility Notes}
+
+Source freeze:
+
+\begin{itemize}
+\item Frozen source tag: \texttt{paper-experiment-freeze-v1}.
+\item Registry validation status: 42 records, validation passed in Stage 3F.
+\item Figure-generation script: \texttt{paper/figures/scripts/generate\_bspc\_figures.py}.
+\end{itemize}
+
+The source datasets are not redistributed. Users must obtain DAIC-WOZ and Androids Corpus data under the original dataset terms before attempting restricted-data reproduction.
+
+\section{Excluded Materials}
+
+Do not include:
+
+\begin{itemize}
+\item raw audio;
+\item participant identifiers;
+\item participant-level predictions;
+\item raw or derived embeddings;
+\item fitted models;
+\item restricted dataset files;
+\item private credentials or submission portal exports.
+\end{itemize}
+\end{document}

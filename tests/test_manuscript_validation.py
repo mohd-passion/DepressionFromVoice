@@ -133,6 +133,49 @@ EXPERIMENT_RATIONALE_FILES = [
 
 VOICE_PHYSIOLOGY_AUDIT = PAPER / "VOICE_PHYSIOLOGY_INSERT_AUDIT.md"
 
+IEEE_TCSS = PAPER / "ieee_tcss"
+
+IEEE_TCSS_REQUIRED_FILES = [
+    IEEE_TCSS / "README.md",
+    IEEE_TCSS / "main.tex",
+    IEEE_TCSS / "declarations.tex",
+    IEEE_TCSS / "build_latex.ps1",
+    IEEE_TCSS / "build_latex.py",
+    IEEE_TCSS / "IEEE_TCSS_GUIDELINES_VERIFICATION.md",
+    IEEE_TCSS / "IEEE_TCSS_JOURNAL_FIT_AUDIT.md",
+    IEEE_TCSS / "TITLE_REFRAMING_OPTIONS.md",
+    IEEE_TCSS / "IEEE_REFERENCE_CONVERSION_AUDIT.md",
+    IEEE_TCSS / "IEEE_TCSS_COVER_LETTER_DRAFT.md",
+    IEEE_TCSS / "IEEE_TCSS_SUBMISSION_CHECKLIST.md",
+    IEEE_TCSS / "IEEE_TCSS_MIGRATION_AUDIT.md",
+    IEEE_TCSS / "logs" / "LATEX_BUILD_LOG.md",
+    IEEE_TCSS / "template" / "bare_jrnl_new_sample4.tex",
+    IEEE_TCSS / "bib" / "references.bib",
+    IEEE_TCSS / "supplementary" / "supplementary.tex",
+]
+
+IEEE_TCSS_TABLE_FILES = [
+    IEEE_TCSS / "tables" / "table1_dataset_task_summary.tex",
+    IEEE_TCSS / "tables" / "table2_daic_development_results.tex",
+    IEEE_TCSS / "tables" / "table3_cross_corpus_android_interview.tex",
+    IEEE_TCSS / "tables" / "table4_android_reading_results.tex",
+    IEEE_TCSS / "tables" / "table5_cross_task_results.tex",
+    IEEE_TCSS / "tables" / "table6_result_scope_claim_matrix.tex",
+]
+
+IEEE_TCSS_FIGURE_FILES = [
+    IEEE_TCSS / "figures" / "figure1_study_design_protocol_overview.png",
+    IEEE_TCSS / "figures" / "figure2_daic_phase1_key_results.png",
+    IEEE_TCSS / "figures" / "figure3_daic_android_transfer_adaptation.png",
+    IEEE_TCSS / "figures" / "figure4_android_cross_task_results.png",
+    IEEE_TCSS / "figures" / "figure5_domain_shift_boundary_summary.png",
+    IEEE_TCSS / "figures" / "figure1_study_design_protocol_overview.svg",
+    IEEE_TCSS / "figures" / "figure2_daic_phase1_key_results.svg",
+    IEEE_TCSS / "figures" / "figure3_daic_android_transfer_adaptation.svg",
+    IEEE_TCSS / "figures" / "figure4_android_cross_task_results.svg",
+    IEEE_TCSS / "figures" / "figure5_domain_shift_boundary_summary.svg",
+]
+
 REQUIRED_RATIONALE_IDS = {
     "phase1a_metadata_baseline",
     "phase1a_wavlm_final_layer",
@@ -953,6 +996,106 @@ class ManuscriptValidationTests(unittest.TestCase):
             "No claim that the system is clinically validated was introduced.",
         ]:
             self.assertIn(phrase, audit)
+
+    def test_stage4a_ieee_tcss_latex_package_is_complete_and_claim_safe(self) -> None:
+        for path in [*IEEE_TCSS_REQUIRED_FILES, *IEEE_TCSS_TABLE_FILES, *IEEE_TCSS_FIGURE_FILES]:
+            with self.subTest(path=path):
+                self.assertTrue(path.exists(), path)
+
+        main = (IEEE_TCSS / "main.tex").read_text(encoding="utf-8")
+        for phrase in [
+            r"\documentclass[lettersize,journal]{IEEEtran}",
+            r"\usepackage{amsmath,amsfonts}",
+            r"\usepackage{algorithmic}",
+            r"\usepackage{algorithm}",
+            r"\usepackage{array}",
+            r"\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}",
+            r"\usepackage{textcomp}",
+            r"\usepackage{stfloats}",
+            r"\usepackage{url}",
+            r"\usepackage{verbatim}",
+            r"\usepackage{graphicx}",
+            r"\usepackage{cite}",
+            r"\usepackage{booktabs}",
+            r"\usepackage{multirow}",
+            r"\markboth{IEEE Transactions on Computational Social Systems",
+            r"\section{Introduction}",
+            r"\section{Related Work}",
+            r"\section{Datasets and Experimental Design}",
+            r"\section{Methods}",
+            r"\section{Results}",
+            r"\section{Discussion}",
+            r"\section{Ethical and Clinical Considerations}",
+            r"\section{Conclusion}",
+            r"\bibliographystyle{IEEEtran}",
+            r"\bibliography{bib/references}",
+            "[AUTHOR CONFIRMATION REQUIRED: IEEE biography]",
+            "No IEEE membership status is claimed.",
+            "ORCID identifiers are not available for either author.",
+            "ROC-AUC 0.6412",
+            "ROC-AUC 0.8675",
+            "ROC-AUC 0.8796",
+            "0.9058",
+            "0.9135",
+            "550 shifted WavLM features",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, main)
+
+        self.assertNotIn("[@", main)
+        self.assertNotIn("ZXQ", main)
+        for prohibited in [
+            "orcid.org/",
+            "Member, IEEE",
+            "Senior Member, IEEE",
+            "Submission status: submitted",
+            "ready_for_submission",
+            "clinically validated system",
+            "deployment-ready system",
+            "diagnoses depression",
+            "PHQ-8 severity",
+            "privacy-preserving assessment",
+        ]:
+            with self.subTest(prohibited=prohibited):
+                self.assertNotIn(prohibited.lower(), main.lower())
+
+        copied_bib = (IEEE_TCSS / "bib" / "references.bib").read_text(encoding="utf-8")
+        bib_keys = set(re.findall(r"@\w+\s*\{\s*([^,\s]+)", copied_bib))
+        cited_keys: set[str] = set()
+        for match in re.finditer(r"\\cite\{([^}]+)\}", main):
+            cited_keys.update(key.strip() for key in match.group(1).split(",") if key.strip())
+        self.assertGreaterEqual(len(cited_keys), 28)
+        self.assertLessEqual(cited_keys, bib_keys)
+
+        ref_audit = (IEEE_TCSS / "IEEE_REFERENCE_CONVERSION_AUDIT.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Total BibTeX entries copied: 31",
+            "Citation keys used in `main.tex`: 28",
+            "Missing keys: none",
+            "Duplicate keys: none",
+        ]:
+            self.assertIn(phrase, ref_audit)
+
+        package = "\n".join(path.read_text(encoding="utf-8", errors="ignore") for path in IEEE_TCSS_REQUIRED_FILES)
+        for phrase in [
+            "Official sources only were used.",
+            "not_verified",
+            "Fit status: `moderate_with_reframing_needed`",
+            "[AUTHOR FINAL CONFIRMATION REQUIRED: This manuscript is not under consideration elsewhere.]",
+            "No IEEE submission or upload was performed.",
+            "not asserted to be the original uploaded template",
+            "No title change was applied automatically in `main.tex`.",
+        ]:
+            self.assertIn(phrase, package)
+
+        status = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
+        self.assertIn("Stage 4A branch: `paper/ieee-tcss-latex-v1`.", status)
+        self.assertIn("No IEEE upload, portal account creation, submission, final PDF generation", status)
+        checklist = (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").read_text(encoding="utf-8")
+        self.assertIn("IEEE TCSS LaTeX package | complete", checklist)
+        self.assertIn("IEEE TCSS portal upload | not_started", checklist)
+        questions = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
+        self.assertIn("Stage 4A IEEE TCSS Additional Author/Portal Checks", questions)
 
     def test_stage3g_review_docx_package_is_generated_for_author_review(self) -> None:
         for path in STAGE3G_FILES:

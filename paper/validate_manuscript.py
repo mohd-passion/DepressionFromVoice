@@ -138,6 +138,63 @@ EXPERIMENT_RATIONALE_REQUIRED_FILES = [
 
 VOICE_PHYSIOLOGY_AUDIT_FILE = PAPER / "VOICE_PHYSIOLOGY_INSERT_AUDIT.md"
 
+IEEE_TCSS_DIR = PAPER / "ieee_tcss"
+
+STAGE4A_IEEE_TCSS_REQUIRED_FILES = [
+    IEEE_TCSS_DIR / "README.md",
+    IEEE_TCSS_DIR / "main.tex",
+    IEEE_TCSS_DIR / "declarations.tex",
+    IEEE_TCSS_DIR / "build_latex.ps1",
+    IEEE_TCSS_DIR / "build_latex.py",
+    IEEE_TCSS_DIR / "IEEE_TCSS_GUIDELINES_VERIFICATION.md",
+    IEEE_TCSS_DIR / "IEEE_TCSS_JOURNAL_FIT_AUDIT.md",
+    IEEE_TCSS_DIR / "TITLE_REFRAMING_OPTIONS.md",
+    IEEE_TCSS_DIR / "IEEE_REFERENCE_CONVERSION_AUDIT.md",
+    IEEE_TCSS_DIR / "IEEE_TCSS_COVER_LETTER_DRAFT.md",
+    IEEE_TCSS_DIR / "IEEE_TCSS_SUBMISSION_CHECKLIST.md",
+    IEEE_TCSS_DIR / "IEEE_TCSS_MIGRATION_AUDIT.md",
+    IEEE_TCSS_DIR / "logs" / "LATEX_BUILD_LOG.md",
+    IEEE_TCSS_DIR / "template" / "bare_jrnl_new_sample4.tex",
+    IEEE_TCSS_DIR / "bib" / "references.bib",
+    IEEE_TCSS_DIR / "supplementary" / "supplementary.tex",
+]
+
+STAGE4A_IEEE_TCSS_TABLE_FILES = [
+    IEEE_TCSS_DIR / "tables" / "table1_dataset_task_summary.tex",
+    IEEE_TCSS_DIR / "tables" / "table2_daic_development_results.tex",
+    IEEE_TCSS_DIR / "tables" / "table3_cross_corpus_android_interview.tex",
+    IEEE_TCSS_DIR / "tables" / "table4_android_reading_results.tex",
+    IEEE_TCSS_DIR / "tables" / "table5_cross_task_results.tex",
+    IEEE_TCSS_DIR / "tables" / "table6_result_scope_claim_matrix.tex",
+]
+
+STAGE4A_IEEE_TCSS_FIGURE_FILES = [
+    IEEE_TCSS_DIR / "figures" / "figure1_study_design_protocol_overview.png",
+    IEEE_TCSS_DIR / "figures" / "figure2_daic_phase1_key_results.png",
+    IEEE_TCSS_DIR / "figures" / "figure3_daic_android_transfer_adaptation.png",
+    IEEE_TCSS_DIR / "figures" / "figure4_android_cross_task_results.png",
+    IEEE_TCSS_DIR / "figures" / "figure5_domain_shift_boundary_summary.png",
+    IEEE_TCSS_DIR / "figures" / "figure1_study_design_protocol_overview.svg",
+    IEEE_TCSS_DIR / "figures" / "figure2_daic_phase1_key_results.svg",
+    IEEE_TCSS_DIR / "figures" / "figure3_daic_android_transfer_adaptation.svg",
+    IEEE_TCSS_DIR / "figures" / "figure4_android_cross_task_results.svg",
+    IEEE_TCSS_DIR / "figures" / "figure5_domain_shift_boundary_summary.svg",
+]
+
+STAGE4A_IEEE_TCSS_METRICS = {
+    "0.6412",
+    "0.8675",
+    "0.8796",
+    "0.8475",
+    "0.8501",
+    "0.9058",
+    "0.9135",
+    "550 shifted WavLM features",
+    "0.4752",
+    "0.6659",
+    "0.1216",
+}
+
 REQUIRED_MANUSCRIPT_SECTIONS = {
     "## Abstract",
     "## Keywords",
@@ -1683,6 +1740,146 @@ def validate() -> list[str]:
         ]:
             if phrase not in audit_text:
                 errors.append(f"Voice physiology insert audit missing phrase: {phrase}")
+
+    if IEEE_TCSS_DIR.exists():
+        for path in [*STAGE4A_IEEE_TCSS_REQUIRED_FILES, *STAGE4A_IEEE_TCSS_TABLE_FILES, *STAGE4A_IEEE_TCSS_FIGURE_FILES]:
+            if not path.exists():
+                errors.append(f"Missing IEEE TCSS Stage 4A file: {path.relative_to(ROOT)}")
+
+        main_tex_path = IEEE_TCSS_DIR / "main.tex"
+        if main_tex_path.exists():
+            main_tex = main_tex_path.read_text(encoding="utf-8")
+            for phrase in [
+                r"\documentclass[lettersize,journal]{IEEEtran}",
+                r"\usepackage{amsmath,amsfonts}",
+                r"\usepackage{algorithmic}",
+                r"\usepackage{algorithm}",
+                r"\usepackage{array}",
+                r"\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}",
+                r"\usepackage{textcomp}",
+                r"\usepackage{stfloats}",
+                r"\usepackage{url}",
+                r"\usepackage{verbatim}",
+                r"\usepackage{graphicx}",
+                r"\usepackage{cite}",
+                r"\usepackage{booktabs}",
+                r"\usepackage{multirow}",
+                r"\markboth{IEEE Transactions on Computational Social Systems",
+                r"\begin{abstract}",
+                r"\begin{IEEEkeywords}",
+                r"\section{Introduction}",
+                r"\section{Related Work}",
+                r"\section{Datasets and Experimental Design}",
+                r"\section{Methods}",
+                r"\section{Results}",
+                r"\section{Discussion}",
+                r"\section{Ethical and Clinical Considerations}",
+                r"\section{Conclusion}",
+                r"\bibliographystyle{IEEEtran}",
+                r"\bibliography{bib/references}",
+                r"\input{declarations}",
+                "[AUTHOR CONFIRMATION REQUIRED: IEEE biography]",
+                "No IEEE membership status is claimed.",
+                "ORCID identifiers are not available for either author.",
+            ]:
+                if phrase not in main_tex:
+                    errors.append(f"IEEE TCSS main.tex missing required phrase: {phrase}")
+            for metric in STAGE4A_IEEE_TCSS_METRICS:
+                if metric not in main_tex:
+                    errors.append(f"IEEE TCSS main.tex missing preserved metric/text: {metric}")
+            if "[@" in main_tex or "ZXQ" in main_tex:
+                errors.append("IEEE TCSS main.tex contains unresolved markdown citation or conversion placeholder.")
+            copied_bib = IEEE_TCSS_DIR / "bib" / "references.bib"
+            copied_bib_keys = (
+                set(re.findall(r"@\w+\s*\{\s*([^,\s]+)", copied_bib.read_text(encoding="utf-8")))
+                if copied_bib.exists()
+                else set()
+            )
+            tex_citations = set()
+            for match in re.finditer(r"\\cite\{([^}]+)\}", main_tex):
+                tex_citations.update(key.strip() for key in match.group(1).split(",") if key.strip())
+            unknown_tex_citations = sorted(tex_citations.difference(copied_bib_keys))
+            if unknown_tex_citations:
+                errors.append(f"IEEE TCSS main.tex contains unknown BibTeX keys: {unknown_tex_citations}")
+            if len(tex_citations) < 28:
+                errors.append(f"IEEE TCSS main.tex should preserve at least 28 citation keys; found {len(tex_citations)}")
+            for prohibited in [
+                "orcid.org/",
+                "Member, IEEE",
+                "Senior Member, IEEE",
+                "Submission status: submitted",
+                "ready_for_submission",
+                "clinically validated system",
+                "deployment-ready system",
+                "diagnoses depression",
+                "PHQ-8 severity",
+                "privacy-preserving assessment",
+            ]:
+                if prohibited.lower() in main_tex.lower():
+                    errors.append(f"IEEE TCSS main.tex contains prohibited wording: {prohibited}")
+            for sentence in sentences(main_tex):
+                normalized = sentence.lower()
+                for phrase in PROHIBITED_CLINICAL_OVERCLAIM_PHRASES:
+                    if phrase in normalized and not any(marker in normalized for marker in NEGATION_OR_LIMITING_MARKERS):
+                        errors.append(f"IEEE TCSS potential clinical overclaim without limitation: {sentence}")
+
+        declarations_path = IEEE_TCSS_DIR / "declarations.tex"
+        if declarations_path.exists():
+            declarations_text = declarations_path.read_text(encoding="utf-8")
+            for phrase in [
+                "No funding was received for this study.",
+                "The authors declare no competing interests.",
+                "This study used previously collected datasets obtained under their original access terms. No new human participants were recruited. Ethics approval was not sought because the study involved secondary analysis of existing datasets.",
+                "This study used secondary datasets obtained under their original access terms. Consent for the original data collection was managed by the respective dataset providers. No new human participants were recruited in this study.",
+                "The authors thank the creators and maintainers of the DAIC-WOZ and Androids Corpus datasets.",
+                "ChatGPT and Codex were used to assist with code organization, manuscript drafting support, editing, and workflow planning.",
+                "A preprint is planned.",
+            ]:
+                if phrase not in declarations_text:
+                    errors.append(f"IEEE TCSS declarations missing phrase: {phrase}")
+
+        package_text = "\n".join(
+            path.read_text(encoding="utf-8", errors="ignore")
+            for path in STAGE4A_IEEE_TCSS_REQUIRED_FILES
+            if path.exists() and path.suffix in {".md", ".tex", ".ps1", ".py"}
+        )
+        for phrase in [
+            "Official sources only were used.",
+            "not_verified",
+            "Fit status: `moderate_with_reframing_needed`",
+            "Missing keys: none",
+            "[AUTHOR FINAL CONFIRMATION REQUIRED: This manuscript is not under consideration elsewhere.]",
+            "No IEEE submission or upload was performed.",
+            "not asserted to be the original uploaded template",
+            "No title change was applied automatically in `main.tex`.",
+        ]:
+            if phrase not in package_text:
+                errors.append(f"IEEE TCSS package missing audit/checklist phrase: {phrase}")
+        status_text = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Stage 4A status: IEEE Transactions on Computational Social Systems LaTeX preparation package created",
+            "Stage 4A branch: `paper/ieee-tcss-latex-v1`.",
+            "No IEEE upload, portal account creation, submission, final PDF generation, new experiments, registry modification, frozen-metric change, ORCID invention, IEEE membership invention, clinical validation claim or deployment-readiness claim was performed.",
+        ]:
+            if phrase not in status_text:
+                errors.append(f"Paper writing status missing Stage 4A phrase: {phrase}")
+        checklist_text = (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").read_text(encoding="utf-8")
+        for phrase in [
+            "IEEE TCSS LaTeX package | complete",
+            "IEEE TCSS portal upload | not_started",
+            "IEEE TCSS template upload | pending_portal",
+        ]:
+            if phrase not in checklist_text:
+                errors.append(f"Submission readiness checklist missing Stage 4A phrase: {phrase}")
+        questions_text = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Stage 4A IEEE TCSS Additional Author/Portal Checks",
+            "Confirm whether the current title should remain unchanged for IEEE TCSS",
+            "Confirm the IEEE TCSS cover-letter statement",
+            "no IEEE upload, portal account creation or submission should occur",
+        ]:
+            if phrase not in questions_text:
+                errors.append(f"Author final questions missing Stage 4A phrase: {phrase}")
 
     if all(path.exists() for path in STAGE3G_REQUIRED_FILES):
         package_readme = (PAPER / "submission_review_package" / "README.md").read_text(encoding="utf-8")

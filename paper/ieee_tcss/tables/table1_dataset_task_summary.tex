@@ -1,0 +1,24 @@
+\begin{table*}[!t]
+\caption{Dataset and task summary}
+\label{tab:dataset-task-summary}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.15}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+Corpus & Task & Participants & Class counts & Recordings/windows & Language & Evaluation role \\
+\midrule
+DAIC-WOZ Phase 1 clean & Interview participant speech & 187 & Train/dev/local test labels from PHQ8\_Binary & 17,058 clean 10-second windows & English & Representation development and provisional local testing \\
+Androids Corpus & Interview & 116 & HC=52, PT=64 & 116 full recordings; 4,249 valid windows in Phase 2B/2C & Italian & Zero-shot external evaluation and within-Android interview benchmark \\
+Androids Corpus & Reading & 112 & HC=54, PT=58 & 112 recordings; 955 valid windows & Italian & Reading zero-shot and within-Android reading benchmark \\
+Androids Corpus & Paired reading/interview & 110 & HC=52, PT=58 & Paired participant-level reading and interview embeddings & Italian & Participant-coherent cross-task and pooled-task analysis \\
+\bottomrule
+\end{tabular}%
+}
+\begin{minipage}{0.96\textwidth}
+\vspace{2pt}
+\footnotesize DAIC-WOZ denotes the Distress Analysis Interview Corpus--Wizard-of-Oz; HC denotes healthy control and PT denotes patient group labels in the Androids Corpus. Android labels are HC/PT group labels rather than PHQ-8 labels.
+\end{minipage}
+\end{table*}

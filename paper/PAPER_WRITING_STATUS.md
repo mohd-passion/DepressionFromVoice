@@ -14,6 +14,7 @@
 - Stage 3F status: BSPC figure visual review completed; DOCX-ready markdown package prepared; supplementary draft and conversion notes prepared; DOCX not generated because Pandoc was unavailable; no PDF or submission.
 - Stage 3G status: BSPC author-review DOCX package generated without Pandoc; review copies need author review; no final PDF or submission.
 - Stage 3H status: BSPC author declarations finalized, author approvals applied, final-review DOCX files regenerated without Pandoc; portal metadata/upload/system checks, cover letter final review, journal-generated PDF proof review and submission confirmation remain pending; no submission.
+- Stage 4A status: IEEE Transactions on Computational Social Systems LaTeX preparation package created on `paper/ieee-tcss-latex-v1`; no IEEE upload, portal account creation, final PDF or submission.
 - Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.
 - Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.
 - Final BSPC review package status: `bspc_final_review_package_ready_for_submission_portal_checks`; final author/declaration inputs and DOCX approvals applied, with portal-only checks pending.
@@ -386,5 +387,24 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Unit-test status after Stage 3H: passed, 80 tests.
 - Registry validation status after Stage 3H: passed, 42 records.
 - No clinical claims, dataset counts, PHQ scoring details, frozen metrics or unverified references were introduced.
+
+## Stage 4A IEEE TCSS LaTeX Migration Notes
+
+- Stage 4A branch: `paper/ieee-tcss-latex-v1`.
+- Source branch: `paper/bspc-final-declarations-v1`.
+- Target journal changed for preparation only: IEEE Transactions on Computational Social Systems.
+- IEEE TCSS LaTeX package created at `paper/ieee_tcss/`.
+- Working manuscript created at `paper/ieee_tcss/main.tex` using `\documentclass[lettersize,journal]{IEEEtran}`.
+- Bibliography copied to `paper/ieee_tcss/bib/references.bib`.
+- Five approved main figures copied to `paper/ieee_tcss/figures/` as SVG and PNG files.
+- Six audited result tables converted under `paper/ieee_tcss/tables/`.
+- Supplementary draft converted to `paper/ieee_tcss/supplementary/supplementary.tex`.
+- IEEE TCSS guideline verification recorded in `paper/ieee_tcss/IEEE_TCSS_GUIDELINES_VERIFICATION.md` using official IEEE sources only.
+- IEEE TCSS journal-fit audit recorded in `paper/ieee_tcss/IEEE_TCSS_JOURNAL_FIT_AUDIT.md`.
+- IEEE reference conversion audit recorded in `paper/ieee_tcss/IEEE_REFERENCE_CONVERSION_AUDIT.md`; missing citation keys: none.
+- Title alternatives recorded in `paper/ieee_tcss/TITLE_REFRAMING_OPTIONS.md`; the current title was retained pending author decision.
+- Uploaded template exception recorded: `/mnt/data/bare_jrnl_new_sample4.tex` was not found in the local workspace or Codex attachment cache, so `paper/ieee_tcss/template/bare_jrnl_new_sample4.tex` records the missing-template condition and is not asserted to be the original uploaded template.
+- Remaining IEEE author confirmations: ORCID identifiers if available, final title choice, IEEE biography wording if required, and the cover-letter not-under-consideration statement.
+- No IEEE upload, portal account creation, submission, final PDF generation, new experiments, registry modification, frozen-metric change, ORCID invention, IEEE membership invention, clinical validation claim or deployment-readiness claim was performed.
 
 Do not mark `submitted` until portal upload, system checks, journal-generated PDF proof review and final submission confirmation are complete.

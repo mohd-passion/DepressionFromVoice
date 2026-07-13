@@ -67,6 +67,15 @@ Status values: `complete`, `pending_portal`, `needs_formatting`, `needs_figure`,
 | Final cover letter author review | pending_portal | Draft updated but final author review remains pending. |
 | Journal-generated PDF proof | pending_portal | Not generated; proof review remains pending. |
 | Submission confirmation | not_started | No submission has been performed. |
+| IEEE TCSS LaTeX package | complete | `paper/ieee_tcss/main.tex` created for IEEE TCSS preparation only; no IEEE upload or submission. |
+| IEEE TCSS guideline verification | complete | Official IEEE sources checked on 2026-07-13 and recorded in `paper/ieee_tcss/IEEE_TCSS_GUIDELINES_VERIFICATION.md`. |
+| IEEE TCSS journal-fit audit | complete | Fit assessed as `moderate_with_reframing_needed`; no TCSS submission performed. |
+| IEEE TCSS title decision | pending_portal | Current title retained; alternatives recorded for author review. |
+| IEEE TCSS ORCID requirement | pending_portal | IEEE ORCID requirement verified; author ORCID identifiers remain not available and were not invented. |
+| IEEE TCSS cover letter | pending_portal | Draft created; author must confirm the not-under-consideration statement. |
+| IEEE TCSS template upload | pending_portal | `/mnt/data/bare_jrnl_new_sample4.tex` was not found locally; missing-template condition is recorded in the package. |
+| IEEE TCSS final PDF generation | not_applicable | No final PDF requested or generated in Stage 4A. |
+| IEEE TCSS portal upload | not_started | No IEEE portal account, upload or submission was performed. |
 
 ## Readiness Category
 

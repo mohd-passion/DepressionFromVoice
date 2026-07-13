@@ -157,6 +157,12 @@ STAGE4A_IEEE_TCSS_REQUIRED_FILES = [
     IEEE_TCSS_DIR / "template" / "bare_jrnl_new_sample4.tex",
     IEEE_TCSS_DIR / "bib" / "references.bib",
     IEEE_TCSS_DIR / "supplementary" / "supplementary.tex",
+    IEEE_TCSS_DIR / "IEEE_TEMPLATE_ALIGNMENT_AUDIT.md",
+    IEEE_TCSS_DIR / "LATEX_SOURCE_SANITY_AUDIT.md",
+    IEEE_TCSS_DIR / "LATEX_FIGURE_AUDIT.md",
+    IEEE_TCSS_DIR / "LATEX_TABLE_AUDIT.md",
+    IEEE_TCSS_DIR / "LOCAL_LATEX_SETUP_NOTES.md",
+    PAPER / "scripts" / "audit_ieee_tcss_latex_package.py",
 ]
 
 STAGE4A_IEEE_TCSS_TABLE_FILES = [
@@ -1803,6 +1809,19 @@ def validate() -> list[str]:
                 errors.append(f"IEEE TCSS main.tex contains unknown BibTeX keys: {unknown_tex_citations}")
             if len(tex_citations) < 28:
                 errors.append(f"IEEE TCSS main.tex should preserve at least 28 citation keys; found {len(tex_citations)}")
+            figure_includes = re.findall(r"\\includegraphics(?:\[[^\]]+\])?\{([^}]+)\}", main_tex)
+            svg_includes = [path for path in figure_includes if path.lower().endswith(".svg")]
+            if svg_includes:
+                errors.append(f"IEEE TCSS main.tex must not include SVG files in pdfLaTeX path: {svg_includes}")
+            missing_figure_includes = [path for path in figure_includes if not (IEEE_TCSS_DIR / path).exists()]
+            if missing_figure_includes:
+                errors.append(f"IEEE TCSS main.tex has missing figure includes: {missing_figure_includes}")
+            table_inputs = re.findall(r"\\input\{(tables/[^}]+)\}", main_tex)
+            missing_table_inputs = [path for path in table_inputs if not (IEEE_TCSS_DIR / path).exists()]
+            if missing_table_inputs:
+                errors.append(f"IEEE TCSS main.tex has missing table inputs: {missing_table_inputs}")
+            if r"\bibliography{bib/references}" in main_tex and not (IEEE_TCSS_DIR / "bib" / "references.bib").exists():
+                errors.append("IEEE TCSS main.tex bibliography command points to missing bib/references.bib.")
             for prohibited in [
                 "orcid.org/",
                 "Member, IEEE",
@@ -1852,14 +1871,35 @@ def validate() -> list[str]:
             "No IEEE submission or upload was performed.",
             "not asserted to be the original uploaded template",
             "No title change was applied automatically in `main.tex`.",
+            "Real uploaded template found: no.",
+            "Sanity status: `passed_with_external_tex_toolchain_unavailable`.",
+            "Likely unescaped underscores | passed",
+            "All `\\includegraphics` paths in `main.tex` were checked.",
+            "All `\\input{tables/...}` paths in `main.tex` were checked.",
+            "No SVG files are included in `main.tex`; PNG files are used for compilation.",
+            "No table content, metrics or interpretation categories were changed in Stage 4B.",
+            "No unused critical manuscript references were dropped",
+            "Do not use online LaTeX compilers with restricted manuscript data unless the authors have confirmed that upload is allowed.",
         ]:
             if phrase not in package_text:
                 errors.append(f"IEEE TCSS package missing audit/checklist phrase: {phrase}")
+        build_log_text = (IEEE_TCSS_DIR / "logs" / "LATEX_BUILD_LOG.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Status: not_run_missing_tex_toolchain",
+            "pdflatex available: False",
+            "bibtex available: False",
+            "PDF generated: False",
+            "No PDF was generated because a complete TeX toolchain was not available on PATH.",
+        ]:
+            if phrase not in build_log_text:
+                errors.append(f"IEEE TCSS build log missing Stage 4B phrase: {phrase}")
         status_text = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
         for phrase in [
             "Stage 4A status: IEEE Transactions on Computational Social Systems LaTeX preparation package created",
             "Stage 4A branch: `paper/ieee-tcss-latex-v1`.",
             "No IEEE upload, portal account creation, submission, final PDF generation, new experiments, registry modification, frozen-metric change, ORCID invention, IEEE membership invention, clinical validation claim or deployment-readiness claim was performed.",
+            "Stage 4B branch: `paper/ieee-tcss-template-compile-v1`.",
+            "Build result: no PDF generated because `pdflatex` and `bibtex` are not on PATH",
         ]:
             if phrase not in status_text:
                 errors.append(f"Paper writing status missing Stage 4A phrase: {phrase}")
@@ -1868,6 +1908,8 @@ def validate() -> list[str]:
             "IEEE TCSS LaTeX package | complete",
             "IEEE TCSS portal upload | not_started",
             "IEEE TCSS template upload | pending_portal",
+            "IEEE TCSS template alignment audit | complete",
+            "IEEE TCSS compile readiness | pending_portal",
         ]:
             if phrase not in checklist_text:
                 errors.append(f"Submission readiness checklist missing Stage 4A phrase: {phrase}")

@@ -152,6 +152,12 @@ IEEE_TCSS_REQUIRED_FILES = [
     IEEE_TCSS / "template" / "bare_jrnl_new_sample4.tex",
     IEEE_TCSS / "bib" / "references.bib",
     IEEE_TCSS / "supplementary" / "supplementary.tex",
+    IEEE_TCSS / "IEEE_TEMPLATE_ALIGNMENT_AUDIT.md",
+    IEEE_TCSS / "LATEX_SOURCE_SANITY_AUDIT.md",
+    IEEE_TCSS / "LATEX_FIGURE_AUDIT.md",
+    IEEE_TCSS / "LATEX_TABLE_AUDIT.md",
+    IEEE_TCSS / "LOCAL_LATEX_SETUP_NOTES.md",
+    PAPER / "scripts" / "audit_ieee_tcss_latex_package.py",
 ]
 
 IEEE_TCSS_TABLE_FILES = [
@@ -1067,12 +1073,26 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertGreaterEqual(len(cited_keys), 28)
         self.assertLessEqual(cited_keys, bib_keys)
 
+        figure_includes = re.findall(r"\\includegraphics(?:\[[^\]]+\])?\{([^}]+)\}", main)
+        self.assertTrue(figure_includes)
+        self.assertFalse([path for path in figure_includes if path.lower().endswith(".svg")])
+        for path in figure_includes:
+            with self.subTest(figure=path):
+                self.assertTrue((IEEE_TCSS / path).exists(), path)
+
+        table_inputs = re.findall(r"\\input\{(tables/[^}]+)\}", main)
+        self.assertEqual(len(table_inputs), 6)
+        for path in table_inputs:
+            with self.subTest(table=path):
+                self.assertTrue((IEEE_TCSS / path).exists(), path)
+
         ref_audit = (IEEE_TCSS / "IEEE_REFERENCE_CONVERSION_AUDIT.md").read_text(encoding="utf-8")
         for phrase in [
             "Total BibTeX entries copied: 31",
             "Citation keys used in `main.tex`: 28",
             "Missing keys: none",
             "Duplicate keys: none",
+            "No unused critical manuscript references were dropped",
         ]:
             self.assertIn(phrase, ref_audit)
 
@@ -1085,15 +1105,34 @@ class ManuscriptValidationTests(unittest.TestCase):
             "No IEEE submission or upload was performed.",
             "not asserted to be the original uploaded template",
             "No title change was applied automatically in `main.tex`.",
+            "Real uploaded template found: no.",
+            "Sanity status: `passed_with_external_tex_toolchain_unavailable`.",
+            "Likely unescaped underscores | passed",
+            "No SVG files are included in `main.tex`; PNG files are used for compilation.",
+            "All `\\input{tables/...}` paths in `main.tex` were checked.",
+            "No table content, metrics or interpretation categories were changed in Stage 4B.",
+            "Do not use online LaTeX compilers with restricted manuscript data unless the authors have confirmed that upload is allowed.",
         ]:
             self.assertIn(phrase, package)
 
+        build_log = (IEEE_TCSS / "logs" / "LATEX_BUILD_LOG.md").read_text(encoding="utf-8")
+        for phrase in [
+            "Status: not_run_missing_tex_toolchain",
+            "pdflatex available: False",
+            "bibtex available: False",
+            "PDF generated: False",
+        ]:
+            self.assertIn(phrase, build_log)
+
         status = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
         self.assertIn("Stage 4A branch: `paper/ieee-tcss-latex-v1`.", status)
+        self.assertIn("Stage 4B branch: `paper/ieee-tcss-template-compile-v1`.", status)
         self.assertIn("No IEEE upload, portal account creation, submission, final PDF generation", status)
         checklist = (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").read_text(encoding="utf-8")
         self.assertIn("IEEE TCSS LaTeX package | complete", checklist)
         self.assertIn("IEEE TCSS portal upload | not_started", checklist)
+        self.assertIn("IEEE TCSS template alignment audit | complete", checklist)
+        self.assertIn("IEEE TCSS compile readiness | pending_portal", checklist)
         questions = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
         self.assertIn("Stage 4A IEEE TCSS Additional Author/Portal Checks", questions)
 

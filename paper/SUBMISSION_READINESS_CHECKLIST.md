@@ -76,6 +76,12 @@ Status values: `complete`, `pending_portal`, `needs_formatting`, `needs_figure`,
 | IEEE TCSS template upload | pending_portal | `/mnt/data/bare_jrnl_new_sample4.tex` was not found locally; missing-template condition is recorded in the package. |
 | IEEE TCSS final PDF generation | not_applicable | No final PDF requested or generated in Stage 4A. |
 | IEEE TCSS portal upload | not_started | No IEEE portal account, upload or submission was performed. |
+| IEEE TCSS template alignment audit | complete | `paper/ieee_tcss/IEEE_TEMPLATE_ALIGNMENT_AUDIT.md` records that the real uploaded template was not found and the IEEEtran structure is present. |
+| IEEE TCSS LaTeX source sanity audit | complete | `paper/ieee_tcss/LATEX_SOURCE_SANITY_AUDIT.md` records static source checks and missing local TeX tooling. |
+| IEEE TCSS figure include audit | complete | All `main.tex` figure includes use PNG files; SVG files are not used in the pdfLaTeX path. |
+| IEEE TCSS table input audit | complete | Six `\input{tables/...}` files exist and preserve protocol-scope distinctions. |
+| IEEE TCSS local TeX setup notes | complete | `paper/ieee_tcss/LOCAL_LATEX_SETUP_NOTES.md` added for MiKTeX/TeX Live setup and local build checks. |
+| IEEE TCSS compile readiness | pending_portal | Build scripts improved; no PDF generated because `pdflatex` and `bibtex` are not on PATH. |
 
 ## Readiness Category
 

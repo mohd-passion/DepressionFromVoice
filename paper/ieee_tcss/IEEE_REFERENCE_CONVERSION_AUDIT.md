@@ -10,7 +10,13 @@ Duplicate keys: none
 
 Unused BibTeX entries: ravi2022speakerDisentanglement, yin2023transformerSpeech, zhang2025clinicalSpeech
 
-References with incomplete title/year metadata by lightweight scan: none
+References with incomplete creator/title/year metadata by lightweight scan: none
+
+Bibliography command in `main.tex`: `\bibliography{bib/references}`.
+
+Bibliography file path exists: yes.
+
+No unused critical manuscript references were dropped: all keys cited in `main.tex` are present in `paper/ieee_tcss/bib/references.bib`.
 
 Manual IEEE-format checking still required before submission: yes.
 

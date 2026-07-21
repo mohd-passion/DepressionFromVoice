@@ -70,7 +70,7 @@ function Invoke-LatexStep {
     try {
         $output = & $Command @Arguments 2>&1
         $exitCode = $LASTEXITCODE
-        $output | Tee-Object -FilePath $LogFile
+        $output | Tee-Object -FilePath $LogFile | Out-Null
         return [pscustomobject]@{
             Name = $Name
             ExitCode = $exitCode
@@ -149,7 +149,7 @@ $status = if (-not $failedSteps -and $pdfExists) { "succeeded" } else { "failed_
 $stepLines = $steps | ForEach-Object { "- $($_.Name): exit $($_.ExitCode), log build/$($_.LogFile)" }
 $warningLines = $warnings | ForEach-Object { "- $_" }
 
-Write-LatexBuildLog -Status $status -Lines @(
+$logLines = @(
     "Output directory: paper/ieee_tcss/build",
     "",
     "PDF path: $PdfPath",
@@ -160,14 +160,14 @@ Write-LatexBuildLog -Status $status -Lines @(
     "- pdflatex: $($pdflatex.Source)",
     "- bibtex: $($bibtex.Source)",
     "",
-    "Build steps:",
-    $stepLines,
-    "",
-    "Warning summary:",
-    $warningLines,
-    "",
-    "No source files were modified."
+    "Build steps:"
 )
+$logLines += $stepLines
+$logLines += @("", "Warning summary:")
+$logLines += $warningLines
+$logLines += @("", "No source files were modified.")
+
+Write-LatexBuildLog -Status $status -Lines $logLines
 
 if ($status -eq "succeeded") {
     Write-Host "LaTeX build succeeded. PDF: $PdfPath"

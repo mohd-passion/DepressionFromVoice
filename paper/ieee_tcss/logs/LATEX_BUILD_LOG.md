@@ -1,17 +1,26 @@
 ﻿# LaTeX Build Log
 
-Last attempted: 2026-07-13 16:40:40 +05:30
+Last attempted: 2026-07-21 09:53:32 +05:30
 
-Status: not_run_missing_tex_toolchain
+Status: succeeded
 
-pdflatex available: False
+Output directory: paper/ieee_tcss/build
 
-bibtex available: False
+PDF path: F:\DepressionFromVoice\paper\ieee_tcss\build\main.pdf
 
-PDF generated: False
+PDF generated: True
 
-No PDF was generated because a complete TeX toolchain was not available on PATH.
+Tool paths:
+- pdflatex: C:\Users\Dell\AppData\Local\Programs\MiKTeX\miktex\bin\x64\pdflatex.exe
+- bibtex: C:\Users\Dell\AppData\Local\Programs\MiKTeX\miktex\bin\x64\bibtex.exe
 
-Next steps: install MiKTeX or TeX Live, ensure pdflatex and bibtex are on PATH, then rerun ./build_latex.ps1 from paper/ieee_tcss.
+Build steps:
+- pdflatex_pass1: exit 0, log build/pdflatex_pass1.log
+- bibtex: exit 0, log build/bibtex.log
+- pdflatex_pass2: exit 0, log build/pdflatex_pass2.log
+- pdflatex_pass3: exit 0, log build/pdflatex_pass3.log
+
+Warning summary:
+- LaTeX/package warnings present; inspect build/*.log.
 
 No source files were modified.

@@ -1,8 +1,8 @@
 # IEEE TCSS PDF Visual Review Checklist
 
-Review PDF: `paper/ieee_tcss/build/main.pdf`  
-Fresh compile-check PDF: `paper/ieee_tcss/build/stage4e_main.pdf`  
-Status: author visual review pending
+Review PDF: `paper/ieee_tcss/build/main.pdf`
+Fresh Stage 4G compile PDF: `paper/ieee_tcss/build/main.pdf`
+Status: author visual review pending; no item is pre-approved
 
 - [ ] Title correct:
 - [ ] Author names correct:
@@ -10,8 +10,9 @@ Status: author visual review pending
 - [ ] Corresponding author correct:
 - [ ] Abstract correct:
 - [ ] Keywords correct:
+- [ ] Research gaps visible in Introduction:
 - [ ] All four RQs visible in Introduction:
-- [ ] Contributions aligned with RQs:
+- [ ] Contribution paragraph aligned with gaps and RQs:
 - [ ] All section headings correct:
 - [ ] All 5 figures visible and readable:
 - [ ] All 6 tables visible and readable:
@@ -22,10 +23,11 @@ Status: author visual review pending
 - [ ] No broken symbols:
 - [ ] No strange line breaks:
 - [ ] No severe overfull text:
-- [ ] Conclusion acceptable:
+- [ ] Speaker-disentanglement limitation preserved:
 - [ ] Clinical limitations preserved:
+- [ ] No clinical diagnosis claim:
 - [ ] No deployment-ready claim:
-- [ ] No diagnosis claim:
+- [ ] Conclusion acceptable:
 - [ ] Ready for Overleaf upload:
 - [ ] Ready for IEEE portal upload:
 - [ ] Manuscript not under consideration elsewhere confirmed:

@@ -1,26 +1,28 @@
-# Overleaf Upload README
+# IEEE TCSS Overleaf Upload README
 
-This folder contains a freshly generated Overleaf upload package for the IEEE TCSS manuscript after Stage 4D research-question alignment.
+Stage: 4G final Overleaf package refresh after research-gap integration
+Branch: `paper/ieee-tcss-research-gaps-v1`
+Target journal: IEEE Transactions on Computational Social Systems
+ZIP path: `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`
 
 ## Upload Steps
 
 1. Upload `ieee_tcss_overleaf_package.zip` to Overleaf.
 2. Set `main.tex` as the main file.
 3. Use the pdfLaTeX compiler.
-4. Recompile until citations resolve.
-5. Check the title, author block, abstract, RQs, all figures, all tables, references and declarations.
+4. Recompile until citations and references resolve.
+5. Check title, author block, abstract, research gaps, RQs, figures, tables, references and declarations.
 6. Do not treat the Overleaf PDF as submitted.
 7. Before IEEE submission, confirm that the manuscript is not under consideration elsewhere.
 
-## Package Scope
+## Required Manual Checks
 
-The ZIP includes only compile-required manuscript files:
+- Confirm that the research-gap paragraphs are visible in the Introduction.
+- Confirm that all four RQs are visible in the Introduction.
+- Confirm that the contribution paragraph remains aligned with the gaps and RQs.
+- Confirm that the discussion preserves the speaker-disentanglement limitation.
+- Confirm that clinical limitations are preserved and no diagnosis or deployment-ready claim is introduced.
 
-- `main.tex`
-- `declarations.tex`
-- `bib/references.bib`
-- `figures/*.png`
-- `tables/*.tex`
-- `supplementary/supplementary.tex`
+Manuscript not under consideration elsewhere confirmed: pending author confirmation.
 
-The ZIP excludes build outputs, logs, generated PDFs, auxiliary files, raw datasets, audio, embeddings, predictions, fitted models, private credentials and submission portal files.
+No Overleaf upload, IEEE portal upload or IEEE submission was performed by Codex.

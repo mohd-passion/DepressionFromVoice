@@ -44,3 +44,5 @@ Status values: `complete`, `pending_author`, `pending_portal`, `not_verified`, `
 | Research-gap audit | complete | `IEEE_TCSS_RESEARCH_GAP_AUDIT.md` records current gap coverage, weak areas, insertion location and RQ relationships. |
 | Research-gap framing in Introduction | complete | Speaker/voiceprint confounding, cross-task, cross-corpus and evaluation-framework gaps inserted before the RQs. |
 | Speaker-disentanglement guard | complete | Discussion states the study does not disentangle depression markers from biometric voice characteristics. |
+| Final research-gap-aligned Overleaf ZIP | complete | Stage 4G regenerated `overleaf_upload/ieee_tcss_overleaf_package.zip` with 15 required compile files only. |
+| Final PDF visual review | pending_author | Stage 4G checklist updated; no review item is pre-approved. |

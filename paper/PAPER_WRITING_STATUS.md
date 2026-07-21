@@ -19,6 +19,7 @@
 - Stage 4D status: four IEEE TCSS research questions inserted and manuscript framing aligned on `paper/ieee-tcss-research-questions-v1`; no experiments run, metrics changed, references added, author metadata invented or clinical claims introduced.
 - Stage 4E status: RQ-aligned Overleaf ZIP regenerated and PDF visual-review checklist prepared on `paper/ieee-tcss-research-questions-v1`; local compile-check succeeded, Overleaf upload remains manual, IEEE submission not performed.
 - Stage 4F status: IEEE TCSS research-gap framing inserted on `paper/ieee-tcss-research-gaps-v1`; speaker/voiceprint confounding, cross-task limits, cross-corpus limits and evaluation-framework gaps aligned with RQs without claiming speaker disentanglement.
+- Stage 4G status: final research-gap-aligned IEEE TCSS Overleaf ZIP regenerated on `paper/ieee-tcss-research-gaps-v1`; local `build/main.pdf` compiled for review; Overleaf upload and IEEE submission remain manual and not performed.
 - Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.
 - Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.
 - Final BSPC review package status: `bspc_final_review_package_ready_for_submission_portal_checks`; final author/declaration inputs and DOCX approvals applied, with portal-only checks pending.
@@ -469,6 +470,19 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Discussion was updated to state that the study should not be interpreted as disentangling depression markers from biometric voice characteristics.
 - Abstract unchanged.
 - Build result: local Stage 4F LaTeX compile succeeded through direct MiKTeX paths and generated `paper/ieee_tcss/build/stage4f_main.pdf` for review only; no IEEE upload, Overleaf upload or submission was performed.
+- No experiments were run; no experiment registry records, dataset counts, table values, figure values, frozen metrics, references, author details, ORCID identifiers, IEEE membership details, clinical validation claims, deployment-readiness claims or speaker-disentanglement claims were changed or invented.
+
+## Stage 4G IEEE TCSS Final Overleaf Package Notes
+
+- Stage 4G branch: `paper/ieee-tcss-research-gaps-v1`.
+- Local PDF compiled for review at `paper/ieee_tcss/build/main.pdf`; page count: 14.
+- Final research-gap-aligned Overleaf ZIP regenerated at `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`; entry count: 15.
+- ZIP includes `main.tex`, `declarations.tex`, `bib/references.bib`, five PNG figures, six table files and `supplementary/supplementary.tex`.
+- ZIP excludes build files, logs, raw data, audio, embeddings, predictions, fitted models, credentials and submission portal files.
+- Overleaf README and ZIP manifest refreshed at `paper/ieee_tcss/overleaf_upload/`.
+- PDF visual review checklist updated at `paper/ieee_tcss/IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md`; no item is marked approved.
+- Overleaf upload remains manual; IEEE portal upload and IEEE submission were not performed.
+- Manuscript-not-under-consideration confirmation remains pending.
 - No experiments were run; no experiment registry records, dataset counts, table values, figure values, frozen metrics, references, author details, ORCID identifiers, IEEE membership details, clinical validation claims, deployment-readiness claims or speaker-disentanglement claims were changed or invented.
 
 Do not mark `submitted` until portal upload, system checks, journal-generated PDF proof review and final submission confirmation are complete.

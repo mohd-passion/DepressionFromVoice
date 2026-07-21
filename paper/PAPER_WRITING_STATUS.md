@@ -16,6 +16,7 @@
 - Stage 3H status: BSPC author declarations finalized, author approvals applied, final-review DOCX files regenerated without Pandoc; portal metadata/upload/system checks, cover letter final review, journal-generated PDF proof review and submission confirmation remain pending; no submission.
 - Stage 4A status: IEEE Transactions on Computational Social Systems LaTeX preparation package created on `paper/ieee-tcss-latex-v1`; no IEEE upload, portal account creation, final PDF or submission.
 - Stage 4B status: IEEE TCSS template alignment, LaTeX source sanity, citation, figure, table and local-build readiness audits completed on `paper/ieee-tcss-template-compile-v1`; no PDF generated because `pdflatex` and `bibtex` are not on PATH.
+- Stage 4D status: four IEEE TCSS research questions inserted and manuscript framing aligned on `paper/ieee-tcss-research-questions-v1`; no experiments run, metrics changed, references added, author metadata invented or clinical claims introduced.
 - Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.
 - Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.
 - Final BSPC review package status: `bspc_final_review_package_ready_for_submission_portal_checks`; final author/declaration inputs and DOCX approvals applied, with portal-only checks pending.
@@ -422,5 +423,20 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Build scripts improved at `paper/ieee_tcss/build_latex.ps1` and `paper/ieee_tcss/build_latex.py`.
 - Build result: no PDF generated because `pdflatex` and `bibtex` are not on PATH; `paper/ieee_tcss/logs/LATEX_BUILD_LOG.md` records the missing-toolchain result.
 - No IEEE upload, portal account creation, submission, final PDF generation, new experiments, registry modification, frozen-metric change, reference addition, author-metadata invention, ORCID invention, IEEE membership invention, clinical validation claim or deployment-readiness claim was performed.
+
+## Stage 4D IEEE TCSS Research-Question Alignment Notes
+
+- Stage 4D branch: `paper/ieee-tcss-research-questions-v1`.
+- Source branch: `paper/ieee-tcss-template-compile-v1`.
+- Four research questions were inserted near the end of the Introduction in `paper/ieee_tcss/main.tex`, before the contribution list.
+- The contribution list was aligned with RQ1 through RQ4.
+- Results signposts were added sparingly to connect DAIC development, DAIC-to-Android transfer, domain-shift diagnosis and Android task analyses to the RQs.
+- Discussion now includes `Findings in Relation to the Research Questions`.
+- The Conclusion was revised to answer the four RQs concisely and cautiously.
+- RQ audit created at `paper/ieee_tcss/IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md`.
+- RQ-to-evidence map created at `paper/ieee_tcss/RQ_TO_EVIDENCE_MAP.md`.
+- No abstract change was needed.
+- Build result: local LaTeX build succeeded and generated `paper/ieee_tcss/build/main.pdf` for review only; no IEEE upload or submission was performed.
+- No experiments were run; no experiment registry records, dataset counts, table values, figure values, frozen metrics, references, author details, ORCID identifiers, IEEE membership details, clinical validation claims or deployment-readiness claims were changed or invented.
 
 Do not mark `submitted` until portal upload, system checks, journal-generated PDF proof review and final submission confirmation are complete.

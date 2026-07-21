@@ -52,16 +52,15 @@ Speech task is another important source of variation. Interview speech may inclu
 
 This study developed and audited a reproducible sequence of experiments through DAIC-WOZ methodology development, DAIC-to-Android zero-shot evaluation, Android within-corpus evaluation, and participant-coherent Android reading/interview cross-task transfer. The central research argument is that frozen WavLM speech representations retain useful depression-related information across corpora and tasks, but classifier boundaries are sensitive to corpus and task conditions. Target-corpus training and pooled multi-task exposure substantially improved discrimination compared with direct zero-shot model transfer.
 
+This study is guided by four research questions. \textbf{RQ1} asks how effectively frozen self-supervised WavLM speech representations and timing-based speech features support participant-level depression-related behavioral signal classification on DAIC-WOZ. \textbf{RQ2} examines which WavLM representation-design choices, particularly transformer-layer selection and participant-level aggregation strategy, influence DAIC-WOZ classification performance. \textbf{RQ3} evaluates the extent to which a DAIC-WOZ-trained WavLM classifier transfers to Androids Corpus speech, and what threshold adaptation, score calibration and target-domain classifier learning reveal about calibration and classifier-boundary shift. \textbf{RQ4} investigates how Android reading and interview task conditions affect within-corpus, cross-task and pooled-task depression-related behavioral signal modeling.
+
 The contributions are:
 
 \begin{itemize}
-\item A leakage-controlled frozen WavLM depression-detection pipeline.
-\item Layer and aggregation analysis on DAIC-WOZ.
-\item Zero-shot DAIC-to-Android external evaluation.
-\item Controlled diagnosis of threshold, calibration and classifier-boundary shift.
-\item Within-Android reading and interview benchmarks using identical frozen representations.
-\item Participant-coherent cross-task transfer between reading and interview speech.
-\item Pooled-task evaluation using participant-safe folds.
+\item An empirical DAIC-WOZ evaluation of frozen WavLM and timing-based participant-level behavioral signal classification, aligned with RQ1.
+\item Analysis of WavLM layer selection and participant aggregation choices on DAIC-WOZ, aligned with RQ2.
+\item DAIC-to-Android transfer evaluation with threshold, calibration and target-domain classifier-boundary diagnosis, aligned with RQ3.
+\item Within-Android reading/interview benchmarks, participant-coherent cross-task transfer and pooled-task evaluation, aligned with RQ4.
 \item A reproducible experiment registry with paper-claim safeguards.
 \end{itemize}
 
@@ -196,6 +195,8 @@ Tables 2-6 summarize the numerical results and result-scope caveats. Figures 2-5
 
 \subsection{DAIC representation development}
 
+The DAIC development results address RQ1 and RQ2 by comparing frozen WavLM representations, timing descriptors, layer selection and participant-level aggregation under leakage-controlled participant protocols.
+
 Phase 1A established initial participant-level baselines. The metadata-only sanity baseline achieved train-CV ROC-AUC 0.5510 and provisional local test ROC-AUC 0.4437. The final-layer WavLM participant baseline achieved train-CV ROC-AUC 0.5115, development ROC-AUC 0.5692 and provisional local test ROC-AUC 0.5195. These early results motivated a frozen layer-wise representation analysis.
 
 Phase 1B evaluated all 12 WavLM transformer layers using DAIC train-only nested cross-validation. Layer 9 had the strongest mean outer ROC-AUC, 0.5956, compared with 0.4988 for layer 12. Layer 9 was therefore selected for subsequent WavLM experiments. This selection used DAIC training data only and did not use Android results.
@@ -217,6 +218,8 @@ Phase 1F froze two DAIC research candidates. Candidate A was the free-speech-com
 
 \subsection{Zero-shot DAIC-to-Android interview transfer}
 
+This experiment addresses RQ3 by testing direct source-model transfer from DAIC-WOZ to Android interview speech before any target-domain thresholding, calibration or classifier retraining.
+
 Phase 2B applied the frozen DAIC WavLM Candidate A to 116 Android interview participants, including 52 HC and 64 PT participants. The Android interview preprocessing produced 4,249 valid 10-second windows and the embedding quality checks passed. The frozen DAIC classifier achieved zero-shot ROC-AUC 0.6412 and PR-AUC 0.6809. However, predicted probabilities were compressed below both the default 0.5 threshold and the frozen DAIC threshold of 0.5558: the maximum predicted probability was 0.3938, and every participant was predicted negative at both thresholds. Thresholded balanced accuracy was 0.5000, macro F1 was 0.3095, sensitivity was 0.0000 and specificity was 1.0000. The Brier score was 0.4056.
 
 This result indicates limited cross-corpus ranking transfer, not successful thresholded classification.
@@ -224,6 +227,8 @@ This result indicates limited cross-corpus ranking transfer, not successful thre
 \input{tables/table3_cross_corpus_android_interview.tex}
 
 \subsection{Domain-shift diagnosis}
+
+This analysis extends RQ3 by separating discrimination, threshold placement, probability calibration and target-domain classifier learning on the same Android interview representation.
 
 Phase 2C separated threshold shift, calibration shift and classifier-boundary shift on the same 116 Android interview participants. Protocol A reproduced the frozen DAIC zero-shot ROC-AUC of 0.6412. Protocol B used Android training folds for threshold-only adaptation and preserved ROC-AUC 0.6412 while improving macro F1 to 0.5688. Protocol C calibrated frozen DAIC scores using Android training folds; Brier score improved to 0.2474, but ROC-AUC decreased to 0.5694. Protocol D trained an Android interview logistic-regression classifier on the same frozen layer-9 participant embeddings and achieved ROC-AUC 0.8675, PR-AUC 0.8892, balanced accuracy 0.8275 and macro F1 0.8263 with fold-specific threshold adaptation. The Phase 2C protocols therefore separate discrimination, thresholded classification and probability calibration rather than treating all improvements as external transfer \cite{niculescuMizil2005probabilities,vanCalster2019calibration}.
 
@@ -237,6 +242,8 @@ The Android-trained interview classifier improved ROC-AUC over the frozen DAIC r
 \end{figure*}
 
 \subsection{Android reading-speech evaluation}
+
+The Android reading analysis contributes to RQ4 by evaluating whether the same frozen representation supports a more constrained speech task, while also testing the DAIC-trained classifier under a second Android target condition.
 
 Phase 2D evaluated 112 Android reading participants, including 54 HC and 58 PT participants. Reading preprocessing produced 955 valid 10-second windows with zero extraction failures, and participant aggregation used all 955 windows.
 
@@ -256,6 +263,8 @@ The Phase 2D descriptive task comparison contrasted Android-trained reading and 
 \end{figure*}
 
 \subsection{Participant-coherent cross-task transfer}
+
+This experiment provides the controlled cross-task component of RQ4 by keeping paired reading and interview recordings from the same participant within the same fold.
 
 Phase 2E used participant-coherent folds over 110 paired Android participants, with 52 HC and 58 PT participants. Matched within-task training achieved ROC-AUC 0.9048 for reading and 0.9065 for interview. Cross-task training remained strong but lower than matched-task training: reading-to-interview achieved ROC-AUC 0.8475, and interview-to-reading achieved ROC-AUC 0.8501. The reading-to-interview AUC gap versus matched interview was -0.0590, and the interview-to-reading gap versus matched reading was -0.0547.
 
@@ -281,6 +290,10 @@ Phase 2E classifier-boundary analysis found only moderate similarity between rea
 \subsection{Main findings}
 
 The experiments support three main findings. First, frozen WavLM layer-9 representations contained depression-related ranking information across corpora and tasks. Second, direct transfer of the DAIC-trained classifier failed at the threshold and probability-scale level, especially on Android interview and reading speech where all zero-shot thresholded predictions were negative. Third, target-corpus classifier learning and pooled task exposure substantially improved discrimination within Android.
+
+\subsection{Findings in Relation to the Research Questions}
+
+For RQ1, the DAIC-WOZ experiments showed that frozen WavLM representations provided weak-to-modest participant-level discrimination, while guided-interview timing features produced stronger local labeled-test performance but were not directly portable to Android because compatible timing annotations were incomplete. For RQ2, layer selection and participant aggregation influenced the DAIC development pipeline: layer 9 was retained over the final layer, and mean aggregation was kept because alternative aggregation strategies did not improve the DAIC train-only comparisons. For RQ3, DAIC-to-Android transfer preserved some ranking signal but failed as direct thresholded classification; target-domain threshold adaptation, score calibration and Android-trained classifiers showed that probability scale and classifier-boundary shift were central limitations. For RQ4, Android reading and interview speech shared useful representation information, but task condition still mattered: matched-task and pooled-task models were strongest within Android, while cross-task transfer remained below matched-task training and classifier boundaries were only moderately similar.
 
 \subsection{Representation transfer versus classifier transfer}
 
@@ -322,7 +335,7 @@ The study had several limitations. Dataset sizes were modest, especially for par
 
 \section{Conclusion}
 
-Frozen WavLM features captured useful depression-related information across DAIC-WOZ and Androids Corpus, and across Android reading and interview tasks. However, direct classifier transfer across corpora failed at the decision boundary: Android zero-shot scores showed limited ranking transfer but all participants were predicted negative at frozen thresholds. Target-corpus classifier learning restored strong within-Android discrimination, and participant-coherent cross-task experiments showed substantial sharing between reading and interview speech with partly task-specific classifier boundaries. Pooled reading-and-interview training achieved the strongest point estimates, but its gains should be interpreted cautiously. These findings support research on representation transfer and corpus-specific calibration, not clinical readiness. External validation beyond Androids Corpus, demographic fairness evaluation, privacy governance, prospective clinical validation and clinical utility assessment remain necessary before any clinical claim can be made.
+This study addressed four questions about frozen speech representations, DAIC-WOZ development choices, DAIC-to-Android transfer and Android task effects. The results indicate that speech representations and timing descriptors can encode depression-related behavioral signal, but DAIC performance was sensitive to the feature family and the strongest timing model was not directly transferable to Android. WavLM layer and aggregation choices also shaped the selected DAIC pipeline. Across corpora, the DAIC-trained WavLM classifier retained limited ranking information but did not transfer as a thresholded classifier, showing the importance of calibration, threshold and classifier-boundary analysis. Within Android, reading and interview speech shared information but remained partly task-specific, with pooled-task gains interpreted cautiously. These findings support research on representation transfer and corpus-specific calibration, not clinical readiness. External validation beyond Androids Corpus, demographic fairness evaluation, privacy governance, prospective clinical validation and clinical utility assessment remain necessary before any clinical claim can be made.
 
 \section{Data and Code Availability}
 

@@ -81,7 +81,10 @@ Status values: `complete`, `pending_portal`, `needs_formatting`, `needs_figure`,
 | IEEE TCSS figure include audit | complete | All `main.tex` figure includes use PNG files; SVG files are not used in the pdfLaTeX path. |
 | IEEE TCSS table input audit | complete | Six `\input{tables/...}` files exist and preserve protocol-scope distinctions. |
 | IEEE TCSS local TeX setup notes | complete | `paper/ieee_tcss/LOCAL_LATEX_SETUP_NOTES.md` added for MiKTeX/TeX Live setup and local build checks. |
-| IEEE TCSS compile readiness | pending_portal | Build scripts improved; no PDF generated because `pdflatex` and `bibtex` are not on PATH. |
+| IEEE TCSS compile readiness | complete | Stage 4D local pdfLaTeX build succeeded and generated `paper/ieee_tcss/build/main.pdf` for review only; no IEEE upload or submission. |
+| IEEE TCSS research questions | complete | Four RQs inserted in `paper/ieee_tcss/main.tex`; audit created at `paper/ieee_tcss/IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md`. |
+| IEEE TCSS RQ evidence map | complete | `paper/ieee_tcss/RQ_TO_EVIDENCE_MAP.md` maps each RQ to manuscript sections, tables, figures, answers and limitations. |
+| IEEE TCSS RQ-aligned discussion/conclusion | complete | Discussion and Conclusion aligned with RQ1-RQ4; no metrics, references, author details or clinical claims changed. |
 
 ## Readiness Category
 

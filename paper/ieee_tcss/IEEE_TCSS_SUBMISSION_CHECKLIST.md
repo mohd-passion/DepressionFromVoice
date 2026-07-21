@@ -23,7 +23,7 @@ Status values: `complete`, `pending_author`, `pending_portal`, `not_verified`, `
 | Cover letter | pending_author | Draft created; not-under-consideration statement requires author confirmation. |
 | IEEE portal metadata | pending_portal | No IEEE portal entry completed. |
 | IEEE upload/submission | not_applicable | No upload or submission performed. |
-| LaTeX build | pending_portal | Build attempted locally; no PDF generated because `pdflatex` and `bibtex` are not on PATH. See `logs/LATEX_BUILD_LOG.md`. |
+| LaTeX build | complete | Stage 4D local pdfLaTeX build succeeded and generated `build/main.pdf` for review only; no IEEE upload or submission. See `logs/LATEX_BUILD_LOG.md`. |
 | Template alignment audit | complete | `IEEE_TEMPLATE_ALIGNMENT_AUDIT.md` created; real uploaded template was not found, and the existing placeholder is not represented as the original template. |
 | LaTeX source sanity audit | complete | `LATEX_SOURCE_SANITY_AUDIT.md` records passing static checks and missing TeX tooling. |
 | Citation audit refresh | complete | All 28 citation keys used in `main.tex` resolve in `bib/references.bib`; no duplicate BibTeX keys found. |
@@ -31,3 +31,6 @@ Status values: `complete`, `pending_author`, `pending_portal`, `not_verified`, `
 | Table input audit | complete | All six table inputs exist and retain zero-shot/adaptation/within-corpus distinctions. |
 | Local LaTeX setup notes | complete | `LOCAL_LATEX_SETUP_NOTES.md` added with MiKTeX/TeX Live and local-build steps. |
 | Build script robustness | complete | `build_latex.ps1` and `build_latex.py` check TeX tools, stage build files and record missing-toolchain status without modifying manuscript content. |
+| Research questions | complete | Four manuscript-grounded RQs inserted in the Introduction and recorded in `IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md`. |
+| RQ-to-evidence map | complete | `RQ_TO_EVIDENCE_MAP.md` maps each RQ to sections, tables, figures, main answer and limitations. |
+| RQ-aligned discussion and conclusion | complete | Discussion and Conclusion answer RQ1-RQ4 cautiously; no metrics, references, author metadata or clinical claims changed. |

@@ -17,6 +17,7 @@
 - Stage 4A status: IEEE Transactions on Computational Social Systems LaTeX preparation package created on `paper/ieee-tcss-latex-v1`; no IEEE upload, portal account creation, final PDF or submission.
 - Stage 4B status: IEEE TCSS template alignment, LaTeX source sanity, citation, figure, table and local-build readiness audits completed on `paper/ieee-tcss-template-compile-v1`; no PDF generated because `pdflatex` and `bibtex` are not on PATH.
 - Stage 4D status: four IEEE TCSS research questions inserted and manuscript framing aligned on `paper/ieee-tcss-research-questions-v1`; no experiments run, metrics changed, references added, author metadata invented or clinical claims introduced.
+- Stage 4E status: RQ-aligned Overleaf ZIP regenerated and PDF visual-review checklist prepared on `paper/ieee-tcss-research-questions-v1`; local compile-check succeeded, Overleaf upload remains manual, IEEE submission not performed.
 - Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.
 - Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.
 - Final BSPC review package status: `bspc_final_review_package_ready_for_submission_portal_checks`; final author/declaration inputs and DOCX approvals applied, with portal-only checks pending.
@@ -437,6 +438,23 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - RQ-to-evidence map created at `paper/ieee_tcss/RQ_TO_EVIDENCE_MAP.md`.
 - No abstract change was needed.
 - Build result: local LaTeX build succeeded and generated `paper/ieee_tcss/build/main.pdf` for review only; no IEEE upload or submission was performed.
+- No experiments were run; no experiment registry records, dataset counts, table values, figure values, frozen metrics, references, author details, ORCID identifiers, IEEE membership details, clinical validation claims or deployment-readiness claims were changed or invented.
+
+## Stage 4E IEEE TCSS Overleaf Refresh and PDF Visual Review Notes
+
+- Stage 4E branch: `paper/ieee-tcss-research-questions-v1`.
+- RQ-aligned Overleaf ZIP regenerated at `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`.
+- Overleaf README created at `paper/ieee_tcss/overleaf_upload/OVERLEAF_UPLOAD_README.md`.
+- Overleaf ZIP manifest created at `paper/ieee_tcss/overleaf_upload/OVERLEAF_ZIP_MANIFEST.md`.
+- PDF visual-review checklist created at `paper/ieee_tcss/IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md`.
+- LaTeX compile QA report created at `paper/ieee_tcss/IEEE_LATEX_COMPILE_QA_REPORT.md`.
+- Local compile check produced `paper/ieee_tcss/build/stage4e_main.pdf`; the existing `paper/ieee_tcss/build/main.pdf` remained locked by another process and was not overwritten.
+- PDF page count: 14.
+- Final compile-check pass had no unresolved citations, unresolved references, missing figures or missing tables.
+- Overleaf upload remains manual.
+- IEEE portal upload and submission were not performed.
+- Final PDF visual review remains pending.
+- Manuscript-not-under-consideration confirmation remains pending.
 - No experiments were run; no experiment registry records, dataset counts, table values, figure values, frozen metrics, references, author details, ORCID identifiers, IEEE membership details, clinical validation claims or deployment-readiness claims were changed or invented.
 
 Do not mark `submitted` until portal upload, system checks, journal-generated PDF proof review and final submission confirmation are complete.

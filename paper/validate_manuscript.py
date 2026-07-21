@@ -164,6 +164,10 @@ STAGE4A_IEEE_TCSS_REQUIRED_FILES = [
     IEEE_TCSS_DIR / "LOCAL_LATEX_SETUP_NOTES.md",
     IEEE_TCSS_DIR / "IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md",
     IEEE_TCSS_DIR / "RQ_TO_EVIDENCE_MAP.md",
+    IEEE_TCSS_DIR / "IEEE_LATEX_COMPILE_QA_REPORT.md",
+    IEEE_TCSS_DIR / "IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md",
+    IEEE_TCSS_DIR / "overleaf_upload" / "OVERLEAF_UPLOAD_README.md",
+    IEEE_TCSS_DIR / "overleaf_upload" / "OVERLEAF_ZIP_MANIFEST.md",
     PAPER / "scripts" / "audit_ieee_tcss_latex_package.py",
 ]
 
@@ -1882,6 +1886,15 @@ def validate() -> list[str]:
             "No table content, metrics or interpretation categories were changed in Stage 4B.",
             "No unused critical manuscript references were dropped",
             "Do not use online LaTeX compilers with restricted manuscript data unless the authors have confirmed that upload is allowed.",
+            "Stage: 4E Overleaf package refresh after research-question alignment",
+            "Fresh compile-check PDF path",
+            "Unresolved citations | none in final pass",
+            "ZIP path: `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`",
+            "Entry count: 15",
+            "`main.tex` contains RQ1 | yes",
+            "Do not treat the Overleaf PDF as submitted.",
+            "All four RQs visible in Introduction",
+            "Manuscript not under consideration elsewhere confirmed",
         ]:
             if phrase not in package_text:
                 errors.append(f"IEEE TCSS package missing audit/checklist phrase: {phrase}")
@@ -1915,6 +1928,9 @@ def validate() -> list[str]:
             "Stage 4D branch: `paper/ieee-tcss-research-questions-v1`.",
             "Four research questions were inserted near the end of the Introduction",
             "Build result: local LaTeX build succeeded and generated `paper/ieee_tcss/build/main.pdf` for review only; no IEEE upload or submission was performed.",
+            "Stage 4E branch: `paper/ieee-tcss-research-questions-v1`.",
+            "RQ-aligned Overleaf ZIP regenerated at `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`.",
+            "Manuscript-not-under-consideration confirmation remains pending.",
         ]:
             if phrase not in status_text:
                 errors.append(f"Paper writing status missing Stage 4A phrase: {phrase}")
@@ -1927,6 +1943,10 @@ def validate() -> list[str]:
             "IEEE TCSS compile readiness | complete",
             "IEEE TCSS research questions | complete",
             "IEEE TCSS RQ evidence map | complete",
+            "IEEE TCSS RQ-aligned Overleaf ZIP | complete",
+            "IEEE TCSS PDF visual review | needs_author_input",
+            "IEEE TCSS not-under-consideration confirmation | needs_author_input",
+            "IEEE TCSS final portal submission | not_started",
         ]:
             if phrase not in checklist_text:
                 errors.append(f"Submission readiness checklist missing Stage 4A phrase: {phrase}")

@@ -34,3 +34,10 @@ Status values: `complete`, `pending_author`, `pending_portal`, `not_verified`, `
 | Research questions | complete | Four manuscript-grounded RQs inserted in the Introduction and recorded in `IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md`. |
 | RQ-to-evidence map | complete | `RQ_TO_EVIDENCE_MAP.md` maps each RQ to sections, tables, figures, main answer and limitations. |
 | RQ-aligned discussion and conclusion | complete | Discussion and Conclusion answer RQ1-RQ4 cautiously; no metrics, references, author metadata or clinical claims changed. |
+| LaTeX compile QA report | complete | `IEEE_LATEX_COMPILE_QA_REPORT.md` records Stage 4E compile-check status, page count and warnings. |
+| RQ-aligned Overleaf ZIP | complete | Fresh package generated at `overleaf_upload/ieee_tcss_overleaf_package.zip`; generated ZIP remains untracked by policy. |
+| Overleaf ZIP manifest | complete | `overleaf_upload/OVERLEAF_ZIP_MANIFEST.md` lists all 15 included files and confirms RQ1-RQ4 are present. |
+| Overleaf upload | pending_portal | Upload remains manual; no Overleaf upload was performed. |
+| PDF visual review | pending_author | `IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md` prepared; no review item is pre-approved. |
+| Manuscript not under consideration elsewhere | pending_author | Confirmation remains required before IEEE portal submission. |
+| IEEE portal submission | not_started | No IEEE portal upload or submission was performed. |

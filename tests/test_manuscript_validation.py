@@ -159,6 +159,10 @@ IEEE_TCSS_REQUIRED_FILES = [
     IEEE_TCSS / "LOCAL_LATEX_SETUP_NOTES.md",
     IEEE_TCSS / "IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md",
     IEEE_TCSS / "RQ_TO_EVIDENCE_MAP.md",
+    IEEE_TCSS / "IEEE_LATEX_COMPILE_QA_REPORT.md",
+    IEEE_TCSS / "IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md",
+    IEEE_TCSS / "overleaf_upload" / "OVERLEAF_UPLOAD_README.md",
+    IEEE_TCSS / "overleaf_upload" / "OVERLEAF_ZIP_MANIFEST.md",
     PAPER / "scripts" / "audit_ieee_tcss_latex_package.py",
 ]
 
@@ -1114,6 +1118,15 @@ class ManuscriptValidationTests(unittest.TestCase):
             "All `\\input{tables/...}` paths in `main.tex` were checked.",
             "No table content, metrics or interpretation categories were changed in Stage 4B.",
             "Do not use online LaTeX compilers with restricted manuscript data unless the authors have confirmed that upload is allowed.",
+            "Stage: 4E Overleaf package refresh after research-question alignment",
+            "Fresh compile-check PDF path",
+            "Unresolved citations | none in final pass",
+            "ZIP path: `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`",
+            "Entry count: 15",
+            "`main.tex` contains RQ1 | yes",
+            "Do not treat the Overleaf PDF as submitted.",
+            "All four RQs visible in Introduction",
+            "Manuscript not under consideration elsewhere confirmed",
         ]:
             self.assertIn(phrase, package)
 
@@ -1141,6 +1154,9 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertIn("Stage 4D branch: `paper/ieee-tcss-research-questions-v1`.", status)
         self.assertIn("Four research questions were inserted near the end of the Introduction", status)
         self.assertIn("local LaTeX build succeeded and generated `paper/ieee_tcss/build/main.pdf`", status)
+        self.assertIn("Stage 4E branch: `paper/ieee-tcss-research-questions-v1`.", status)
+        self.assertIn("RQ-aligned Overleaf ZIP regenerated at `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`.", status)
+        self.assertIn("Manuscript-not-under-consideration confirmation remains pending.", status)
         self.assertIn("No IEEE upload, portal account creation, submission, final PDF generation", status)
         checklist = (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").read_text(encoding="utf-8")
         self.assertIn("IEEE TCSS LaTeX package | complete", checklist)
@@ -1149,6 +1165,10 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertIn("IEEE TCSS compile readiness | complete", checklist)
         self.assertIn("IEEE TCSS research questions | complete", checklist)
         self.assertIn("IEEE TCSS RQ evidence map | complete", checklist)
+        self.assertIn("IEEE TCSS RQ-aligned Overleaf ZIP | complete", checklist)
+        self.assertIn("IEEE TCSS PDF visual review | needs_author_input", checklist)
+        self.assertIn("IEEE TCSS not-under-consideration confirmation | needs_author_input", checklist)
+        self.assertIn("IEEE TCSS final portal submission | not_started", checklist)
         questions = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
         self.assertIn("Stage 4A IEEE TCSS Additional Author/Portal Checks", questions)
 

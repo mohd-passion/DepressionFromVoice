@@ -85,6 +85,11 @@ Status values: `complete`, `pending_portal`, `needs_formatting`, `needs_figure`,
 | IEEE TCSS research questions | complete | Four RQs inserted in `paper/ieee_tcss/main.tex`; audit created at `paper/ieee_tcss/IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md`. |
 | IEEE TCSS RQ evidence map | complete | `paper/ieee_tcss/RQ_TO_EVIDENCE_MAP.md` maps each RQ to manuscript sections, tables, figures, answers and limitations. |
 | IEEE TCSS RQ-aligned discussion/conclusion | complete | Discussion and Conclusion aligned with RQ1-RQ4; no metrics, references, author details or clinical claims changed. |
+| IEEE TCSS RQ-aligned Overleaf ZIP | complete | Fresh ZIP regenerated at `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`; generated archive remains untracked. |
+| IEEE TCSS Overleaf upload | pending_portal | Upload remains manual; no Overleaf upload was performed by Codex. |
+| IEEE TCSS PDF visual review | needs_author_input | Checklist prepared at `paper/ieee_tcss/IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md`; author review not marked approved. |
+| IEEE TCSS not-under-consideration confirmation | needs_author_input | Must be confirmed before IEEE submission. |
+| IEEE TCSS final portal submission | not_started | No IEEE portal upload or submission was performed. |
 
 ## Readiness Category
 

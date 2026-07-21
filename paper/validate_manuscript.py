@@ -162,6 +162,8 @@ STAGE4A_IEEE_TCSS_REQUIRED_FILES = [
     IEEE_TCSS_DIR / "LATEX_FIGURE_AUDIT.md",
     IEEE_TCSS_DIR / "LATEX_TABLE_AUDIT.md",
     IEEE_TCSS_DIR / "LOCAL_LATEX_SETUP_NOTES.md",
+    IEEE_TCSS_DIR / "IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md",
+    IEEE_TCSS_DIR / "RQ_TO_EVIDENCE_MAP.md",
     PAPER / "scripts" / "audit_ieee_tcss_latex_package.py",
 ]
 
@@ -1884,15 +1886,25 @@ def validate() -> list[str]:
             if phrase not in package_text:
                 errors.append(f"IEEE TCSS package missing audit/checklist phrase: {phrase}")
         build_log_text = (IEEE_TCSS_DIR / "logs" / "LATEX_BUILD_LOG.md").read_text(encoding="utf-8")
-        for phrase in [
+        missing_toolchain_phrases = [
             "Status: not_run_missing_tex_toolchain",
             "pdflatex available: False",
             "bibtex available: False",
             "PDF generated: False",
             "No PDF was generated because a complete TeX toolchain was not available on PATH.",
-        ]:
-            if phrase not in build_log_text:
-                errors.append(f"IEEE TCSS build log missing Stage 4B phrase: {phrase}")
+        ]
+        successful_build_phrases = [
+            "Status: succeeded",
+            "PDF generated: True",
+            "pdflatex:",
+            "bibtex:",
+            "LaTeX/package warnings present; inspect build/*.log.",
+        ]
+        if not (
+            all(phrase in build_log_text for phrase in missing_toolchain_phrases)
+            or all(phrase in build_log_text for phrase in successful_build_phrases)
+        ):
+            errors.append("IEEE TCSS build log must record either missing TeX tooling or a successful local PDF build.")
         status_text = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
         for phrase in [
             "Stage 4A status: IEEE Transactions on Computational Social Systems LaTeX preparation package created",
@@ -1900,6 +1912,9 @@ def validate() -> list[str]:
             "No IEEE upload, portal account creation, submission, final PDF generation, new experiments, registry modification, frozen-metric change, ORCID invention, IEEE membership invention, clinical validation claim or deployment-readiness claim was performed.",
             "Stage 4B branch: `paper/ieee-tcss-template-compile-v1`.",
             "Build result: no PDF generated because `pdflatex` and `bibtex` are not on PATH",
+            "Stage 4D branch: `paper/ieee-tcss-research-questions-v1`.",
+            "Four research questions were inserted near the end of the Introduction",
+            "Build result: local LaTeX build succeeded and generated `paper/ieee_tcss/build/main.pdf` for review only; no IEEE upload or submission was performed.",
         ]:
             if phrase not in status_text:
                 errors.append(f"Paper writing status missing Stage 4A phrase: {phrase}")
@@ -1909,7 +1924,9 @@ def validate() -> list[str]:
             "IEEE TCSS portal upload | not_started",
             "IEEE TCSS template upload | pending_portal",
             "IEEE TCSS template alignment audit | complete",
-            "IEEE TCSS compile readiness | pending_portal",
+            "IEEE TCSS compile readiness | complete",
+            "IEEE TCSS research questions | complete",
+            "IEEE TCSS RQ evidence map | complete",
         ]:
             if phrase not in checklist_text:
                 errors.append(f"Submission readiness checklist missing Stage 4A phrase: {phrase}")

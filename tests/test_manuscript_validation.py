@@ -157,6 +157,8 @@ IEEE_TCSS_REQUIRED_FILES = [
     IEEE_TCSS / "LATEX_FIGURE_AUDIT.md",
     IEEE_TCSS / "LATEX_TABLE_AUDIT.md",
     IEEE_TCSS / "LOCAL_LATEX_SETUP_NOTES.md",
+    IEEE_TCSS / "IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md",
+    IEEE_TCSS / "RQ_TO_EVIDENCE_MAP.md",
     PAPER / "scripts" / "audit_ieee_tcss_latex_package.py",
 ]
 
@@ -1116,23 +1118,37 @@ class ManuscriptValidationTests(unittest.TestCase):
             self.assertIn(phrase, package)
 
         build_log = (IEEE_TCSS / "logs" / "LATEX_BUILD_LOG.md").read_text(encoding="utf-8")
-        for phrase in [
+        missing_toolchain_phrases = [
             "Status: not_run_missing_tex_toolchain",
             "pdflatex available: False",
             "bibtex available: False",
             "PDF generated: False",
-        ]:
-            self.assertIn(phrase, build_log)
+        ]
+        successful_build_phrases = [
+            "Status: succeeded",
+            "PDF generated: True",
+            "pdflatex:",
+            "bibtex:",
+        ]
+        self.assertTrue(
+            all(phrase in build_log for phrase in missing_toolchain_phrases)
+            or all(phrase in build_log for phrase in successful_build_phrases)
+        )
 
         status = (PAPER / "PAPER_WRITING_STATUS.md").read_text(encoding="utf-8")
         self.assertIn("Stage 4A branch: `paper/ieee-tcss-latex-v1`.", status)
         self.assertIn("Stage 4B branch: `paper/ieee-tcss-template-compile-v1`.", status)
+        self.assertIn("Stage 4D branch: `paper/ieee-tcss-research-questions-v1`.", status)
+        self.assertIn("Four research questions were inserted near the end of the Introduction", status)
+        self.assertIn("local LaTeX build succeeded and generated `paper/ieee_tcss/build/main.pdf`", status)
         self.assertIn("No IEEE upload, portal account creation, submission, final PDF generation", status)
         checklist = (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").read_text(encoding="utf-8")
         self.assertIn("IEEE TCSS LaTeX package | complete", checklist)
         self.assertIn("IEEE TCSS portal upload | not_started", checklist)
         self.assertIn("IEEE TCSS template alignment audit | complete", checklist)
-        self.assertIn("IEEE TCSS compile readiness | pending_portal", checklist)
+        self.assertIn("IEEE TCSS compile readiness | complete", checklist)
+        self.assertIn("IEEE TCSS research questions | complete", checklist)
+        self.assertIn("IEEE TCSS RQ evidence map | complete", checklist)
         questions = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
         self.assertIn("Stage 4A IEEE TCSS Additional Author/Portal Checks", questions)
 

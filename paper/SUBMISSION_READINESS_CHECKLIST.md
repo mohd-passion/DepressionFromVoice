@@ -90,6 +90,8 @@ Status values: `complete`, `pending_portal`, `needs_formatting`, `needs_figure`,
 | IEEE TCSS PDF visual review | needs_author_input | Checklist prepared at `paper/ieee_tcss/IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md`; author review not marked approved. |
 | IEEE TCSS not-under-consideration confirmation | needs_author_input | Must be confirmed before IEEE submission. |
 | IEEE TCSS final portal submission | not_started | No IEEE portal upload or submission was performed. |
+| IEEE TCSS research-gap framing | complete | Gap statements inserted before the RQs; speaker/voiceprint confounding, cross-task, cross-corpus and evaluation-framework gaps aligned with RQ1-RQ4. |
+| IEEE TCSS speaker-disentanglement claim guard | complete | Manuscript explicitly avoids claiming depression cues were disentangled from biometric voice characteristics. |
 
 ## Readiness Category
 

@@ -41,3 +41,6 @@ Status values: `complete`, `pending_author`, `pending_portal`, `not_verified`, `
 | PDF visual review | pending_author | `IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md` prepared; no review item is pre-approved. |
 | Manuscript not under consideration elsewhere | pending_author | Confirmation remains required before IEEE portal submission. |
 | IEEE portal submission | not_started | No IEEE portal upload or submission was performed. |
+| Research-gap audit | complete | `IEEE_TCSS_RESEARCH_GAP_AUDIT.md` records current gap coverage, weak areas, insertion location and RQ relationships. |
+| Research-gap framing in Introduction | complete | Speaker/voiceprint confounding, cross-task, cross-corpus and evaluation-framework gaps inserted before the RQs. |
+| Speaker-disentanglement guard | complete | Discussion states the study does not disentangle depression markers from biometric voice characteristics. |

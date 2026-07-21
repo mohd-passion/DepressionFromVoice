@@ -5,6 +5,23 @@ Branch: `paper/ieee-tcss-research-questions-v1`
 Target journal: IEEE Transactions on Computational Social Systems  
 Manuscript source: `paper/ieee_tcss/main.tex`
 
+## Stage 4F Compile Addendum
+
+| Item | Result |
+| --- | --- |
+| Stage 4F branch | `paper/ieee-tcss-research-gaps-v1` |
+| Fresh Stage 4F compile-check PDF path | `paper/ieee_tcss/build/stage4f_main.pdf` |
+| PDF generated | yes |
+| Page count | 14 |
+| Compile method | Direct MiKTeX `pdflatex` and `bibtex` executable paths, job name `stage4f_main` |
+| Unresolved citations | none in final pass |
+| Unresolved references | none in final pass |
+| Missing figures or tables | none detected |
+| IEEE upload/submission | not performed |
+| Overleaf upload | not performed |
+
+The primary build script was attempted first, but the current shell did not expose `pdflatex` or `bibtex` on PATH. A direct MiKTeX compile verified the Stage 4F research-gap source without changing manuscript metrics, references, author metadata or submission state.
+
 ## Compile Result
 
 | Item | Result |

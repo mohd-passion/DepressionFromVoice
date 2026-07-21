@@ -18,6 +18,7 @@
 - Stage 4B status: IEEE TCSS template alignment, LaTeX source sanity, citation, figure, table and local-build readiness audits completed on `paper/ieee-tcss-template-compile-v1`; no PDF generated because `pdflatex` and `bibtex` are not on PATH.
 - Stage 4D status: four IEEE TCSS research questions inserted and manuscript framing aligned on `paper/ieee-tcss-research-questions-v1`; no experiments run, metrics changed, references added, author metadata invented or clinical claims introduced.
 - Stage 4E status: RQ-aligned Overleaf ZIP regenerated and PDF visual-review checklist prepared on `paper/ieee-tcss-research-questions-v1`; local compile-check succeeded, Overleaf upload remains manual, IEEE submission not performed.
+- Stage 4F status: IEEE TCSS research-gap framing inserted on `paper/ieee-tcss-research-gaps-v1`; speaker/voiceprint confounding, cross-task limits, cross-corpus limits and evaluation-framework gaps aligned with RQs without claiming speaker disentanglement.
 - Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.
 - Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.
 - Final BSPC review package status: `bspc_final_review_package_ready_for_submission_portal_checks`; final author/declaration inputs and DOCX approvals applied, with portal-only checks pending.
@@ -456,5 +457,18 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Final PDF visual review remains pending.
 - Manuscript-not-under-consideration confirmation remains pending.
 - No experiments were run; no experiment registry records, dataset counts, table values, figure values, frozen metrics, references, author details, ORCID identifiers, IEEE membership details, clinical validation claims or deployment-readiness claims were changed or invented.
+
+## Stage 4F IEEE TCSS Research-Gap Framing Notes
+
+- Stage 4F branch: `paper/ieee-tcss-research-gaps-v1`.
+- Research-gap audit created at `paper/ieee_tcss/IEEE_TCSS_RESEARCH_GAP_AUDIT.md`.
+- Research-gap statements inserted in the Introduction of `paper/ieee_tcss/main.tex` immediately before the four RQs.
+- Gap themes inserted: speaker/voiceprint confounding risk, cross-task limitations, cross-corpus limitations and the need to separate representation, aggregation, timing, threshold, calibration, task and corpus effects.
+- RQ-to-evidence map updated at `paper/ieee_tcss/RQ_TO_EVIDENCE_MAP.md` with a research-gap-addressed column.
+- Contribution framing was lightly revised to emphasize a structured evaluation framework and research-only interpretation.
+- Discussion was updated to state that the study should not be interpreted as disentangling depression markers from biometric voice characteristics.
+- Abstract unchanged.
+- Build result: local Stage 4F LaTeX compile succeeded through direct MiKTeX paths and generated `paper/ieee_tcss/build/stage4f_main.pdf` for review only; no IEEE upload, Overleaf upload or submission was performed.
+- No experiments were run; no experiment registry records, dataset counts, table values, figure values, frozen metrics, references, author details, ORCID identifiers, IEEE membership details, clinical validation claims, deployment-readiness claims or speaker-disentanglement claims were changed or invented.
 
 Do not mark `submitted` until portal upload, system checks, journal-generated PDF proof review and final submission confirmation are complete.

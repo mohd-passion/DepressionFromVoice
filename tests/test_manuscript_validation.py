@@ -158,6 +158,7 @@ IEEE_TCSS_REQUIRED_FILES = [
     IEEE_TCSS / "LATEX_TABLE_AUDIT.md",
     IEEE_TCSS / "LOCAL_LATEX_SETUP_NOTES.md",
     IEEE_TCSS / "IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md",
+    IEEE_TCSS / "IEEE_TCSS_RESEARCH_GAP_AUDIT.md",
     IEEE_TCSS / "RQ_TO_EVIDENCE_MAP.md",
     IEEE_TCSS / "IEEE_LATEX_COMPILE_QA_REPORT.md",
     IEEE_TCSS / "IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md",
@@ -1050,6 +1051,13 @@ class ManuscriptValidationTests(unittest.TestCase):
             "0.9058",
             "0.9135",
             "550 shifted WavLM features",
+            "speaker-specific voice characteristics",
+            "voiceprint information",
+            "single elicitation condition",
+            "cross-corpus generalization remains limited",
+            "representation choice, participant-level aggregation, timing descriptors",
+            "should not be interpreted as having disentangled depression markers from biometric voice characteristics",
+            "Dedicated speaker-disentanglement or adversarial-invariance experiments would be required",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, main)
@@ -1070,6 +1078,16 @@ class ManuscriptValidationTests(unittest.TestCase):
         ]:
             with self.subTest(prohibited=prohibited):
                 self.assertNotIn(prohibited.lower(), main.lower())
+        for prohibited in [
+            "fully disentangles",
+            "fully disentangled",
+            "completely disentangles",
+            "clinically validated",
+            "deployment-ready",
+            "proves",
+        ]:
+            with self.subTest(research_gap_overclaim=prohibited):
+                self.assertFalse(contains_prohibited_wording(main.lower(), prohibited), prohibited)
 
         copied_bib = (IEEE_TCSS / "bib" / "references.bib").read_text(encoding="utf-8")
         bib_keys = set(re.findall(r"@\w+\s*\{\s*([^,\s]+)", copied_bib))
@@ -1127,6 +1145,11 @@ class ManuscriptValidationTests(unittest.TestCase):
             "Do not treat the Overleaf PDF as submitted.",
             "All four RQs visible in Introduction",
             "Manuscript not under consideration elsewhere confirmed",
+            "Stage: 4F research-gap framing",
+            "Speaker-identity and voiceprint confounding were not explicitly framed as modeling risks in the Introduction.",
+            "Research gap addressed",
+            "Speaker/voiceprint confounding risk and representation validity",
+            "no speaker-disentanglement experiment was performed",
         ]:
             self.assertIn(phrase, package)
 
@@ -1157,6 +1180,9 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertIn("Stage 4E branch: `paper/ieee-tcss-research-questions-v1`.", status)
         self.assertIn("RQ-aligned Overleaf ZIP regenerated at `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`.", status)
         self.assertIn("Manuscript-not-under-consideration confirmation remains pending.", status)
+        self.assertIn("Stage 4F branch: `paper/ieee-tcss-research-gaps-v1`.", status)
+        self.assertIn("Research-gap statements inserted in the Introduction", status)
+        self.assertIn("speaker-disentanglement claims were changed or invented", status)
         self.assertIn("No IEEE upload, portal account creation, submission, final PDF generation", status)
         checklist = (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").read_text(encoding="utf-8")
         self.assertIn("IEEE TCSS LaTeX package | complete", checklist)
@@ -1169,6 +1195,8 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertIn("IEEE TCSS PDF visual review | needs_author_input", checklist)
         self.assertIn("IEEE TCSS not-under-consideration confirmation | needs_author_input", checklist)
         self.assertIn("IEEE TCSS final portal submission | not_started", checklist)
+        self.assertIn("IEEE TCSS research-gap framing | complete", checklist)
+        self.assertIn("IEEE TCSS speaker-disentanglement claim guard | complete", checklist)
         questions = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
         self.assertIn("Stage 4A IEEE TCSS Additional Author/Portal Checks", questions)
 

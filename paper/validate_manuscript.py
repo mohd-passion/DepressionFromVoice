@@ -163,6 +163,7 @@ STAGE4A_IEEE_TCSS_REQUIRED_FILES = [
     IEEE_TCSS_DIR / "LATEX_TABLE_AUDIT.md",
     IEEE_TCSS_DIR / "LOCAL_LATEX_SETUP_NOTES.md",
     IEEE_TCSS_DIR / "IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md",
+    IEEE_TCSS_DIR / "IEEE_TCSS_RESEARCH_GAP_AUDIT.md",
     IEEE_TCSS_DIR / "RQ_TO_EVIDENCE_MAP.md",
     IEEE_TCSS_DIR / "IEEE_LATEX_COMPILE_QA_REPORT.md",
     IEEE_TCSS_DIR / "IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md",
@@ -1828,6 +1829,27 @@ def validate() -> list[str]:
                 errors.append(f"IEEE TCSS main.tex has missing table inputs: {missing_table_inputs}")
             if r"\bibliography{bib/references}" in main_tex and not (IEEE_TCSS_DIR / "bib" / "references.bib").exists():
                 errors.append("IEEE TCSS main.tex bibliography command points to missing bib/references.bib.")
+            for phrase in [
+                "speaker-specific voice characteristics",
+                "voiceprint information",
+                "single elicitation condition",
+                "cross-corpus generalization remains limited",
+                "representation choice, participant-level aggregation, timing descriptors",
+                "should not be interpreted as having disentangled depression markers from biometric voice characteristics",
+                "Dedicated speaker-disentanglement or adversarial-invariance experiments would be required",
+            ]:
+                if phrase not in main_tex:
+                    errors.append(f"IEEE TCSS main.tex missing Stage 4F research-gap phrase: {phrase}")
+            for prohibited_gap_overclaim in [
+                "fully disentangles",
+                "fully disentangled",
+                "completely disentangles",
+                "clinically validated",
+                "deployment-ready",
+                "proves",
+            ]:
+                if contains_prohibited_wording(main_tex.lower(), prohibited_gap_overclaim):
+                    errors.append(f"IEEE TCSS main.tex contains prohibited research-gap overclaim: {prohibited_gap_overclaim}")
             for prohibited in [
                 "orcid.org/",
                 "Member, IEEE",
@@ -1895,6 +1917,11 @@ def validate() -> list[str]:
             "Do not treat the Overleaf PDF as submitted.",
             "All four RQs visible in Introduction",
             "Manuscript not under consideration elsewhere confirmed",
+            "Stage: 4F research-gap framing",
+            "Speaker-identity and voiceprint confounding were not explicitly framed as modeling risks in the Introduction.",
+            "Research gap addressed",
+            "Speaker/voiceprint confounding risk and representation validity",
+            "no speaker-disentanglement experiment was performed",
         ]:
             if phrase not in package_text:
                 errors.append(f"IEEE TCSS package missing audit/checklist phrase: {phrase}")
@@ -1931,6 +1958,9 @@ def validate() -> list[str]:
             "Stage 4E branch: `paper/ieee-tcss-research-questions-v1`.",
             "RQ-aligned Overleaf ZIP regenerated at `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`.",
             "Manuscript-not-under-consideration confirmation remains pending.",
+            "Stage 4F branch: `paper/ieee-tcss-research-gaps-v1`.",
+            "Research-gap statements inserted in the Introduction",
+            "speaker-disentanglement claims were changed or invented",
         ]:
             if phrase not in status_text:
                 errors.append(f"Paper writing status missing Stage 4A phrase: {phrase}")
@@ -1947,6 +1977,8 @@ def validate() -> list[str]:
             "IEEE TCSS PDF visual review | needs_author_input",
             "IEEE TCSS not-under-consideration confirmation | needs_author_input",
             "IEEE TCSS final portal submission | not_started",
+            "IEEE TCSS research-gap framing | complete",
+            "IEEE TCSS speaker-disentanglement claim guard | complete",
         ]:
             if phrase not in checklist_text:
                 errors.append(f"Submission readiness checklist missing Stage 4A phrase: {phrase}")

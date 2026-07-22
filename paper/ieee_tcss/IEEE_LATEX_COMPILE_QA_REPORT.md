@@ -5,6 +5,29 @@ Branch: `paper/ieee-tcss-research-questions-v1`
 Target journal: IEEE Transactions on Computational Social Systems  
 Manuscript source: `paper/ieee_tcss/main.tex`
 
+## Stage 4I Final Overleaf Package Refresh
+
+| Item | Result |
+| --- | --- |
+| Stage 4I branch | `paper/ieee-tcss-intro-evaluation-prospects-v1` |
+| Review PDF path | `paper/ieee_tcss/build/main.pdf` |
+| PDF generated | yes |
+| Page count | 14 |
+| Compile method | `build_latex.ps1` with local MiKTeX on PATH for the process |
+| Unresolved citations | none in final pass |
+| Unresolved references | none in final pass |
+| Missing figures | none detected |
+| Missing tables | none detected |
+| Overleaf ZIP path | `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip` |
+| ZIP entry count | 15 |
+| Research-gap framing in ZIP | yes |
+| All four RQs in ZIP | yes |
+| Evaluation-findings paragraph in ZIP | yes |
+| IEEE upload/submission | not performed |
+| Overleaf upload | not performed |
+
+The Stage 4I package was regenerated after the Stage 4H Introduction evaluation-findings and future-prospects paragraph. The ZIP contains only `main.tex`, `declarations.tex`, `bib/references.bib`, five PNG figures, six table inputs and `supplementary/supplementary.tex`.
+
 ## Stage 4H Introduction Evaluation-Prospects Compile
 
 | Item | Result |

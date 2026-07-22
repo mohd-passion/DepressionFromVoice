@@ -94,6 +94,8 @@ Status values: `complete`, `pending_portal`, `needs_formatting`, `needs_figure`,
 | IEEE TCSS speaker-disentanglement claim guard | complete | Manuscript explicitly avoids claiming depression cues were disentangled from biometric voice characteristics. |
 | IEEE TCSS research-gap-aligned Overleaf ZIP | complete | Final Stage 4G ZIP regenerated at `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`; upload remains manual and no IEEE submission was performed. |
 | IEEE TCSS final visual review | needs_author_input | Stage 4G checklist updated; no visual-review item is marked approved. |
+| IEEE TCSS evaluation-findings paragraph | complete | Stage 4H added a cautious Introduction closing paragraph connecting gaps, RQs, evaluation findings and future prospects. |
+| IEEE TCSS Stage 4H-aligned Overleaf ZIP | complete | Final Stage 4I ZIP regenerated at `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`; upload remains manual and no IEEE submission was performed. |
 
 ## Readiness Category
 

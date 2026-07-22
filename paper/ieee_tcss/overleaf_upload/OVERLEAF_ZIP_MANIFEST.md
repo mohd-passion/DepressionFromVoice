@@ -1,16 +1,16 @@
 # Overleaf ZIP Manifest
 
-Stage: 4G final Overleaf package refresh after research-gap integration
-Generated from branch: `paper/ieee-tcss-research-gaps-v1`
+Stage: 4I final Overleaf package refresh after Introduction evaluation-findings paragraph
+Generated from branch: `paper/ieee-tcss-intro-evaluation-prospects-v1`
 ZIP path: `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`
-ZIP size: 380756 bytes
+ZIP size: 381040 bytes
 Entry count: 15
 
 ## Included Files
 
 | Included file | Size bytes | Source path | Reason included |
 | --- | ---: | --- | --- |
-| `main.tex` | 56397 | `paper/ieee_tcss/main.tex` | Main IEEE TCSS manuscript source. |
+| `main.tex` | 57495 | `paper/ieee_tcss/main.tex` | Main IEEE TCSS manuscript source with Stage 4H Introduction paragraph. |
 | `declarations.tex` | 1751 | `paper/ieee_tcss/declarations.tex` | Author declarations included by `main.tex`. |
 | `bib/references.bib` | 14043 | `paper/ieee_tcss/bib/references.bib` | BibTeX database used by `\bibliography{bib/references}`. |
 | `figures/figure1_study_design_protocol_overview.png` | 110987 | `paper/ieee_tcss/figures/figure1_study_design_protocol_overview.png` | Figure 1 PNG used by pdfLaTeX. |
@@ -30,7 +30,7 @@ Entry count: 15
 
 | Check | Result |
 | --- | --- |
-| `main.tex` contains four research-gap statements | yes |
+| `main.tex` contains research gaps | yes |
 | `main.tex` contains speaker/voiceprint confounding gap | yes |
 | `main.tex` contains cross-task limitation gap | yes |
 | `main.tex` contains cross-corpus generalization gap | yes |
@@ -40,6 +40,7 @@ Entry count: 15
 | `main.tex` contains RQ3 | yes |
 | `main.tex` contains RQ4 | yes |
 | `main.tex` contains updated contribution framing | yes |
+| `main.tex` contains evaluation-findings/future-prospects paragraph | yes |
 | `main.tex` contains discussion speaker-disentanglement guard | yes |
 | Figure PNG files included | 5 |
 | Table `.tex` files included | 6 |

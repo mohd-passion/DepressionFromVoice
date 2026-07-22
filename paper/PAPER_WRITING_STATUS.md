@@ -20,6 +20,8 @@
 - Stage 4E status: RQ-aligned Overleaf ZIP regenerated and PDF visual-review checklist prepared on `paper/ieee-tcss-research-questions-v1`; local compile-check succeeded, Overleaf upload remains manual, IEEE submission not performed.
 - Stage 4F status: IEEE TCSS research-gap framing inserted on `paper/ieee-tcss-research-gaps-v1`; speaker/voiceprint confounding, cross-task limits, cross-corpus limits and evaluation-framework gaps aligned with RQs without claiming speaker disentanglement.
 - Stage 4G status: final research-gap-aligned IEEE TCSS Overleaf ZIP regenerated on `paper/ieee-tcss-research-gaps-v1`; local `build/main.pdf` compiled for review; Overleaf upload and IEEE submission remain manual and not performed.
+- Stage 4H status: Introduction evaluation-findings and future-prospects paragraph added on `paper/ieee-tcss-intro-evaluation-prospects-v1`; PDF compile and validation passed; no metrics, references, author metadata or clinical claims changed.
+- Stage 4I status: final Stage 4H-aligned IEEE TCSS Overleaf ZIP regenerated on `paper/ieee-tcss-intro-evaluation-prospects-v1`; local `build/main.pdf` compiled for review; Overleaf upload and IEEE submission remain manual and not performed.
 - Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.
 - Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.
 - Final BSPC review package status: `bspc_final_review_package_ready_for_submission_portal_checks`; final author/declaration inputs and DOCX approvals applied, with portal-only checks pending.
@@ -478,6 +480,20 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Local PDF compiled for review at `paper/ieee_tcss/build/main.pdf`; page count: 14.
 - Final research-gap-aligned Overleaf ZIP regenerated at `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`; entry count: 15.
 - ZIP includes `main.tex`, `declarations.tex`, `bib/references.bib`, five PNG figures, six table files and `supplementary/supplementary.tex`.
+- ZIP excludes build files, logs, raw data, audio, embeddings, predictions, fitted models, credentials and submission portal files.
+- Overleaf README and ZIP manifest refreshed at `paper/ieee_tcss/overleaf_upload/`.
+- PDF visual review checklist updated at `paper/ieee_tcss/IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md`; no item is marked approved.
+- Overleaf upload remains manual; IEEE portal upload and IEEE submission were not performed.
+- Manuscript-not-under-consideration confirmation remains pending.
+- No experiments were run; no experiment registry records, dataset counts, table values, figure values, frozen metrics, references, author details, ORCID identifiers, IEEE membership details, clinical validation claims, deployment-readiness claims or speaker-disentanglement claims were changed or invented.
+
+## Stage 4I IEEE TCSS Final Overleaf Package Notes
+
+- Stage 4I branch: `paper/ieee-tcss-intro-evaluation-prospects-v1`.
+- Local PDF compiled for review at `paper/ieee_tcss/build/main.pdf`; page count: 14.
+- Final Stage 4H-aligned Overleaf ZIP regenerated at `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`; entry count: 15.
+- ZIP includes `main.tex`, `declarations.tex`, `bib/references.bib`, five PNG figures, six table files and `supplementary/supplementary.tex`.
+- ZIP includes the research gaps, all four RQs, contribution framing, evaluation-findings/future-prospects paragraph and speaker-disentanglement guard.
 - ZIP excludes build files, logs, raw data, audio, embeddings, predictions, fitted models, credentials and submission portal files.
 - Overleaf README and ZIP manifest refreshed at `paper/ieee_tcss/overleaf_upload/`.
 - PDF visual review checklist updated at `paper/ieee_tcss/IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md`; no item is marked approved.

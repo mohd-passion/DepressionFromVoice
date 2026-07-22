@@ -46,3 +46,5 @@ Status values: `complete`, `pending_author`, `pending_portal`, `not_verified`, `
 | Speaker-disentanglement guard | complete | Discussion states the study does not disentangle depression markers from biometric voice characteristics. |
 | Final research-gap-aligned Overleaf ZIP | complete | Stage 4G regenerated `overleaf_upload/ieee_tcss_overleaf_package.zip` with 15 required compile files only. |
 | Final PDF visual review | pending_author | Stage 4G checklist updated; no review item is pre-approved. |
+| Introduction evaluation-findings paragraph | complete | Stage 4H paragraph connects research gaps, RQs, evaluation findings and future prospects without adding metrics or clinical claims. |
+| Final Stage 4H-aligned Overleaf ZIP | complete | Stage 4I regenerated `overleaf_upload/ieee_tcss_overleaf_package.zip` with 15 required compile files only. |

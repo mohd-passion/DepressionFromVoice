@@ -1,7 +1,7 @@
 # IEEE TCSS PDF Visual Review Checklist
 
 Review PDF: `paper/ieee_tcss/build/main.pdf`
-Fresh Stage 4G compile PDF: `paper/ieee_tcss/build/main.pdf`
+Fresh Stage 4I compile PDF: `paper/ieee_tcss/build/main.pdf`
 Status: author visual review pending; no item is pre-approved
 
 - [ ] Title correct:
@@ -12,6 +12,7 @@ Status: author visual review pending; no item is pre-approved
 - [ ] Keywords correct:
 - [ ] Research gaps visible in Introduction:
 - [ ] All four RQs visible in Introduction:
+- [ ] Evaluation-findings/future-prospects paragraph visible at end of Introduction:
 - [ ] Contribution paragraph aligned with gaps and RQs:
 - [ ] All section headings correct:
 - [ ] All 5 figures visible and readable:

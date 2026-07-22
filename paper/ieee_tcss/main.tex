@@ -68,6 +68,8 @@ The study contributes a structured evaluation framework for depression-related s
 \item A reproducible experiment registry with paper-claim safeguards.
 \end{itemize}
 
+Overall, the evaluation findings indicate that depression-related speech modeling is strongly affected by representation choice, participant-level aggregation, timing and prosodic information, task condition, and corpus shift. The DAIC-WOZ experiments show that frozen WavLM representations and timing descriptors capture useful but limited depression-related behavioral cues, whereas the Androids Corpus experiments reveal that direct cross-corpus transfer is constrained by calibration mismatch, threshold instability, and classifier-boundary shift. The cross-task analysis further suggests that reading and interview speech share some transferable information but differ sufficiently to affect model reliability. These observations connect directly with the identified research gaps and indicate that future work should focus on speaker-invariant or identity-aware representation learning, cross-corpus and cross-task adaptation, improved calibration strategies, and larger externally validated studies before such systems can be considered for clinically supervised decision-support research.
+
 \section{Related Work}
 
 \subsection{Speech-based depression detection}

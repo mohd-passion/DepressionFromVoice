@@ -5,6 +5,24 @@ Branch: `paper/ieee-tcss-research-questions-v1`
 Target journal: IEEE Transactions on Computational Social Systems  
 Manuscript source: `paper/ieee_tcss/main.tex`
 
+## Stage 4H Introduction Evaluation-Prospects Compile
+
+| Item | Result |
+| --- | --- |
+| Stage 4H branch | `paper/ieee-tcss-intro-evaluation-prospects-v1` |
+| Review PDF path | `paper/ieee_tcss/build/main.pdf` |
+| PDF generated | yes |
+| Page count | 14 |
+| Compile method | `build_latex.ps1` with local MiKTeX on PATH for the process |
+| Unresolved citations | none in final pass |
+| Unresolved references | none in final pass |
+| Missing figures | none detected |
+| Missing tables | none detected |
+| IEEE upload/submission | not performed |
+| Overleaf upload | not performed |
+
+The Stage 4H compile verified the Introduction paragraph connecting research gaps, RQs, evaluation findings and future prospects. No manuscript metrics, references, author metadata, clinical validation claim, deployment-readiness claim or speaker-disentanglement claim was changed.
+
 ## Stage 4G Final Overleaf Package Refresh
 
 | Item | Result |

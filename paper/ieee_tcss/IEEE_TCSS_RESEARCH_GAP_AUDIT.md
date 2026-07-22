@@ -66,6 +66,12 @@ The cross-task gap supports RQ4 by motivating Android reading/interview within-t
 
 The manuscript now states that WavLM representations may encode speaker-specific information together with behavioral cues and that the reported experiments should not be interpreted as having disentangled depression markers from biometric voice characteristics. No claim of full speaker-disentanglement was added.
 
+## Stage 4H Introduction Closing Paragraph
+
+A brief paragraph was inserted at the end of the Introduction, after the contribution list and before `Related Work`. It connects the identified research gaps and four RQs to the existing evaluation findings: DAIC-WOZ WavLM/timing behavior, Android cross-corpus calibration and classifier-boundary shift, and Android reading/interview cross-task differences. The paragraph frames future prospects as speaker-invariant or identity-aware representation learning, cross-corpus and cross-task adaptation, improved calibration, and larger externally validated studies before clinically supervised decision-support research.
+
+No new experiment result, metric, dataset count, table value, figure value, citation, reference or author detail was introduced. The paragraph preserves the clinical limitation and does not claim that speaker-disentanglement has been solved.
+
 ## Scope Controls
 
 - No experiments were run.

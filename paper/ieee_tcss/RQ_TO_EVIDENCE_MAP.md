@@ -1,6 +1,6 @@
 # RQ-to-Evidence Map
 
-This map links the IEEE TCSS research questions to existing manuscript sections, tables, figures, claim limitations and Stage 4F research-gap framing. It introduces no new experiments, metrics or references.
+This map links the IEEE TCSS research questions to existing manuscript sections, tables, figures, claim limitations and Stage 4F research-gap framing. It introduces no new experiments, metrics or references. Stage 4H adds a closing Introduction paragraph that connects the identified gaps and RQs to the existing evaluation findings and cautious future prospects.
 
 | Research question | Research gap addressed | Manuscript section | Experiment/table/figure evidence | Main answer | Limitations |
 | --- | --- | --- | --- | --- | --- |

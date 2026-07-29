@@ -22,6 +22,7 @@
 - Stage 4G status: final research-gap-aligned IEEE TCSS Overleaf ZIP regenerated on `paper/ieee-tcss-research-gaps-v1`; local `build/main.pdf` compiled for review; Overleaf upload and IEEE submission remain manual and not performed.
 - Stage 4H status: Introduction evaluation-findings and future-prospects paragraph added on `paper/ieee-tcss-intro-evaluation-prospects-v1`; PDF compile and validation passed; no metrics, references, author metadata or clinical claims changed.
 - Stage 4I status: final Stage 4H-aligned IEEE TCSS Overleaf ZIP regenerated on `paper/ieee-tcss-intro-evaluation-prospects-v1`; local `build/main.pdf` compiled for review; Overleaf upload and IEEE submission remain manual and not performed.
+- Stage 4J status: IEEE figure/table callouts inserted and cross-references verified on `paper/ieee-tcss-figure-table-callouts-v1`; Overleaf ZIP must be regenerated after this edit.
 - Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.
 - Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.
 - Final BSPC review package status: `bspc_final_review_package_ready_for_submission_portal_checks`; final author/declaration inputs and DOCX approvals applied, with portal-only checks pending.
@@ -500,5 +501,18 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Overleaf upload remains manual; IEEE portal upload and IEEE submission were not performed.
 - Manuscript-not-under-consideration confirmation remains pending.
 - No experiments were run; no experiment registry records, dataset counts, table values, figure values, frozen metrics, references, author details, ORCID identifiers, IEEE membership details, clinical validation claims, deployment-readiness claims or speaker-disentanglement claims were changed or invented.
+
+## Stage 4J IEEE TCSS Figure/Table Callout Notes
+
+- Stage 4J branch: `paper/ieee-tcss-figure-table-callouts-v1`.
+- Figure/table callout audit created at `paper/ieee_tcss/IEEE_FIGURE_TABLE_CALLOUT_AUDIT.md`.
+- IEEE figure/table callouts inserted and cross-references verified in `paper/ieee_tcss/main.tex`.
+- All five figures are cited with `Fig.~\ref{...}` before or near their float.
+- All six tables are cited with `Table~\ref{...}` before or near their table input.
+- No labels were renamed and no duplicate labels were introduced.
+- PDF compile and final validation were run for the edited LaTeX source.
+- Overleaf ZIP must be regenerated after this edit.
+- IEEE portal upload, Overleaf upload and IEEE submission were not performed.
+- No metrics, references, figure content, table values, author metadata, ORCID identifiers, IEEE membership details, clinical validation claims, deployment-readiness claims or speaker-disentanglement claims were changed or invented.
 
 Do not mark `submitted` until portal upload, system checks, journal-generated PDF proof review and final submission confirmation are complete.

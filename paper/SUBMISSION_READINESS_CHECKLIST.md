@@ -96,6 +96,9 @@ Status values: `complete`, `pending_portal`, `needs_formatting`, `needs_figure`,
 | IEEE TCSS final visual review | needs_author_input | Stage 4G checklist updated; no visual-review item is marked approved. |
 | IEEE TCSS evaluation-findings paragraph | complete | Stage 4H added a cautious Introduction closing paragraph connecting gaps, RQs, evaluation findings and future prospects. |
 | IEEE TCSS Stage 4H-aligned Overleaf ZIP | complete | Final Stage 4I ZIP regenerated at `paper/ieee_tcss/overleaf_upload/ieee_tcss_overleaf_package.zip`; upload remains manual and no IEEE submission was performed. |
+| IEEE TCSS figure/table callouts | complete | Stage 4J inserted explicit `Fig.~\ref{...}` and `Table~\ref{...}` callouts for all five figures and six tables. |
+| IEEE TCSS cross-reference integrity | complete | Stage 4J verified no duplicate labels, no undefined figure/table references and no prohibited `Figure \ref{...}` or `Tab. \ref{...}` callout style. |
+| IEEE TCSS Overleaf ZIP after Stage 4J | needs_formatting | Overleaf ZIP must be regenerated after this edit. |
 
 ## Readiness Category
 

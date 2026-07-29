@@ -5,6 +5,26 @@ Branch: `paper/ieee-tcss-research-questions-v1`
 Target journal: IEEE Transactions on Computational Social Systems  
 Manuscript source: `paper/ieee_tcss/main.tex`
 
+## Stage 4J Figure/Table Callout Compile
+
+| Item | Result |
+| --- | --- |
+| Stage 4J branch | `paper/ieee-tcss-figure-table-callouts-v1` |
+| Review PDF path | `paper/ieee_tcss/build/main.pdf` |
+| PDF generated | yes |
+| Page count | 15 |
+| All figures cited in text | yes |
+| All tables cited in text | yes |
+| No undefined figure references | yes |
+| No undefined table references | yes |
+| No duplicate labels | yes |
+| No citation question marks | yes |
+| Overleaf ZIP status | stale after manuscript edit |
+| IEEE upload/submission | not performed |
+| Overleaf upload | not performed |
+
+Stage 4J inserted one first textual callout for each of the five figures and six tables, using `Fig.~\ref{...}` and `Table~\ref{...}`. The local MiKTeX build succeeded, final-pass logs contained no unresolved citation or reference warnings and extracted PDF text contained no `??` markers. No captions, table values, figure files, references, author metadata, clinical claims or deployment claims were changed. Overleaf ZIP must be regenerated after this edit.
+
 ## Stage 4I Final Overleaf Package Refresh
 
 | Item | Result |

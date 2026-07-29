@@ -1,6 +1,6 @@
 # LaTeX Build Log
 
-Last attempted: 2026-07-22 16:27:37 +05:30
+Last attempted: 2026-07-29 16:42:18 +05:30
 
 Status: succeeded
 
@@ -10,7 +10,7 @@ PDF path: F:\DepressionFromVoice\paper\ieee_tcss\build\main.pdf
 
 PDF generated: True
 
-Page count: 14
+Page count: 15
 
 Tool paths:
 - pdflatex: C:\Users\Dell\AppData\Local\Programs\MiKTeX\miktex\bin\x64\pdflatex.exe
@@ -27,8 +27,9 @@ Warning summary:
 - Unresolved citations in final pass: none.
 - Unresolved references in final pass: none.
 - Missing figures or tables in final pass: none detected.
-- LaTeX warnings: unused global option `[lettersize]`; text page 10 contains only floats.
-- Major layout warnings: two overfull vbox warnings, both 16.6823pt too high.
+- Duplicate labels in final pass: none detected.
+- Citation question marks in extracted PDF text: none.
+- LaTeX warnings: unused global option `[lettersize]`.
 - Underfull hbox/vbox warnings remain for visual review.
 
 No source files were modified.

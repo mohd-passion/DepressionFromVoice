@@ -17,6 +17,11 @@ Status: author visual review pending; no item is pre-approved
 - [ ] All section headings correct:
 - [ ] All 5 figures visible and readable:
 - [ ] All 6 tables visible and readable:
+- [ ] All figures cited in text:
+- [ ] All tables cited in text:
+- [ ] No undefined figure references:
+- [ ] No undefined table references:
+- [ ] No duplicate labels:
 - [ ] No missing figure boxes:
 - [ ] No citation question marks:
 - [ ] References visible:

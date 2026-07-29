@@ -48,3 +48,6 @@ Status values: `complete`, `pending_author`, `pending_portal`, `not_verified`, `
 | Final PDF visual review | pending_author | Stage 4G checklist updated; no review item is pre-approved. |
 | Introduction evaluation-findings paragraph | complete | Stage 4H paragraph connects research gaps, RQs, evaluation findings and future prospects without adding metrics or clinical claims. |
 | Final Stage 4H-aligned Overleaf ZIP | complete | Stage 4I regenerated `overleaf_upload/ieee_tcss_overleaf_package.zip` with 15 required compile files only. |
+| Figure/table callouts | complete | Stage 4J inserted explicit `Fig.~\ref{...}` and `Table~\ref{...}` callouts for all five figures and six tables. |
+| Cross-reference integrity | complete | Stage 4J verified no duplicate labels, no undefined figure/table references and no prohibited `Figure \ref{...}` or `Tab. \ref{...}` callout style. |
+| Stage 4J Overleaf ZIP refresh | pending_portal | Overleaf ZIP must be regenerated after this edit; no Overleaf upload or IEEE submission was performed. |

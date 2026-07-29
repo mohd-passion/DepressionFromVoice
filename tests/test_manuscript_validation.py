@@ -160,6 +160,7 @@ IEEE_TCSS_REQUIRED_FILES = [
     IEEE_TCSS / "IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md",
     IEEE_TCSS / "IEEE_TCSS_RESEARCH_GAP_AUDIT.md",
     IEEE_TCSS / "RQ_TO_EVIDENCE_MAP.md",
+    IEEE_TCSS / "IEEE_FIGURE_TABLE_CALLOUT_AUDIT.md",
     IEEE_TCSS / "IEEE_LATEX_COMPILE_QA_REPORT.md",
     IEEE_TCSS / "IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md",
     IEEE_TCSS / "overleaf_upload" / "OVERLEAF_UPLOAD_README.md",
@@ -1110,6 +1111,46 @@ class ManuscriptValidationTests(unittest.TestCase):
             with self.subTest(table=path):
                 self.assertTrue((IEEE_TCSS / path).exists(), path)
 
+        table_texts = [path.read_text(encoding="utf-8") for path in IEEE_TCSS_TABLE_FILES]
+        label_text = main + "\n" + "\n".join(table_texts)
+        all_labels = re.findall(r"\\label\{([^}]+)\}", label_text)
+        self.assertEqual(len(all_labels), len(set(all_labels)))
+        refs = set(re.findall(r"\\ref\{([^}]+)\}", main))
+        self.assertLessEqual(refs, set(all_labels))
+        figure_labels = sorted(label for label in set(all_labels) if label.startswith("fig:"))
+        table_labels = sorted(label for label in set(all_labels) if label.startswith("tab:"))
+        self.assertEqual(
+            figure_labels,
+            sorted(
+                [
+                    "fig:android-cross-task",
+                    "fig:daic-phase1",
+                    "fig:domain-shift-boundary",
+                    "fig:study-design",
+                    "fig:transfer-adaptation",
+                ]
+            ),
+        )
+        self.assertEqual(
+            table_labels,
+            sorted(
+                [
+                    "tab:android-interview-transfer",
+                    "tab:android-reading",
+                    "tab:cross-task",
+                    "tab:daic-development",
+                    "tab:dataset-task-summary",
+                    "tab:result-scope",
+                ]
+            ),
+        )
+        for label in figure_labels:
+            self.assertIn("Fig.~\\ref{" + label + "}", main)
+        for label in table_labels:
+            self.assertIn("Table~\\ref{" + label + "}", main)
+        self.assertNotIn("Figure \\ref", main)
+        self.assertNotIn("Tab. \\ref", main)
+
         ref_audit = (IEEE_TCSS / "IEEE_REFERENCE_CONVERSION_AUDIT.md").read_text(encoding="utf-8")
         for phrase in [
             "Total BibTeX entries copied: 31",
@@ -1150,6 +1191,13 @@ class ManuscriptValidationTests(unittest.TestCase):
             "Research gap addressed",
             "Speaker/voiceprint confounding risk and representation validity",
             "no speaker-disentanglement experiment was performed",
+            "Stage: 4J figure/table callout audit",
+            "All figures cited in text: yes",
+            "All tables cited in text: yes",
+            "No undefined figure references: yes",
+            "No undefined table references: yes",
+            "No duplicate labels: yes",
+            "Overleaf ZIP must be regenerated after this edit.",
         ]:
             self.assertIn(phrase, package)
 
@@ -1183,6 +1231,9 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertIn("Stage 4F branch: `paper/ieee-tcss-research-gaps-v1`.", status)
         self.assertIn("Research-gap statements inserted in the Introduction", status)
         self.assertIn("speaker-disentanglement claims were changed or invented", status)
+        self.assertIn("Stage 4J branch: `paper/ieee-tcss-figure-table-callouts-v1`.", status)
+        self.assertIn("IEEE figure/table callouts inserted and cross-references verified", status)
+        self.assertIn("Overleaf ZIP must be regenerated after this edit.", status)
         self.assertIn("No IEEE upload, portal account creation, submission, final PDF generation", status)
         checklist = (PAPER / "SUBMISSION_READINESS_CHECKLIST.md").read_text(encoding="utf-8")
         self.assertIn("IEEE TCSS LaTeX package | complete", checklist)
@@ -1197,6 +1248,9 @@ class ManuscriptValidationTests(unittest.TestCase):
         self.assertIn("IEEE TCSS final portal submission | not_started", checklist)
         self.assertIn("IEEE TCSS research-gap framing | complete", checklist)
         self.assertIn("IEEE TCSS speaker-disentanglement claim guard | complete", checklist)
+        self.assertIn("IEEE TCSS figure/table callouts | complete", checklist)
+        self.assertIn("IEEE TCSS cross-reference integrity | complete", checklist)
+        self.assertIn("IEEE TCSS Overleaf ZIP after Stage 4J | needs_formatting", checklist)
         questions = (PAPER / "AUTHOR_FINAL_QUESTIONS.md").read_text(encoding="utf-8")
         self.assertIn("Stage 4A IEEE TCSS Additional Author/Portal Checks", questions)
 

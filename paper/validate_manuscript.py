@@ -165,6 +165,7 @@ STAGE4A_IEEE_TCSS_REQUIRED_FILES = [
     IEEE_TCSS_DIR / "IEEE_TCSS_RESEARCH_QUESTIONS_AUDIT.md",
     IEEE_TCSS_DIR / "IEEE_TCSS_RESEARCH_GAP_AUDIT.md",
     IEEE_TCSS_DIR / "RQ_TO_EVIDENCE_MAP.md",
+    IEEE_TCSS_DIR / "IEEE_FIGURE_TABLE_CALLOUT_AUDIT.md",
     IEEE_TCSS_DIR / "IEEE_LATEX_COMPILE_QA_REPORT.md",
     IEEE_TCSS_DIR / "IEEE_PDF_VISUAL_REVIEW_CHECKLIST.md",
     IEEE_TCSS_DIR / "overleaf_upload" / "OVERLEAF_UPLOAD_README.md",
@@ -1827,6 +1828,56 @@ def validate() -> list[str]:
             missing_table_inputs = [path for path in table_inputs if not (IEEE_TCSS_DIR / path).exists()]
             if missing_table_inputs:
                 errors.append(f"IEEE TCSS main.tex has missing table inputs: {missing_table_inputs}")
+            table_texts = [
+                path.read_text(encoding="utf-8")
+                for path in STAGE4A_IEEE_TCSS_TABLE_FILES
+                if path.exists()
+            ]
+            label_text = main_tex + "\n" + "\n".join(table_texts)
+            all_labels = re.findall(r"\\label\{([^}]+)\}", label_text)
+            duplicate_labels = sorted({label for label in all_labels if all_labels.count(label) > 1})
+            if duplicate_labels:
+                errors.append(f"IEEE TCSS LaTeX contains duplicate labels: {duplicate_labels}")
+            refs = set(re.findall(r"\\ref\{([^}]+)\}", main_tex))
+            undefined_refs = sorted(refs.difference(set(all_labels)))
+            if undefined_refs:
+                errors.append(f"IEEE TCSS main.tex contains undefined refs: {undefined_refs}")
+            figure_labels = sorted(label for label in set(all_labels) if label.startswith("fig:"))
+            table_labels = sorted(label for label in set(all_labels) if label.startswith("tab:"))
+            expected_figure_labels = sorted(
+                [
+                    "fig:android-cross-task",
+                    "fig:daic-phase1",
+                    "fig:domain-shift-boundary",
+                    "fig:study-design",
+                    "fig:transfer-adaptation",
+                ]
+            )
+            expected_table_labels = sorted(
+                [
+                    "tab:android-interview-transfer",
+                    "tab:android-reading",
+                    "tab:cross-task",
+                    "tab:daic-development",
+                    "tab:dataset-task-summary",
+                    "tab:result-scope",
+                ]
+            )
+            if figure_labels != expected_figure_labels:
+                errors.append(f"IEEE TCSS figure labels changed unexpectedly: {figure_labels}")
+            if table_labels != expected_table_labels:
+                errors.append(f"IEEE TCSS table labels changed unexpectedly: {table_labels}")
+            for label in figure_labels:
+                callout = "Fig.~\\ref{" + label + "}"
+                if callout not in main_tex:
+                    errors.append(f"IEEE TCSS figure label missing textual callout: {callout}")
+            for label in table_labels:
+                callout = "Table~\\ref{" + label + "}"
+                if callout not in main_tex:
+                    errors.append(f"IEEE TCSS table label missing textual callout: {callout}")
+            for prohibited_callout in ["Figure \\ref", "Tab. \\ref"]:
+                if prohibited_callout in main_tex:
+                    errors.append(f"IEEE TCSS main.tex contains prohibited callout style: {prohibited_callout}")
             if r"\bibliography{bib/references}" in main_tex and not (IEEE_TCSS_DIR / "bib" / "references.bib").exists():
                 errors.append("IEEE TCSS main.tex bibliography command points to missing bib/references.bib.")
             for phrase in [
@@ -1922,6 +1973,13 @@ def validate() -> list[str]:
             "Research gap addressed",
             "Speaker/voiceprint confounding risk and representation validity",
             "no speaker-disentanglement experiment was performed",
+            "Stage: 4J figure/table callout audit",
+            "All figures cited in text: yes",
+            "All tables cited in text: yes",
+            "No undefined figure references: yes",
+            "No undefined table references: yes",
+            "No duplicate labels: yes",
+            "Overleaf ZIP must be regenerated after this edit.",
         ]:
             if phrase not in package_text:
                 errors.append(f"IEEE TCSS package missing audit/checklist phrase: {phrase}")
@@ -1961,6 +2019,9 @@ def validate() -> list[str]:
             "Stage 4F branch: `paper/ieee-tcss-research-gaps-v1`.",
             "Research-gap statements inserted in the Introduction",
             "speaker-disentanglement claims were changed or invented",
+            "Stage 4J branch: `paper/ieee-tcss-figure-table-callouts-v1`.",
+            "IEEE figure/table callouts inserted and cross-references verified",
+            "Overleaf ZIP must be regenerated after this edit.",
         ]:
             if phrase not in status_text:
                 errors.append(f"Paper writing status missing Stage 4A phrase: {phrase}")
@@ -1979,6 +2040,9 @@ def validate() -> list[str]:
             "IEEE TCSS final portal submission | not_started",
             "IEEE TCSS research-gap framing | complete",
             "IEEE TCSS speaker-disentanglement claim guard | complete",
+            "IEEE TCSS figure/table callouts | complete",
+            "IEEE TCSS cross-reference integrity | complete",
+            "IEEE TCSS Overleaf ZIP after Stage 4J | needs_formatting",
         ]:
             if phrase not in checklist_text:
                 errors.append(f"Submission readiness checklist missing Stage 4A phrase: {phrase}")

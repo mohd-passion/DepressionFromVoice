@@ -39,6 +39,7 @@ LOG_PATH = OUTPUT_DIR / "figure_generation_log.txt"
 PHASE2C_DIR = ROOT / "records" / "runs" / "phase2c_20260703_125614"
 PHASE2D_DIR = ROOT / "records" / "runs" / "phase2d_20260704_125931"
 PHASE2E_DIR = ROOT / "records" / "runs" / "phase2e_20260704_151323"
+ANDROID_TASK_MMD2_PATH = ROOT / "paper" / "ieee_tcss" / "mmd2" / "android_reading_interview_mmd2.json"
 
 INPUT_PATHS = [
     PAPER_DIR / "FIGURE_SPECIFICATIONS.md",
@@ -54,6 +55,7 @@ INPUT_PATHS = [
     PHASE2E_DIR / "phase2e_transfer_gap_analysis.csv",
     PHASE2E_DIR / "phase2e_classifier_boundary_analysis.csv",
     PHASE2E_DIR / "PHASE2E_CROSS_TASK_REPORT.json",
+    ANDROID_TASK_MMD2_PATH,
 ]
 
 AUDIT_FIELDS = [
@@ -890,7 +892,13 @@ def draw_figure4(
     return "figure4_android_cross_task_results", canvas
 
 
-def draw_figure5(phase2c_report: dict[str, Any], phase2d_report: dict[str, Any], phase2e_report: dict[str, Any], audit: Audit) -> tuple[str, Artwork]:
+def draw_figure5(
+    phase2c_report: dict[str, Any],
+    phase2d_report: dict[str, Any],
+    phase2e_report: dict[str, Any],
+    android_task_mmd2_report: dict[str, Any],
+    audit: Audit,
+) -> tuple[str, Artwork]:
     source2c = PHASE2C_DIR / "PHASE2C_WITHIN_ANDROID_REPORT.json"
     source2d = PHASE2D_DIR / "PHASE2D_ANDROID_READING_REPORT.json"
     source2e = PHASE2E_DIR / "PHASE2E_CROSS_TASK_REPORT.json"
@@ -899,6 +907,7 @@ def draw_figure5(phase2c_report: dict[str, Any], phase2d_report: dict[str, Any],
     task_shift = phase2d_report["task_shift"]
     task_std = task_shift["standardized_feature_shift_using_interview_std"]
     boundary = phase2e_report["classifier_boundary_summary"]
+    task_mmd2 = android_task_mmd2_report["results"]["primary_paired_common_participants"]["mmd2"]
 
     daic_feature_share = daic_shift["features_shifted_more_than_one_daic_std"] / 768
     task_feature_share = task_std["features_shifted_more_than_one_interview_std"] / 768
@@ -1003,7 +1012,7 @@ def draw_figure5(phase2c_report: dict[str, Any], phase2d_report: dict[str, Any],
         "DAIC-to-Android MMD^2",
         daic_shift["mmd2"],
         source2c,
-        notes="MMD^2 is available for DAIC-to-Android only in compact official records.",
+        notes="MMD^2 from Phase 2C compact official record.",
         source_record="domain_shift_summary.mmd2",
         label="DAIC-to-Android",
     )
@@ -1011,11 +1020,10 @@ def draw_figure5(phase2c_report: dict[str, Any], phase2d_report: dict[str, Any],
         "Figure 5",
         "A",
         "Android reading/interview MMD^2",
-        "not_available_in_compact_records",
-        source2d,
-        official_value="not_available_in_compact_records",
-        notes="Not plotted as a numeric bar because no compact official Android reading/interview MMD^2 record is present.",
-        source_record="task_shift",
+        task_mmd2,
+        ANDROID_TASK_MMD2_PATH,
+        notes="Computed in Stage 4J follow-up from existing participant-level reading and interview WavLM layer-9 embeddings using the Phase 2C biased RBF MMD^2 method.",
+        source_record="results.primary_paired_common_participants.mmd2",
         label="Android reading versus interview",
     )
     for metric, value, _color in boundary_items:
@@ -1075,7 +1083,7 @@ def draw_figure5(phase2c_report: dict[str, Any], phase2d_report: dict[str, Any],
         590,
         110,
         "Available MMD^2",
-        f'DAIC-to-Android MMD^2 = {f4(daic_shift["mmd2"])}. Android reading/interview MMD^2 was not available in compact records.',
+        f'DAIC-to-Android MMD^2 = {f4(daic_shift["mmd2"])}. Android reading/interview MMD^2 = {f4(task_mmd2)}.',
         COLORS["light_gold"],
     )
 
@@ -1131,7 +1139,7 @@ Android reading/interview task results and participant-coherent Phase 2E cross-t
 
 ## Figure 5. Domain-shift and classifier-boundary summary
 
-Aggregate domain-shift and classifier-boundary summaries. Panel A compares DAIC-to-Android feature shift with Android reading/interview task shift using centroid cosine distance, mean absolute standardized shift, shifted-feature share and available MMD^2. Panel B shows mean Phase 2E classifier-boundary and score-similarity metrics. Sources are `records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json`, `records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json` and `records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json`. Android reading/interview MMD^2 was not available in compact records and is not fabricated. Prohibited interpretation: do not treat coefficients as causal feature importance or claim a single mechanism explains domain shift.
+Aggregate domain-shift and classifier-boundary summaries. Panel A compares DAIC-to-Android feature shift with Android reading/interview task shift using centroid cosine distance, mean absolute standardized shift, shifted-feature share and MMD^2 values (0.6091 for DAIC-to-Android and 0.2864 for Android reading/interview). Panel B shows mean Phase 2E classifier-boundary and score-similarity metrics. Sources are `records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json`, `records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json`, `records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json` and `paper/ieee_tcss/mmd2/android_reading_interview_mmd2.json`. Android reading/interview MMD^2 was computed from existing participant-level WavLM layer-9 embeddings using the same biased RBF MMD^2 estimator used for the DAIC-to-Android MMD^2 audit. Prohibited interpretation: do not treat coefficients as causal feature importance or claim a single mechanism explains domain shift.
 """,
         encoding="utf-8",
     )
@@ -1163,6 +1171,7 @@ def main() -> None:
     phase2e_rows = read_csv(PHASE2E_DIR / "phase2e_protocol_comparison.csv")
     phase2e_gap_rows = read_csv(PHASE2E_DIR / "phase2e_transfer_gap_analysis.csv")
     phase2e_report = read_json(PHASE2E_DIR / "PHASE2E_CROSS_TASK_REPORT.json")
+    android_task_mmd2_report = read_json(ANDROID_TASK_MMD2_PATH)
 
     audit = Audit()
     figures = [
@@ -1170,7 +1179,7 @@ def main() -> None:
         draw_figure2(registry_rows, audit),
         draw_figure3(phase2c_rows, audit),
         draw_figure4(phase2d_task_rows, phase2e_rows, phase2e_gap_rows, audit),
-        draw_figure5(phase2c_report, phase2d_report, phase2e_report, audit),
+        draw_figure5(phase2c_report, phase2d_report, phase2e_report, android_task_mmd2_report, audit),
     ]
 
     generated_paths: list[Path] = []

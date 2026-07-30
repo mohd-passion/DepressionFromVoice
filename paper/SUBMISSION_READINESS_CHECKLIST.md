@@ -99,6 +99,9 @@ Status values: `complete`, `pending_portal`, `needs_formatting`, `needs_figure`,
 | IEEE TCSS figure/table callouts | complete | Stage 4J inserted explicit `Fig.~\ref{...}` and `Table~\ref{...}` callouts for all five figures and six tables. |
 | IEEE TCSS cross-reference integrity | complete | Stage 4J verified no duplicate labels, no undefined figure/table references and no prohibited `Figure \ref{...}` or `Tab. \ref{...}` callout style. |
 | IEEE TCSS Overleaf ZIP after Stage 4J | needs_formatting | Overleaf ZIP must be regenerated after this edit. |
+| IEEE TCSS Android reading/interview MMD2 | complete | Primary paired-participant MMD2 computed as 0.2864 from existing participant-level WavLM layer-9 embeddings using the recovered Phase 2C biased RBF MMD2 method. |
+| IEEE TCSS Figure 5 Android task MMD2 update | complete | Figure 5 PNG/SVG and IEEE caption updated to report DAIC-to-Android MMD2 0.6091 and Android reading/interview MMD2 0.2864. |
+| IEEE TCSS Overleaf ZIP after Android MMD2 | needs_formatting | Overleaf ZIP must be regenerated after the Figure 5 MMD2 edit; no Overleaf upload or IEEE submission was performed. |
 
 ## Readiness Category
 

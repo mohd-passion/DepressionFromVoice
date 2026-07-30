@@ -12,6 +12,10 @@ Audit date: 2026-07-29
 
 All five figure labels and all six table labels already existed before Stage 4J. No labels were renamed and no duplicate labels were added. Stage 4J inserted one concise first-callout sentence for each figure and each table using IEEE-style `Fig.~\ref{...}` and `Table~\ref{...}` references.
 
+## Android MMD2 Addendum
+
+Branch `paper/android-reading-interview-mmd2-v1` updated Figure 5 after computing a verified Android reading/interview MMD2 value of 0.2864 from existing participant-level WavLM layer-9 embeddings. The Figure 5 caption now reports both DAIC-to-Android MMD2 0.6091 and Android reading/interview MMD2 0.2864. This addendum does not alter the Stage 4J callout findings: all figure and table labels and first-callout references remain unchanged.
+
 ## Callout Audit
 
 | Item | Label | File/source | Caption summary | Existing callout found | Recommended insertion location | Final status |
@@ -20,7 +24,7 @@ All five figure labels and all six table labels already existed before Stage 4J.
 | Figure 2 | `fig:daic-phase1` | `figures/figure2_daic_phase1_key_results.png` | DAIC Phase 1F key results | no | End of `DAIC representation development`, before Figure 2 float and Table 2 input | complete: cited with `Fig.~\ref{fig:daic-phase1}` |
 | Figure 3 | `fig:transfer-adaptation` | `figures/figure3_daic_android_transfer_adaptation.png` | DAIC-to-Android transfer and adaptation behavior | no | End of `Domain-shift diagnosis`, before Figure 3 float | complete: cited with `Fig.~\ref{fig:transfer-adaptation}` |
 | Figure 4 | `fig:android-cross-task` | `figures/figure4_android_cross_task_results.png` | Android reading, interview and cross-task results | no | End of `Reading-versus-interview comparison`, before Figure 4 float | complete: cited with `Fig.~\ref{fig:android-cross-task}` |
-| Figure 5 | `fig:domain-shift-boundary` | `figures/figure5_domain_shift_boundary_summary.png` | Domain-shift and classifier-boundary summary | no | End of `Classifier-boundary analysis`, before Figure 5 float and Table 6 input | complete: cited with `Fig.~\ref{fig:domain-shift-boundary}` |
+| Figure 5 | `fig:domain-shift-boundary` | `figures/figure5_domain_shift_boundary_summary.png` | Domain-shift and classifier-boundary summary with DAIC-to-Android MMD2 0.6091 and Android reading/interview MMD2 0.2864 | no | End of `Classifier-boundary analysis`, before Figure 5 float and Table 6 input | complete: cited with `Fig.~\ref{fig:domain-shift-boundary}` |
 | Table 1 | `tab:dataset-task-summary` | `tables/table1_dataset_task_summary.tex` | Dataset and task summary | no | End of `Androids Corpus` dataset subsection, before Table 1 input | complete: cited with `Table~\ref{tab:dataset-task-summary}` |
 | Table 2 | `tab:daic-development` | `tables/table2_daic_development_results.tex` | DAIC development results | no | End of `DAIC representation development`, before Figure 2 float and Table 2 input | complete: cited with `Table~\ref{tab:daic-development}` |
 | Table 3 | `tab:android-interview-transfer` | `tables/table3_cross_corpus_android_interview.tex` | Cross-corpus Android interview results | no | End of `Zero-shot DAIC-to-Android interview transfer`, before Table 3 input | complete: cited with `Table~\ref{tab:android-interview-transfer}` |

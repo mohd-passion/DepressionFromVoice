@@ -51,3 +51,7 @@ Status values: `complete`, `pending_author`, `pending_portal`, `not_verified`, `
 | Figure/table callouts | complete | Stage 4J inserted explicit `Fig.~\ref{...}` and `Table~\ref{...}` callouts for all five figures and six tables. |
 | Cross-reference integrity | complete | Stage 4J verified no duplicate labels, no undefined figure/table references and no prohibited `Figure \ref{...}` or `Tab. \ref{...}` callout style. |
 | Stage 4J Overleaf ZIP refresh | pending_portal | Overleaf ZIP must be regenerated after this edit; no Overleaf upload or IEEE submission was performed. |
+| Android reading/interview MMD2 | complete | Primary paired-participant MMD2 computed as 0.2864 from existing Android reading/interview WavLM layer-9 embeddings using the recovered Phase 2C biased RBF MMD2 method. |
+| Figure 5 Android task MMD2 update | complete | Figure 5 and its IEEE caption now report DAIC-to-Android MMD2 0.6091 and Android reading/interview MMD2 0.2864. |
+| Android MMD2 LaTeX compile | complete | Local MiKTeX build regenerated `build/main.pdf`; page count 15; final-pass citations and references clean. |
+| Overleaf ZIP after Android MMD2 | pending_portal | Overleaf ZIP must be regenerated after this Figure 5 edit; no Overleaf upload or IEEE submission was performed. |

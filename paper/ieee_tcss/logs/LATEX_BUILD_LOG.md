@@ -1,6 +1,6 @@
 # LaTeX Build Log
 
-Last attempted: 2026-07-29 16:42:18 +05:30
+Last attempted: 2026-07-30 17:20:53 +05:30
 
 Status: succeeded
 
@@ -29,6 +29,7 @@ Warning summary:
 - Missing figures or tables in final pass: none detected.
 - Duplicate labels in final pass: none detected.
 - Citation question marks in extracted PDF text: none.
+- Figure 5 PDF text includes DAIC-to-Android MMD2 0.6091 and Android reading/interview MMD2 0.2864.
 - LaTeX warnings: unused global option `[lettersize]`.
 - Underfull hbox/vbox warnings remain for visual review.
 

@@ -23,6 +23,7 @@
 - Stage 4H status: Introduction evaluation-findings and future-prospects paragraph added on `paper/ieee-tcss-intro-evaluation-prospects-v1`; PDF compile and validation passed; no metrics, references, author metadata or clinical claims changed.
 - Stage 4I status: final Stage 4H-aligned IEEE TCSS Overleaf ZIP regenerated on `paper/ieee-tcss-intro-evaluation-prospects-v1`; local `build/main.pdf` compiled for review; Overleaf upload and IEEE submission remain manual and not performed.
 - Stage 4J status: IEEE figure/table callouts inserted and cross-references verified on `paper/ieee-tcss-figure-table-callouts-v1`; Overleaf ZIP must be regenerated after this edit.
+- Android reading/interview MMD2 status: primary paired-participant MMD2 computed as 0.2864 on `paper/android-reading-interview-mmd2-v1`; Figure 5 updated; no frozen classifier metrics, dataset counts, references, author metadata, clinical claims, Overleaf upload or IEEE submission changed.
 - Experiment-rationale documentation status: prepared from official frozen project sources only; no experiments run and no metrics changed.
 - Voice physiology motivation status: concise subsection added to BSPC manuscript draft and DOCX-ready source; no experiments run and no metrics changed.
 - Final BSPC review package status: `bspc_final_review_package_ready_for_submission_portal_checks`; final author/declaration inputs and DOCX approvals applied, with portal-only checks pending.
@@ -514,5 +515,25 @@ Supplementary candidates include Phase 1 layer-wise results, aggregation ablatio
 - Overleaf ZIP must be regenerated after this edit.
 - IEEE portal upload, Overleaf upload and IEEE submission were not performed.
 - No metrics, references, figure content, table values, author metadata, ORCID identifiers, IEEE membership details, clinical validation claims, deployment-readiness claims or speaker-disentanglement claims were changed or invented.
+
+## Android Reading/Interview MMD2 Notes
+
+- Android MMD2 branch: `paper/android-reading-interview-mmd2-v1`.
+- Source branch: `paper/ieee-tcss-figure-table-callouts-v1`.
+- Recovered method: Phase 2C participant-level raw WavLM layer-9 embeddings, biased RBF MMD2 estimator and median nonzero squared-pairwise-distance bandwidth rule.
+- Feature records used: `outputs/phase2_android/phase2d_reading_runs/20260704_125931/android_reading_participant_embedding_manifest.csv` and `outputs/phase2_android/phase2b_zero_shot_interview_runs/20260622_162548/android_interview_participant_embedding_manifest.csv`.
+- Primary paired-participant comparison: 110 reading embeddings versus 110 interview embeddings, dimension 768, MMD2 0.286414548756, rounded to 0.2864 for Figure 5.
+- Sensitivity all-available comparison: 112 reading embeddings versus 116 interview embeddings, MMD2 0.285303706284.
+- Audit and outputs: `paper/ieee_tcss/ANDROID_READING_INTERVIEW_MMD2_AUDIT.md`, `paper/ieee_tcss/mmd2/android_reading_interview_mmd2.json`, `paper/ieee_tcss/mmd2/android_reading_interview_mmd2.csv` and `paper/ieee_tcss/mmd2/android_reading_interview_mmd2_summary.md`.
+- Figure 5 PNG/SVG regenerated through `paper/figures/scripts/generate_bspc_figures.py` and copied into `paper/ieee_tcss/figures/`.
+- IEEE caption updated to report DAIC-to-Android MMD2 0.6091 and Android reading/interview MMD2 0.2864.
+- Local IEEE TCSS PDF compiled at `paper/ieee_tcss/build/main.pdf`; page count: 15.
+- Manuscript validation status after Android MMD2 update: passed.
+- Unit-test status after Android MMD2 update: passed, 81 tests.
+- Registry validation status after Android MMD2 update: passed, 42 records.
+- Git diff check after Android MMD2 update: passed.
+- Overleaf ZIP must be regenerated after this Figure 5 edit.
+- No audio preprocessing, WavLM extraction, classifier training/evaluation or experiment registry update was run.
+- No frozen classifier metric, dataset count, table value, reference, author metadata, ORCID identifier, IEEE membership detail, clinical validation claim, deployment-readiness claim, Overleaf upload or IEEE submission was changed or performed.
 
 Do not mark `submitted` until portal upload, system checks, journal-generated PDF proof review and final submission confirmation are complete.

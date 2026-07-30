@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import re
 import sys
 import zipfile
@@ -820,6 +821,7 @@ REQUIRED_FIGURE_AUDIT_VALUES = {
     ("Figure 5", "DAIC-to-Android shifted features", "550/768"),
     ("Figure 5", "Android reading/interview shifted features", "292/768"),
     ("Figure 5", "DAIC-to-Android MMD^2", "0.6091"),
+    ("Figure 5", "Android reading/interview MMD^2", "0.2864"),
     ("Figure 5", "Coeff cosine", "0.4752"),
     ("Figure 5", "Sign agreement", "0.6659"),
     ("Figure 5", "Top-50 Jaccard", "0.1216"),
@@ -1555,8 +1557,10 @@ def validate() -> list[str]:
                 errors.append(f"BSPC manuscript missing callout for {label}")
         if captions_text.count("Prohibited interpretation") < 5:
             errors.append("BSPC figure captions must include prohibited-interpretation cautions for all five figures.")
-        if "not fabricated" not in captions_text:
-            errors.append("BSPC figure captions must explicitly avoid fabricating unavailable MMD^2.")
+        if "Android reading/interview MMD^2 was computed from existing participant-level WavLM layer-9 embeddings using the same biased RBF MMD^2 estimator" not in captions_text:
+            errors.append("BSPC figure captions must document the audited Android reading/interview MMD^2 method.")
+        if "paper/ieee_tcss/mmd2/android_reading_interview_mmd2.json" not in captions_text:
+            errors.append("BSPC figure captions must cite the Android reading/interview MMD^2 audit output.")
 
         figure_rows = csv_rows(PAPER / "BSPC_FIGURE_DATA_AUDIT.csv", REQUIRED_FIGURE_AUDIT_COLUMNS)
         if len(figure_rows) < 30:
@@ -1580,6 +1584,39 @@ def validate() -> list[str]:
         missing_audit_values = sorted(REQUIRED_FIGURE_AUDIT_VALUES.difference(audit_values))
         if missing_audit_values:
             errors.append(f"BSPC figure audit missing required values: {missing_audit_values[:5]}")
+        mmd2_audit = PAPER / "ieee_tcss" / "ANDROID_READING_INTERVIEW_MMD2_AUDIT.md"
+        mmd2_json = PAPER / "ieee_tcss" / "mmd2" / "android_reading_interview_mmd2.json"
+        mmd2_csv = PAPER / "ieee_tcss" / "mmd2" / "android_reading_interview_mmd2.csv"
+        mmd2_summary = PAPER / "ieee_tcss" / "mmd2" / "android_reading_interview_mmd2_summary.md"
+        mmd2_script = PAPER / "ieee_tcss" / "scripts" / "compute_android_reading_interview_mmd2.py"
+        for path in [mmd2_audit, mmd2_json, mmd2_csv, mmd2_summary, mmd2_script]:
+            if not path.exists():
+                errors.append(f"Missing Android reading/interview MMD2 audit artifact: {path.relative_to(ROOT)}")
+        if all(path.exists() for path in [mmd2_audit, mmd2_json, mmd2_csv, mmd2_summary, mmd2_script]):
+            mmd2_payload = json.loads(mmd2_json.read_text(encoding="utf-8"))
+            primary = mmd2_payload["results"]["primary_paired_common_participants"]
+            if f"{primary['mmd2']:.4f}" != "0.2864":
+                errors.append(f"Unexpected Android reading/interview MMD2 value: {primary['mmd2']}")
+            for field, expected in [("reading_count", 110), ("interview_count", 110), ("embedding_dimension", 768)]:
+                if int(primary[field]) != expected:
+                    errors.append(f"Unexpected Android reading/interview MMD2 {field}: {primary[field]}")
+            if primary["kernel"] != "rbf" or primary["estimator"] != "biased":
+                errors.append("Android reading/interview MMD2 must use the recovered biased RBF estimator.")
+            if not mmd2_payload["comparability_to_daic_android_mmd2"]["same_estimator_kernel_bandwidth_feature_level_and_raw_scale"]:
+                errors.append("Android reading/interview MMD2 audit must mark method comparability to DAIC-to-Android MMD2.")
+            mmd2_text = "\n".join(
+                path.read_text(encoding="utf-8")
+                for path in [mmd2_audit, mmd2_summary]
+            )
+            for phrase in [
+                "Primary value for paper use: `0.2864`.",
+                "No audio preprocessing was run.",
+                "No WavLM extraction was run.",
+                "No classifier training or evaluation was run.",
+                "No experiment registry record was modified.",
+            ]:
+                if phrase not in mmd2_text:
+                    errors.append(f"Android reading/interview MMD2 audit missing phrase: {phrase}")
         for row in figure_rows:
             source_path = ROOT / row["source file"]
             if not source_path.exists():

@@ -5,6 +5,28 @@ Branch: `paper/ieee-tcss-research-questions-v1`
 Target journal: IEEE Transactions on Computational Social Systems  
 Manuscript source: `paper/ieee_tcss/main.tex`
 
+## Android Reading/Interview MMD2 Figure 5 Compile
+
+| Item | Result |
+| --- | --- |
+| Branch | `paper/android-reading-interview-mmd2-v1` |
+| Source branch | `paper/ieee-tcss-figure-table-callouts-v1` |
+| Android reading/interview MMD2 computed | yes |
+| Primary paired-participant MMD2 | 0.2864 |
+| Figure 5 updated | yes |
+| Review PDF path | `paper/ieee_tcss/build/main.pdf` |
+| PDF generated | yes |
+| Page count | 15 |
+| Final-pass unresolved citations | none |
+| Final-pass unresolved references | none |
+| Citation question marks in extracted PDF text | none |
+| PDF text contains MMD2 values | yes: 0.6091 and 0.2864 |
+| Overleaf ZIP status | stale after Figure 5 MMD2 edit |
+| IEEE upload/submission | not performed |
+| Overleaf upload | not performed |
+
+The Android reading/interview MMD2 value was computed from existing participant-level WavLM layer-9 reading and interview embeddings using the recovered Phase 2C biased RBF MMD2 estimator and median squared-distance bandwidth rule. It is methodologically comparable in estimator, kernel, bandwidth rule, feature level and raw embedding scale to the DAIC-to-Android MMD2 audit, but it is a within-Android task comparison rather than a corpus-transfer comparison. The local MiKTeX build succeeded after Figure 5 and its caption were updated.
+
 ## Stage 4J Figure/Table Callout Compile
 
 | Item | Result |

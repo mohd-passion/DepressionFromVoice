@@ -61,8 +61,8 @@
 <tspan x="108" dy="0">Available MMD^2</tspan>
 </text>
 <text x="108" y="718" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#34434d" text-anchor="start">
-<tspan x="108" dy="0">DAIC-to-Android MMD^2 = 0.6091. Android reading/interview MMD^2</tspan>
-<tspan x="108" dy="1.22em">was not available in compact records.</tspan>
+<tspan x="108" dy="0">DAIC-to-Android MMD^2 = 0.6091. Android reading/interview MMD^2 =</tspan>
+<tspan x="108" dy="1.22em">0.2864.</tspan>
 </text>
 <text x="840" y="194" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#1f2a33" text-anchor="start">
 <tspan x="840" dy="0">B. Classifier-boundary and score similarity</tspan>

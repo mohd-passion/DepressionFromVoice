@@ -30,8 +30,8 @@ Figure 5,A,DAIC-to-Android shifted features,550/768,records/runs/phase2c_2026070
 Figure 5,A,Android reading/interview shifted features,292/768,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,292/768,match,Converted to share for plotting; count label retained.
 Figure 5,A,DAIC-to-Android shifted feature share,0.7161,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,0.7161,match,Computed as shifted features divided by 768 WavLM layer-9 dimensions.
 Figure 5,A,Android reading/interview shifted feature share,0.3802,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,0.3802,match,Computed as shifted features divided by 768 WavLM layer-9 dimensions.
-Figure 5,A,DAIC-to-Android MMD^2,0.6091,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,0.6091,match,MMD^2 is available for DAIC-to-Android only in compact official records.
-Figure 5,A,Android reading/interview MMD^2,not_available_in_compact_records,records/runs/phase2d_20260704_125931/PHASE2D_ANDROID_READING_REPORT.json,not_available_in_compact_records,match,Not plotted as a numeric bar because no compact official Android reading/interview MMD^2 record is present.
+Figure 5,A,DAIC-to-Android MMD^2,0.6091,records/runs/phase2c_20260703_125614/PHASE2C_WITHIN_ANDROID_REPORT.json,0.6091,match,MMD^2 from Phase 2C compact official record.
+Figure 5,A,Android reading/interview MMD^2,0.2864,paper/ieee_tcss/mmd2/android_reading_interview_mmd2.json,0.2864,match,Computed in Stage 4J follow-up from existing participant-level reading and interview WavLM layer-9 embeddings using the Phase 2C biased RBF MMD^2 method.
 Figure 5,B,Coeff cosine,0.4752,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,0.4752,match,Mean across Phase 2E participant-coherent folds.
 Figure 5,B,Sign agreement,0.6659,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,0.6659,match,Mean across Phase 2E participant-coherent folds.
 Figure 5,B,Top-50 Jaccard,0.1216,records/runs/phase2e_20260704_151323/PHASE2E_CROSS_TASK_REPORT.json,0.1216,match,Mean across Phase 2E participant-coherent folds.

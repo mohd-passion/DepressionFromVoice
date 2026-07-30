@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import json
 import re
 import subprocess
 import sys
@@ -873,10 +874,39 @@ class ManuscriptValidationTests(unittest.TestCase):
             ("Figure 3", "ROC-AUC", "0.8675"),
             ("Figure 4", "ROC-AUC", "0.9135"),
             ("Figure 5", "DAIC-to-Android MMD^2", "0.6091"),
+            ("Figure 5", "Android reading/interview MMD^2", "0.2864"),
             ("Figure 5", "Cross-target corr.", "0.5555"),
         ]:
             with self.subTest(required=required):
                 self.assertIn(required, values)
+
+        captions = (PAPER / "BSPC_FIGURE_CAPTIONS.md").read_text(encoding="utf-8")
+        self.assertIn(
+            "Android reading/interview MMD^2 was computed from existing participant-level WavLM layer-9 embeddings using the same biased RBF MMD^2 estimator",
+            captions,
+        )
+        mmd2_json = IEEE_TCSS / "mmd2" / "android_reading_interview_mmd2.json"
+        mmd2_csv = IEEE_TCSS / "mmd2" / "android_reading_interview_mmd2.csv"
+        mmd2_summary = IEEE_TCSS / "mmd2" / "android_reading_interview_mmd2_summary.md"
+        mmd2_audit = IEEE_TCSS / "ANDROID_READING_INTERVIEW_MMD2_AUDIT.md"
+        mmd2_script = IEEE_TCSS / "scripts" / "compute_android_reading_interview_mmd2.py"
+        for path in [mmd2_json, mmd2_csv, mmd2_summary, mmd2_audit, mmd2_script]:
+            with self.subTest(mmd2_artifact=path):
+                self.assertTrue(path.exists(), path)
+        payload = json.loads(mmd2_json.read_text(encoding="utf-8"))
+        primary = payload["results"]["primary_paired_common_participants"]
+        self.assertEqual(f"{primary['mmd2']:.4f}", "0.2864")
+        self.assertEqual(primary["reading_count"], 110)
+        self.assertEqual(primary["interview_count"], 110)
+        self.assertEqual(primary["embedding_dimension"], 768)
+        self.assertEqual(primary["kernel"], "rbf")
+        self.assertEqual(primary["estimator"], "biased")
+        self.assertTrue(payload["comparability_to_daic_android_mmd2"]["same_estimator_kernel_bandwidth_feature_level_and_raw_scale"])
+        audit_text = mmd2_audit.read_text(encoding="utf-8") + "\n" + mmd2_summary.read_text(encoding="utf-8")
+        self.assertIn("Primary value for paper use: `0.2864`.", audit_text)
+        self.assertIn("No audio preprocessing was run.", audit_text)
+        self.assertIn("No WavLM extraction was run.", audit_text)
+        self.assertIn("No classifier training or evaluation was run.", audit_text)
 
         for path in STAGE3E_FIGURE_OUTPUTS:
             if path.suffix == ".png":

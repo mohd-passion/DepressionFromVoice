@@ -1,0 +1,125 @@
+{
+  "created_at": "2026-07-30T11:50:01.184844+00:00",
+  "status": "computed",
+  "source_files": {
+    "reading_manifest": "outputs/phase2_android/phase2d_reading_runs/20260704_125931/android_reading_participant_embedding_manifest.csv",
+    "interview_manifest": "outputs/phase2_android/phase2b_zero_shot_interview_runs/20260622_162548/android_interview_participant_embedding_manifest.csv",
+    "phase2d_task_shift_report": "outputs/phase2_android/phase2d_reading_runs/20260704_125931/phase2d_task_shift_report.json",
+    "phase2c_domain_shift_report": "outputs/phase2_android/phase2c_domain_shift_runs/20260703_125614/daic_android_domain_shift_report.json"
+  },
+  "recovered_daic_android_mmd2_method": {
+    "daic_to_android_mmd2": 0.6091276762140962,
+    "kernel": "rbf",
+    "estimator": "biased",
+    "sigma2": 2.789545522122326,
+    "gamma": 0.17924066699567348,
+    "bandwidth_rule": "median_nonzero_squared_pairwise_distance_on_combined_samples",
+    "scaling": "none_for_mmd2_raw_participant_embeddings",
+    "feature_level": "participant_level_arithmetic_mean_wavlm_layer_09_embeddings",
+    "embedding_dimension": 768
+  },
+  "phase2d_existing_task_shift_anchor": {
+    "common_reading_interview_participants": 110,
+    "task_centroid_cosine_distance": 0.04421660033542707,
+    "mean_absolute_standardized_shift_using_interview_std": 0.883059636689866,
+    "features_shifted_more_than_one_interview_std": 292
+  },
+  "results": {
+    "primary_paired_common_participants": {
+      "comparison": "android_reading_vs_interview",
+      "sample_selection": "paired_common_participants_with_both_tasks",
+      "reading_count": 110,
+      "interview_count": 110,
+      "embedding_dimension": 768,
+      "scaling": "none_for_mmd2_raw_participant_embeddings",
+      "mmd2": 0.28641454875629146,
+      "kernel": "rbf",
+      "estimator": "biased",
+      "sigma2": 1.3514460969124653,
+      "gamma": 0.369974060484031,
+      "task_centroid_cosine_distance": 0.04421663284301758,
+      "embedding_norms": {
+        "reading": {
+          "min": 2.562577962875366,
+          "max": 3.0605733394622803,
+          "mean": 2.7871842991222033,
+          "std": 0.10722070975686411,
+          "median": 2.793410301208496,
+          "p10": 2.622227358818054,
+          "p90": 2.909593105316162
+        },
+        "interview": {
+          "min": 2.614891290664673,
+          "max": 3.2455029487609863,
+          "mean": 2.9252648505297576,
+          "std": 0.11957149053569936,
+          "median": 2.913560628890991,
+          "p10": 2.783929181098938,
+          "p90": 3.109696793556213
+        }
+      },
+      "standardized_feature_shift_using_interview_std": {
+        "standardization_reference": "interview_std_ddof0",
+        "mean_absolute_standardized_shift": 0.883059561252594,
+        "median_absolute_standardized_shift": 0.734405517578125,
+        "features_shifted_more_than_one_interview_std": 292,
+        "fraction_features_shifted_more_than_one_interview_std": 0.3802083333333333
+      }
+    },
+    "sensitivity_all_available_participants": {
+      "comparison": "android_reading_vs_interview",
+      "sample_selection": "all_available_task_participants",
+      "reading_count": 112,
+      "interview_count": 116,
+      "embedding_dimension": 768,
+      "scaling": "none_for_mmd2_raw_participant_embeddings",
+      "mmd2": 0.28530370628380775,
+      "kernel": "rbf",
+      "estimator": "biased",
+      "sigma2": 1.3538808641228197,
+      "gamma": 0.3693087133807378,
+      "task_centroid_cosine_distance": 0.04446673393249512,
+      "embedding_norms": {
+        "reading": {
+          "min": 2.562577962875366,
+          "max": 3.0605733394622803,
+          "mean": 2.787691812430109,
+          "std": 0.10806456229269729,
+          "median": 2.793410301208496,
+          "p10": 2.6227458000183104,
+          "p90": 2.9113917350769043
+        },
+        "interview": {
+          "min": 2.6124069690704346,
+          "max": 3.2455029487609863,
+          "mean": 2.922805262023005,
+          "std": 0.1214467012340752,
+          "median": 2.913027286529541,
+          "p10": 2.782067894935608,
+          "p90": 3.108866333961487
+        }
+      },
+      "standardized_feature_shift_using_interview_std": {
+        "standardization_reference": "interview_std_ddof0",
+        "mean_absolute_standardized_shift": 0.8782981038093567,
+        "median_absolute_standardized_shift": 0.7312638163566589,
+        "features_shifted_more_than_one_interview_std": 289,
+        "fraction_features_shifted_more_than_one_interview_std": 0.3763020833333333
+      }
+    }
+  },
+  "comparability_to_daic_android_mmd2": {
+    "same_estimator_kernel_bandwidth_feature_level_and_raw_scale": true,
+    "like_for_like_experimental_contrast": false,
+    "recommended_for_figure5_android_task_shift": true,
+    "recommended_value": 0.28641454875629146,
+    "recommended_value_rounded_4dp": "0.2864"
+  },
+  "scope_controls": {
+    "audio_preprocessing_run": false,
+    "wavlm_extraction_run": false,
+    "classifier_training_run": false,
+    "registry_modified": false,
+    "existing_frozen_metrics_changed": false
+  }
+}
